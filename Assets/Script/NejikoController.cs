@@ -13,12 +13,29 @@ public class NejikoController : MonoBehaviour
     public float gravity=20f;
     public float speedZ=5f;
     public float speedJump=8f;
-    // Start is called before the first frame update
+
+    private LineRenderer lineRenderer;
+    private int pointCount = 0;
+
+    public float pointDistance = 0.1f;
+    private Vector3 lastPosition;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         charaRotationOri = transform.eulerAngles;
+
+        lineRenderer = GetComponent<LineRenderer>();
+        if (lineRenderer == null)
+        {
+            lineRenderer = gameObject.AddComponent<LineRenderer>();
+        }
+
+        lineRenderer.positionCount = 0;
+        lineRenderer.startWidth = 0.2f;
+        lineRenderer.endWidth = 0.2f;
+        lastPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -56,6 +73,18 @@ public class NejikoController : MonoBehaviour
             if(controller.isGrounded) { moveDirection.y = 0; }
 
             animator.SetBool("run", moveDirection.z > 0.0f);
-        
+
+        if (Vector3.Distance(transform.position, lastPosition) >= pointDistance)
+        {
+            AddPoint(transform.position);
+            lastPosition = transform.position;
+        }
+
+    }
+    void AddPoint(Vector3 newPosition)
+    {
+        lineRenderer.positionCount = pointCount + 1;
+        lineRenderer.SetPosition(pointCount, newPosition);
+        pointCount++;
     }
 }

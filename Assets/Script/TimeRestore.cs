@@ -8,7 +8,7 @@ public class TimeRestore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log("tt");
     }
 
     // Update is called once per frame
