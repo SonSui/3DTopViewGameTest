@@ -10,9 +10,10 @@ public class NejikoController : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     Vector3 charaRotationOri = Vector3.zero;
 
-    public float gravity=20f;
-    public float speedZ=5f;
-    public float speedJump=8f;
+    public float gravity = 20f;
+    public float speedZ = 5f;
+    public float speedJump = 8f;
+    public float speedX = 5f;
 
     private LineRenderer lineRenderer;
     private int pointCount = 0;
@@ -49,13 +50,25 @@ public class NejikoController : MonoBehaviour
                 transform.eulerAngles = new Vector3(charaRotationOri.x, charaRotationOri.y, charaRotationOri.z);
 
             }
-            else if(Input.GetAxis("Vertical") < 0.0f)
+            else if (Input.GetAxis("Vertical") < 0.0f)
             {
                 moveDirection.z = Input.GetAxis("Vertical") * -speedZ;
                 float newAngle = charaRotationOri.y + 180f;
                 transform.eulerAngles = new Vector3(charaRotationOri.x, newAngle, charaRotationOri.z);
             }
-            else
+            if (Input.GetAxis("Horizontal") < 0.0f)
+            {
+                moveDirection.z = Input.GetAxis("Horizontal") * -speedZ;
+                float newAngle = charaRotationOri.y - 90f;
+                transform.eulerAngles = new Vector3(charaRotationOri.x, newAngle, charaRotationOri.z);
+            }
+            else if (Input.GetAxis("Horizontal") > 0.0f)
+            {
+                moveDirection.z = Input.GetAxis("Horizontal") * speedZ;
+                float newAngle = charaRotationOri.y + 90f;
+                transform.eulerAngles = new Vector3(charaRotationOri.x, newAngle, charaRotationOri.z);
+            }
+            if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
             {
                 moveDirection.z = 0.0f;
             }
@@ -65,14 +78,14 @@ public class NejikoController : MonoBehaviour
                 animator.SetTrigger("jump");
             }
         }
-            moveDirection.y-=gravity*Time.deltaTime;
+        moveDirection.y -= gravity * Time.deltaTime;
 
-            Vector3 globalDirection = transform.TransformDirection(moveDirection);
-            controller.Move(globalDirection*Time.deltaTime);
+        Vector3 globalDirection = transform.TransformDirection(moveDirection);
+        controller.Move(globalDirection * Time.deltaTime);
 
-            if(controller.isGrounded) { moveDirection.y = 0; }
+        if (controller.isGrounded) { moveDirection.y = 0; }
 
-            animator.SetBool("run", moveDirection.z > 0.0f);
+        animator.SetBool("run", moveDirection.z > 0.0f || moveDirection.x > 0.0f);
 
         if (Vector3.Distance(transform.position, lastPosition) >= pointDistance)
         {
@@ -86,5 +99,9 @@ public class NejikoController : MonoBehaviour
         lineRenderer.positionCount = pointCount + 1;
         lineRenderer.SetPosition(pointCount, newPosition);
         pointCount++;
+    }
+    void kuro()
+    {
+        Debug.Log("https://nn-hokuson.hatenablog.com/entry/2016/11/17/204831");
     }
 }
