@@ -1,3 +1,5 @@
+シーン：Assets/Scenes/SampleScene.unity
+
 WASD/矢印で移動
 
 spaceでジャンプ
