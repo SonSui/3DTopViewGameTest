@@ -64,4 +64,5 @@ public class CircularBuffer<T>
         tail = 0;
         size = 0;
     }
+    public int GetSize() {  return size; }
 }

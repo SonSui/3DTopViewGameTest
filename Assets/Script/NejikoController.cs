@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NejikoController : MonoBehaviour
 {
@@ -21,22 +22,29 @@ public class NejikoController : MonoBehaviour
     public float pointDistance = 0.1f;
     private Vector3 lastPosition;
 
+    Transform cameraTransform;
+
 
     //巻き戻す変数
-    private int bufferSize = 10000;      
+    private int bufferSize = 100000;      
     private int recordInterval = 1;     
 
     private CircularBuffer<TimeSnapShot> snapshots;
     private int frameCounter = 0;
     private bool isRewinding = false;
 
+    public Text currentBuffer;
+
     void Start()
     {
+        Application.targetFrameRate = 60;
+
         snapshots = new CircularBuffer<TimeSnapShot>(bufferSize);
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         charaRotationOri = transform.eulerAngles;
 
+        cameraTransform = Camera.main.transform;
 
         //ライン
         lineRenderer = GetComponent<LineRenderer>();
@@ -75,51 +83,50 @@ public class NejikoController : MonoBehaviour
             }
             frameCounter++;
 
+            //カメラの角度を確認
+            Vector3 forward = new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z).normalized;
+            Vector3 right = new Vector3(cameraTransform.right.x, 0, cameraTransform.right.z).normalized;
+
+            // 入力角度
+            float inputVertical = Input.GetAxis("Vertical");
+            float inputHorizontal = Input.GetAxis("Horizontal");
+
+            // 高さ
+            float yDirection = moveDirection.y;
+
+            // 移動方向を計算
+            Vector3 horizontalMove = (forward * inputVertical + right * inputHorizontal).normalized;
+
             if (controller.isGrounded)
             {
-                if (Input.GetAxis("Vertical") > 0.0f)
-                {
-                    moveDirection.z = Input.GetAxis("Vertical") * speedZ;
-                    transform.eulerAngles = new Vector3(charaRotationOri.x, charaRotationOri.y, charaRotationOri.z);
-
-                }
-                else if (Input.GetAxis("Vertical") < 0.0f)
-                {
-                    moveDirection.z = Input.GetAxis("Vertical") * -speedZ;
-                    float newAngle = charaRotationOri.y + 180f;
-                    transform.eulerAngles = new Vector3(charaRotationOri.x, newAngle, charaRotationOri.z);
-                }
-                if (Input.GetAxis("Horizontal") < 0.0f)
-                {
-                    moveDirection.z = Input.GetAxis("Horizontal") * -speedZ;
-                    float newAngle = charaRotationOri.y - 90f;
-                    transform.eulerAngles = new Vector3(charaRotationOri.x, newAngle, charaRotationOri.z);
-                }
-                else if (Input.GetAxis("Horizontal") > 0.0f)
-                {
-                    moveDirection.z = Input.GetAxis("Horizontal") * speedZ;
-                    float newAngle = charaRotationOri.y + 90f;
-                    transform.eulerAngles = new Vector3(charaRotationOri.x, newAngle, charaRotationOri.z);
-                }
-                if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
-                {
-                    moveDirection.z = 0.0f;
-                }
                 if (Input.GetButton("Jump"))
                 {
-                    moveDirection.y = speedJump;
+                    yDirection = speedJump;  // 
                     animator.SetTrigger("jump");
                 }
             }
-            moveDirection.y -= gravity * Time.deltaTime;
 
-            Vector3 globalDirection = transform.TransformDirection(moveDirection);
-            controller.Move(globalDirection * Time.deltaTime);
+            // 重力計算
+            yDirection -= gravity * Time.deltaTime;
 
-            if (controller.isGrounded) { moveDirection.y = 0; }
+            // 移動速度と方向
+            moveDirection = horizontalMove * speedZ;
+            moveDirection.y = yDirection;
 
-            animator.SetBool("run", moveDirection.z > 0.0f || moveDirection.x > 0.0f);
+            // 移動
+            controller.Move(moveDirection * Time.deltaTime);
 
+            // キャラクターの方向を変更
+            if (horizontalMove.magnitude > 0.1f)
+            {
+                transform.forward = horizontalMove;  // 
+            }
+
+            //ランニングアニメ
+            animator.SetBool("run", inputVertical != 0 || inputHorizontal != 0);
+
+            //記録フレーム表示
+            currentBuffer.text = snapshots.GetSize().ToString() + "/" + bufferSize.ToString();
 
             //ラインの端
             if (Vector3.Distance(transform.position, lastPosition) >= pointDistance)
@@ -128,7 +135,7 @@ public class NejikoController : MonoBehaviour
                 lastPosition = transform.position;
             }
         }
-
+        currentBuffer.text = snapshots.GetSize().ToString() + "/" + bufferSize.ToString();
     }
     void AddPoint(Vector3 newPosition)
     {
@@ -165,7 +172,7 @@ public class NejikoController : MonoBehaviour
         else
         {
             //記録したデータもうない
-            StopRewind();
+            //StopRewind();
         }
     }
 

@@ -21,8 +21,5 @@ public struct TimeSnapShot
         animationNormalizedTime = stateInfo.normalizedTime;
 
 
-
-
-
     }
 }
