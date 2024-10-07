@@ -26,8 +26,8 @@ public class NejikoController : MonoBehaviour
 
 
     //ä™Ç´ñﬂÇ∑ïœêî
-    private int bufferSize = 100000;      
-    private int recordInterval = 1;     
+    private int bufferSize = 1000;      
+    private int recordInterval = 2;     
 
     private CircularBuffer<TimeSnapShot> snapshots;
     private int frameCounter = 0;
@@ -129,6 +129,7 @@ public class NejikoController : MonoBehaviour
             currentBuffer.text = snapshots.GetSize().ToString() + "/" + bufferSize.ToString();
 
             //ÉâÉCÉìÇÃí[
+            
             if (Vector3.Distance(transform.position, lastPosition) >= pointDistance)
             {
                 AddPoint(transform.position);
@@ -168,6 +169,7 @@ public class NejikoController : MonoBehaviour
             TimeSnapShot snapshot = snapshots.Get(snapshots.Size - 1);
             ApplySnapshot(snapshot);
             snapshots.RemoveLast(); 
+            
         }
         else
         {
