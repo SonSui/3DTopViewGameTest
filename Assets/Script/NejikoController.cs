@@ -34,6 +34,7 @@ public class NejikoController : MonoBehaviour
     private bool isRewinding = false;
 
     public Text currentBuffer;
+    public CameraFollow camera;
 
     void Start()
     {
@@ -58,6 +59,11 @@ public class NejikoController : MonoBehaviour
         lineRenderer.endWidth = 0.2f;
         lastPosition = transform.position;
         Debug.Log("RecordInterval: "+recordInterval.ToString());
+
+        if(camera ==null)
+        {
+            Debug.LogError("There is no Camera");
+        }
     }
 
     void Update()
@@ -166,6 +172,7 @@ public class NejikoController : MonoBehaviour
         if (snapshots.Size > 0)
         {
             //一番新しい状態を獲得
+            
             TimeSnapShot snapshot = snapshots.Get(snapshots.Size - 1);
             ApplySnapshot(snapshot);
             snapshots.RemoveLast(); 
@@ -174,7 +181,7 @@ public class NejikoController : MonoBehaviour
         else
         {
             //記録したデータもうない
-            //StopRewind();
+            StopRewind();
         }
     }
 
@@ -195,11 +202,15 @@ public class NejikoController : MonoBehaviour
     {
         isRewinding = true;
         animator.speed = 0; // アニメーションを停止
+        camera.MonoTone_SetSpeed(5.0f);
+        camera.MonoTone_Enable();
     }
 
     void StopRewind()
     {
         isRewinding = false;
         animator.speed = 1; //アニメーションを続き
+        camera.MonoTone_SetSpeed(2.0f);
+        camera.MonoTone_Disable();
     }
 }
