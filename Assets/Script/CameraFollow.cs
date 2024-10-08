@@ -16,8 +16,19 @@ public class CameraFollow : MonoBehaviour
     public InputField rotYInputField;
     public InputField rotZInputField;
 
+    //モノクロ
+    public Material monoTone;
+    private float targetAmount = 0f;
+    private float currentAmount = 0f;
+    private float transitionSpeed = 1f;
+
     void Start()
     {
+        if(monoTone==null)
+        {
+            Debug.LogError("There is no Material of shader");
+        }
+
         //キャラとカメラの偏差
         offset = transform.position - target.position;
 
@@ -32,6 +43,10 @@ public class CameraFollow : MonoBehaviour
         rotXInputField.onEndEdit.AddListener(delegate { OnRotationInputChanged(); });
         rotYInputField.onEndEdit.AddListener(delegate { OnRotationInputChanged(); });
         rotZInputField.onEndEdit.AddListener(delegate { OnRotationInputChanged(); });
+    }
+    void Update()
+    {
+        currentAmount = Mathf.Lerp(currentAmount, targetAmount, Time.deltaTime * transitionSpeed);
     }
 
     void LateUpdate()
@@ -88,5 +103,24 @@ public class CameraFollow : MonoBehaviour
         {
             Debug.LogWarning("無効な角度数字");
         }
+    }
+
+    void OnRenderImage(RenderTexture src, RenderTexture dest)
+    {
+        monoTone.SetFloat("_GrayScaleAmount", currentAmount);
+        Graphics.Blit(src, dest, monoTone);
+    }
+    public void MonoTone_SetSpeed(float speed)
+    {
+        transitionSpeed = speed;
+    }
+    public void MonoTone_Enable()
+    {
+        targetAmount = 1.0f;
+    }
+
+    public void MonoTone_Disable()
+    {
+        targetAmount = 0.0f;
     }
 }

@@ -1740,6 +1740,7 @@ MonoBehaviour:
   rotXInputField: {fileID: 844255961}
   rotYInputField: {fileID: 1901552961}
   rotZInputField: {fileID: 1207028696}
+  monoTone: {fileID: 2100000, guid: fecf1d0a530024e449aba51fbf3ac2e0, type: 2}
 --- !u!1 &1207028694
 GameObject:
   m_ObjectHideFlags: 0
@@ -2990,6 +2991,7 @@ MonoBehaviour:
   speedX: 5
   pointDistance: 0.1
   currentBuffer: {fileID: 2084739839}
+  camera: {fileID: 1141958171}
 --- !u!143 &2135911522
 CharacterController:
   m_ObjectHideFlags: 0
