@@ -24,9 +24,11 @@ public class NejikoController : MonoBehaviour
 
     Transform cameraTransform;
 
+    public Text ground;
+
 
     //巻き戻す変数
-    private int bufferSize = 1000;      
+    private int bufferSize = 180;      
     private int recordInterval = 2;     
 
     private CircularBuffer<TimeSnapShot> snapshots;
@@ -41,6 +43,7 @@ public class NejikoController : MonoBehaviour
         Application.targetFrameRate = 60;
 
         snapshots = new CircularBuffer<TimeSnapShot>(bufferSize);
+
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         charaRotationOri = transform.eulerAngles;
@@ -107,8 +110,12 @@ public class NejikoController : MonoBehaviour
             {
                 if (Input.GetButton("Jump"))
                 {
-                    yDirection = speedJump;  // 
+                    yDirection = speedJump;   
                     animator.SetTrigger("jump");
+                }
+                if(Input.GetKeyDown(KeyCode.F))
+                {
+                    animator.SetTrigger("attack");
                 }
             }
 
@@ -143,6 +150,16 @@ public class NejikoController : MonoBehaviour
             }
         }
         currentBuffer.text = snapshots.GetSize().ToString() + "/" + bufferSize.ToString();
+
+
+        if (controller.isGrounded)
+        {
+            ground.text = "Ground";
+        }
+        else
+        {
+            ground.text = "Jumping";
+        }
     }
     void AddPoint(Vector3 newPosition)
     {
@@ -150,10 +167,7 @@ public class NejikoController : MonoBehaviour
         lineRenderer.SetPosition(pointCount, newPosition);
         pointCount++;
     }
-    void kuro()
-    {
-        Debug.Log("https://nn-hokuson.hatenablog.com/entry/2016/11/17/204831");
-    }
+    
 
 
 
@@ -210,7 +224,11 @@ public class NejikoController : MonoBehaviour
     {
         isRewinding = false;
         animator.speed = 1; //アニメーションを続き
-        camera.MonoTone_SetSpeed(2.0f);
+        camera.MonoTone_SetSpeed(3.0f);
         camera.MonoTone_Disable();
+    }
+    public bool IsRewinding()
+    {
+        return isRewinding;
     }
 }
