@@ -13,7 +13,9 @@ public class PlayerController : MonoBehaviour
 
     public GameObject hitbox;
     private float attackDelayTime = 0.3f;
-     
+    private float attackInterval = 1.2f;
+    private float preAttackTime = 10f;
+
     //ï®óù
     public float gravity = 20f;
     public float speedJump = 8f;
@@ -170,13 +172,14 @@ public class PlayerController : MonoBehaviour
                     yDirection = speedJump;
                     animator.SetTrigger("jump");
                 }
-                if (Input.GetKeyDown(KeyCode.F))
+                if (Input.GetKeyDown(KeyCode.F)&&preAttackTime>attackInterval)
                 {
                     animator.SetTrigger("attack");
                     SpawnHitbox();
+                    preAttackTime = 0;
                 }
             }
-
+            preAttackTime += Time.deltaTime;
             // èdóÕåvéZ
             yDirection -= gravity * Time.deltaTime;
 
@@ -248,6 +251,7 @@ public class PlayerController : MonoBehaviour
             bool isCriticalHit = (Random.Range(0f,1f) < cirtRate);
             attackScript.Initialize(attackDamage, isCriticalHit,state.isExplo);
             hit.SetActive(false);
+            hit.transform.SetParent(transform);
             StartCoroutine(EnableAttackAfterDelay(hit));
         }
 
