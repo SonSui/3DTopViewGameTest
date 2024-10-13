@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class attack : MonoBehaviour
 {
-    public NejikoController player;
+    public PlayerController player;
     private Animator animator;
 
     private int bufferSize = 180;
@@ -18,7 +18,7 @@ public class attack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = FindFirstObjectByType(typeof(NejikoController)) as NejikoController;
+        player = FindFirstObjectByType(typeof(PlayerController)) as PlayerController;
         animator = GetComponent<Animator>();
         snapshots = new CircularBuffer<TimeSnapShot>(bufferSize);
     }
