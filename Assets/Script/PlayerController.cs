@@ -10,13 +10,17 @@ public class PlayerController : MonoBehaviour
 
     Vector3 moveDirection = Vector3.zero;
     Vector3 charaRotationOri = Vector3.zero;
-
+     
+    //物理
     public float gravity = 20f;
-    public float speedZ = 5f;
     public float speedJump = 8f;
-    public float speedX = 5f;
 
-/*    private LineRenderer lineRenderer;
+    public float defSpeed = 5f;
+    public int defLife = 3;
+    public int defDmg = 1;
+    public float defCrit = 0f;
+
+    /*private LineRenderer lineRenderer;
     private int pointCount = 0;
 
     public float pointDistance = 0.1f;
@@ -24,8 +28,35 @@ public class PlayerController : MonoBehaviour
 
     Transform cameraTransform;
 
-    //public Text ground;
+    private struct playerState
+    {
+        public int life;
+        public float speed;
+        public int damage;
+        public float crit;
 
+        public bool isExplo;
+        public playerState (int life, float speed, int damage,float crit)
+        {
+            this.life= life;
+            this.speed= speed;
+            this.damage= damage;
+            this.crit= crit;
+            this.isExplo= false;
+        }
+        public void UpdateState(int life, float speed, int damage, float crit)
+        {
+            this.life = life;
+            this.speed = speed;
+            this.damage = damage;
+            this.crit = crit;
+        }
+        public void UpdateAblitiy(bool explo)
+        {
+            this.isExplo = explo;
+        }
+    };
+    playerState state;
 
     //巻き戻す変数
     private int bufferSize = 180;
@@ -36,7 +67,7 @@ public class PlayerController : MonoBehaviour
     private bool isRewinding = false;
 
     public Text currentBuffer;
-    public CameraFollow camera;
+    public CameraFollow camera1;
 
     void Start()
     {
@@ -50,23 +81,27 @@ public class PlayerController : MonoBehaviour
 
         cameraTransform = Camera.main.transform;
 
+        state = new playerState(defLife, defSpeed, defDmg, defCrit);
+
+
+
+        if (camera1 == null)
+        {
+            Debug.LogError("There is no Camera");
+        }
+
         //ライン
         /*lineRenderer = GetComponent<LineRenderer>();
         if (lineRenderer == null)
         {
             lineRenderer = gameObject.AddComponent<LineRenderer>();
         }
-
         lineRenderer.positionCount = 0;
         lineRenderer.startWidth = 0.2f;
         lineRenderer.endWidth = 0.2f;
         lastPosition = transform.position;
         Debug.Log("RecordInterval: " + recordInterval.ToString());*/
 
-        if (camera == null)
-        {
-            Debug.LogError("There is no Camera");
-        }
     }
 
     void Update()
@@ -123,7 +158,7 @@ public class PlayerController : MonoBehaviour
             yDirection -= gravity * Time.deltaTime;
 
             // 移動速度と方向
-            moveDirection = horizontalMove * speedZ;
+            moveDirection = horizontalMove * this.state.speed;
             moveDirection.y = yDirection;
 
             // 移動
@@ -161,8 +196,18 @@ public class PlayerController : MonoBehaviour
         lineRenderer.positionCount = pointCount + 1;
         lineRenderer.SetPosition(pointCount, newPosition);
         pointCount++;
-    }
-*/
+    }*/
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -211,16 +256,16 @@ public class PlayerController : MonoBehaviour
     {
         isRewinding = true;
         animator.speed = 0; // アニメーションを停止
-        camera.MonoTone_SetSpeed(5.0f);
-        camera.MonoTone_Enable();
+        camera1.MonoTone_SetSpeed(5.0f);
+        camera1.MonoTone_Enable();
     }
 
     void StopRewind()
     {
         isRewinding = false;
         animator.speed = 1; //アニメーションを続き
-        camera.MonoTone_SetSpeed(3.0f);
-        camera.MonoTone_Disable();
+        camera1.MonoTone_SetSpeed(3.0f);
+        camera1.MonoTone_Disable();
     }
     public bool IsRewinding()
     {
