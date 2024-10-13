@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
 
     Vector3 moveDirection = Vector3.zero;
     Vector3 charaRotationOri = Vector3.zero;
+
+    public GameObject hitbox;
+    private float attackDelayTime = 0.3f;
      
     //物理
     public float gravity = 20f;
@@ -28,8 +31,9 @@ public class PlayerController : MonoBehaviour
 
     Transform cameraTransform;
 
-    private struct playerState
+    public struct playerState
     {
+
         public int life;
         public float speed;
         public int damage;
@@ -46,17 +50,35 @@ public class PlayerController : MonoBehaviour
         }
         public void UpdateState(int life, float speed, int damage, float crit)
         {
-            this.life = life;
-            this.speed = speed;
-            this.damage = damage;
-            this.crit = crit;
+            this.life += life;
+            this.speed += speed;
+            this.damage += damage;
+            this.crit += crit;
         }
         public void UpdateAblitiy(bool explo)
         {
             this.isExplo = explo;
         }
+        public void ResetState()
+        {
+            this.life = 0;
+            this.speed = 0;
+            this.damage = 0;
+            this.crit = 0;
+        }
+        public string ShowState()
+        {
+            string st =
+                "life:" + this.life.ToString() + "\n" +
+                "speed:" + this.speed.ToString() + "\n" +
+                "damage:" + this.damage.ToString() + "\n" +
+                "critical:" + this.crit.ToString() + "\n" +
+                "exploAbility:" + this.isExplo.ToString() + "\n";
+            Debug.Log(st);
+            return st;
+        }
     };
-    playerState state;
+    public playerState state;
 
     //巻き戻す変数
     private int bufferSize = 180;
@@ -81,7 +103,7 @@ public class PlayerController : MonoBehaviour
 
         cameraTransform = Camera.main.transform;
 
-        state = new playerState(defLife, defSpeed, defDmg, defCrit);
+        state = new playerState(0,0f,0,0f);
 
 
 
@@ -151,6 +173,7 @@ public class PlayerController : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.F))
                 {
                     animator.SetTrigger("attack");
+                    SpawnHitbox();
                 }
             }
 
@@ -158,7 +181,7 @@ public class PlayerController : MonoBehaviour
             yDirection -= gravity * Time.deltaTime;
 
             // 移動速度と方向
-            moveDirection = horizontalMove * this.state.speed;
+            moveDirection = horizontalMove * (this.state.speed+defSpeed);
             moveDirection.y = yDirection;
 
             // 移動
@@ -179,7 +202,7 @@ public class PlayerController : MonoBehaviour
             currentBuffer.text = snapshots.GetSize().ToString() + "/" + bufferSize.ToString();
 
             //ラインの端
-/*
+            /*
             if (Vector3.Distance(transform.position, lastPosition) >= pointDistance)
             {
                 AddPoint(transform.position);
@@ -191,17 +214,52 @@ public class PlayerController : MonoBehaviour
 
         
     }
-    /*void AddPoint(Vector3 newPosition)
+
+    public string GetStateString()
     {
-        lineRenderer.positionCount = pointCount + 1;
-        lineRenderer.SetPosition(pointCount, newPosition);
-        pointCount++;
-    }*/
+        string st;
+        int life = state.life + defLife;
+        float speed = state.speed+defSpeed;
+        int damage = state.damage+defDmg;
+        float crit = state.crit+defCrit;
 
+        st = "Player State:\n" +
+            "life:" + life.ToString() + "\n" +
+            "speed:" + speed.ToString() + "\n" +
+            "damage:" + damage.ToString() + "\n" +
+            "critical:" + crit.ToString() + "\n" +
+            "exploAbility:" + state.isExplo.ToString() + "\n";
 
+        return st;
+    }
+    void SpawnHitbox()
+    {
+        
+        Vector3 forwardDirection = transform.forward;
 
+        Vector3 spawnPosition = transform.position + forwardDirection * 0.5f;
 
+        GameObject hit = Instantiate(hitbox, spawnPosition, Quaternion.LookRotation(forwardDirection));
+        attack attackScript = hit.GetComponent<attack>();
+        if (attackScript != null)
+        {
+            int attackDamage = state.damage + defDmg;
+            float cirtRate = (state.crit + defCrit) / 100f;
+            bool isCriticalHit = (Random.Range(0f,1f) < cirtRate);
+            attackScript.Initialize(attackDamage, isCriticalHit,state.isExplo);
+            hit.SetActive(false);
+            StartCoroutine(EnableAttackAfterDelay(hit));
+        }
 
+    }
+    private IEnumerator EnableAttackAfterDelay(GameObject at)
+    {
+        
+        yield return new WaitForSeconds(attackDelayTime);
+
+        
+        at.SetActive(true);
+    }
 
 
 
@@ -217,7 +275,7 @@ public class PlayerController : MonoBehaviour
     void RecordSnapshot()
     {
         //記録
-        TimeSnapShot snapshot = new TimeSnapShot(transform, animator);
+        TimeSnapShot snapshot = new TimeSnapShot(transform, animator,frameCounter);
         snapshots.Add(snapshot);
     }
     void RewindTime()
@@ -271,4 +329,10 @@ public class PlayerController : MonoBehaviour
     {
         return isRewinding;
     }
+    /*void AddPoint(Vector3 newPosition)
+    {
+        lineRenderer.positionCount = pointCount + 1;
+        lineRenderer.SetPosition(pointCount, newPosition);
+        pointCount++;
+    }*/
 }

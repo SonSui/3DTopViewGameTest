@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4439d899221502d4591e50e52e5369d7, type: 3}
   m_Name: Tag_Life
   m_EditorClassIdentifier: 
-  tagName: 
-  thresholds: 00000000
+  tagName: Tag_Life
+  thresholds: 01000000
   effects:
   - critBonus: 0
     unlockExplosion: 0

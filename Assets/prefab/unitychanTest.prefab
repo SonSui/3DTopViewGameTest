@@ -2102,6 +2102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 060816ecb9dcde943ac8ccea5dc325ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitbox: {fileID: 7640618496599304812, guid: 30ae77700bd4d0446b93244032ea7de4, type: 3}
   gravity: 20
   speedJump: 8
   defSpeed: 5
@@ -2122,7 +2123,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 929c642a6c59ffc448b52cb2ecf9b210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityTagDefinitions: []
+  abilityTagDefinitions:
+  - {fileID: 11400000, guid: 7793fa7f3703bc9419d43119518a28f7, type: 2}
+  - {fileID: 11400000, guid: 710dd0358492795438ddcdae0e666417, type: 2}
+  - {fileID: 11400000, guid: 3112487218c36834bb5cf5b14ea4c3cd, type: 2}
+  - {fileID: 11400000, guid: e700e9ae90a23594abe13442fd66d48c, type: 2}
   player: {fileID: 519851583045689834}
   itemTag: {fileID: 0}
 --- !u!114 &9191846979595292821

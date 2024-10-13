@@ -7,9 +7,10 @@ public struct TimeSnapShot
     public Quaternion rotation;
     public string animationStateName;
     public float animationNormalizedTime;
+    public int frame;
 
 
-    public TimeSnapShot(Transform transform, Animator animator)
+    public TimeSnapShot(Transform transform, Animator animator,int frame_)
     {
         // ˆÊ’u‚ÆŠp“x‚ð‹L˜^
         position = transform.position;
@@ -19,7 +20,7 @@ public struct TimeSnapShot
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         animationStateName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
         animationNormalizedTime = stateInfo.normalizedTime;
-
+        frame = frame_;
 
     }
 }

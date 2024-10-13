@@ -36,6 +36,12 @@ public class AbilityManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+    }
+    public void Start()
+    {
+        Instance = this;
+        Update_UI();
     }
 
     // 新しいものを集める
@@ -55,16 +61,23 @@ public class AbilityManager : MonoBehaviour
             UpdateAbilityEffect(tag);
         }
 
-        // UI
-        Update_UI();
+        
     }
 
     // 効果更新
     private void UpdateAbilityEffect(string tag)
     {
+        if (abilityTagDefinitions == null || abilityTagDefinitions.Count == 0)
+        {
+            Debug.LogError("AbilityTagDefinitions is null");
+            return;
+        }
         AbilityTagDefinition tagDefinition = abilityTagDefinitions.Find(t => t.tagName == tag);
         if (tagDefinition == null)
+        {
+            Debug.Log("Can't Find tag:" + tag);
             return;
+        }
 
         int count = tagCounts[tag];
         AbilityEffect totalEffect = new AbilityEffect();
@@ -75,10 +88,7 @@ public class AbilityManager : MonoBehaviour
             if (count >= tagDefinition.thresholds[i])
             {
                 AbilityEffect effect = tagDefinition.effects[i];
-                totalEffect.critBonus += effect.critBonus;
-                if (effect.unlockExplosion)
-                    totalEffect.unlockExplosion = true;
-                
+                totalEffect += effect;
             }
         }
 
@@ -95,14 +105,18 @@ public class AbilityManager : MonoBehaviour
     // プレイヤーに渡す
     private void ApplyEffects()
     {
-        
+        player.state.ResetState();
         foreach (var effect in currentEffects.Values)
         {
-            PlayerStats.Instance.crit += effect.critBonus;
-            if (effect.unlockExplosion)
-                PlayerStats.Instance.EnableExplosionEffect();
-            
+            player.state.UpdateState(effect.life,effect.speed,effect.damage,effect.critBonus);
+            if(effect.unlockExplosion)
+            {
+                player.state.UpdateAblitiy(effect.unlockExplosion);
+            }
         }
+        player.state.ShowState();
+        // UI
+        Update_UI();
     }
 
     private void Update_UI()
@@ -116,6 +130,7 @@ public class AbilityManager : MonoBehaviour
 
             text += tag + " " + count + "\n";
         }
+        text += "\n"+player.GetStateString();
         itemTag.text = text;
     }
 }
