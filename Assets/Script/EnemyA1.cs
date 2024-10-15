@@ -18,14 +18,8 @@ public class EnemyA1 : MonoBehaviour
 
     }
 
-    /*void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("trigger in");
-        if (other.gameObject.CompareTag("Player_Attack"))
-        {
-            OnHit();
-        }
-    }*/
+
+    //åÇÇΩÇÍÇÈÇ∆0.1ïbä‘ê‘Ç≠Ç»ÇÈ
     public void OnHit()
     {
         StartCoroutine(ChangeColorTemporarily());

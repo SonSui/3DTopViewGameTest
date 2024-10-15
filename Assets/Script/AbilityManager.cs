@@ -51,7 +51,7 @@ public class AbilityManager : MonoBehaviour
 
         foreach (string tag in item.tags)
         {
-            // タグの数字
+            // 持っているタグの数量増加
             if (tagCounts.ContainsKey(tag))
                 tagCounts[tag]++;
             else
@@ -72,6 +72,7 @@ public class AbilityManager : MonoBehaviour
             Debug.LogError("AbilityTagDefinitions is null");
             return;
         }
+        //タグを探す
         AbilityTagDefinition tagDefinition = abilityTagDefinitions.Find(t => t.tagName == tag);
         if (tagDefinition == null)
         {
@@ -82,7 +83,7 @@ public class AbilityManager : MonoBehaviour
         int count = tagCounts[tag];
         AbilityEffect totalEffect = new AbilityEffect();
 
-       
+        //変化するタグ効果を加算
         for (int i = 0; i < tagDefinition.thresholds.Count; i++)
         {
             if (count >= tagDefinition.thresholds[i])
@@ -92,7 +93,7 @@ public class AbilityManager : MonoBehaviour
             }
         }
 
-        // 更新
+        // タグ効果を更新
         if (currentEffects.ContainsKey(tag))
             currentEffects[tag] = totalEffect;
         else
@@ -119,6 +120,7 @@ public class AbilityManager : MonoBehaviour
         Update_UI();
     }
 
+    //画面にタグと状態を表示
     private void Update_UI()
     {
         string text="";
