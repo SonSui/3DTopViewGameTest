@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class AbilityManager : MonoBehaviour
 {
@@ -18,25 +19,30 @@ public class AbilityManager : MonoBehaviour
     // 集めたものを表示
     public IReadOnlyList<Item> CollectedItems => collectedItems.AsReadOnly();
 
-    public PlayerController player;
+    
     public Text itemTag;
 
+    public GameObject playerPrefab; 
+    public GameObject cameraPrefab;
+
+    public PlayerController player;
 
     public static AbilityManager Instance { get; private set; }
 
     private void Awake()
     {
-        
+
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); 
+            //SpawnPlayerAndCamera(); 
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(gameObject); 
         }
-        
+
     }
     public void Start()
     {
@@ -51,7 +57,7 @@ public class AbilityManager : MonoBehaviour
 
         foreach (string tag in item.tags)
         {
-            // タグの数字
+            // 持っているタグの数量増加
             if (tagCounts.ContainsKey(tag))
                 tagCounts[tag]++;
             else
@@ -72,6 +78,7 @@ public class AbilityManager : MonoBehaviour
             Debug.LogError("AbilityTagDefinitions is null");
             return;
         }
+        //タグを探す
         AbilityTagDefinition tagDefinition = abilityTagDefinitions.Find(t => t.tagName == tag);
         if (tagDefinition == null)
         {
@@ -82,7 +89,7 @@ public class AbilityManager : MonoBehaviour
         int count = tagCounts[tag];
         AbilityEffect totalEffect = new AbilityEffect();
 
-       
+        //変化するタグ効果を加算
         for (int i = 0; i < tagDefinition.thresholds.Count; i++)
         {
             if (count >= tagDefinition.thresholds[i])
@@ -92,7 +99,7 @@ public class AbilityManager : MonoBehaviour
             }
         }
 
-        // 更新
+        // タグ効果を更新
         if (currentEffects.ContainsKey(tag))
             currentEffects[tag] = totalEffect;
         else
@@ -119,6 +126,7 @@ public class AbilityManager : MonoBehaviour
         Update_UI();
     }
 
+    //画面にタグと状態を表示
     private void Update_UI()
     {
         string text="";
@@ -132,5 +140,39 @@ public class AbilityManager : MonoBehaviour
         }
         text += "\n"+player.GetStateString();
         itemTag.text = text;
+    }
+    /*void SpawnPlayerAndCamera()
+    {
+        
+        if (GameObject.FindWithTag("Player") == null)
+        {
+            Debug.Log("player");
+            player=Instantiate(playerPrefab).GetComponent<PlayerController>();
+        }
+
+        if (Camera.main == null)
+        {
+            Instantiate(cameraPrefab);
+        }
+    }*/
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //SpawnPlayerAndCamera();
+        FindPlayer();
+        
+    }
+    void FindPlayer()
+    {
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 }

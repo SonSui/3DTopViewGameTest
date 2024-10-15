@@ -20,6 +20,8 @@ public struct TimeSnapShot
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         animationStateName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
         animationNormalizedTime = stateInfo.normalizedTime;
+
+        //プッシュの時のフレイム記数
         frame = frame_;
 
     }

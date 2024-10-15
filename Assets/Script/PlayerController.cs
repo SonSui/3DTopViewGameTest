@@ -95,6 +95,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        cameraTransform = Camera.main != null ? Camera.main.transform : null;
+        if (cameraTransform == null)
+        {
+            Debug.Log("Camera not found in the scene.");
+        }
         Application.targetFrameRate = 60;
 
         snapshots = new CircularBuffer<TimeSnapShot>(bufferSize);
@@ -103,15 +108,13 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         charaRotationOri = transform.eulerAngles;
 
-        cameraTransform = Camera.main.transform;
 
         state = new playerState(0,0f,0,0f);
 
 
-
         if (camera1 == null)
         {
-            Debug.LogError("There is no Camera");
+            Debug.Log("There is no Camera");
         }
 
         //ライン
@@ -130,6 +133,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             StartRewind();
@@ -152,6 +156,7 @@ public class PlayerController : MonoBehaviour
             frameCounter++;
 
             //カメラの角度を確認
+            if (cameraTransform == null) return;
             Vector3 forward = new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z).normalized;
             Vector3 right = new Vector3(cameraTransform.right.x, 0, cameraTransform.right.z).normalized;
 
@@ -264,6 +269,7 @@ public class PlayerController : MonoBehaviour
         
         at.SetActive(true);
     }
+    
 
 
 
