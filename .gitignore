@@ -70,3 +70,18 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Ignore Unity build files and platform-specific executables.
+# These files are generated during the build process and are not required in the repository.
+# Keeping them out of version control helps reduce repository size and maintain clean project files.
+
+# Ignore Unity build output directories
+/Build/
+# Ignore Unity data directories generated with builds
+/Unity*_Data/
+# Ignore Mono runtime files included in builds
+/MonoBleedingEdge/
+# Ignore platform-specific executables
+*.exe
+*.app
+*.apk
