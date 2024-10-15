@@ -85,3 +85,5 @@ crashlytics-build.properties
 *.exe
 *.app
 *.apk
+# Ignore platform-specific Unity engine DLL files
+UnityPlayer.dll
