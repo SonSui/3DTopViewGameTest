@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class AbilityManager : MonoBehaviour
 {
@@ -18,25 +19,30 @@ public class AbilityManager : MonoBehaviour
     // èWÇﬂÇΩÇ‡ÇÃÇï\é¶
     public IReadOnlyList<Item> CollectedItems => collectedItems.AsReadOnly();
 
-    public PlayerController player;
+    
     public Text itemTag;
 
+    public GameObject playerPrefab; 
+    public GameObject cameraPrefab;
+
+    public PlayerController player;
 
     public static AbilityManager Instance { get; private set; }
 
     private void Awake()
     {
-        
+
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); 
+            //SpawnPlayerAndCamera(); 
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(gameObject); 
         }
-        
+
     }
     public void Start()
     {
@@ -134,5 +140,39 @@ public class AbilityManager : MonoBehaviour
         }
         text += "\n"+player.GetStateString();
         itemTag.text = text;
+    }
+    /*void SpawnPlayerAndCamera()
+    {
+        
+        if (GameObject.FindWithTag("Player") == null)
+        {
+            Debug.Log("player");
+            player=Instantiate(playerPrefab).GetComponent<PlayerController>();
+        }
+
+        if (Camera.main == null)
+        {
+            Instantiate(cameraPrefab);
+        }
+    }*/
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //SpawnPlayerAndCamera();
+        FindPlayer();
+        
+    }
+    void FindPlayer()
+    {
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 }

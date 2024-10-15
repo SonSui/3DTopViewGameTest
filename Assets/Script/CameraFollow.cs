@@ -24,16 +24,29 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
-        if(monoTone==null)
+        if (target == null)
+        {
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null)
+            {
+                //キャラとカメラの偏差
+                target = playerObj.transform;
+            }
+            else
+            {
+                Debug.LogError("Player not found in the scene.");
+            }
+        }
+
+        if (monoTone==null)
         {
             Debug.LogError("There is no Material of shader");
         }
 
-        //キャラとカメラの偏差
         offset = transform.position - target.position;
 
-        
         UpdateInputFields();
+
 
         //入力
         posXInputField.onEndEdit.AddListener(delegate { OnPositionInputChanged(); });
@@ -52,7 +65,10 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate()
     {
         //キャラに追跡
-        transform.position = target.position + offset;
+        if (target != null)
+        {
+            transform.position = target.position + offset;
+        }
     }
 
     void UpdateInputFields()
