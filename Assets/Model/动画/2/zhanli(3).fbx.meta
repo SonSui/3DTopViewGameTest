@@ -1,0 +1,1957 @@
+fileFormatVersion: 2
+guid: 843553be3afb7ae4ba281115abc9339d
+ModelImporter:
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      74: 1827226128182048838
+    second: zhanli
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: "Avatar Rig Configuration mis-match. Inbetween bone rotation
+      in configuration does not match rotation in animation file:\n\t'xiaoyao_RIG_maya2018_0525:Bip001_Neck1'
+      : rotation error = 0.797846 deg\n"
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: zhanli
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1
+      lastFrame: 108
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0.9
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human:
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L Thigh
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R Thigh
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L Calf
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R Calf
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L Foot
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R Foot
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 Spine
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 Neck
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 Head
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L Clavicle
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R Clavicle
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L UpperArm
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R UpperArm
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L Forearm
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R Forearm
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L Hand
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R Hand
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L Toe0
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R Toe0
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L Finger0
+      humanName: Left Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L Finger1
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L Finger2
+      humanName: Left Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L Finger3
+      humanName: Left Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 L Finger4
+      humanName: Left Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R Finger0
+      humanName: Right Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R Finger1
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R Finger2
+      humanName: Right Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R Finger3
+      humanName: Right Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001 R Finger4
+      humanName: Right Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: xiaoyao_RIG_maya2018_0525:Bip001_Spine2
+      humanName: UpperChest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: zhanli(3)(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0.020443281, y: 0.026759425, z: -0.0013916788, w: 0.9994319}
+      scale: {x: 1, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:xiaoyao_RIG
+      parentName: zhanli(3)(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:Geometry
+      parentName: xiaoyao_RIG_maya2018_0525:xiaoyao_RIG
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:Geometry11
+      parentName: xiaoyao_RIG_maya2018_0525:Geometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:body
+      parentName: xiaoyao_RIG_maya2018_0525:Geometry11
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:shenti
+      parentName: xiaoyao_RIG_maya2018_0525:Geometry11
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:weiba1
+      parentName: xiaoyao_RIG_maya2018_0525:Geometry11
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:face000
+      parentName: xiaoyao_RIG_maya2018_0525:Geometry11
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:hair1
+      parentName: xiaoyao_RIG_maya2018_0525:Geometry11
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: group1
+      parentName: zhanli(3)(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: xiaoyao_RIG_ZhanLi
+      parentName: group1
+      position: {x: 0.042563796, y: 0.5991603, z: -0.009888821}
+      rotation: {x: -0.50000036, y: 0.4999997, z: 0.4999997, w: 0.5000003}
+      scale: {x: 0.99999994, y: 0.99999994, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 Footsteps
+      parentName: xiaoyao_RIG_ZhanLi
+      position: {x: -0, y: 0, z: -0.59699875}
+      rotation: {x: 0, y: -0, z: -0.7071063, w: 0.70710725}
+      scale: {x: 1, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      parentName: xiaoyao_RIG_ZhanLi
+      position: {x: 0.0032334982, y: 0.044673536, z: 0.020450654}
+      rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+      scale: {x: 1.0000006, y: 1.0000002, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 Spine
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.059159994, y: 0.0044522416, z: -0.00039253326}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000008, y: 1.0000008, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L Thigh
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Spine
+      position: {x: 0.058732767, y: -0.014114519, z: 0.06928719}
+      rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+      scale: {x: 1.0000006, y: 1, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L Calf
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Thigh
+      position: {x: -0.26110616, y: -0.000000068366965, z: 0.00000011559879}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000004, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L Foot
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Calf
+      position: {x: -0.23457806, y: 0.000000005357584, z: 0.0000000147843044}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000001, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L Toe0
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Foot
+      position: {x: -0.103561826, y: 0.07630566, z: -0.000000004466495}
+      rotation: {x: 0, y: 0, z: 0.7071068, w: -0.7071068}
+      scale: {x: 1.000001, y: 1.0000001, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Toe01
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Toe0
+      position: {x: -0.034627292, y: 1.4901161e-10, z: -0.0000000047683715}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Toe0Nub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_Toe01
+      position: {x: -0.007833185, y: 0, z: 0.0000000047683715}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: -1.0000004, y: -1.0000002, z: -1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R Thigh
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Spine
+      position: {x: 0.05917906, y: 0.00083824893, z: -0.06954826}
+      rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+      scale: {x: 1.0000005, y: 1.0000006, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R Calf
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Thigh
+      position: {x: -0.2611059, y: -0.000000014479549, z: 0.00000013269035}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000004, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R Foot
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Calf
+      position: {x: -0.23457816, y: -0.0000000019558897, z: 0.0000000034824807}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000005, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R Toe0
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Foot
+      position: {x: -0.103561796, y: 0.07630564, z: 0.0000000054360885}
+      rotation: {x: 0, y: 0, z: 0.7071068, w: -0.7071068}
+      scale: {x: 1.0000002, y: 1, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Toe01
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Toe0
+      position: {x: -0.034627292, y: 1.4901161e-10, z: 0.0000000047683715}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Toe0Nub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_Toe01
+      position: {x: -0.007833175, y: 0, z: 0.0000000023841857}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Spine
+      position: {x: -0.0647506, y: 0.0007151041, z: 0.00006142784}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000007, y: 1.0000008, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:R bowRopeLine00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      position: {x: 0.034214858, y: -0.15979639, z: -0.10907769}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000004, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:R bowRopeLine01
+      parentName: xiaoyao_RIG_maya2018_0525:R bowRopeLine00
+      position: {x: -0.14677507, y: 1.4210854e-16, z: 0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:R bowRopeLine02
+      parentName: xiaoyao_RIG_maya2018_0525:R bowRopeLine01
+      position: {x: -0.12640812, y: -7.105427e-17, z: 0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1, z: 1.0000013}
+    - name: xiaoyao_RIG_maya2018_0525:R bowRopeLine03
+      parentName: xiaoyao_RIG_maya2018_0525:R bowRopeLine02
+      position: {x: -0.123403035, y: 0.000000076293944, z: -0.000000114440915}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.000001, y: 1.0000005, z: 1.0000012}
+    - name: xiaoyao_RIG_maya2018_0525:R bowRopeLine04
+      parentName: xiaoyao_RIG_maya2018_0525:R bowRopeLine03
+      position: {x: -0.20539048, y: 0.000000076293944, z: -0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000001, z: 0.9999997}
+    - name: xiaoyao_RIG_maya2018_0525:R bowRopeLine05
+      parentName: xiaoyao_RIG_maya2018_0525:R bowRopeLine04
+      position: {x: -0.09864756, y: -0.000000076293944, z: -7.105427e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:L bowRopeLine00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      position: {x: 0.034214858, y: -0.15979668, z: 0.110922456}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000013, y: 1.0000005, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:L bowRopeLine01
+      parentName: xiaoyao_RIG_maya2018_0525:L bowRopeLine00
+      position: {x: -0.14677505, y: -0.000000038146972, z: -1.4210854e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 1.0000004, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:L bowRopeLine02
+      parentName: xiaoyao_RIG_maya2018_0525:L bowRopeLine01
+      position: {x: -0.1264082, y: -0.000000076293944, z: 0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000001, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:L bowRopeLine03
+      parentName: xiaoyao_RIG_maya2018_0525:L bowRopeLine02
+      position: {x: -0.12340295, y: 0.000000038146972, z: 0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000005, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:L bowRopeLine04
+      parentName: xiaoyao_RIG_maya2018_0525:L bowRopeLine03
+      position: {x: -0.20482677, y: -0.000000038146972, z: -0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000005, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:L bowRopeLine05
+      parentName: xiaoyao_RIG_maya2018_0525:L bowRopeLine04
+      position: {x: -0.09919296, y: 0.00000019073485, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:R tassels00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      position: {x: -0.013634185, y: -0.124146275, z: -0.042657547}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000011, y: 1.0000007, z: 1.0000017}
+    - name: xiaoyao_RIG_maya2018_0525:R tassels01
+      parentName: xiaoyao_RIG_maya2018_0525:R tassels00
+      position: {x: -0.18581374, y: -0.000000019073486, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:R tassels02
+      parentName: xiaoyao_RIG_maya2018_0525:R tassels01
+      position: {x: -0.18695971, y: 0.000000038146972, z: 0.00000015258789}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000008, y: 1.0000006, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:R tassels03
+      parentName: xiaoyao_RIG_maya2018_0525:R tassels02
+      position: {x: -0.20814818, y: 0, z: 0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:L tassels00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      position: {x: -0.013326263, y: -0.12445284, z: 0.043387678}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000019, z: 1.0000014}
+    - name: xiaoyao_RIG_maya2018_0525:L tassels01
+      parentName: xiaoyao_RIG_maya2018_0525:L tassels00
+      position: {x: -0.18581367, y: 0.000000038146972, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999997, y: 0.99999946, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:L tassels02
+      parentName: xiaoyao_RIG_maya2018_0525:L tassels01
+      position: {x: -0.18695977, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:L tassels03
+      parentName: xiaoyao_RIG_maya2018_0525:L tassels02
+      position: {x: -0.20814814, y: -0.000000028610229, z: 0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_Spine2
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      position: {x: -0.06472558, y: 0.002770918, z: 0.000046859728}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000017, y: 1.0000017, z: 1.0000012}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 Neck
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine2
+      position: {x: -0.0856837, y: -0.021135963, z: -0.000000046755293}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_Neck1
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Neck
+      position: {x: -0.03496208, y: -0.000021781922, z: -6.519258e-11}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000015, y: 1.0000019, z: 1.0000012}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 Head
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Neck1
+      position: {x: -0.02685567, y: -0.0077679073, z: 0.0012448474}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000011, y: 1.0000007, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_HeadNub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Head
+      position: {x: -0.2422142, y: -0.0000000047683715, z: 9.3132255e-12}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:R SideHair00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Head
+      position: {x: -0.21983428, y: 0.037477005, z: -0.089660086}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:R SideHair01
+      parentName: xiaoyao_RIG_maya2018_0525:R SideHair00
+      position: {x: -0.06909645, y: -0.00000038146968, z: -0.000000005179799}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999946, y: 1.0000015, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:R SideHair02
+      parentName: xiaoyao_RIG_maya2018_0525:R SideHair01
+      position: {x: -0.071162336, y: -0.00000039100644, z: 5.6576964e-15}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000011, y: 1, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:R SideHair03
+      parentName: xiaoyao_RIG_maya2018_0525:R SideHair02
+      position: {x: -0.06669654, y: -0.00000015258789, z: 0.0000000071525545}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:R SideHair04
+      parentName: xiaoyao_RIG_maya2018_0525:R SideHair03
+      position: {x: -0.069817044, y: -6.9277914e-16, z: 0.000000009536739}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000007, y: 1.0000018, z: 0.9999997}
+    - name: xiaoyao_RIG_maya2018_0525:R SideHair05
+      parentName: xiaoyao_RIG_maya2018_0525:R SideHair04
+      position: {x: -0.07668663, y: -0.000000038146972, z: 0.0000000047683715}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 0.9999997, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:R Bangs00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Head
+      position: {x: -0.24855514, y: 0.059088506, z: -0.0020109557}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 0.99999994, z: 1.0000008}
+    - name: xiaoyao_RIG_maya2018_0525:R Bangs01
+      parentName: xiaoyao_RIG_maya2018_0525:R Bangs00
+      position: {x: -0.05246025, y: 0, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:R Bangs02
+      parentName: xiaoyao_RIG_maya2018_0525:R Bangs01
+      position: {x: -0.06764747, y: 0.000000091195105, z: -0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999934, y: 1.0000005, z: 1.0000011}
+    - name: xiaoyao_RIG_maya2018_0525:R Bangs03
+      parentName: xiaoyao_RIG_maya2018_0525:R Bangs02
+      position: {x: -0.073195264, y: 0.000000011920928, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:L Bangs00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Head
+      position: {x: -0.24894118, y: 0.055329118, z: 0.013572464}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999996, y: 0.9999997, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:L Bangs01
+      parentName: xiaoyao_RIG_maya2018_0525:L Bangs00
+      position: {x: -0.059342, y: -0.000000009536743, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999996, y: 1, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:L Bangs02
+      parentName: xiaoyao_RIG_maya2018_0525:L Bangs01
+      position: {x: -0.063706584, y: 0.000000095367426, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999997, y: 1.0000011, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:L Bangs03
+      parentName: xiaoyao_RIG_maya2018_0525:L Bangs02
+      position: {x: -0.0691922, y: -0.000000057220458, z: 0.00000015735625}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:L Ear00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Head
+      position: {x: -0.20543602, y: -0.033366986, z: 0.07384986}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 0.9999997}
+    - name: xiaoyao_RIG_maya2018_0525:L Ear01
+      parentName: xiaoyao_RIG_maya2018_0525:L Ear00
+      position: {x: -0.06780968, y: -0.00000028610228, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:L Ear02
+      parentName: xiaoyao_RIG_maya2018_0525:L Ear01
+      position: {x: -0.0719635, y: 8.881784e-18, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 0.9999998, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:L Ear03
+      parentName: xiaoyao_RIG_maya2018_0525:L Ear02
+      position: {x: -0.06961929, y: -0.000000009536743, z: -0.000000057220458}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:R Ear00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Head
+      position: {x: -0.2054361, y: -0.033366803, z: -0.07366996}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 0.9999997, z: 0.9999996}
+    - name: xiaoyao_RIG_maya2018_0525:R Ear01
+      parentName: xiaoyao_RIG_maya2018_0525:R Ear00
+      position: {x: -0.06780968, y: 0.00000042438506, z: 0.00000015258789}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 0.99999994, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:R Ear02
+      parentName: xiaoyao_RIG_maya2018_0525:R Ear01
+      position: {x: -0.07370468, y: -0.000000019073486, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:R Ear03
+      parentName: xiaoyao_RIG_maya2018_0525:R Ear02
+      position: {x: -0.06787811, y: 0.000000028610229, z: -0.00000020980835}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000004, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:L SideHair00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Head
+      position: {x: -0.21983428, y: 0.03747675, z: 0.089839935}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999997, y: 0.9999997, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:L SideHair01
+      parentName: xiaoyao_RIG_maya2018_0525:L SideHair00
+      position: {x: -0.06909638, y: 0.00000022888182, z: -0.00000007390973}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000011, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:L SideHair02
+      parentName: xiaoyao_RIG_maya2018_0525:L SideHair01
+      position: {x: -0.07116226, y: 0.00000045776363, z: 0.000000076293915}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:L SideHair03
+      parentName: xiaoyao_RIG_maya2018_0525:L SideHair02
+      position: {x: -0.06669655, y: 0.00000014305114, z: 0.0000000786781}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000011, y: 1.0000011, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:L SideHair04
+      parentName: xiaoyao_RIG_maya2018_0525:L SideHair03
+      position: {x: -0.06981712, y: 0.000000038146972, z: -3.5527136e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000012, y: 1.0000002, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:L SideHair05
+      parentName: xiaoyao_RIG_maya2018_0525:L SideHair04
+      position: {x: -0.07668663, y: 0.000000038146972, z: -0.00000007867813}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:L Ponytail00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Head
+      position: {x: -0.11309829, y: -0.07581953, z: 0.15464026}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 0.9999992, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:L Ponytail01
+      parentName: xiaoyao_RIG_maya2018_0525:L Ponytail00
+      position: {x: -0.10817712, y: -7.882979e-10, z: -0.00000014674282}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000008, y: 0.9999998, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:L Ponytail02
+      parentName: xiaoyao_RIG_maya2018_0525:L Ponytail01
+      position: {x: -0.09604081, y: 0.0000037765499, z: 0.0000008392331}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000014, y: 1.0000011, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:L Ponytail03
+      parentName: xiaoyao_RIG_maya2018_0525:L Ponytail02
+      position: {x: -0.11221932, y: -0.0006231689, z: -0.00051575166}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000008, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:L Ponytail04
+      parentName: xiaoyao_RIG_maya2018_0525:L Ponytail03
+      position: {x: -0.090972744, y: 0.0000000667572, z: 0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:R Ponytail00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Head
+      position: {x: -0.11309829, y: -0.07581911, z: -0.15445967}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000008, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:R Ponytail01
+      parentName: xiaoyao_RIG_maya2018_0525:R Ponytail00
+      position: {x: -0.10817712, y: -0.000000038755214, z: 0.0000000035012555}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000008, y: 1, z: 0.99999946}
+    - name: xiaoyao_RIG_maya2018_0525:R Ponytail02
+      parentName: xiaoyao_RIG_maya2018_0525:R Ponytail01
+      position: {x: -0.09604081, y: -0.0000037765499, z: 0.0000007677075}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1, z: 0.9999996}
+    - name: xiaoyao_RIG_maya2018_0525:R Ponytail03
+      parentName: xiaoyao_RIG_maya2018_0525:R Ponytail02
+      position: {x: -0.112219244, y: 0.00062313076, z: -0.00051573734}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000013, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:R Ponytail04
+      parentName: xiaoyao_RIG_maya2018_0525:R Ponytail03
+      position: {x: -0.09097267, y: -0.000000019073486, z: -0.000000023841856}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L Clavicle
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Neck
+      position: {x: 0.023331834, y: 0.00071389216, z: 0.033248093}
+      rotation: {x: 0.7071068, y: -0.000000030908623, z: -0.7071068, w: 0.000000030908623}
+      scale: {x: 1.0000002, y: 1.0000008, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L UpperArm
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Clavicle
+      position: {x: -0.06132268, y: -0.000009434615, z: 0.00016162111}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 0.9999997, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L Forearm
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L UpperArm
+      position: {x: -0.13904384, y: 0.00009542518, z: -0.000016376947}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000004, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L Hand
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Forearm
+      position: {x: -0.12555748, y: 0.000029208382, z: -0.00004998356}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: -0.7071068}
+      scale: {x: 1.0000001, y: 1.000001, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L Finger0
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Hand
+      position: {x: -0.019702071, y: 0.010115203, z: -0.018015048}
+      rotation: {x: 0, y: 0.3826835, z: 0, w: -0.9238795}
+      scale: {x: 1, y: 1.0000012, z: 1.0000011}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger01
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Finger0
+      position: {x: -0.019095916, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger02
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger01
+      position: {x: -0.017366141, y: 0, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999991, y: 1.0000012, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger0Nub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger02
+      position: {x: -0.017706184, y: 0.000000038146972, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000006, z: 1.0000008}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L Finger1
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Hand
+      position: {x: -0.056265563, y: 0.0003992462, z: -0.018913068}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000018, z: 1.0000014}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger11
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Finger1
+      position: {x: -0.021213302, y: 0, z: -0.000000019073486}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999946, y: 1.0000006, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger12
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger11
+      position: {x: -0.015641097, y: 0, z: 0.000000019073486}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999992, y: 1.0000012, z: 1.0000011}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger1Nub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger12
+      position: {x: -0.015443382, y: 0, z: 0.000000019073486}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000005, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L Finger2
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Hand
+      position: {x: -0.057575073, y: 0.00041130066, z: -0.004761071}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999996, y: 1.0000011, z: 1.0000012}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger21
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Finger2
+      position: {x: -0.023243751, y: 0.000000076293944, z: 0.0000000011920929}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 1.0000007, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger22
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger21
+      position: {x: -0.015484657, y: -0.000000076293944, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999996, y: 1.0000018, z: 1.0000018}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger2Nub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger22
+      position: {x: -0.015282154, y: 0, z: 0.0000000023841857}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 1.0000001, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L Finger3
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Hand
+      position: {x: -0.056052398, y: 0.00072288513, z: 0.009059995}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 1.0000008, z: 1.0000014}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger31
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Finger3
+      position: {x: -0.01951538, y: 0, z: 0.000000019073486}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 1.000001, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger32
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger31
+      position: {x: -0.016060524, y: 0, z: -0.000000019073486}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999946, y: 1.0000007, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger3Nub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger32
+      position: {x: -0.015304069, y: 0, z: -0.000000019073486}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000011, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L Finger4
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Hand
+      position: {x: -0.05076721, y: 0.0030452728, z: 0.0209966}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 1.0000014, z: 1.0000015}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger41
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Finger4
+      position: {x: -0.015398788, y: -0.000000076293944, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 1.0000008, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger42
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger41
+      position: {x: -0.013151322, y: -0.000000076293944, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999991, y: 1.000001, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger4Nub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_Finger42
+      position: {x: -0.014025115, y: -0.000000076293944, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000005, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:L SleeveA00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Hand
+      position: {x: -0.05715393, y: 0.00019989013, z: -0.00022201656}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000004, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:L SleeveA01
+      parentName: xiaoyao_RIG_maya2018_0525:L SleeveA00
+      position: {x: -0.1331958, y: 0, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 1, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:L Sleeve00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L Forearm
+      position: {x: -0.15154463, y: 0.031599563, z: 0.005509805}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 1, z: 0.99999946}
+    - name: xiaoyao_RIG_maya2018_0525:L Sleeve01
+      parentName: xiaoyao_RIG_maya2018_0525:L Sleeve00
+      position: {x: -0.12213203, y: 0.0000020980835, z: -0.0000000023841857}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000006, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:L Sleeve02
+      parentName: xiaoyao_RIG_maya2018_0525:L Sleeve01
+      position: {x: -0.1112482, y: 8.8817837e-17, z: -5.3290704e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000005, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:L Sleeve03
+      parentName: xiaoyao_RIG_maya2018_0525:L Sleeve02
+      position: {x: -0.08533023, y: 0.000002861023, z: -4.4408918e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 0.9999997, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:L Sleeve04
+      parentName: xiaoyao_RIG_maya2018_0525:L Sleeve03
+      position: {x: -0.08077854, y: -0.000000038146972, z: 0.0000000011920929}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:L Sleeve05
+      parentName: xiaoyao_RIG_maya2018_0525:L Sleeve00
+      position: {x: -0.12632057, y: 0.08914683, z: 0.050062675}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:L_Sleeve01
+      parentName: xiaoyao_RIG_maya2018_0525:L Sleeve05
+      position: {x: -0.08438556, y: -0.00017016417, z: 0.0000081094495}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:L_Sleeve02
+      parentName: xiaoyao_RIG_maya2018_0525:L_Sleeve01
+      position: {x: -0.09054423, y: -0.00021186307, z: 2.5180516e-11}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:L_Sleeve03
+      parentName: xiaoyao_RIG_maya2018_0525:L_Sleeve02
+      position: {x: -0.07078128, y: 0.00009465374, z: 0.00000005226711}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:L_Sleeve04
+      parentName: xiaoyao_RIG_maya2018_0525:L_Sleeve03
+      position: {x: -0.08077854, y: -0.000000038146972, z: 0.0000000011920929}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R Clavicle
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Neck
+      position: {x: 0.023695761, y: 0.0007583425, z: -0.032980084}
+      rotation: {x: 0.7071068, y: -0.000000030908623, z: 0.7071068, w: -0.000000030908623}
+      scale: {x: 1.000002, y: 1.0000011, z: 1.0000013}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R UpperArm
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Clavicle
+      position: {x: -0.061221294, y: 0.0000000028780214, z: -0.000000010932449}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000017, y: 1.0000007, z: 1.0000013}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R Forearm
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R UpperArm
+      position: {x: -0.13900894, y: 0.0000000644064, z: -0.00000015985812}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000004, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R Hand
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Forearm
+      position: {x: -0.12554465, y: 0.000000018531491, z: 0.0000001261972}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1.0000007, y: 1.0000008, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R Finger0
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Hand
+      position: {x: -0.019702187, y: 0.010115203, z: 0.018015046}
+      rotation: {x: 0, y: 0.38268346, z: 0, w: 0.9238795}
+      scale: {x: 1.000001, y: 1.0000006, z: 1.000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger01
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Finger0
+      position: {x: -0.019095916, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000013, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger02
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger01
+      position: {x: -0.017366162, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000007, y: 1.0000004, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger0Nub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger02
+      position: {x: -0.017706146, y: 0.000000038146972, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: -0.9999992, y: -0.99999994, z: -0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R Finger1
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Hand
+      position: {x: -0.05626568, y: 0.0003992462, z: 0.018913068}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger11
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Finger1
+      position: {x: -0.021213263, y: 0, z: 0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000005, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger12
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger11
+      position: {x: -0.015641212, y: -0.000000076293944, z: -0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000011, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger1Nub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger12
+      position: {x: -0.0154433055, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: -1.0000005, y: -1.0000006, z: -1}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R Finger2
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Hand
+      position: {x: -0.057575073, y: 0.00041137694, z: 0.004761069}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999997, y: 1.0000002, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger21
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Finger2
+      position: {x: -0.023243789, y: 0, z: -5.9604643e-10}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger22
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger21
+      position: {x: -0.015484619, y: -0.000000076293944, z: 0.0000000035762786}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000019, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger2Nub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger22
+      position: {x: -0.015282154, y: 0, z: -0.0000000011920929}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: -1.0000005, y: -1.0000001, z: -1}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R Finger3
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Hand
+      position: {x: -0.056052435, y: 0.00072288513, z: -0.009059998}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000007, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger31
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Finger3
+      position: {x: -0.01951542, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger32
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger31
+      position: {x: -0.016060524, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000008, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger3Nub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger32
+      position: {x: -0.015303993, y: 0.000000076293944, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: -1.0000001, y: -1, z: -0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R Finger4
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Hand
+      position: {x: -0.050767288, y: 0.0030452728, z: -0.020996606}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger41
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Finger4
+      position: {x: -0.015398826, y: 0, z: 0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000007, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger42
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger41
+      position: {x: -0.013151378, y: 0, z: -0.000000019073486}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000014, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger4Nub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_Finger42
+      position: {x: -0.014025154, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: -0.99999994, y: -0.9999998, z: -1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:R SleeveA00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Hand
+      position: {x: -0.057068177, y: 0.00019721984, z: 0.00021888732}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:R SleeveA01
+      parentName: xiaoyao_RIG_maya2018_0525:R SleeveA00
+      position: {x: -0.13319583, y: -0.000000076293944, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000002, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:R Sleeve00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R Forearm
+      position: {x: -0.13841946, y: -0.0071956525, z: -0.028452052}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 0.9999998, z: 0.9999997}
+    - name: xiaoyao_RIG_maya2018_0525:R Sleeve01
+      parentName: xiaoyao_RIG_maya2018_0525:R Sleeve00
+      position: {x: -0.12213188, y: -0.0000020980835, z: 3.5527136e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000007, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:R Sleeve02
+      parentName: xiaoyao_RIG_maya2018_0525:R Sleeve01
+      position: {x: -0.111248285, y: -0.000000114440915, z: -0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:R Sleeve03
+      parentName: xiaoyao_RIG_maya2018_0525:R Sleeve02
+      position: {x: -0.08533016, y: -0.000002822876, z: 0.000000035762785}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 0.99999994, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:R Sleeve04
+      parentName: xiaoyao_RIG_maya2018_0525:R Sleeve03
+      position: {x: -0.0807785, y: 0, z: -0.0000000011920929}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000002, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:R Sleeve05
+      parentName: xiaoyao_RIG_maya2018_0525:R Sleeve00
+      position: {x: -0.07573365, y: -0.11391294, z: 0.0000000014198189}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.000001, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:R_Sleeve01
+      parentName: xiaoyao_RIG_maya2018_0525:R Sleeve05
+      position: {x: -0.0843854, y: 0.0001701532, z: 0.00000811911}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:R_Sleeve02
+      parentName: xiaoyao_RIG_maya2018_0525:R_Sleeve01
+      position: {x: -0.090544306, y: 0.00021175414, z: -0.000000040030823}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000006, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:R_Sleeve03
+      parentName: xiaoyao_RIG_maya2018_0525:R_Sleeve02
+      position: {x: -0.07078121, y: -0.00009461815, z: 0.000000086485194}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 0.99999994, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:R_Sleeve04
+      parentName: xiaoyao_RIG_maya2018_0525:R_Sleeve03
+      position: {x: -0.0807785, y: 0, z: -0.0000000011920929}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 R bow
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      position: {x: -0.05054611, y: -0.17295262, z: -0.027560022}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000008, y: 1.0000001, z: 1.0000013}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_bowNub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 R bow
+      position: {x: -0.22137173, y: 0, z: -0.000000019073486}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 0.9999997}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001 L bow
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      position: {x: -0.05054611, y: -0.17295276, z: 0.027558848}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 0.9999997}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_bowNub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 L bow
+      position: {x: -0.22137176, y: 0, z: -0.000000009536743}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 0.99999994, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_bowRope01
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      position: {x: -0.052031934, y: -0.13195777, z: 0.058966998}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_bowRope02
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_bowRope01
+      position: {x: -0.1274758, y: -0.00011108398, z: -3.5527136e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999996}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_L_bowRopeNub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_L_bowRope02
+      position: {x: -0.13949966, y: 0.000000076293944, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_bowRope01
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      position: {x: -0.052033003, y: -0.13195728, z: -0.058968104}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000015, y: 1.0000004, z: 1.0000018}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_bowRope02
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_bowRope01
+      position: {x: -0.12616704, y: -0.00011108398, z: -0.000000019073486}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000007, y: 0.99999994, z: 1.0000013}
+    - name: xiaoyao_RIG_maya2018_0525:Bip001_R_bowRopeNub
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_R_bowRope02
+      position: {x: -0.13949966, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000008, y: 1.0000007, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:FrontSkirt00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      position: {x: -0.02798912, y: 0.09102591, z: -0.00010787965}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.000001, y: 1.0000008, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:FrontSkirt01
+      parentName: xiaoyao_RIG_maya2018_0525:FrontSkirt00
+      position: {x: -0.07241497, y: 0.000000010728836, z: 1.4210854e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000007, y: 1.0000006, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:FrontSkirt02
+      parentName: xiaoyao_RIG_maya2018_0525:FrontSkirt01
+      position: {x: -0.074682616, y: 0.00000007688999, z: -1.0658141e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:FrontSkirt03
+      parentName: xiaoyao_RIG_maya2018_0525:FrontSkirt02
+      position: {x: -0.07714889, y: 0.0000000011920929, z: 1.7763567e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000006, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:FrontSkirt04
+      parentName: xiaoyao_RIG_maya2018_0525:FrontSkirt03
+      position: {x: -0.08265438, y: -0.000000019669532, z: -0.000000019073486}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000002, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:R FrontSkirt00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      position: {x: -0.020050278, y: 0.062330168, z: -0.081267096}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000008, y: 1.0000006, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:R FrontSkirt01
+      parentName: xiaoyao_RIG_maya2018_0525:R FrontSkirt00
+      position: {x: -0.06303737, y: 0.000000009536743, z: -1.4210854e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:R FrontSkirt02
+      parentName: xiaoyao_RIG_maya2018_0525:R FrontSkirt01
+      position: {x: -0.07368202, y: 0.000000076293944, z: 3.5527136e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:R FrontSkirt03
+      parentName: xiaoyao_RIG_maya2018_0525:R FrontSkirt02
+      position: {x: -0.06721462, y: 0.000000009536743, z: 1.4210854e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000014, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:R FrontSkirt04
+      parentName: xiaoyao_RIG_maya2018_0525:R FrontSkirt03
+      position: {x: -0.0724382, y: -0.000000011920928, z: -0.000000019073486}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:L FrontSkirt00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001_Spine1
+      position: {x: -0.020050278, y: 0.062329948, z: 0.083732896}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:L FrontSkirt01
+      parentName: xiaoyao_RIG_maya2018_0525:L FrontSkirt00
+      position: {x: -0.0630373, y: 0.00000007152557, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.000001, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:L FrontSkirt02
+      parentName: xiaoyao_RIG_maya2018_0525:L FrontSkirt01
+      position: {x: -0.073682055, y: -0.00000015258789, z: 0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000004, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:L FrontSkirt03
+      parentName: xiaoyao_RIG_maya2018_0525:L FrontSkirt02
+      position: {x: -0.06721466, y: -0.000000042915342, z: -0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000002, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:L FrontSkirt04
+      parentName: xiaoyao_RIG_maya2018_0525:L FrontSkirt03
+      position: {x: -0.0724382, y: 0.00000009775162, z: -0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:L BackSkirtA00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.0062011336, y: -0.15827037, z: 0.06269466}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000008}
+    - name: xiaoyao_RIG_maya2018_0525:L BackSkirtA01
+      parentName: xiaoyao_RIG_maya2018_0525:L BackSkirtA00
+      position: {x: -0.123008765, y: 0.0000000667572, z: 0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.000001, y: 1.000001, z: 1.0000008}
+    - name: xiaoyao_RIG_maya2018_0525:L BackSkirtA02
+      parentName: xiaoyao_RIG_maya2018_0525:L BackSkirtA01
+      position: {x: -0.11029114, y: -0.0000001335144, z: -0.00000022888183}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:joint13
+      parentName: xiaoyao_RIG_maya2018_0525:L BackSkirtA02
+      position: {x: -0.061394814, y: 0.00000027328252, z: -0.00000046702638}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:L BackSkirtA03
+      parentName: xiaoyao_RIG_maya2018_0525:joint13
+      position: {x: -0.07629649, y: -0.00000034957648, z: 0.00000012370364}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:joint6
+      parentName: xiaoyao_RIG_maya2018_0525:L BackSkirtA03
+      position: {x: -0.07966387, y: 0.00000032442273, z: 0.00000024973554}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000002, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:L BackSkirtA04
+      parentName: xiaoyao_RIG_maya2018_0525:joint6
+      position: {x: -0.08921443, y: -0.00000020044506, z: -0.00000021158857}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000005, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:joint7
+      parentName: xiaoyao_RIG_maya2018_0525:L BackSkirtA04
+      position: {x: -0.08506558, y: 0.00000044757113, z: 0.00000020812001}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 1.0000001, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:L BackSkirtA05
+      parentName: xiaoyao_RIG_maya2018_0525:joint7
+      position: {x: -0.11587138, y: -0.0000004571079, z: -0.00000028441394}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000002, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:BackSkirt00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.005951805, y: -0.16255106, z: 0.0000016403196}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000008}
+    - name: xiaoyao_RIG_maya2018_0525:BackSkirt01
+      parentName: xiaoyao_RIG_maya2018_0525:BackSkirt00
+      position: {x: -0.119721636, y: 2.9102054e-13, z: 0.0000003814697}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000007, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:BackSkirt02
+      parentName: xiaoyao_RIG_maya2018_0525:BackSkirt01
+      position: {x: -0.112146355, y: -0.000000026034321, z: -0.0026301574}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000008}
+    - name: xiaoyao_RIG_maya2018_0525:joint12
+      parentName: xiaoyao_RIG_maya2018_0525:BackSkirt02
+      position: {x: -0.059431214, y: -0.00000018788157, z: 0.0000000049766777}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:BackSkirt03
+      parentName: xiaoyao_RIG_maya2018_0525:joint12
+      position: {x: -0.07256651, y: -0.0000002293486, z: 0.0000007961097}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000006, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:joint11
+      parentName: xiaoyao_RIG_maya2018_0525:BackSkirt03
+      position: {x: -0.06874399, y: 0.00000012468576, z: 0.00000003597287}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000006, z: 1.0000012}
+    - name: xiaoyao_RIG_maya2018_0525:BackSkirt04
+      parentName: xiaoyao_RIG_maya2018_0525:joint11
+      position: {x: -0.0927186, y: 0.0000001681756, z: -0.00000030300168}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:joint10
+      parentName: xiaoyao_RIG_maya2018_0525:BackSkirt04
+      position: {x: -0.10259555, y: -2.0666152e-10, z: -0.00000033724274}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:BackSkirt05
+      parentName: xiaoyao_RIG_maya2018_0525:joint10
+      position: {x: -0.11240547, y: 2.0666155e-10, z: 0.00000029909575}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.006201248, y: -0.15827072, z: -0.062305365}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000006, z: 1.0000014}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA01
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtA00
+      position: {x: -0.12300888, y: -0.000000076293944, z: 0.00000015258789}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000007, y: 1, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA02
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtA01
+      position: {x: -0.11029097, y: 0.00000016212464, z: -0.00000022888183}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000004, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:joint15
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtA02
+      position: {x: -0.06228488, y: 0.0000005715549, z: -0.0000002559761}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA03
+      parentName: xiaoyao_RIG_maya2018_0525:joint15
+      position: {x: -0.07540658, y: -0.00000051433443, z: -0.00000012549363}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:joint9
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtA03
+      position: {x: -0.078997284, y: 0.00000027195716, z: -0.00000019759968}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA04
+      parentName: xiaoyao_RIG_maya2018_0525:joint9
+      position: {x: -0.08988099, y: -0.00000042454505, z: 0.00000031204056}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:joint8
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtA04
+      position: {x: -0.0898878, y: -0.00000017132054, z: -0.00000042247058}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA05
+      parentName: xiaoyao_RIG_maya2018_0525:joint8
+      position: {x: -0.11104924, y: 0.00000019993075, z: 0.00000030802966}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:TaliJ00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.11337631, y: -0.18827507, z: -0.00021240232}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000007, y: 1.0000004, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:TaliJ01
+      parentName: xiaoyao_RIG_maya2018_0525:TaliJ00
+      position: {x: -0.13877761, y: -0.0000000023841857, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliJ02
+      parentName: xiaoyao_RIG_maya2018_0525:TaliJ01
+      position: {x: -0.14029898, y: 0.00000009059906, z: 2.842171e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:TaliJ03
+      parentName: xiaoyao_RIG_maya2018_0525:TaliJ02
+      position: {x: -0.15226856, y: -0.0014583969, z: 0.00015571594}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000005, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:TaliJ04
+      parentName: xiaoyao_RIG_maya2018_0525:TaliJ03
+      position: {x: -0.12118698, y: -5.3290704e-17, z: 0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:TaliJ05
+      parentName: xiaoyao_RIG_maya2018_0525:TaliJ04
+      position: {x: -0.13314582, y: 0.000000019073486, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:TaliJ06
+      parentName: xiaoyao_RIG_maya2018_0525:TaliJ05
+      position: {x: -0.12250938, y: -0.0000016021728, z: -0.0000003814697}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:TaliI00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.1094976, y: -0.18839608, z: -0.0050155628}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000004, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:TaliI01
+      parentName: xiaoyao_RIG_maya2018_0525:TaliI00
+      position: {x: -0.15824355, y: 0, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:TaliI02
+      parentName: xiaoyao_RIG_maya2018_0525:TaliI01
+      position: {x: -0.17107154, y: 0.00000012397766, z: -5.684342e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000001, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:TaliI03
+      parentName: xiaoyao_RIG_maya2018_0525:TaliI02
+      position: {x: -0.14838359, y: -0.000970726, z: 0.00000015258789}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000004, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:TaliI04
+      parentName: xiaoyao_RIG_maya2018_0525:TaliI03
+      position: {x: -0.15880693, y: 0.000000095367426, z: 0.00000015258789}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:TaliI05
+      parentName: xiaoyao_RIG_maya2018_0525:TaliI04
+      position: {x: -0.15705925, y: 0.000000114440915, z: -0.00000022888183}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:TaliH00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.07130218, y: -0.17186956, z: 0.013409574}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000007, y: 1.0000002, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:TaliH01
+      parentName: xiaoyao_RIG_maya2018_0525:TaliH00
+      position: {x: -0.16589847, y: 4.2632563e-16, z: -6.3948843e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999997, y: 1, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliH02
+      parentName: xiaoyao_RIG_maya2018_0525:TaliH01
+      position: {x: -0.15452978, y: -0.0002546692, z: 0.0011077881}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliH03
+      parentName: xiaoyao_RIG_maya2018_0525:TaliH02
+      position: {x: -0.14173257, y: 0.00017017365, z: -0.0026603697}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:TaliH04
+      parentName: xiaoyao_RIG_maya2018_0525:TaliH03
+      position: {x: -0.112704426, y: -0.000000019073486, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:TaliH05
+      parentName: xiaoyao_RIG_maya2018_0525:TaliH04
+      position: {x: -0.11268545, y: 3.5527136e-17, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999996, y: 1.0000004, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:TaliG00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.07141639, y: -0.17755757, z: 0.018426817}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:TaliG01
+      parentName: xiaoyao_RIG_maya2018_0525:TaliG00
+      position: {x: -0.15648392, y: -1.7763568e-17, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliG02
+      parentName: xiaoyao_RIG_maya2018_0525:TaliG01
+      position: {x: -0.16492458, y: -0.00067321776, z: 0.0024961089}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliG03
+      parentName: xiaoyao_RIG_maya2018_0525:TaliG02
+      position: {x: -0.11858746, y: -0.001515379, z: -0.002334137}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:TaliG04
+      parentName: xiaoyao_RIG_maya2018_0525:TaliG03
+      position: {x: -0.11227087, y: 0.000000038146972, z: 1.4210854e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000002, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:TaliG05
+      parentName: xiaoyao_RIG_maya2018_0525:TaliG04
+      position: {x: -0.120791696, y: -0.000000009536743, z: 1.4210854e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 0.9999998, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:TaliF00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.07075241, y: -0.1861637, z: -0.049313884}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000005, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:TaliF01
+      parentName: xiaoyao_RIG_maya2018_0525:TaliF00
+      position: {x: -0.15879263, y: 2.220446e-18, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000001, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliF02
+      parentName: xiaoyao_RIG_maya2018_0525:TaliF01
+      position: {x: -0.14965354, y: 0.0000001001358, z: 0.008124694}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000005, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:TaliF03
+      parentName: xiaoyao_RIG_maya2018_0525:TaliF02
+      position: {x: -0.14649874, y: 0.0014055156, z: -0.0006079483}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000002, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:TaliF04
+      parentName: xiaoyao_RIG_maya2018_0525:TaliF03
+      position: {x: -0.118645474, y: 0.000000057220458, z: 0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 0.9999998, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:TaliF05
+      parentName: xiaoyao_RIG_maya2018_0525:TaliF04
+      position: {x: -0.15012375, y: -0.0000003147125, z: -0.0014433861}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000002, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:TaliE00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.079403, y: -0.15915677, z: -0.0066571794}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000006, z: 0.9999992}
+    - name: xiaoyao_RIG_maya2018_0525:TaliE01
+      parentName: xiaoyao_RIG_maya2018_0525:TaliE00
+      position: {x: -0.20080185, y: 2.842171e-16, z: 0.000000009536743}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000013, y: 1.0000012, z: 0.9999999}
+    - name: xiaoyao_RIG_maya2018_0525:TaliE02
+      parentName: xiaoyao_RIG_maya2018_0525:TaliE01
+      position: {x: -0.17248316, y: -1.4210854e-16, z: 0.009364081}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliE03
+      parentName: xiaoyao_RIG_maya2018_0525:TaliE02
+      position: {x: -0.16992572, y: -0.000458374, z: -0.0031180952}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliE04
+      parentName: xiaoyao_RIG_maya2018_0525:TaliE03
+      position: {x: -0.09177581, y: 0.0002734375, z: -0.0010459137}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999996, y: 0.9999997, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:TaliE05
+      parentName: xiaoyao_RIG_maya2018_0525:TaliE04
+      position: {x: -0.09222656, y: 0.0000004196167, z: -0.000000114440915}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000002, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:TaliD00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.11674827, y: -0.19095619, z: -0.012797012}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000008, y: 1.0000004, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:TaliD01
+      parentName: xiaoyao_RIG_maya2018_0525:TaliD00
+      position: {x: -0.18663108, y: -2.3092638e-16, z: -7.105427e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:TaliD02
+      parentName: xiaoyao_RIG_maya2018_0525:TaliD01
+      position: {x: -0.16951774, y: 0.000000095367426, z: 0.0020790861}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliD03
+      parentName: xiaoyao_RIG_maya2018_0525:TaliD02
+      position: {x: -0.16021751, y: -0.0021012877, z: -0.002940216}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:TaliD04
+      parentName: xiaoyao_RIG_maya2018_0525:TaliD03
+      position: {x: -0.14307556, y: -0.000000038146972, z: -0.00037506103}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000004, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliD05
+      parentName: xiaoyao_RIG_maya2018_0525:TaliD04
+      position: {x: -0.09255935, y: -0.000000019073486, z: -0.000000114440915}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliC00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.13387917, y: -0.1951597, z: -0.009344557}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000005, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliC01
+      parentName: xiaoyao_RIG_maya2018_0525:TaliC00
+      position: {x: -0.15947662, y: 3.5527136e-17, z: 0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000005, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:TaliC02
+      parentName: xiaoyao_RIG_maya2018_0525:TaliC01
+      position: {x: -0.15427956, y: 0.000000114440915, z: 0.008375854}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:TaliC03
+      parentName: xiaoyao_RIG_maya2018_0525:TaliC02
+      position: {x: -0.12555511, y: -0.00753973, z: -0.0023080825}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:TaliC04
+      parentName: xiaoyao_RIG_maya2018_0525:TaliC03
+      position: {x: -0.11227104, y: 0.000000076293944, z: 1.4210854e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliC05
+      parentName: xiaoyao_RIG_maya2018_0525:TaliC04
+      position: {x: -0.09135391, y: -1.4210854e-16, z: 0.016261024}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000002, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:TaliC06
+      parentName: xiaoyao_RIG_maya2018_0525:TaliC05
+      position: {x: -0.058152694, y: 0.00000030517577, z: -0.000000114440915}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:TaliB00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.07906921, y: -0.20567814, z: -0.001831436}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000007, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:TaliB01
+      parentName: xiaoyao_RIG_maya2018_0525:TaliB00
+      position: {x: -0.15016937, y: 5.3290704e-17, z: -1.4210854e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 0.99999994, z: 0.99999994}
+    - name: xiaoyao_RIG_maya2018_0525:TaliB02
+      parentName: xiaoyao_RIG_maya2018_0525:TaliB01
+      position: {x: -0.15370765, y: 0.000000095367426, z: 0.008344803}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 0.99999994, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliB03
+      parentName: xiaoyao_RIG_maya2018_0525:TaliB02
+      position: {x: -0.10875019, y: -0.0064653587, z: -0.0022009276}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:TaliB04
+      parentName: xiaoyao_RIG_maya2018_0525:TaliB03
+      position: {x: -0.12728699, y: 0.000000019073486, z: 0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliB05
+      parentName: xiaoyao_RIG_maya2018_0525:TaliB04
+      position: {x: -0.10174751, y: -0.000000009536743, z: 2.1316282e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000005, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:TaliB06
+      parentName: xiaoyao_RIG_maya2018_0525:TaliB05
+      position: {x: -0.075240016, y: 0.000000095367426, z: -0.00000015258789}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliA00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.085251845, y: -0.21727434, z: 0.050274353}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000004, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliA01
+      parentName: xiaoyao_RIG_maya2018_0525:TaliA00
+      position: {x: -0.12951899, y: 1.7763568e-17, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000002, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:TaliA02
+      parentName: xiaoyao_RIG_maya2018_0525:TaliA01
+      position: {x: -0.15701686, y: 0.000000076293944, z: 0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:TaliA03
+      parentName: xiaoyao_RIG_maya2018_0525:TaliA02
+      position: {x: -0.12534474, y: -0.024746442, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:TaliA04
+      parentName: xiaoyao_RIG_maya2018_0525:TaliA03
+      position: {x: -0.12497177, y: 0.000000019073486, z: -0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:TaliA05
+      parentName: xiaoyao_RIG_maya2018_0525:TaliA04
+      position: {x: -0.10177818, y: -0.000000019073486, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:TaliA06
+      parentName: xiaoyao_RIG_maya2018_0525:TaliA05
+      position: {x: -0.10451599, y: -0.000001411438, z: -0.0000002670288}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:L BackSkirtB00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.013853454, y: -0.09559593, z: 0.154195}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000008, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:L BackSkirtB01
+      parentName: xiaoyao_RIG_maya2018_0525:L BackSkirtB00
+      position: {x: -0.13158801, y: -0.000000029802322, z: -0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:L BackSkirtB02
+      parentName: xiaoyao_RIG_maya2018_0525:L BackSkirtB01
+      position: {x: -0.112257764, y: 0.000000042915342, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:joint14
+      parentName: xiaoyao_RIG_maya2018_0525:L BackSkirtB02
+      position: {x: -0.07643365, y: 0.000000092427754, z: -0.00000024522566}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000002, z: 0.9999997}
+    - name: xiaoyao_RIG_maya2018_0525:L BackSkirtB03
+      parentName: xiaoyao_RIG_maya2018_0525:joint14
+      position: {x: -0.06844315, y: 0.000000030357814, z: 0.00000013078476}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000004, z: 1.0000002}
+    - name: xiaoyao_RIG_maya2018_0525:joint4
+      parentName: xiaoyao_RIG_maya2018_0525:L BackSkirtB03
+      position: {x: -0.09124754, y: -0.000000086662325, z: 0.00000013290209}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 0.9999997, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:L BackSkirtB04
+      parentName: xiaoyao_RIG_maya2018_0525:joint4
+      position: {x: -0.09348544, y: 0.000000012752566, z: 0.00000005783277}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000002, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:joint5
+      parentName: xiaoyao_RIG_maya2018_0525:L BackSkirtB04
+      position: {x: -0.091998845, y: 0.00000081965567, z: 0.00000043761528}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:L BackSkirtB05
+      parentName: xiaoyao_RIG_maya2018_0525:joint5
+      position: {x: -0.10595504, y: 0.00000039747115, z: 0.00000043976505}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000006, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtB00
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.01385395, y: -0.09559684, z: -0.15480494}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000006, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtB01
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtB00
+      position: {x: -0.13158791, y: 0.00000006556511, z: 1.4210854e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.000001, y: 1.0000006, z: 1.0000007}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtB02
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtB01
+      position: {x: -0.11225796, y: -0.000000051259992, z: -0.000000076293944}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:joint3
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtB02
+      position: {x: -0.06947146, y: -0.00000022653698, z: 0.000000072724994}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000006}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtB03
+      parentName: xiaoyao_RIG_maya2018_0525:joint3
+      position: {x: -0.075405285, y: 0.00000008110166, z: -0.00000018716591}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1}
+    - name: xiaoyao_RIG_maya2018_0525:joint1
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtB03
+      position: {x: -0.089578815, y: 0.00000038707023, z: 0.0000000348891}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 0.99999994, z: 1.0000001}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtB04
+      parentName: xiaoyao_RIG_maya2018_0525:joint1
+      position: {x: -0.095154166, y: -0.00000028455025, z: 0.00000019399272}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:joint2
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtB04
+      position: {x: -0.0920029, y: -0.000000497353, z: 0.00000073832894}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000005, z: 1.0000004}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtB05
+      parentName: xiaoyao_RIG_maya2018_0525:joint2
+      position: {x: -0.10595099, y: -0.00000074957603, z: 0.00000032978627}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999997, y: 0.9999998, z: 0.9999997}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA06
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.0028870974, y: -0.14097935, z: -0.12783454}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0202539, y: 1.000001, z: 1.0000018}
+    - name: xiaoyao_RIG_maya2018_0525:R_BackSkirtA01
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtA06
+      position: {x: -0.12300888, y: -0.000000076293944, z: 0.00000015258789}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999993, y: 0.99997634, z: 1.0000248}
+    - name: xiaoyao_RIG_maya2018_0525:R_BackSkirtA02
+      parentName: xiaoyao_RIG_maya2018_0525:R_BackSkirtA01
+      position: {x: -0.11029097, y: 0.00000016212464, z: -0.00000022888183}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000756, y: 0.9999172, z: 1.000006}
+    - name: xiaoyao_RIG_maya2018_0525:joint15 1
+      parentName: xiaoyao_RIG_maya2018_0525:R_BackSkirtA02
+      position: {x: -0.06228488, y: 0.0000005715549, z: -0.0000002559761}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999661, y: 1.0000226, z: 1.0000126}
+    - name: xiaoyao_RIG_maya2018_0525:R_BackSkirtA03
+      parentName: xiaoyao_RIG_maya2018_0525:joint15 1
+      position: {x: -0.07540658, y: -0.00000051433443, z: -0.00000012549363}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0002587, y: 0.9999767, z: 0.999761}
+    - name: xiaoyao_RIG_maya2018_0525:joint9 1
+      parentName: xiaoyao_RIG_maya2018_0525:R_BackSkirtA03
+      position: {x: -0.078997284, y: 0.00000027195716, z: -0.00000019759968}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9987026, y: 1.0000471, z: 1.0012766}
+    - name: xiaoyao_RIG_maya2018_0525:R_BackSkirtA04
+      parentName: xiaoyao_RIG_maya2018_0525:joint9 1
+      position: {x: -0.08988099, y: -0.00000042454505, z: 0.00000031204056}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9988101, y: 1.0001845, z: 1.0010229}
+    - name: xiaoyao_RIG_maya2018_0525:joint8 1
+      parentName: xiaoyao_RIG_maya2018_0525:R_BackSkirtA04
+      position: {x: -0.0898878, y: -0.00000017132054, z: -0.00000042247058}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9991466, y: 1.0001386, z: 1.0007249}
+    - name: xiaoyao_RIG_maya2018_0525:R_BackSkirtA05
+      parentName: xiaoyao_RIG_maya2018_0525:joint8 1
+      position: {x: -0.11104924, y: 0.00000019993075, z: 0.00000030802966}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000001, z: 0.9999998}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA07
+      parentName: xiaoyao_RIG_maya2018_0525:Bip001 Pelvis
+      position: {x: -0.0028870427, y: -0.140979, z: 0.12783538}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0202539, y: 1.0000011, z: 1.0000005}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA08
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtA07
+      position: {x: 0.12300861, y: 0.0000005550189, z: -0.00000009555817}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999695, y: 1.0000399, z: 0.99999183}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA09
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtA08
+      position: {x: 0.11029074, y: -0.000000693165, z: 0.00000032841663}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000733, y: 0.9999924, z: 0.99993354}
+    - name: xiaoyao_RIG_maya2018_0525:joint16
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtA09
+      position: {x: 0.06228493, y: -0.00000010283083, z: 0.00000009144516}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99997807, y: 1.000015, z: 1.0000081}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA10
+      parentName: xiaoyao_RIG_maya2018_0525:joint16
+      position: {x: 0.07540688, y: -0.0000002986309, z: -0.00000010734312}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0004568, y: 1.0000021, z: 0.9995331}
+    - name: xiaoyao_RIG_maya2018_0525:joint17
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtA10
+      position: {x: 0.07899683, y: 0.00000010548492, z: 0.00000072857085}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99906987, y: 1.0000359, z: 1.0009141}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA11
+      parentName: xiaoyao_RIG_maya2018_0525:joint17
+      position: {x: 0.08988085, y: 0.000000104215346, z: -0.00000027222472}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99913204, y: 1.000138, z: 1.0007442}
+    - name: xiaoyao_RIG_maya2018_0525:joint18
+      parentName: xiaoyao_RIG_maya2018_0525:R BackSkirtA11
+      position: {x: 0.08988859, y: 0.0000005800861, z: 0.00000017042613}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.999232, y: 1.0001372, z: 1.0006428}
+    - name: xiaoyao_RIG_maya2018_0525:R BackSkirtA12
+      parentName: xiaoyao_RIG_maya2018_0525:joint18
+      position: {x: 0.111049265, y: -0.00000028717542, z: -0.0000003681725}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 0.9999999, z: 1.0000004}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 1
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
