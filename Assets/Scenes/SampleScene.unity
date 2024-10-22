@@ -738,9 +738,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 710dd0358492795438ddcdae0e666417, type: 2}
   - {fileID: 11400000, guid: 3112487218c36834bb5cf5b14ea4c3cd, type: 2}
   - {fileID: 11400000, guid: e700e9ae90a23594abe13442fd66d48c, type: 2}
-  itemTag: {fileID: 844818290}
-  playerPrefab: {fileID: 2713371084724560235, guid: bcad9fedfb1761d4bb253933591eb020, type: 3}
-  cameraPrefab: {fileID: 1804304396586544687, guid: 2e6f375772817ee4e8aa38e3b4193e63, type: 3}
+  uiCanvasPrefab: {fileID: 0}
   player: {fileID: 566543586}
 --- !u!4 &315432689
 Transform:
@@ -3949,6 +3947,10 @@ PrefabInstance:
       propertyPath: rotZInputField
       value: 
       objectReference: {fileID: 796088301}
+    - target: {fileID: 4897004383073918935, guid: 2e6f375772817ee4e8aa38e3b4193e63, type: 3}
+      propertyPath: uiCanvasPrefab
+      value: 
+      objectReference: {fileID: 8360022501939295464, guid: ac32a980fa691ff4cbfb68e8d34a7679, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

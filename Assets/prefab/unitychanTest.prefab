@@ -2109,8 +2109,7 @@ MonoBehaviour:
   defLife: 3
   defDmg: 1
   defCrit: 0
-  currentBuffer: {fileID: 0}
-  camera1: {fileID: 0}
+  currentBuffer: {fileID: 7763676367401465105, guid: 231874d9b8199bb46b3cfc6221e3cee1, type: 3}
 --- !u!114 &5184477162649807415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2128,9 +2127,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 710dd0358492795438ddcdae0e666417, type: 2}
   - {fileID: 11400000, guid: 3112487218c36834bb5cf5b14ea4c3cd, type: 2}
   - {fileID: 11400000, guid: e700e9ae90a23594abe13442fd66d48c, type: 2}
-  itemTag: {fileID: 0}
-  playerPrefab: {fileID: 0}
-  cameraPrefab: {fileID: 0}
+  uiCanvasPrefab: {fileID: 4654991688287056197, guid: f41356f6469f1904bb207983fa139ac3, type: 3}
   player: {fileID: 519851583045689834}
 --- !u!114 &9191846979595292821
 MonoBehaviour:

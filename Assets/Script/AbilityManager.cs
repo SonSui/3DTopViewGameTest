@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class AbilityManager : MonoBehaviour
 {
-    //すべてのタグ
+    // すべてのタグ
     public List<AbilityTagDefinition> abilityTagDefinitions;
 
     // タグの数字と効果
@@ -19,11 +20,11 @@ public class AbilityManager : MonoBehaviour
     // 集めたものを表示
     public IReadOnlyList<Item> CollectedItems => collectedItems.AsReadOnly();
 
-    
-    public Text itemTag;
-
-    public GameObject playerPrefab; 
-    public GameObject cameraPrefab;
+    // UI関連
+    public GameObject uiCanvasPrefab; // プレイヤーが用意したCanvasのPrefab
+    private Text playerStatusText;    // プレイヤー状態表示用のText
+    private Text itemTag;             // アイテム表示用のText
+    private InputField[] inputFields; // プレイヤー状態編集用のInputField
 
     public PlayerController player;
 
@@ -31,46 +32,123 @@ public class AbilityManager : MonoBehaviour
 
     private void Awake()
     {
-
+        // シングルトンパターンの実装
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
-            //SpawnPlayerAndCamera(); 
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
-
     }
+
     public void Start()
     {
-        Instance = this;
-        Update_UI();
+        // プレイヤーを探す
+        StartCoroutine(WaitForPlayer());
+
+        // UIの初期設定
+        SetupUI();
+        Update_UI(); // UIの初期状態を更新
     }
 
-    // 新しいものを集める
+    // プレイヤーの生成を待つコルーチン
+    private IEnumerator WaitForPlayer()
+    {
+        // GameManagerがプレイヤーを生成するまで待機
+        while (player == null)
+        {
+            player = GameManager.Instance?.GetPlayer()?.GetComponent<PlayerController>();
+            if (player == null)
+            {
+                Debug.Log("Playerが見つかりません、待機中...");
+                yield return null; // 次のフレームまで待つ
+            }
+        }
+        Debug.Log("Playerが見つかりました！");
+        Update_UI(); // プレイヤーが見つかったらUIを更新
+    }
+
+    // UIの初期設定
+    private void SetupUI()
+    {
+        // CanvasのPrefabをインスタンス化
+        if (uiCanvasPrefab != null)
+        {
+            GameObject uiCanvasInstance = Instantiate(uiCanvasPrefab);
+            DontDestroyOnLoad(uiCanvasInstance); // シーン遷移時に削除されないように設定
+
+            // プレイヤー状態表示用のTextを取得
+            Transform statusTextTransform = uiCanvasInstance.transform.Find("PlayerStatusText");
+            if (statusTextTransform != null)
+                playerStatusText = statusTextTransform.GetComponent<Text>();
+
+            // アイテム表示用のTextを取得
+            Transform itemTagTransform = uiCanvasInstance.transform.Find("ItemTagText");
+            if (itemTagTransform != null)
+                itemTag = itemTagTransform.GetComponent<Text>();
+
+            // InputFieldの取得
+            inputFields = statusTextTransform.GetComponentsInChildren<InputField>();
+            for (int i = 0; i < inputFields.Length; i++)
+            {
+                int index = i; // ローカル変数としてインデックスを保存
+                inputFields[i].onEndEdit.AddListener((input) => UpdatePlayerStatusFromInput(index, input));
+            }
+        }
+        else
+        {
+            Debug.LogError("UI Canvas Prefab is not assigned.");
+        }
+    }
+
+    // InputFieldからプレイヤーの状態を更新
+    private void UpdatePlayerStatusFromInput(int index, string input)
+    {
+        if (player == null) return;
+
+        if (int.TryParse(input, out int value))
+        {
+            switch (index)
+            {
+                case 0: player.state.life = value; break;
+                case 1: player.state.speed = value; break;
+                case 2: player.state.damage = value; break;
+                case 3: player.state.crit = value; break;
+                // 必要に応じて他のステータスを追加
+                default: break;
+            }
+
+            player.finalState.ShowState(); // プレイヤー状態の表示を更新
+            Update_UI(); // UI全体の更新
+        }
+        else
+        {
+            Debug.LogWarning("入力が無効です: " + input);
+        }
+    }
+
+    // 新しいものを集めるメソッド
     public void CollectItem(Item item)
     {
         collectedItems.Add(item);
 
         foreach (string tag in item.tags)
         {
-            // 持っているタグの数量増加
+            // 持っているタグの数量を増加
             if (tagCounts.ContainsKey(tag))
                 tagCounts[tag]++;
             else
                 tagCounts[tag] = 1;
 
-            // 効果更新
+            // 効果を更新
             UpdateAbilityEffect(tag);
         }
-
-        
     }
 
-    // 効果更新
+    // 効果を更新するメソッド
     private void UpdateAbilityEffect(string tag)
     {
         if (abilityTagDefinitions == null || abilityTagDefinitions.Count == 0)
@@ -78,7 +156,8 @@ public class AbilityManager : MonoBehaviour
             Debug.LogError("AbilityTagDefinitions is null");
             return;
         }
-        //タグを探す
+
+        // タグを探す
         AbilityTagDefinition tagDefinition = abilityTagDefinitions.Find(t => t.tagName == tag);
         if (tagDefinition == null)
         {
@@ -89,7 +168,7 @@ public class AbilityManager : MonoBehaviour
         int count = tagCounts[tag];
         AbilityEffect totalEffect = new AbilityEffect();
 
-        //変化するタグ効果を加算
+        // タグ効果を加算
         for (int i = 0; i < tagDefinition.thresholds.Count; i++)
         {
             if (count >= tagDefinition.thresholds[i])
@@ -105,74 +184,51 @@ public class AbilityManager : MonoBehaviour
         else
             currentEffects.Add(tag, totalEffect);
 
-        // プレイヤーに渡す
+        // プレイヤーに効果を適用
         ApplyEffects();
     }
 
-    // プレイヤーに渡す
+    // プレイヤーに効果を適用するメソッド
     private void ApplyEffects()
     {
+        if (player == null) return;
+
         player.state.ResetState();
+
         foreach (var effect in currentEffects.Values)
         {
-            player.state.UpdateState(effect.life,effect.speed,effect.damage,effect.critBonus);
-            if(effect.unlockExplosion)
+            player.state.UpdateState(effect.life, effect.speed, effect.damage, effect.critBonus);
+            if (effect.unlockExplosion)
             {
                 player.state.UpdateAblitiy(effect.unlockExplosion);
             }
         }
+
         player.state.ShowState();
-        // UI
-        Update_UI();
+        Update_UI(); // UIの更新
     }
 
-    //画面にタグと状態を表示
+    // 画面にタグと状態を表示するメソッド
     private void Update_UI()
     {
-        string text="";
-        var sortedTagCounts = tagCounts.OrderBy(kv => kv.Key);
-        foreach (var kvp in sortedTagCounts)
+        // プレイヤー状態の表示
+        if (playerStatusText != null && player != null)
         {
-            string tag = kvp.Key;
-            string count = kvp.Value.ToString();
-
-            text += tag + " " + count + "\n";
-        }
-        text += "\n"+player.GetStateString();
-        itemTag.text = text;
-    }
-    /*void SpawnPlayerAndCamera()
-    {
-        
-        if (GameObject.FindWithTag("Player") == null)
-        {
-            Debug.Log("player");
-            player=Instantiate(playerPrefab).GetComponent<PlayerController>();
+            playerStatusText.text = player.GetStateString();
         }
 
-        if (Camera.main == null)
+        // アイテムの表示
+        if (itemTag != null)
         {
-            Instantiate(cameraPrefab);
+            string text = "Item:\n";
+            var sortedTagCounts = tagCounts.OrderBy(kv => kv.Key);
+            foreach (var kvp in sortedTagCounts)
+            {
+                string tag = kvp.Key;
+                string count = kvp.Value.ToString();
+                text += tag + " " + count + "\n";
+            }
+            itemTag.text = text;
         }
-    }*/
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        //SpawnPlayerAndCamera();
-        FindPlayer();
-        
-    }
-    void FindPlayer()
-    {
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 }
