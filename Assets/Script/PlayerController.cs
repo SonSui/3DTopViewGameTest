@@ -16,6 +16,13 @@ public class PlayerController : MonoBehaviour
     private float attackInterval = 1.2f;
     private float preAttackTime = 10f;
 
+    CameraFollow camera1;
+    Transform cameraTransform;
+
+    GameManager gameManager = GameManager.Instance;
+    AbilityManager abilityManager = AbilityManager.Instance;
+
+
     //ï®óù
     public float gravity = 20f;
     public float speedJump = 8f;
@@ -31,7 +38,7 @@ public class PlayerController : MonoBehaviour
     public float pointDistance = 0.1f;
     private Vector3 lastPosition;*/
 
-    Transform cameraTransform;
+    
 
     public struct playerState
     {
@@ -57,6 +64,14 @@ public class PlayerController : MonoBehaviour
             this.damage += damage;
             this.crit += crit;
         }
+        public void SetState(int life, float speed, int damage, float crit,bool explo)
+        {
+            this.life += life;
+            this.speed += speed;
+            this.damage += damage;
+            this.crit += crit;
+            this.isExplo = explo;
+        }
         public void UpdateAblitiy(bool explo)
         {
             this.isExplo = explo;
@@ -80,7 +95,7 @@ public class PlayerController : MonoBehaviour
             return st;
         }
     };
-    public playerState state;
+    public playerState state,finalState;
 
     //ä™Ç´ñﬂÇ∑ïœêî
     private int bufferSize = 180;
@@ -91,16 +106,24 @@ public class PlayerController : MonoBehaviour
     private bool isRewinding = false;
 
     public Text currentBuffer;
-    public CameraFollow camera1;
+    
 
     void Start()
     {
-        cameraTransform = Camera.main != null ? Camera.main.transform : null;
+        cameraTransform = gameManager.GetCamera().transform;
         if (cameraTransform == null)
         {
             Debug.Log("Camera not found in the scene.");
         }
-        Application.targetFrameRate = 60;
+        else
+        {
+            camera1=cameraTransform.GetComponent<CameraFollow>();
+            if (camera1 == null)
+            {
+                Debug.Log("Camera don't have CameraFollow Script");
+            }
+        }
+        
 
         snapshots = new CircularBuffer<TimeSnapShot>(bufferSize);
 
@@ -108,14 +131,10 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         charaRotationOri = transform.eulerAngles;
 
-
         state = new playerState(0,0f,0,0f);
 
 
-        if (camera1 == null)
-        {
-            Debug.Log("There is no Camera");
-        }
+        
 
         //ÉâÉCÉì
         /*lineRenderer = GetComponent<LineRenderer>();
@@ -189,7 +208,7 @@ public class PlayerController : MonoBehaviour
             yDirection -= gravity * Time.deltaTime;
 
             // à⁄ìÆë¨ìxÇ∆ï˚å¸
-            moveDirection = horizontalMove * (this.state.speed+defSpeed);
+            moveDirection = horizontalMove * (finalState.speed);
             moveDirection.y = yDirection;
 
             // à⁄ìÆ
@@ -226,17 +245,14 @@ public class PlayerController : MonoBehaviour
     public string GetStateString()
     {
         string st;
-        int life = state.life + defLife;
-        float speed = state.speed+defSpeed;
-        int damage = state.damage+defDmg;
-        float crit = state.crit+defCrit;
+        CaculateFinalState();
 
         st = "Player State:\n" +
-            "life:" + life.ToString() + "\n" +
-            "speed:" + speed.ToString() + "\n" +
-            "damage:" + damage.ToString() + "\n" +
-            "critical:" + crit.ToString() + "\n" +
-            "exploAbility:" + state.isExplo.ToString() + "\n";
+            "life:" + finalState.life.ToString() + "\n" +
+            "speed:" + finalState.speed.ToString() + "\n" +
+            "damage:" + finalState.damage.ToString() + "\n" +
+            "critical:" + finalState.crit.ToString() + "\n" +
+            "exploAbility:" + finalState.isExplo.ToString() + "\n";
 
         return st;
     }
@@ -251,10 +267,10 @@ public class PlayerController : MonoBehaviour
         attack attackScript = hit.GetComponent<attack>();
         if (attackScript != null)
         {
-            int attackDamage = state.damage + defDmg;
-            float cirtRate = (state.crit + defCrit) / 100f;
+            int attackDamage = finalState.damage;
+            float cirtRate = finalState.crit / 100f;
             bool isCriticalHit = (Random.Range(0f,1f) < cirtRate);
-            attackScript.Initialize(attackDamage, isCriticalHit,state.isExplo);
+            attackScript.Initialize(attackDamage, isCriticalHit,finalState.isExplo);
             hit.SetActive(false);
             hit.transform.SetParent(transform);
             StartCoroutine(EnableAttackAfterDelay(hit));
@@ -268,6 +284,19 @@ public class PlayerController : MonoBehaviour
 
         
         at.SetActive(true);
+    }
+
+    public void CaculateFinalState()
+    {
+        finalState = state;
+        finalState.damage += defDmg;
+        finalState.crit += defCrit;
+        finalState.speed += defSpeed;
+        finalState.life += defLife;
+    }
+    public void SetFinalState(int life, float speed, int damage, float crit, bool explo)
+    {
+        finalState.SetState(life, speed, damage, crit, explo);
     }
     
 
