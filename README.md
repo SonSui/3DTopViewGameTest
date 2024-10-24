@@ -14,7 +14,7 @@
 
 >R　時間を巻き戻す
 
->F攻撃
+>F　攻撃
 
 **テスト用データ管理機能：**
 
@@ -23,4 +23,9 @@
 >画面の右はキャラのパラメータ、InputFiledに入力して変わられる
 
 >キャラのパラメータの下は拾った装備の効果のまとめ
+**キャラクター：**
+>Unityちゃん　ver 1.4.0　https://unity-chan.com/
+**アニメーション：**
+>Unityちゃんver 1.4.0　https://unity-chan.com/
+>Mixamo https://www.mixamo.com/
 
