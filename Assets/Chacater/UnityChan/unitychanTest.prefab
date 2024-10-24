@@ -2038,7 +2038,6 @@ GameObject:
   - component: {fileID: 8006668945491497447}
   - component: {fileID: 7820540901582606462}
   - component: {fileID: 519851583045689834}
-  - component: {fileID: 5184477162649807415}
   - component: {fileID: 9191846979595292821}
   - component: {fileID: 264373518286885910}
   - component: {fileID: 4683523402373999475}
@@ -2105,30 +2104,10 @@ MonoBehaviour:
   hitbox: {fileID: 7640618496599304812, guid: 30ae77700bd4d0446b93244032ea7de4, type: 3}
   gravity: 20
   speedJump: 8
-  defSpeed: 5
   defLife: 3
   defDmg: 1
   defCrit: 0
   currentBuffer: {fileID: 7763676367401465105, guid: 231874d9b8199bb46b3cfc6221e3cee1, type: 3}
---- !u!114 &5184477162649807415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2713371084724560235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 929c642a6c59ffc448b52cb2ecf9b210, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityTagDefinitions:
-  - {fileID: 11400000, guid: 7793fa7f3703bc9419d43119518a28f7, type: 2}
-  - {fileID: 11400000, guid: 710dd0358492795438ddcdae0e666417, type: 2}
-  - {fileID: 11400000, guid: 3112487218c36834bb5cf5b14ea4c3cd, type: 2}
-  - {fileID: 11400000, guid: e700e9ae90a23594abe13442fd66d48c, type: 2}
-  uiCanvasPrefab: {fileID: 4654991688287056197, guid: f41356f6469f1904bb207983fa139ac3, type: 3}
-  player: {fileID: 519851583045689834}
 --- !u!114 &9191846979595292821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2217,7 +2196,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.6
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08

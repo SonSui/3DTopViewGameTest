@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     public float gravity = 20f;
     public float speedJump = 8f;
 
-    public float defSpeed = 5f;
+    private float defSpeed = 5f;
     public int defLife = 3;
     public int defDmg = 1;
     public float defCrit = 0f;
@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
         charaRotationOri = transform.eulerAngles;
 
         state = new playerState(0,0f,0,0f);
-
+        CaculateFinalState();
 
         
 
@@ -196,11 +196,15 @@ public class PlayerController : MonoBehaviour
                     yDirection = speedJump;
                     animator.SetTrigger("jump");
                 }
-                if (Input.GetKeyDown(KeyCode.F)&&preAttackTime>attackInterval)
+                if (Input.GetKeyDown(KeyCode.F) && preAttackTime > attackInterval) 
                 {
                     animator.SetTrigger("attack");
                     SpawnHitbox();
                     preAttackTime = 0;
+                }
+                if(Input.GetKeyDown(KeyCode.C))
+                {
+                    animator.SetTrigger("dash");
                 }
             }
             preAttackTime += Time.deltaTime;
@@ -270,6 +274,7 @@ public class PlayerController : MonoBehaviour
             int attackDamage = finalState.damage;
             float cirtRate = finalState.crit / 100f;
             bool isCriticalHit = (Random.Range(0f,1f) < cirtRate);
+            if (isCriticalHit) { attackDamage *= 2; }
             attackScript.Initialize(attackDamage, isCriticalHit,finalState.isExplo);
             hit.SetActive(false);
             hit.transform.SetParent(transform);
@@ -282,7 +287,6 @@ public class PlayerController : MonoBehaviour
         
         yield return new WaitForSeconds(attackDelayTime);
 
-        
         at.SetActive(true);
     }
 
