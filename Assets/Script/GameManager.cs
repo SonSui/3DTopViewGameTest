@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
 
         Application.targetFrameRate = 60;
         // プレイヤーの生成
-        player = Instantiate(playerPrefab, defPlayerPos, Quaternion.identity);
+        /*player = Instantiate(playerPrefab, defPlayerPos, Quaternion.identity);
         playerController = player.GetComponent<PlayerController>(); // PlayerControllerスクリプトを取得
         if (abilityManager != null)
         {
@@ -71,7 +72,51 @@ public class GameManager : MonoBehaviour
         camera1.transform.Rotate(0, defCameraRot.y, 0);
 
         // カメラがプレイヤーを追従するように設定
-        cameraFollow.SetTarget(player.transform);
+        cameraFollow.SetTarget(player.transform);*/
+    }
+
+    public bool SpawnPlayer()
+    {
+        if (player == null)
+        {
+            player = Instantiate(playerPrefab, defPlayerPos, Quaternion.identity);
+            playerController = player.GetComponent<PlayerController>();
+            if (abilityManager != null)
+            {
+                abilityManager.player = playerController;
+            }
+            else
+            {
+                abilityManager = FindObjectOfType<AbilityManager>();
+                if (abilityManager == null)
+                {
+                    Debug.Log("AbilityManger が見つけません");
+                    return false;
+                }
+                abilityManager.player = playerController;
+            }
+        }
+        return true;
+    }
+    public bool SpawnCamera()
+    {
+        if(camera1==null)
+        {
+            Vector3 cameraPosition = player.transform.position + defCameraPos; // プレイヤーの相対位置に配置
+                                                                               //Quaternion cameraRotation = Quaternion.Euler(defCameraRot); // カメラの角度を設定
+
+            // カメラのインスタンス化
+            camera1 = Instantiate(cameraPrefab, cameraPosition, Quaternion.identity);
+            cameraFollow = camera1.GetComponent<CameraFollow>(); // CameraFollowスクリプトを取得
+
+            // カメラの初期回転を再設定
+            camera1.transform.Rotate(defCameraRot.x, 0, 0);
+            camera1.transform.Rotate(0, defCameraRot.y, 0);
+
+            // カメラがプレイヤーを追従するように設定
+            cameraFollow.SetTarget(player.transform);
+        }
+        return false;
     }
 
     public GameObject GetPlayer()
@@ -82,4 +127,19 @@ public class GameManager : MonoBehaviour
     { 
         return camera1; 
     }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnSceneLoaded(Scene scene,LoadSceneMode loadSceneMode)
+    {
+        SpawnPlayer();
+        SpawnCamera();
+    }
+
+
 }

@@ -10,6 +10,7 @@ public class EnemyA1 : MonoBehaviour
 
     private Material oriMaterial;
     private Material temMaterial;
+    int hp = 100;
     void Start()
     {
         Renderer renderer = GetComponent<Renderer>();
@@ -17,11 +18,18 @@ public class EnemyA1 : MonoBehaviour
         temMaterial = new Material(oriMaterial);
 
     }
+    private void Update()
+    {
+        if (hp < 0) {
+            Destroy(gameObject);
+        }
+    }
 
 
     //Œ‚‚½‚ê‚é‚Æ0.1•bŠÔÔ‚­‚È‚é
-    public void OnHit()
+    public void OnHit(int dmg)
     {
+        hp -= dmg;
         StartCoroutine(ChangeColorTemporarily());
     }
     private IEnumerator ChangeColorTemporarily()

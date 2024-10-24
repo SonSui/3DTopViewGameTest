@@ -74,7 +74,7 @@ public class attack : MonoBehaviour
         Debug.Log("Box:crit:" + isCritical.ToString() + " expl:" + isExpl.ToString());
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<EnemyA1>().OnHit();
+            other.gameObject.GetComponent<EnemyA1>().OnHit(damage);
             if(isCritical&&isExpl)
             {
                 Debug.Log("Explo");

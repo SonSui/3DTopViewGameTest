@@ -71,7 +71,7 @@ public class CameraFollow : MonoBehaviour
         {
             // CanvasのPrefabをインスタンス化
             GameObject uiCanvasInstance = Instantiate(uiCanvasPrefab);
-            DontDestroyOnLoad(uiCanvasInstance); // シーン遷移時に削除されないように設定
+            
 
             // カメラ状態を表示するTextを取得
             cameraStatusText = uiCanvasInstance.GetComponentInChildren<Text>();
@@ -137,7 +137,7 @@ public class CameraFollow : MonoBehaviour
         if (posXSlider != null && posYSlider != null && posZSlider != null)
         {
             Vector3 newPosition = new Vector3(posXSlider.value, posYSlider.value, posZSlider.value);
-            offset = newPosition - target.position;
+            offset = newPosition;
             UpdateCameraStatusText();
         }
     }
