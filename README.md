@@ -30,8 +30,8 @@
 
 **アニメーション：**
 
->Unityちゃんver 1.4.0　https://unity-chan.com/
+>Unityちゃんver　1.4.0　https://unity-chan.com/
 
->Mixamo https://www.mixamo.com/
+>Mixamo　https://www.mixamo.com/
 
 
