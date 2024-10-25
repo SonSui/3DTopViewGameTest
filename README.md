@@ -32,7 +32,7 @@ Unity 2022.2.9f1
 
 **アニメーション：**
 
->Unityちゃんver　1.4.0　https://unity-chan.com/
+>Unityちゃん　ver 1.4.0　https://unity-chan.com/
 
 >Mixamo　https://www.mixamo.com/
 
