@@ -1,3 +1,5 @@
+Unity 2022.2.9f1
+
 シーン：Assets/Scenes/SampleScene2.unity
 
 プレイヤーが装備を集めて徐々に強くなるトップビューのアクションゲーム。
