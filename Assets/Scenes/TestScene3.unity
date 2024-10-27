@@ -656,7 +656,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3112487218c36834bb5cf5b14ea4c3cd, type: 2}
   - {fileID: 11400000, guid: e700e9ae90a23594abe13442fd66d48c, type: 2}
   uiCanvasPrefab: {fileID: 4654991688287056197, guid: f41356f6469f1904bb207983fa139ac3, type: 3}
-  player: {fileID: 0}
+  player: {fileID: 4282236735405365867, guid: 214f1e871dfa37e49b2ae4d0a4790ca9, type: 3}
 --- !u!114 &1534545132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,7 +669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41ec68cdc447f347a464b2181e9fcea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 2713371084724560235, guid: bcad9fedfb1761d4bb253933591eb020, type: 3}
+  playerPrefab: {fileID: 100096, guid: 214f1e871dfa37e49b2ae4d0a4790ca9, type: 3}
   cameraPrefab: {fileID: 599872801043323770, guid: 16f3c8519e5e4914baa169a8c7c1fe86, type: 3}
   abilityManager: {fileID: 0}
   defPlayerPos: {x: 0, y: 0, z: 0}

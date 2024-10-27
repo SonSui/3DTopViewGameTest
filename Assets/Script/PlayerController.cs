@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     public float pointDistance = 0.1f;
     private Vector3 lastPosition;*/
 
-    
+
 
     public struct playerState
     {
@@ -49,13 +49,21 @@ public class PlayerController : MonoBehaviour
         public float crit;
 
         public bool isExplo;
-        public playerState (int life, float speed, int damage,float crit)
+        public playerState(int life, float speed, int damage, float crit)
         {
-            this.life= life;
-            this.speed= speed;
-            this.damage= damage;
-            this.crit= crit;
-            this.isExplo= false;
+            this.life = life;
+            this.speed = speed;
+            this.damage = damage;
+            this.crit = crit;
+            this.isExplo = false;
+        }
+        public void SetFullState(int life, float speed, int damage, float crit, bool explo)
+        {
+            this.life = life;
+            this.speed = speed;
+            this.damage = damage;
+            this.crit = crit;
+            this.isExplo = explo;
         }
         public void UpdateState(int life, float speed, int damage, float crit)
         {
@@ -64,14 +72,7 @@ public class PlayerController : MonoBehaviour
             this.damage += damage;
             this.crit += crit;
         }
-        public void SetState(int life, float speed, int damage, float crit,bool explo)
-        {
-            this.life += life;
-            this.speed += speed;
-            this.damage += damage;
-            this.crit += crit;
-            this.isExplo = explo;
-        }
+
         public void UpdateAblitiy(bool explo)
         {
             this.isExplo = explo;
@@ -82,6 +83,10 @@ public class PlayerController : MonoBehaviour
             this.speed = 0;
             this.damage = 0;
             this.crit = 0;
+        }
+        public void ResetAbility()
+        {
+            this.isExplo = false;
         }
         public string ShowState()
         {
@@ -300,7 +305,7 @@ public class PlayerController : MonoBehaviour
     }
     public void SetFinalState(int life, float speed, int damage, float crit, bool explo)
     {
-        finalState.SetState(life, speed, damage, crit, explo);
+        finalState.SetFullState(life, speed, damage, crit, explo);
     }
     
 

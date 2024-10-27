@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour
     private CameraFollow cameraFollow;
 
     public Vector3 defPlayerPos = new Vector3(0, 0, 0);
-    public Vector3 defCameraPos = new Vector3(0, 8, -5);
-    public Vector3 defCameraRot = new Vector3(45, 0, 0);
+    public Vector3 defCameraPos = new Vector3(5, 5, -5);
+    public Vector3 defCameraRot = new Vector3(45, -45, 0);
     private void Awake()
     {
         // シングルトンパターンの実装：GameManagerが1つしか存在しないようにする
@@ -102,16 +102,18 @@ public class GameManager : MonoBehaviour
     {
         if(camera1==null)
         {
-            Vector3 cameraPosition = player.transform.position + defCameraPos; // プレイヤーの相対位置に配置
-                                                                               //Quaternion cameraRotation = Quaternion.Euler(defCameraRot); // カメラの角度を設定
+            Vector3 cameraPosition = defPlayerPos + defCameraPos; // プレイヤーの相対位置に配置
+            Quaternion cameraRotation = Quaternion.Euler(defCameraRot); // カメラの角度を設定
 
             // カメラのインスタンス化
-            camera1 = Instantiate(cameraPrefab, cameraPosition, Quaternion.identity);
+            camera1 = Instantiate(cameraPrefab);
             cameraFollow = camera1.GetComponent<CameraFollow>(); // CameraFollowスクリプトを取得
 
+            camera1.transform.position = cameraPosition;
+            camera1.transform.rotation = cameraRotation;
             // カメラの初期回転を再設定
-            camera1.transform.Rotate(defCameraRot.x, 0, 0);
-            camera1.transform.Rotate(0, defCameraRot.y, 0);
+            //camera1.transform.Rotate(defCameraRot.x, 0, 0);
+            //camera1.transform.Rotate(0, defCameraRot.y, 0);
 
             // カメラがプレイヤーを追従するように設定
             cameraFollow.SetTarget(player.transform);
