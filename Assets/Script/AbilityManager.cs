@@ -22,6 +22,7 @@ public class AbilityManager : MonoBehaviour
 
     // UI関連
     public GameObject uiCanvasPrefab; // プレイヤーが用意したCanvasのPrefab
+    private GameObject parameterUI;
     private Text playerStatusText;    // プレイヤー状態表示用のText
     private Text itemTag;             // アイテム表示用のText
     private InputField[] inputFields; // プレイヤー状態編集用のInputField
@@ -53,6 +54,13 @@ public class AbilityManager : MonoBehaviour
         SetupUI();
         Update_UI(); // UIの初期状態を更新
     }
+    public void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            SwitchParameterUI();
+        }
+    }
 
     // プレイヤーの生成を待つコルーチン
     private IEnumerator WaitForPlayer()
@@ -71,22 +79,37 @@ public class AbilityManager : MonoBehaviour
         Update_UI(); // プレイヤーが見つかったらUIを更新
     }
 
+
+    private void SwitchParameterUI()
+    {
+        if (parameterUI.activeInHierarchy)
+        {
+            parameterUI.SetActive(false);
+        }
+        else
+        {
+            parameterUI.SetActive(true);
+            Update_UI();
+        }
+    }
+
+
     // UIの初期設定
     private void SetupUI()
     {
         // CanvasのPrefabをインスタンス化
         if (uiCanvasPrefab != null)
         {
-            GameObject uiCanvasInstance = Instantiate(uiCanvasPrefab);
-            DontDestroyOnLoad(uiCanvasInstance); // シーン遷移時に削除されないように設定
+            parameterUI = Instantiate(uiCanvasPrefab);
+            DontDestroyOnLoad(parameterUI); // シーン遷移時に削除されないように設定
 
             // プレイヤー状態表示用のTextを取得
-            Transform statusTextTransform = uiCanvasInstance.transform.Find("PlayerStatusText");
+            Transform statusTextTransform = parameterUI.transform.Find("PlayerStatusText");
             if (statusTextTransform != null)
                 playerStatusText = statusTextTransform.GetComponent<Text>();
 
             // アイテム表示用のTextを取得
-            Transform itemTagTransform = uiCanvasInstance.transform.Find("ItemTagText");
+            Transform itemTagTransform = parameterUI.transform.Find("ItemTagText");
             if (itemTagTransform != null)
                 itemTag = itemTagTransform.GetComponent<Text>();
 
@@ -102,6 +125,7 @@ public class AbilityManager : MonoBehaviour
         {
             Debug.LogError("UI Canvas Prefab is not assigned.");
         }
+        parameterUI.SetActive(false);
     }
 
     // InputFieldからプレイヤーの状態を更新

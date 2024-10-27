@@ -8,6 +8,7 @@ public class CameraFollow : MonoBehaviour
 
     // UI要素
     public GameObject uiCanvasPrefab; // CanvasのPrefab
+    private GameObject cameraUI;
     private Text cameraStatusText;    // カメラ状態を表示するText
     private Slider posXSlider;
     private Slider posYSlider;
@@ -51,6 +52,8 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
+
+        //モノクロ更新
         currentAmount = Mathf.Lerp(currentAmount, targetAmount, Time.deltaTime * transitionSpeed);
     }
 
@@ -61,7 +64,33 @@ public class CameraFollow : MonoBehaviour
         {
             transform.position = target.position + offset;
         }
-        
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            SwitchCameraUI();
+        }
+    }
+
+    public void SetOffset(Vector3 pos)
+    {
+        offset = pos;
+    }
+
+    public void SetRotate(Vector3 rot)
+    {
+        transform.Rotate(rot);
+    }
+
+    private void SwitchCameraUI()
+    {
+        if (cameraUI.activeInHierarchy)
+        {
+            cameraUI.SetActive(false);
+        }
+        else
+        {
+            cameraUI.SetActive(true);
+            UpdateSliders ();
+        }
     }
 
     // スライダーの範囲を0から360に拡張
@@ -70,11 +99,11 @@ public class CameraFollow : MonoBehaviour
         if (uiCanvasPrefab != null)
         {
             // CanvasのPrefabをインスタンス化
-            GameObject uiCanvasInstance = Instantiate(uiCanvasPrefab);
+            cameraUI = Instantiate(uiCanvasPrefab);
             
 
             // カメラ状態を表示するTextを取得
-            cameraStatusText = uiCanvasInstance.GetComponentInChildren<Text>();
+            cameraStatusText = cameraUI.GetComponentInChildren<Text>();
             if (cameraStatusText != null)
             {
                 // Textオブジェクトの子オブジェクトからスライダーを取得
@@ -100,6 +129,7 @@ public class CameraFollow : MonoBehaviour
             {
                 Debug.LogError("CameraStatusText not found in the Canvas.");
             }
+            cameraUI.SetActive(false);
         }
         else
         {
@@ -120,13 +150,29 @@ public class CameraFollow : MonoBehaviour
     // カメラの状態に基づいてスライダーを更新
     private void UpdateSliders()
     {
-        if (posXSlider != null) posXSlider.value = transform.position.x;
-        if (posYSlider != null) posYSlider.value = transform.position.y;
-        if (posZSlider != null) posZSlider.value = transform.position.z;
+        //
+        if (posXSlider != null) posXSlider.onValueChanged.RemoveListener(OnPositionSliderChanged);
+        if (posYSlider != null) posYSlider.onValueChanged.RemoveListener(OnPositionSliderChanged);
+        if (posZSlider != null) posZSlider.onValueChanged.RemoveListener(OnPositionSliderChanged);
+        if (rotXSlider != null) rotXSlider.onValueChanged.RemoveListener(OnRotationSliderChanged);
+        if (rotYSlider != null) rotYSlider.onValueChanged.RemoveListener(OnRotationSliderChanged);
+        if (rotZSlider != null) rotZSlider.onValueChanged.RemoveListener(OnRotationSliderChanged);
 
+        // 
+        if (posXSlider != null) posXSlider.value = offset.x;
+        if (posYSlider != null) posYSlider.value = offset.y;
+        if (posZSlider != null) posZSlider.value = offset.z;
         if (rotXSlider != null) rotXSlider.value = transform.eulerAngles.x;
         if (rotYSlider != null) rotYSlider.value = transform.eulerAngles.y;
         if (rotZSlider != null) rotZSlider.value = transform.eulerAngles.z;
+
+        // 
+        if (posXSlider != null) posXSlider.onValueChanged.AddListener(OnPositionSliderChanged);
+        if (posYSlider != null) posYSlider.onValueChanged.AddListener(OnPositionSliderChanged);
+        if (posZSlider != null) posZSlider.onValueChanged.AddListener(OnPositionSliderChanged);
+        if (rotXSlider != null) rotXSlider.onValueChanged.AddListener(OnRotationSliderChanged);
+        if (rotYSlider != null) rotYSlider.onValueChanged.AddListener(OnRotationSliderChanged);
+        if (rotZSlider != null) rotZSlider.onValueChanged.AddListener(OnRotationSliderChanged);
 
         UpdateCameraStatusText();
     }
@@ -173,6 +219,8 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
+
+    //モノクロ
     void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
         monoTone.SetFloat("_GrayScaleAmount", currentAmount);
