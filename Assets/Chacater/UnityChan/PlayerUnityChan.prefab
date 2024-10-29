@@ -2183,7 +2183,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 212b3a957fa7bee41a0bf8c3b14ce293, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2298,11 +2298,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitbox: {fileID: 7640618496599304812, guid: 30ae77700bd4d0446b93244032ea7de4, type: 3}
+  rightHand: {fileID: 100178}
+  rightHandHitbox: {fileID: 0}
+  magicHitbox: {fileID: 0}
+  leftLeg: {fileID: 100058}
+  leftLegHitbox: {fileID: 377503976250653417, guid: 20358bdc7f18cfb47a518b1fd6bf1028, type: 3}
+  bufferTime: 0.2
   gravity: 20
   speedJump: 8
   defLife: 3
   defDmg: 1
   defCrit: 0
+  isRolling: 0
+  rollingTimeMax: 0.5
   currentBuffer: {fileID: 7763676367401465105, guid: 231874d9b8199bb46b3cfc6221e3cee1, type: 3}
 --- !u!1 &100098
 GameObject:

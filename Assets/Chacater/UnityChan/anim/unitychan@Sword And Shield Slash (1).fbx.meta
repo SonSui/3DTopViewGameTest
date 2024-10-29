@@ -82,7 +82,7 @@ ModelImporter:
       firstFrame: 0
       lastFrame: 106
       wrapMode: 0
-      orientationOffsetY: 0
+      orientationOffsetY: -45
       level: -0.8
       cycleOffset: 0
       loop: 0
@@ -99,7 +99,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0
+        functionName: AnimeActStart
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9358178
+        functionName: AnimeActOver
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

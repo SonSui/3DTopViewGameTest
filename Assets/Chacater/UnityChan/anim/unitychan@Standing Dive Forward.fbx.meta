@@ -82,7 +82,7 @@ ModelImporter:
       firstFrame: 0
       lastFrame: 49
       wrapMode: 0
-      orientationOffsetY: 0
+      orientationOffsetY: -45
       level: -0.8
       cycleOffset: 0
       loop: 0
@@ -99,7 +99,28 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.101449266
+        functionName: OnRollingAnime
+        data: 
+        objectReferenceParameter: {fileID: 100096, guid: 214f1e871dfa37e49b2ae4d0a4790ca9, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0
+        functionName: AnimeActStart
+        data: 
+        objectReferenceParameter: {fileID: 100096, guid: 214f1e871dfa37e49b2ae4d0a4790ca9, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.8806073
+        functionName: AnimeActOver
+        data: 
+        objectReferenceParameter: {fileID: 100096, guid: 214f1e871dfa37e49b2ae4d0a4790ca9, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

@@ -11,9 +11,10 @@ public class attack : MonoBehaviour
     public Material genMaterial;
     public float currTime;
     public const float TIME_MAX = 0.2f;
+    private int damage;
     private bool isCritical;
     private bool isExpl;
-    private int damage;
+    
     public GameObject expl;
     
 
