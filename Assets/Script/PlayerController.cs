@@ -11,14 +11,33 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     Vector3 charaRotationOri = Vector3.zero;
 
+    //攻撃
     public GameObject hitbox;
     private float attackDelayTime = 0.3f;
-    private float attackInterval = 1.2f;
-    private float preAttackTime = 10f;
 
+    private int comboStep = 0;
+    private float comboTimer = 0f;
+    private float comboResetTime = 1.0f;
+    private int maxComboStep = 2;
+
+    public GameObject rightHand;
+    public GameObject rightHandHitbox;
+    public GameObject magicHitbox;
+    public GameObject leftLeg;
+    public GameObject leftLegHitbox;
+    /*private float attackInterval = 1.2f;
+    private float preAttackTime = 10f;*/
+
+    //入力バッファ
+    public float bufferTime = 0.2f;
+    private Queue<(KeyCode, float)> inputQueue = new Queue<(KeyCode, float)>();
+    private bool isAnimeOver;
+
+    //カメラ
     CameraFollow camera1;
     Transform cameraTransform;
 
+    //マネージャー
     GameManager gameManager = GameManager.Instance;
     AbilityManager abilityManager = AbilityManager.Instance;
 
@@ -38,6 +57,14 @@ public class PlayerController : MonoBehaviour
     public float pointDistance = 0.1f;
     private Vector3 lastPosition;*/
 
+    //ローリング
+    public bool isRolling;
+    public float rollingTimeMax = 0.5f;
+    private float rollSpeed = 10f;
+
+    private Vector3 rollDirection;
+    private float rollTime;
+    private float rollEndTime;
 
 
     public struct playerState
@@ -100,7 +127,7 @@ public class PlayerController : MonoBehaviour
             return st;
         }
     };
-    public playerState state,finalState;
+    public playerState state, finalState;
 
     //巻き戻す変数
     private int bufferSize = 180;
@@ -111,7 +138,7 @@ public class PlayerController : MonoBehaviour
     private bool isRewinding = false;
 
     public Text currentBuffer;
-    
+
 
     void Start()
     {
@@ -122,24 +149,25 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            camera1=cameraTransform.GetComponent<CameraFollow>();
+            camera1 = cameraTransform.GetComponent<CameraFollow>();
             if (camera1 == null)
             {
                 Debug.Log("Camera don't have CameraFollow Script");
             }
         }
-        
+
 
         snapshots = new CircularBuffer<TimeSnapShot>(bufferSize);
 
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         charaRotationOri = transform.eulerAngles;
+        isAnimeOver = true;
 
-        state = new playerState(0,0f,0,0f);
+        state = new playerState(0, 0f, 0, 0f);
         CaculateFinalState();
 
-        
+
 
         //ライン
         /*lineRenderer = GetComponent<LineRenderer>();
@@ -157,7 +185,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
+       
         if (Input.GetKeyDown(KeyCode.R))
         {
             StartRewind();
@@ -179,6 +207,9 @@ public class PlayerController : MonoBehaviour
             }
             frameCounter++;
 
+            //アニメ状態
+            string animeName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+
             //カメラの角度を確認
             if (cameraTransform == null) return;
             Vector3 forward = new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z).normalized;
@@ -188,15 +219,25 @@ public class PlayerController : MonoBehaviour
             float inputVertical = Input.GetAxis("Vertical");
             float inputHorizontal = Input.GetAxis("Horizontal");
 
-            // 高さ
-            float yDirection = moveDirection.y;
+
 
             // 移動方向を計算
             Vector3 horizontalMove = (forward * inputVertical + right * inputHorizontal).normalized;
 
+            if (comboStep > 0)
+            {
+                comboTimer += Time.deltaTime;
+                if (comboTimer > comboResetTime)
+                {
+                    comboStep = 0;
+                    comboTimer = 0f;
+                    animator.SetInteger("comboStep", comboStep);
+                }
+            }
+
             if (controller.isGrounded)
             {
-                if (Input.GetButton("Jump"))
+                /*if (Input.GetButton("Jump"))
                 {
                     yDirection = speedJump;
                     animator.SetTrigger("jump");
@@ -210,23 +251,28 @@ public class PlayerController : MonoBehaviour
                 if(Input.GetKeyDown(KeyCode.C))
                 {
                     animator.SetTrigger("dash");
-                }
+                }*/
+                if (Input.GetKeyDown(KeyCode.Space)) { AddToInputQueue(KeyCode.Space); }
+                if (Input.GetKeyDown(KeyCode.F)) { AddToInputQueue(KeyCode.F); }
+                if (Input.GetKeyDown(KeyCode.C)) { AddToInputQueue(KeyCode.C); }
+                if ((Input.GetKeyDown(KeyCode.E))) { AddToInputQueue(KeyCode.E); }
+                CheckInputQueue();
             }
-            preAttackTime += Time.deltaTime;
+            //preAttackTime += Time.deltaTime;
             // 重力計算
-            yDirection -= gravity * Time.deltaTime;
+            float yDirection = moveDirection.y - gravity * Time.deltaTime;
 
             // 移動速度と方向
             moveDirection = horizontalMove * (finalState.speed);
             moveDirection.y = yDirection;
 
             // 移動
-            string animeName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-            if (animeName!= "WAIT04"&& animeName != "DAMAGED00")//移動できる状態を確認
-            controller.Move(moveDirection * Time.deltaTime);
+            
+            if (animeName != "WAIT04" && animeName != "DAMAGED00"&&!isRolling && animeName != "Sword And Shield Slash Combp")//移動できる状態を確認
+                controller.Move(moveDirection * Time.deltaTime);
 
             // キャラクターの方向を変更
-            if (horizontalMove.magnitude > 0.1f)
+            if (horizontalMove.magnitude > 0.1f&&!isRolling&&animeName!= "Sword And Shield Slash Combp")
             {
                 transform.forward = horizontalMove;  // 
             }
@@ -248,7 +294,7 @@ public class PlayerController : MonoBehaviour
         currentBuffer.text = snapshots.GetSize().ToString() + "/" + bufferSize.ToString();
 
 
-        
+
     }
 
     public string GetStateString()
@@ -265,9 +311,9 @@ public class PlayerController : MonoBehaviour
 
         return st;
     }
-    void SpawnHitbox()
+    /*void SpawnHitbox()
     {
-        
+
         Vector3 forwardDirection = transform.forward;
 
         Vector3 spawnPosition = transform.position + forwardDirection * 0.5f;
@@ -278,9 +324,9 @@ public class PlayerController : MonoBehaviour
         {
             int attackDamage = finalState.damage;
             float cirtRate = finalState.crit / 100f;
-            bool isCriticalHit = (Random.Range(0f,1f) < cirtRate);
+            bool isCriticalHit = (Random.Range(0f, 1f) < cirtRate);
             if (isCriticalHit) { attackDamage *= 2; }
-            attackScript.Initialize(attackDamage, isCriticalHit,finalState.isExplo);
+            attackScript.Initialize(attackDamage, isCriticalHit, finalState.isExplo);
             hit.SetActive(false);
             hit.transform.SetParent(transform);
             StartCoroutine(EnableAttackAfterDelay(hit));
@@ -289,11 +335,59 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator EnableAttackAfterDelay(GameObject at)
     {
-        
+
         yield return new WaitForSeconds(attackDelayTime);
 
         at.SetActive(true);
+    }*/
+
+    public void SpawnLeftLegHitbox()
+    {
+        if (leftLegHitbox != null)
+        {
+            
+            Vector3 spawnPosition = leftLeg.transform.position;
+
+            GameObject hit = Instantiate(leftLegHitbox, spawnPosition,Quaternion.identity);
+            LeftLegHitbox attackScript = hit.GetComponent<LeftLegHitbox>();
+            if (attackScript != null)
+            {
+                int attackDamage = finalState.damage;
+                float cirtRate = finalState.crit / 100f;
+                bool isCriticalHit = (Random.Range(0f, 1f) < cirtRate);
+                if (isCriticalHit) { attackDamage *= 2; }
+                attackScript.Initialize(attackDamage, isCriticalHit);
+                hit.transform.SetParent(leftLeg.transform);
+                
+            }
+        }
     }
+
+    public void OnRollingAnime()
+    {
+        Debug.Log("Anime Test Rolling");
+    }
+    private void StartRolling()
+    {
+        StartCoroutine(Roll());
+    }
+    private IEnumerator Roll()
+    {
+        isRolling = true;
+        rollDirection = transform.forward; 
+        rollEndTime = Time.time + rollingTimeMax;
+        Debug.Log("Start Rolling");
+        while (Time.time < rollEndTime)
+        {
+
+            controller.Move(rollDirection * rollSpeed * Time.deltaTime);
+            Debug.Log(rollDirection);
+            yield return null;
+        }
+
+        isRolling = false;
+    }
+
 
     public void CaculateFinalState()
     {
@@ -307,7 +401,81 @@ public class PlayerController : MonoBehaviour
     {
         finalState.SetFullState(life, speed, damage, crit, explo);
     }
-    
+
+    private void AddToInputQueue(KeyCode key)
+    {
+        inputQueue.Enqueue((key, Time.time + bufferTime));
+    }
+
+    private void CheckInputQueue()
+    {
+        if (inputQueue.Count <= 0) return;
+        while (inputQueue.Peek().Item2 < Time.time) 
+        {
+            inputQueue.Dequeue();
+            if (inputQueue.Count == 0) return;
+        }
+
+        if (inputQueue.Count <= 0) return;
+        if (CanPerformNextAction(inputQueue.Peek().Item1))
+        {
+            KeyCode nextInput = inputQueue.Dequeue().Item1;
+            PerformAction(nextInput);
+        }
+    }
+    private bool CanPerformNextAction(KeyCode key)
+    {
+        if(key == KeyCode.C)
+        {
+            string animeName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+            if (animeName != "DAMAGED00") return true;
+        }
+        return isAnimeOver; 
+    }
+    private void PerformAction(KeyCode input)
+    {
+        
+        switch (input)
+        {
+            
+            case KeyCode.Space:
+                Debug.Log("Jump");
+                animator.SetTrigger("jump");
+                moveDirection.y = speedJump;
+                break;
+            case KeyCode.F:
+                Debug.Log("attack");
+                comboTimer = 0f;
+                comboStep++;
+                comboStep = comboStep > maxComboStep ? maxComboStep : comboStep;
+                animator.SetInteger("comboStep", comboStep);
+                //SpawnHitbox();
+                break;
+            case KeyCode.E:
+                Debug.Log("magic");
+                animator.SetTrigger("magicAttack");
+                break;
+            case KeyCode.C:
+                
+                if (!isRolling)
+                {
+                    Debug.Log("rolling");
+                    animator.SetTrigger("dash");
+                    StartRolling();
+                }
+                break;
+        }
+    }
+    public void AnimeActStart()
+    {
+        isAnimeOver = false;
+        Debug.Log("AnimeActStart");
+    }
+    public void AnimeActOver()
+    {
+        isAnimeOver = true;
+        Debug.Log("AnimeActOver");
+    }
 
 
 
@@ -319,7 +487,7 @@ public class PlayerController : MonoBehaviour
 
 
     //-------------------巻き戻す機能-------------------
-
+    //---------------------開発中止---------------------
     void RecordSnapshot()
     {
         //記録
