@@ -1,4 +1,4 @@
-Unity 2022.2.9f1
+ツール：Unity 2022.2.9f1
 
 シーン：Assets/Scenes/SampleScene2.unity
 
