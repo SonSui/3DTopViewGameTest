@@ -81,10 +81,11 @@ namespace UnityChan
 		
 			// 以下、キャラクターの移動処理
 			velocity = new Vector3 (0, 0, v);		// 上下のキー入力からZ軸方向の移動量を取得
-			// キャラクターのローカル空間での方向に変換
-			velocity = transform.TransformDirection (velocity);
+			
+			velocity = transform.TransformDirection (velocity);// キャラクターのローカル空間での方向に変換
+            
 			//以下のvの閾値は、Mecanim側のトランジションと一緒に調整する
-			if (v > 0.1) {
+            if (v > 0.1) {
 				velocity *= forwardSpeed;		// 移動速度を掛ける
 			} else if (v < -0.1) {
 				velocity *= backwardSpeed;	// 移動速度を掛ける
