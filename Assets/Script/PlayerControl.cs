@@ -87,7 +87,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     void Update()
-    {/*
+    {
         //アニメ状態
         string animeName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
@@ -97,7 +97,7 @@ public class PlayerControl : MonoBehaviour
         Vector3 right = new Vector3(cameraTransform.right.x, 0, cameraTransform.right.z).normalized;
 
         // 移動方向を計算
-        Vector3 horizontalMove = (forward * inputMove.x + right * inputMove.y).normalized;
+        Vector3 horizontalMove = (forward * inputMove.y + right * inputMove.x).normalized;
         // 重力計算
         float yDirection = moveDirection.y - gravity * Time.deltaTime;
 
@@ -106,9 +106,8 @@ public class PlayerControl : MonoBehaviour
         moveDirection.y = yDirection;
 
         controller.Move(moveDirection * Time.deltaTime);
-        transform.forward = horizontalMove;*/
-        Vector3 m = new Vector3(inputMove.x,0,inputMove.y);
-        controller.Move(m * Time.deltaTime * currSpeed);
+        transform.forward = horizontalMove;
+        animator.SetFloat("MoveSpeed", horizontalMove.magnitude);
     }
 
 
