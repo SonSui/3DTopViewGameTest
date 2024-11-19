@@ -36,8 +36,10 @@ public class PlayerControl : MonoBehaviour
     public GameObject rightHand;
     public GameObject rightHandHitbox;
     public GameObject bulletHitbox;
+    public GameObject gun;
     public GameObject leftLeg;
     public GameObject leftLegHitbox;
+
 
     //入力バッファ
     public float bufferTime = 0.4f;
@@ -83,15 +85,27 @@ public class PlayerControl : MonoBehaviour
             Animator.StringToHash("GreatSwordRound"),
             Animator.StringToHash("GreatSwordKick")
         };
-        shootAttack = new HashSet<int> { Animator.StringToHash("Gun") };
+        shootAttack = new HashSet<int> 
+        { 
+            Animator.StringToHash("Gun") 
+        };
         idleAct = new HashSet<int>
         {
             Animator.StringToHash("Idle"),
             Animator.StringToHash("T-Pose")
         };
-        runAct = new HashSet<int> { Animator.StringToHash("Running") };
-        dashAct = new HashSet<int> { Animator.StringToHash("Dash") };
-        inpactAct = new HashSet<int> { Animator.StringToHash("Inpact") };
+        runAct = new HashSet<int> 
+        { 
+            Animator.StringToHash("Running") 
+        };
+        dashAct = new HashSet<int> 
+        { 
+            Animator.StringToHash("Dash") 
+        };
+        inpactAct = new HashSet<int> 
+        { 
+            Animator.StringToHash("Inpact") 
+        };
 
 
         controller = GetComponent<CharacterController>();
@@ -157,9 +171,6 @@ public class PlayerControl : MonoBehaviour
         
         CheckInputQueue();
 
-
-
-
     }
 
     void UpdateCombo()
@@ -171,6 +182,12 @@ public class PlayerControl : MonoBehaviour
             comboTimer = 0f;
             animator.SetInteger("ComboStep", comboStep);
         }
+    }
+
+    public void ResetAttack1Combo()
+    {
+        comboStep = 0;
+        animator.SetInteger("ComboStep", comboStep);
     }
 
     public void SetMoveSpeed(float speed)
@@ -275,7 +292,7 @@ public class PlayerControl : MonoBehaviour
                 break;
         }
     }
-    public void StartDashing()
+    public void StartDashing()//アニメーションで呼ぶ
     {
         if (isDashingEventTriggered)
         {
@@ -290,7 +307,7 @@ public class PlayerControl : MonoBehaviour
     {
         isDashingEventTriggered = false;
     }
-    private IEnumerator Dashing()
+    private IEnumerator Dashing()//コルーチンでダッシュ処理
     {
         isDashing = true;
         dashDirection = transform.forward;
@@ -307,6 +324,9 @@ public class PlayerControl : MonoBehaviour
 
         isDashing = false;
     }
+
+
+    //アニメーション状態確認関数
     private bool IsInAttack1State()
     {
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
@@ -345,5 +365,26 @@ public class PlayerControl : MonoBehaviour
     private bool IsRotatable()
     {
         return !(IsInDashState() || IsInAttack1State()||IsInInpactState()||IsInAttack2State());
+    }
+
+    public void SpawnSwordHitbox()
+    {
+        int dmg = 2;
+        if (rightHandHitbox != null)
+        {
+
+            Vector3 spawnPosition = rightHand.transform.position;
+            Quaternion spawnRotation = rightHand.transform.rotation;
+
+            GameObject hit = Instantiate(rightHandHitbox, spawnPosition, spawnRotation);
+            Hitbox_Sword attackScript = hit.GetComponent<Hitbox_Sword>();
+            if (attackScript != null)
+            {
+                
+                attackScript.Initialize(dmg);
+                hit.transform.SetParent(rightHand.transform);
+
+            }
+        }
     }
 }
