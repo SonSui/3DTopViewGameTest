@@ -277,13 +277,13 @@ public class PlayerController : MonoBehaviour
             if (animeName != "WAIT04" && animeName != "DAMAGED00"&&!isRolling && animeName != "Sword And Shield Slash Combp")//移動できる状態を確認
                 controller.Move(moveDirection * Time.deltaTime);
 
-            ////////キャラクターの方向をマウスの方向に変更（移動しない時のみ）
+            /*////////キャラクターの方向をマウスの方向に変更（移動しない時のみ）
             Vector3 m_pos = Input.mousePosition;
             Vector3 player_pos = Camera.main.WorldToScreenPoint(transform.position);
             m_pos.z= player_pos.z;
             ms_world = Camera.main.ScreenToWorldPoint(m_pos);
             ms_world.y = transform.position.y;
-            transform.LookAt(ms_world);
+            transform.LookAt(ms_world);*/
 
 
 
