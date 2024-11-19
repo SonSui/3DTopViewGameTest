@@ -25,7 +25,7 @@
                 },
                 {
                     "name": "Attack1",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "4856ae10-296a-448f-909c-9d9894095228",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -55,7 +55,7 @@
                 {
                     "name": "",
                     "id": "b9572d49-30c6-464e-8f66-77880498ed6f",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -231,7 +231,7 @@
                 {
                     "name": "2D Vector",
                     "id": "e12ad6ca-a673-4370-a1f3-0ad44df8a3f1",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -253,7 +253,7 @@
                 {
                     "name": "down",
                     "id": "c4ace6fe-04ba-4e97-ba10-d310feeda6a7",
-                    "path": "<Gamepad>/leftStick/down",
+                    "path": "<Gamepad>/rightStick/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -264,7 +264,7 @@
                 {
                     "name": "left",
                     "id": "e12a55cd-a11a-450f-8303-c91e4234c20d",
-                    "path": "<Gamepad>/leftStick/left",
+                    "path": "<Gamepad>/rightStick/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -275,7 +275,7 @@
                 {
                     "name": "right",
                     "id": "77a755b8-3b89-43bc-a2e6-bd2429345949",
-                    "path": "<Gamepad>/leftStick/right",
+                    "path": "<Gamepad>/rightStick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

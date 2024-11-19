@@ -5,7 +5,9 @@ using UnityEngine;
 public class CharacterStatus : MonoBehaviour
 {
     [SerializeField]
-    public int life;
+    public  int life;
+    public int attackPoint;
+
     public float speed;
     public int damage;
     public float crit;

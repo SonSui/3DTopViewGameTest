@@ -33,13 +33,13 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Great Sword Kick
+      name: GreatSwordKick
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
       lastFrame: 52
       wrapMode: 0
-      orientationOffsetY: 0
+      orientationOffsetY: -15
       level: 0
       cycleOffset: 0
       loop: 0

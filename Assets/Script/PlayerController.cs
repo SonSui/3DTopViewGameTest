@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,11 @@ public class PlayerController : MonoBehaviour
 
     Vector3 moveDirection = Vector3.zero;
     Vector3 charaRotationOri = Vector3.zero;
+
+
+
+    Vector3 ms_world;
+
 
     //攻撃
     public GameObject hitbox;
@@ -271,10 +277,20 @@ public class PlayerController : MonoBehaviour
             if (animeName != "WAIT04" && animeName != "DAMAGED00"&&!isRolling && animeName != "Sword And Shield Slash Combp")//移動できる状態を確認
                 controller.Move(moveDirection * Time.deltaTime);
 
+            /*////////キャラクターの方向をマウスの方向に変更（移動しない時のみ）
+            Vector3 m_pos = Input.mousePosition;
+            Vector3 player_pos = Camera.main.WorldToScreenPoint(transform.position);
+            m_pos.z= player_pos.z;
+            ms_world = Camera.main.ScreenToWorldPoint(m_pos);
+            ms_world.y = transform.position.y;
+            transform.LookAt(ms_world);*/
+
+
+
             // キャラクターの方向を変更
             if (horizontalMove.magnitude > 0.1f&&!isRolling&&animeName!= "Sword And Shield Slash Combp")
             {
-                transform.forward = horizontalMove;  // 
+                transform.forward = horizontalMove; 
             }
 
             //ランニングアニメ

@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
     // GameManagerのインスタンスを保持する静的変数
     public static GameManager Instance { get; private set; }
 
+    public CharacterStatus defStatus;
+    private CharacterStatus currStatus;
+    private CharacterStatus maxStatus;
+
     // プレイヤーとカメラのPrefab
     public GameObject playerPrefab;
     public GameObject cameraPrefab;
