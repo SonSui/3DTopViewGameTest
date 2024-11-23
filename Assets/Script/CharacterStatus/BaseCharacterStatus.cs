@@ -71,7 +71,7 @@ public abstract class BaseCharacterStatus : MonoBehaviour
         float moveSpeed = 1.0f,
         float attackSpeed = 1.0f,
         float attackRange = 1.0f,
-        float evasionRate = 0.05f
+        float evasionRate = 0.0f
     )
     {
         // Šî–{‘®«‚Ì‰Šú‰»
