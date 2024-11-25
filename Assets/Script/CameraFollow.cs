@@ -6,6 +6,8 @@ public class CameraFollow : MonoBehaviour
     public Transform target;
     public Vector3 offset;
 
+    public float smoothTime = 0.1f;
+
     // UIóvëf
     public GameObject uiCanvasPrefab; // CanvasÇÃPrefab
     private GameObject cameraUI;
@@ -62,9 +64,11 @@ public class CameraFollow : MonoBehaviour
         // ÉLÉÉÉâÇ…í«ê’
         if (target != null)
         {
-            transform.position = target.position + offset;
+            
+            Vector3 desiredPosition = target.position + offset;
+            transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime / smoothTime);
         }
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             SwitchCameraUI();
         }

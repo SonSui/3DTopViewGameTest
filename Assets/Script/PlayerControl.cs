@@ -25,20 +25,28 @@ public class PlayerControl : MonoBehaviour
 
     //攻撃
     public GameObject hitbox;
-    private float attackDelayTime = 0.3f;
 
     private int comboStep = 0;
     private float comboTimer = 0f;
-    private float comboResetTime = 0.6f;
-    private int maxComboStep = 2;
+    private float comboResetTime = 0.8f;
+    private int maxComboStep = 3;
+    private bool isAttack1Acceptable = true;
+    private bool isAttack2Acceptable = true;
 
     //Hitbox生成
-    public GameObject rightHand;
-    public GameObject rightHandHitbox;
+    public GameObject onAttackSword;
+    public GameObject unAttackSword;
+    public GameObject swordAttack01Hitbox;
+    public GameObject swordAttack02Hitbox1;
+    public GameObject swordAttack02Hitbox2;
+    public GameObject swordAttack03Hitbox;
+
     public GameObject bulletHitbox;
     public GameObject gun;
     public GameObject leftLeg;
     public GameObject leftLegHitbox;
+
+    public GameObject dashEffect;
 
 
     //入力バッファ
@@ -50,6 +58,7 @@ public class PlayerControl : MonoBehaviour
     }
     private Queue<(Action, float)> inputQueue = new Queue<(Action, float)>();
     private bool isAnimeOver;
+    private bool isShortRotatable = false;
 
     //カメラ
     CameraFollow camera1;
@@ -61,6 +70,7 @@ public class PlayerControl : MonoBehaviour
 
     //物理
     public float gravity = 20f;
+    private float rotationSpeed = 20f;
     private float currSpeed = 1.2f;
 
 
@@ -82,29 +92,32 @@ public class PlayerControl : MonoBehaviour
         //Animationの名前付け
         commonAttack = new HashSet<int>
         {
+            Animator.StringToHash("SwordAttack01"),
+            Animator.StringToHash("SwordAttack02"),
+            Animator.StringToHash("SwordAttack03"),
             Animator.StringToHash("GreatSwordRound"),
-            Animator.StringToHash("GreatSwordKick")
+            Animator.StringToHash("GreatSwordKick"),
         };
-        shootAttack = new HashSet<int> 
-        { 
-            Animator.StringToHash("Gun") 
+        shootAttack = new HashSet<int>
+        {
+            Animator.StringToHash("Gun")
         };
         idleAct = new HashSet<int>
         {
             Animator.StringToHash("Idle"),
             Animator.StringToHash("T-Pose")
         };
-        runAct = new HashSet<int> 
-        { 
-            Animator.StringToHash("Running") 
+        runAct = new HashSet<int>
+        {
+            Animator.StringToHash("Running")
         };
-        dashAct = new HashSet<int> 
-        { 
-            Animator.StringToHash("Dash") 
+        dashAct = new HashSet<int>
+        {
+            Animator.StringToHash("Dash")
         };
-        inpactAct = new HashSet<int> 
-        { 
-            Animator.StringToHash("Inpact") 
+        inpactAct = new HashSet<int>
+        {
+            Animator.StringToHash("Inpact")
         };
 
 
@@ -161,18 +174,20 @@ public class PlayerControl : MonoBehaviour
         //controller.Move(moveDirection * Time.deltaTime);
         if (horizontalMove.magnitude > 0.1f && IsRotatable())
         {
-            transform.forward = horizontalMove;
             moveDirection = horizontalMove;
+            Quaternion targetRotation = Quaternion.LookRotation(horizontalMove, Vector3.up);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
         animator.SetFloat("MoveSpeed", speed_);
         //Debug.Log("CurrMoveSpeed:" + speed_ + "Time:"+Time.time);
 
-        
-        
+
+
         CheckInputQueue();
 
     }
 
+    // ===== Combo =====
     void UpdateCombo()
     {
         comboTimer += Time.deltaTime;
@@ -190,46 +205,10 @@ public class PlayerControl : MonoBehaviour
         animator.SetInteger("ComboStep", comboStep);
     }
 
-    public void SetMoveSpeed(float speed)
-    {
-        currSpeed = speed;
-    }
 
-    void OnMove(InputValue value)//移動入力
-    {
-        Debug.Log("onMove:" + value.ToString());
-        inputMove = value.Get<Vector2>();
-    }
-    void OnDash()//回避・ダッシュ
-    {
-        Debug.Log("DashKeyDown:" + Time.time);
-        AddToInputQueue(Action.Dash);
-    }
-    void OnAttack1()//攻撃１
-    {
-        Debug.Log("Attack1KeyDown:" + Time.time);
-        AddToInputQueue(Action.Attack1);
-    }
-    void OnAttack2()//攻撃２
-    {
-        Debug.Log("Attack2KeyDown:" + Time.time);
-        AddToInputQueue(Action.Attack2);
-    }
-    void OnAim(InputValue value)//照準
-    {
-        Debug.Log("Aim");
-        Vector2 forw = value.Get<Vector2>();
-        if (cameraTransform == null) return;
-        Vector3 forward = new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z).normalized;
-        Vector3 right = new Vector3(cameraTransform.right.x, 0, cameraTransform.right.z).normalized;
-        Vector3 horizontalMove = (forward * forw.y + right * forw.x).normalized;
-        if (horizontalMove.magnitude > 0.1f && IsRotatable())
-        {
-            transform.forward = horizontalMove;
-            moveDirection = horizontalMove;
-        }
-    }
 
+
+    // ===== 入力管理 =====
 
     private void AddToInputQueue(Action key)//入力バッファに入力情報入れる
     {
@@ -256,7 +235,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (key == Action.Dash)
         {
-            if (!IsInInpactState()) 
+            if (!IsInInpactState())
                 return true;
         }
         return isAnimeOver;
@@ -269,17 +248,25 @@ public class PlayerControl : MonoBehaviour
         {
 
             case Action.Attack1:
-                Debug.Log("attack1");
-                comboTimer = 0f;
-                comboStep++;
-                comboStep = comboStep > maxComboStep ? maxComboStep : comboStep;
-                animator.SetInteger("ComboStep", comboStep);
+
+                if (isAttack1Acceptable)
+                {
+                    isAttack1Acceptable = false;
+                    Debug.Log("attack1");
+                    comboStep++;
+                    comboStep %= (maxComboStep+1);
+                    animator.SetInteger("ComboStep", comboStep);
+                }
 
                 break;
             case Action.Attack2:
-                Debug.Log("Shoot");
-                //if(moveDirection.magnitude>0.05) transform.forward = moveDirection;
-                animator.SetTrigger("Shoot");
+                if (isAttack2Acceptable)
+                {
+                    isAttack2Acceptable = false;
+                    Debug.Log("Shoot");
+                    //if(moveDirection.magnitude>0.05) transform.forward = moveDirection;
+                    animator.SetTrigger("Shoot");
+                }
                 break;
             case Action.Dash:
 
@@ -292,7 +279,90 @@ public class PlayerControl : MonoBehaviour
                 break;
         }
     }
-    public void StartDashing()//アニメーションで呼ぶ
+
+
+
+    // ===== アニメーションイベント =====
+
+    public void OnRunningAnime()
+    {
+        isAttack1Acceptable = true;
+        isAttack2Acceptable = true;
+        unAttackSword.SetActive(true);
+        onAttackSword.SetActive(false);
+        UnableAllHitBox();
+    }
+    public void OnIdleAnime()
+    {
+        isAttack1Acceptable = true;
+        isAttack2Acceptable = true;
+        unAttackSword.SetActive(true);
+        onAttackSword.SetActive(false);
+        UnableAllHitBox();
+    }
+
+    public void OnSwordAttack01Enter()
+    {
+        unAttackSword.SetActive(false);
+        onAttackSword.SetActive(true);
+        swordAttack01Hitbox.SetActive(true);
+        swordAttack01Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+        comboResetTime = 0.8f;
+        comboTimer = 0f;
+    }
+    public void OnSwordAttack01Update()
+    {
+        isAttack1Acceptable = true;
+    }
+    public void OnSwordAttack01Exit()
+    {
+        swordAttack01Hitbox.SetActive(false);
+        SetShortRotateBool();
+    }
+    public void OnSwordAttack02Enter()
+    {
+        unAttackSword.SetActive(false);
+        onAttackSword.SetActive(true);
+        swordAttack02Hitbox1.SetActive(true);
+        swordAttack02Hitbox1.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+        comboResetTime = 0.8f;
+        comboTimer = 0f;
+    }
+    public void OnSwordAttack02Update()
+    {
+        isAttack1Acceptable = true;
+        swordAttack02Hitbox1.SetActive(false);
+        swordAttack02Hitbox2.SetActive(true);
+        swordAttack02Hitbox2.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+    }
+    public void OnSwordArrack02Exit()
+    {
+        swordAttack02Hitbox2.SetActive(false);
+        SetShortRotateBool();
+    }
+
+
+    public void OnSwordAttack03Enter()
+    {
+        unAttackSword.SetActive(false);
+        onAttackSword.SetActive(true);
+        swordAttack03Hitbox.SetActive(true);
+        swordAttack03Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+        comboResetTime = 0.8f;
+        comboTimer = 0f;
+    }
+    public void OnSwordAttack03Update()
+    {
+        isAttack1Acceptable = true;
+    }
+    public void OnSwordAttack03Exit()
+    {
+        swordAttack03Hitbox.SetActive(false);
+    }
+
+
+
+    public void StartDashing()
     {
         if (isDashingEventTriggered)
         {
@@ -300,33 +370,63 @@ public class PlayerControl : MonoBehaviour
         }
 
         isDashingEventTriggered = true;
+        unAttackSword.SetActive(true);
+        onAttackSword.SetActive(false);
+        dashEffect.SetActive(true);
+        UnableAllHitBox();
+        ResetAttack1Combo();
+        SetShortRotateBool(0.03f);
         StartCoroutine(Dashing());
         Invoke(nameof(ResetDashingEvent), dashTimeMax);
     }
     private void ResetDashingEvent()
     {
+        dashEffect.SetActive(false);
         isDashingEventTriggered = false;
+        isAttack1Acceptable = true;
+        isAttack2Acceptable = true;
     }
     private IEnumerator Dashing()//コルーチンでダッシュ処理
     {
         isDashing = true;
-        dashDirection = transform.forward;
         dashEndTime = Time.time + dashTimeMax;
 
         Debug.Log("Start Dashing");
         while (Time.time < dashEndTime)
         {
-
+            dashDirection = transform.forward;
             controller.Move(dashDirection * dashSpeed * Time.deltaTime);
-            Debug.Log("dash dir" + dashDirection);
+            //Debug.Log("dash dir" + dashDirection);
             yield return null;
         }
 
         isDashing = false;
     }
+    private void SetShortRotateBool(float sTime = 0.3f)
+    {
+        // 短い時間内で回転できる
+        isShortRotatable = true;
+        Debug.Log("Can rot");
+        StartCoroutine(ResetBoolAfterDelay(sTime)); 
+    }
+
+    private System.Collections.IEnumerator ResetBoolAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isShortRotatable = false;
+        Debug.Log("Cant rot");
+    }
+    private void UnableAllHitBox()
+    {
+        swordAttack01Hitbox.SetActive(false);
+        swordAttack02Hitbox1.SetActive(false);
+        swordAttack02Hitbox2.SetActive(false);
+        swordAttack03Hitbox.SetActive(false);
+    }
 
 
-    //アニメーション状態確認関数
+
+    // ===== アニメーション状態 =====
     private bool IsInAttack1State()
     {
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
@@ -364,27 +464,52 @@ public class PlayerControl : MonoBehaviour
 
     private bool IsRotatable()
     {
-        return !(IsInDashState() || IsInAttack1State()||IsInInpactState()||IsInAttack2State());
+        bool rotAnime = !(IsInDashState() || IsInAttack1State() || IsInInpactState() );
+        return rotAnime || isShortRotatable;
     }
 
-    public void SpawnSwordHitbox()
+
+    // ===== ImputSystem =====
+    void OnMove(InputValue value)//移動入力
     {
-        int dmg = 2;
-        if (rightHandHitbox != null)
+        Debug.Log("onMove:" + value.ToString());
+        inputMove = value.Get<Vector2>();
+    }
+    void OnDash()//回避・ダッシュ
+    {
+        Debug.Log("DashKeyDown:" + Time.time);
+        AddToInputQueue(Action.Dash);
+    }
+    void OnAttack1()//攻撃１
+    {
+        Debug.Log("Attack1KeyDown:" + Time.time);
+        AddToInputQueue(Action.Attack1);
+    }
+    void OnAttack2()//攻撃２
+    {
+        Debug.Log("Attack2KeyDown:" + Time.time);
+        AddToInputQueue(Action.Attack2);
+    }
+    void OnAim(InputValue value)//照準
+    {
+        Debug.Log("Aim");
+        Vector2 forw = value.Get<Vector2>();
+        if (cameraTransform == null) return;
+        Vector3 forward = new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z).normalized;
+        Vector3 right = new Vector3(cameraTransform.right.x, 0, cameraTransform.right.z).normalized;
+        Vector3 horizontalMove = (forward * forw.y + right * forw.x).normalized;
+        if (horizontalMove.magnitude > 0.1f && IsRotatable())
         {
-
-            Vector3 spawnPosition = rightHand.transform.position;
-            Quaternion spawnRotation = rightHand.transform.rotation;
-
-            GameObject hit = Instantiate(rightHandHitbox, spawnPosition, spawnRotation);
-            Hitbox_Sword attackScript = hit.GetComponent<Hitbox_Sword>();
-            if (attackScript != null)
-            {
-                
-                attackScript.Initialize(dmg);
-                hit.transform.SetParent(rightHand.transform);
-
-            }
+            moveDirection = horizontalMove;
+            Quaternion targetRotation = Quaternion.LookRotation(horizontalMove, Vector3.up);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
+
+    //  ===== Getter/Setter =====
+    public void SetMoveSpeed(float speed)
+    {
+        currSpeed = speed;
+    }
+
 }

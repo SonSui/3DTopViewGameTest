@@ -9,7 +9,7 @@ public class PlayerStatus : BaseCharacterStatus
 
     // 弾量関連
     private int ammoCapacity;    // 弾量
-    private int ammoRecovery;    // 敵を倒したときに回復する弾数（デフォルト1）
+    private int ammoRecovery;    // 敵を倒したときに回復する弾数（デフォルト0）
 
     // HP自動回復
     private float hpAutoRecovery;   // 一定時間ごとに回復するHP量（デフォルト0）
@@ -34,8 +34,8 @@ public class PlayerStatus : BaseCharacterStatus
 
     // 初期化（基底クラスのコンストラクタを呼び出す）
     public PlayerStatus(
-        int hpMax = 10,
-        int attackPower = 5,
+        int hpMax = 5,
+        int attackPower = 3,
         float criticalRate = 0.1f,
         float criticalDamage = 2.0f,
         float moveSpeed = 1.0f,
@@ -43,11 +43,13 @@ public class PlayerStatus : BaseCharacterStatus
         float attackRange = 1.0f,
         float evasionRate = 0.05f,
         int ammoCapacity = 10,
-        int ammoRecovery = 1,
+        int ammoRecovery = 0,
         float hpAutoRecovery = 0f,
         float hpRecoveryInterval = 5f,
-        int resurrectionTime = 1
+        int resurrectionTime = 1,
+        string name = "Player"
     ) : base(
+        name: name,
         hpMax: hpMax,
         attackPower: attackPower,
         defense: 0, // プレイヤーの防御力は常に0
@@ -241,6 +243,23 @@ public class PlayerStatus : BaseCharacterStatus
     public void OnEnemyDefeated()
     {
         RecoverAmmo();
-        // その他の処理（必要に応じて実装）
+        // その他の処理
+    }
+
+
+    // =====ステータスを表示=====
+    public  string ShowPlayerStatus()
+    {
+        string baseStatus = base.GetBaseStatus(); // 基本ステータスを取得
+
+        // プレイヤー専用のステータスを追加
+        string playerStatus =
+            $"Ammo Capacity: {ammoCapacity}\n" +
+            "";
+
+        string fullStatus = baseStatus + "\n" + playerStatus;
+
+        Debug.Log($"PlayerStatus:{fullStatus}");
+        return fullStatus;
     }
 }
