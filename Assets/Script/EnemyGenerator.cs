@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,13 +18,25 @@ public class EnemyGenerator : MonoBehaviour
     void Update()
     {
         this.delta += Time.deltaTime;
-        if(this.delta > this.span)
+        if (this.delta > this.span)
         {
             this.delta = 0;
-            GameObject go = Instantiate(EnemyA1);
-            int px  = Random.Range(-20,20);
-            go.transform.position = new Vector3(px, 0, 0);
-        }
+            float px;
+            float pz;
 
+            GameObject go = Instantiate(EnemyA1);
+            do
+            {
+                px = UnityEngine.Random.Range(-12.0f, 12.0f);
+            } while (px >= -3 && px <= 3);
+
+            do
+            {
+                pz = UnityEngine.Random.Range(-12.0f, 12.0f);
+            } while (pz >= -3 && pz <= 3);
+
+            go.transform.position = new Vector3(px, 3, pz);
+            Debug.Log(new Vector3(px, 3, pz));
+        }
     }
 }
