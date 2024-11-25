@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 基底クラス：キャラクターステータス
-public abstract class BaseCharacterStatus : MonoBehaviour
+public abstract class BaseCharacterStatus 
 {
     // ===== 基本属性 =====
+    // 名前
+    protected string name;
 
     // HP（体力）
     protected int hpNow;     // 現在のHP
@@ -63,6 +65,7 @@ public abstract class BaseCharacterStatus : MonoBehaviour
 
     // 初期化（パラメータ付き、デフォルト値あり）
     public BaseCharacterStatus(
+        string name="",
         int hpMax = 5,
         int attackPower = 2,
         int defense = 1,
@@ -74,6 +77,7 @@ public abstract class BaseCharacterStatus : MonoBehaviour
         float evasionRate = 0.0f
     )
     {
+        this.name = name;
         // 基本属性の初期化
         this.hpMax = hpMax;
         this.hpNow = this.hpMax;
@@ -202,7 +206,7 @@ public abstract class BaseCharacterStatus : MonoBehaviour
         hpNow -= bleedingDamage;
 
         // ダメージログ
-        Debug.Log($"{gameObject.name}は流血で{bleedingDamage}のダメージを受けた");
+        Debug.Log($"{this.name}は流血で{bleedingDamage}のダメージを受けた");
 
         if (hpNow <= 0)
         {
@@ -215,7 +219,7 @@ public abstract class BaseCharacterStatus : MonoBehaviour
     protected virtual void OnDeath()
     {
         // デフォルトの死亡処理
-        Debug.Log($"{gameObject.name}は倒れた");
+        Debug.Log($"{this.name}は倒れた");
     }
 
     // HPがゼロかどうかを確認
@@ -319,4 +323,28 @@ public abstract class BaseCharacterStatus : MonoBehaviour
 
     // スタン中か確認
     public bool IsStunned() => stun > 0;
+
+    // =====基本ステータスを表示=====
+    public string GetBaseStatus()
+    {
+        string status =
+            $"Name:{name}\n"+
+            $"HP: {hpNow}/{hpMax}\n" +
+            $"Attack Power: {attackPower}\n" +
+            $"Defense: {defense}\n" +
+            $"Critical Rate: {criticalRate * 100:F2}%\n" +
+            $"Critical Damage: {criticalDamage * 100:F2}%\n" +
+            $"Movement Speed: {moveSpeed:F2}\n" +
+            $"Attack Speed: {attackSpeed:F2}\n" +
+            $"Attack Range: {attackRange:F2}\n" +
+            $"Evasion Rate: {evasionRate * 100:F2}%\n" +
+            $"Defense Reduction Time: {defenseReduction:F2}s (Rate: {defenseReductionRate * 100:F2}%)\n" +
+            $"Attack Reduction Time: {attackReduction:F2}s (Rate: {attackReductionRate * 100:F2}%)\n" +
+            $"Slow Effect Time: {slowEffect:F2}s (Rate: {slowEffectRate * 100:F2}%)\n" +
+            $"Bleeding Effect Time: {bleedingEffect:F2}s (Rate: {bleedingEffectRate * 100:F2}%)\n" +
+            $"Stun Time: {stun:F2}s";
+
+        
+        return status;
+    }
 }

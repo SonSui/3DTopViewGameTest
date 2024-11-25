@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     // GameManagerのインスタンスを保持する静的変数
     public static GameManager Instance { get; private set; }
 
-    public PlayerStatus playerStatus;
+    private PlayerStatus playerStatus = new PlayerStatus(6,3);
 
     // プレイヤーとカメラのPrefab
     public GameObject playerPrefab;
@@ -109,6 +109,10 @@ public class GameManager : MonoBehaviour
     {
         SpawnPlayer();
         SpawnCamera();
+    }
+    public int GetPlayerAttackNow()
+    {
+        return playerStatus.GetAttackNow();
     }
 
 
