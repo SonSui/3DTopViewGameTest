@@ -10,9 +10,17 @@ public class EnemyA1 : MonoBehaviour
 
     private Material oriMaterial;
     private Material temMaterial;
+<<<<<<< HEAD
+    int hp = 4;
+    float speed = 2.0f;
+
+    //プレイヤーの座標
+    Transform playerT;
+=======
     int hp = 7;
 
     EnemyGenerator enemyGenerator;
+>>>>>>> bc84285b6e050fdb25c097a31287f66be4c13863
     void Start()
     {
         Renderer renderer = GetComponent<Renderer>();
@@ -20,6 +28,7 @@ public class EnemyA1 : MonoBehaviour
         temMaterial = new Material(oriMaterial);
         enemyGenerator = FindObjectOfType<EnemyGenerator>();
 
+        playerT = GameObject.FindGameObjectWithTag("Player").transform;
     }
     private void Update()
     {
@@ -27,6 +36,14 @@ public class EnemyA1 : MonoBehaviour
             enemyGenerator.deadEnemyNum++;
             Destroy(gameObject);
         }
+
+        //プレイヤーとの距離が近くなったら移動を止める
+        if (Vector3.Distance(transform.position, playerT.position) < 2.1f)
+        return;
+
+        //プレイヤーに向けて進む
+        transform.position = 
+            Vector3.MoveTowards(transform.position, new Vector3(playerT.position.x, playerT.position.y, playerT.position.z), speed * Time.deltaTime);
     }
 
 
