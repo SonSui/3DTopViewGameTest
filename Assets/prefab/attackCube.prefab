@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 302990106347803657}
   - component: {fileID: 8818233231147263313}
   - component: {fileID: 9187074583586916690}
-  - component: {fileID: 8944798519947142464}
+  - component: {fileID: 4940529186835263738}
   m_Layer: 0
   m_Name: attackCube
   m_TagString: Player_Attack
@@ -29,12 +29,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7640618496599304812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.61, y: 0.756, z: 0.16}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6139236143708346962
 MeshFilter:
@@ -128,7 +128,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8944798519947142464
+--- !u!114 &4940529186835263738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,10 +137,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7640618496599304812}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34d0bcc3ae073054ea871ab2890f44e5, type: 3}
+  m_Script: {fileID: 11500000, guid: 57da5bbd8ea73f845a77710ef2fcefe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  critMaterial: {fileID: 2100000, guid: a072d5e71d1a88d4f8dff762c01b6091, type: 2}
-  genMaterial: {fileID: 2100000, guid: d743df06177bb0848a10b34ce295d565, type: 2}
-  currTime: 0
-  expl: {fileID: 100006, guid: bf1f02e92ca5d164a838a719d3f7d4fe, type: 3}
+  preAttack: {fileID: 2100000, guid: a072d5e71d1a88d4f8dff762c01b6091, type: 2}
+  realAttack: {fileID: 2100000, guid: d743df06177bb0848a10b34ce295d565, type: 2}

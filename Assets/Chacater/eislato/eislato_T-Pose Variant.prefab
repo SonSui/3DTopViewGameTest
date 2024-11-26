@@ -1274,6 +1274,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: eislato_T-Pose Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fcc801ec9dccaf04ead6f3a25f64c114, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 2559285840627121667, guid: fcc801ec9dccaf04ead6f3a25f64c114, type: 3}
       propertyPath: m_LocalRotation.w
       value: -0.01184461

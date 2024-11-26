@@ -8,19 +8,24 @@ public class EnemyA1 : MonoBehaviour
 
     public float hitDuration = 0.1f;
 
+    public GameObject hitboxPrefab;
+    private GameObject hitbox=null;
+
     private Material oriMaterial;
     private Material temMaterial;
-<<<<<<< HEAD
-    int hp = 4;
+
+    int hp = 7;
     float speed = 2.0f;
+    int dmg = 1;
+
+    float atkInterval = 3f;
+    float atkTime = 0f;
 
     //プレイヤーの座標
     Transform playerT;
-=======
-    int hp = 7;
 
     EnemyGenerator enemyGenerator;
->>>>>>> bc84285b6e050fdb25c097a31287f66be4c13863
+
     void Start()
     {
         Renderer renderer = GetComponent<Renderer>();
@@ -36,10 +41,22 @@ public class EnemyA1 : MonoBehaviour
             enemyGenerator.deadEnemyNum++;
             Destroy(gameObject);
         }
+        if(hitbox==null)
+        {
+            atkTime += Time.deltaTime;
+        }
+
+        if (Vector3.Distance(transform.position, playerT.position) < 3.0f && hitbox == null && atkTime>atkInterval)
+        {
+            hitbox = Instantiate(hitboxPrefab);
+            hitbox.GetComponent<Hitbox_EnemyA1>().Initialized(dmg);
+            hitbox.transform.position = transform.position;
+            hitbox.transform.SetParent(transform);
+            atkTime = 0f;
+        }
 
         //プレイヤーとの距離が近くなったら移動を止める
-        if (Vector3.Distance(transform.position, playerT.position) < 2.1f)
-        return;
+        if (Vector3.Distance(transform.position, playerT.position) < 2.1f){ return; }
 
         //プレイヤーに向けて進む
         transform.position = 

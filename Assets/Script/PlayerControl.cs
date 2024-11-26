@@ -12,7 +12,8 @@ public class PlayerControl : MonoBehaviour
     private HashSet<int> idleAct;
     private HashSet<int> runAct;
     private HashSet<int> dashAct;
-    private HashSet<int> inpactAct;
+    private HashSet<int> impactAct;
+    private HashSet<int> dyingAct;
 
     // 移動
     CharacterController controller;
@@ -122,9 +123,13 @@ public class PlayerControl : MonoBehaviour
         {
             Animator.StringToHash("Dash")
         };
-        inpactAct = new HashSet<int>
+        impactAct = new HashSet<int>
         {
-            Animator.StringToHash("Inpact")
+            Animator.StringToHash("Impact")
+        };
+        dyingAct = new HashSet<int>
+        {
+            Animator.StringToHash("Dying")
         };
 
 
@@ -247,7 +252,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (key == Action.Dash) //ダッシュ割り込み
         {
-            if (!IsInInpactState())
+            if (!IsInImpactState())
                 return true;
         }
         return isAnimeOver;
@@ -413,13 +418,14 @@ public class PlayerControl : MonoBehaviour
         
     }
 
-
-
-    public void OnHit(int dmg)
+    public void OnImpact()
     {
-        // 被弾
-        gameManager.PlayerTakeDamage(dmg);
-        animator.SetTrigger("Inpact");
+        //割り込み可能ので、すべてのコントロール制御と表示をリセット
+        unAttackSword.SetActive(true);
+        onAttackSword.SetActive(false);
+        UnableAllHitBox();
+        ResetAttack1Combo();
+        animator.ResetTrigger("Shoot");
     }
 
 
@@ -510,12 +516,12 @@ public class PlayerControl : MonoBehaviour
         return shootAttack.Contains(currentAnimationHash);
     }
 
-    private bool IsInInpactState()
+    private bool IsInImpactState()
     {
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
-        return inpactAct.Contains(currentAnimationHash);
+        return impactAct.Contains(currentAnimationHash);
     }
     private bool IsInDashState()
     {
@@ -525,10 +531,18 @@ public class PlayerControl : MonoBehaviour
         return dashAct.Contains(currentAnimationHash);
     }
 
+    private bool IsInDyingState() 
+    {
+        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+        int currentAnimationHash = currentState.shortNameHash;
+
+        return dyingAct.Contains(currentAnimationHash);
+    }
+
     private bool IsRotatable()
     {
         //ダッシュ、普通攻撃、被弾の時回転不可
-        bool rotAnime = !(IsInDashState() || IsInAttack1State() || IsInInpactState() || IsInAttack2State());
+        bool rotAnime = !(IsInDashState() || IsInAttack1State() || IsInImpactState() || IsInAttack2State()|| IsInDyingState());
         return rotAnime || isShortRotatable;
     }
 
@@ -587,5 +601,20 @@ public class PlayerControl : MonoBehaviour
     {
         currActSpeed = speed;
         animator.SetFloat("ActSpeed",currActSpeed);
+    }
+
+    public void OnHit(int dmg)
+    {
+        if (IsInDyingState()||IsInImpactState()||IsInDashState())
+        {
+            return;
+        }
+        // 被弾
+        int applyDmg = gameManager.PlayerTakeDamage(dmg);
+        if (applyDmg > 0) animator.SetTrigger("Impact");
+    }
+    public void OnDying()
+    {
+        animator.SetTrigger("Dead");
     }
 }

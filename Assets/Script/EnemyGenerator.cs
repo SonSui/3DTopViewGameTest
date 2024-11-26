@@ -11,7 +11,7 @@ public class EnemyGenerator : MonoBehaviour
 
     //クリア判定変数
 
-    public  int enemyNumMax = 3;
+    public  int enemyNumMax = 15;
 
 
     int currEnemyNum = 0;
@@ -29,7 +29,7 @@ public class EnemyGenerator : MonoBehaviour
     {
         this.delta += Time.deltaTime;
 
-        if (this.delta > this.span)
+        if (this.delta > this.span && currEnemyNum< enemyNumMax)
         {
             this.delta = 0;
             float px;
@@ -43,11 +43,12 @@ public class EnemyGenerator : MonoBehaviour
 
             do
             {
-                pz = UnityEngine.Random.Range(-12.0f, 12.0f);
+                pz = UnityEngine.Random.Range(-5.0f, 5.0f);
             } while (pz >= -3 && pz <= 3);
 
             go.transform.position = new Vector3(px, 3, pz);
             Debug.Log(new Vector3(px, 3, pz));
+            currEnemyNum++;
         }
 
     }
