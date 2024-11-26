@@ -10,19 +10,32 @@ public class EnemyA1 : MonoBehaviour
 
     private Material oriMaterial;
     private Material temMaterial;
-    int hp = 100;
+    int hp = 4;
+    float speed = 2.0f;
+
+    //プレイヤーの座標
+    Transform playerT;
     void Start()
     {
         Renderer renderer = GetComponent<Renderer>();
         oriMaterial = renderer.material;
         temMaterial = new Material(oriMaterial);
 
+        playerT = GameObject.FindGameObjectWithTag("Player").transform;
     }
     private void Update()
     {
         if (hp < 0) {
             Destroy(gameObject);
         }
+
+        //プレイヤーとの距離が近くなったら移動を止める
+        if (Vector3.Distance(transform.position, playerT.position) < 2.1f)
+        return;
+
+        //プレイヤーに向けて進む
+        transform.position = 
+            Vector3.MoveTowards(transform.position, new Vector3(playerT.position.x, playerT.position.y, playerT.position.z), speed * Time.deltaTime);
     }
 
 
