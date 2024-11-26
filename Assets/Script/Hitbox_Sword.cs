@@ -1,73 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Hitbox_Sword : MonoBehaviour
 {
-    private Animator animator;
-
-
     public Material critMaterial;
     public Material genMaterial;
-    public float currTime;
-    public const float TIME_MAX = 1.0f;
+
+    public GameObject hitParticleEffect;
+
+    private HashSet<Collider> hitTargets = new HashSet<Collider>(); //攻撃した敵を記録
+
+
     private int damage;
-    private bool isCritical;
-    private bool isExpl;
-
-    public GameObject expl;
+    private float critical;
+    private bool isDefensePenetration;
 
 
-    void Start()
+    private void OnEnable()
     {
-        animator = GetComponent<Animator>();
-        currTime = 0f;
-    }
-
-    void Update()
-    {
-
-            currTime += Time.deltaTime;
-            if (currTime > TIME_MAX)
-            {
-                Destroy(gameObject);
-            }
+        // 有効化されるたびに記録をクリアする
+        hitTargets.Clear();
         
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Box:crit:" + isCritical.ToString() + " expl:" + isExpl.ToString());
-        if (other.gameObject.CompareTag("Enemy"))
+        Debug.Log("Box:crit:" + critical.ToString() + " DefPen:" + isDefensePenetration.ToString());
+        if (other.gameObject.CompareTag("Enemy") && !hitTargets.Contains(other))
         {
+            // 記録
+            hitTargets.Add(other);
+            // ダメージ与える
             other.gameObject.GetComponent<EnemyA1>().OnHit(damage);
-            if (isCritical && isExpl)
-            {
-                Debug.Log("Explo");
-                Instantiate(expl, transform.position, Quaternion.identity);
-            }
+            
+            // 接する位置
+            Vector3 contactPoint = other.ClosestPoint(transform.position);
+            
+            // エフェクト生成
+            GameObject effect = Instantiate(hitParticleEffect, contactPoint, Quaternion.identity);
+
+            // 自動的に削除
+            Destroy(effect, 2f);
+
         }
     }
+    
 
-    public void Initialize(int dmg, bool isCri = false, bool isExp = false)
+    public void Initialize(int dmg, float criRate = 0.01f, bool isDefPen = false)
     {
         damage = dmg;
-        isCritical = isCri;
-        isExpl = isExp;
-        Renderer renderer = GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            if (isCritical && critMaterial != null)
-            {
-
-                renderer.material = critMaterial;
-
-            }
-            else if (genMaterial != null)
-            {
-                renderer.material = genMaterial;
-            }
-        }
+        critical = criRate;
+        isDefensePenetration = isDefPen;
+        
     }
 
 }

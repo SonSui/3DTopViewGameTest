@@ -10,7 +10,7 @@ public class EnemyA1 : MonoBehaviour
 
     private Material oriMaterial;
     private Material temMaterial;
-    int hp = 5;
+    int hp = 7;
 
     EnemyGenerator enemyGenerator;
     void Start()

@@ -21,6 +21,7 @@ public class EnemyStatus : BaseCharacterStatus
 
     // 初期化（基底クラスのコンストラクタを呼び出す）
     public EnemyStatus(
+        string name ="Enemy",
         int hpMax = 10,
         int attackPower = 1,
         int defense = 1,
@@ -35,6 +36,7 @@ public class EnemyStatus : BaseCharacterStatus
         bool hasShield = false,
         int shieldDurability = 0
     ) : base(
+        name: name,
         hpMax: hpMax,
         attackPower: attackPower,
         defense: defense,
@@ -73,7 +75,7 @@ public class EnemyStatus : BaseCharacterStatus
 
         // ダメージ適用
         hpNow -= actualDamage;
-        Debug.Log($"{gameObject.name}は{actualDamage}のダメージを受けた（残りHP: {hpNow}/{hpMax}）");
+        Debug.Log($"{this.name}は{actualDamage}のダメージを受けた（残りHP: {hpNow}/{hpMax}）");
 
 
 
@@ -97,7 +99,7 @@ public class EnemyStatus : BaseCharacterStatus
     protected override void OnDeath()
     {
         // 敵の死亡処理
-        Debug.Log($"{gameObject.name}は倒された");
+        Debug.Log($"{this.name}は倒された");
         DropItems();
 
     }

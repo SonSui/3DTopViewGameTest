@@ -1,15 +1,20 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
+
 
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
     public Vector3 offset;
+    
+    
 
-    // UI—v‘f
-    public GameObject uiCanvasPrefab; // Canvas‚ÌPrefab
+    public float smoothTime = 0.1f;
+
+    // UIè¦ç´ 
+    public GameObject uiCanvasPrefab; // Canvasã®Prefab
     private GameObject cameraUI;
-    private Text cameraStatusText;    // ƒJƒƒ‰ó‘Ô‚ğ•\¦‚·‚éText
+    private Text cameraStatusText;    // ã‚«ãƒ¡ãƒ©çŠ¶æ…‹ã‚’è¡¨ç¤ºã™ã‚‹Text
     private Slider posXSlider;
     private Slider posYSlider;
     private Slider posZSlider;
@@ -17,11 +22,28 @@ public class CameraFollow : MonoBehaviour
     private Slider rotYSlider;
     private Slider rotZSlider;
 
-    // ƒ‚ƒmƒNƒ
+    // ãƒ¢ãƒã‚¯ãƒ­
     public Material monoTone;
     private float targetAmount = 0f;
     private float currentAmount = 0f;
     private float transitionSpeed = 1f;
+
+    // è§’åº¦èª¿æ•´
+    
+    private bool isOccluded = false;
+    private Vector3 desiredPosition;
+    private Vector3 oriRot;
+    private float pos2Y;
+    private Vector3 rot2;
+    private float rot2X = 75f;
+    private float occlusionCheckTimer = 0f;
+    private float occlusionCheckDelay = 0.2f; // Adjust as needed
+    private bool previousOcclusionState = false;
+
+
+
+
+
 
     void Start()
     {
@@ -30,7 +52,7 @@ public class CameraFollow : MonoBehaviour
             GameObject playerObj = GameObject.FindWithTag("Player");
             if (playerObj != null)
             {
-                target = playerObj.transform; // ƒLƒƒƒ‰‚ÆƒJƒƒ‰‚Ì•Î·‚ğİ’è
+                target = playerObj.transform; // ã‚­ãƒ£ãƒ©ã¨ã‚«ãƒ¡ãƒ©ã®åå·®ã‚’è¨­å®š
             }
             else
             {
@@ -44,31 +66,110 @@ public class CameraFollow : MonoBehaviour
         }
 
         offset = transform.position - target.position;
+        pos2Y = offset.magnitude;
+        oriRot = transform.eulerAngles;
+        rot2 = new Vector3 (rot2X, oriRot.y, oriRot.z);
+        
 
-        // UI‚Ì‰Šúİ’è
+        // UIã®åˆæœŸè¨­å®š
         SetupUIComponents();
-        UpdateSliders(); // ‰Šúó‘Ô‚ÌƒXƒ‰ƒCƒ_[‚ğXV
+        UpdateSliders(); // åˆæœŸçŠ¶æ…‹ã®ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’æ›´æ–°
     }
 
     void Update()
     {
 
-        //ƒ‚ƒmƒNƒXV
+        //ãƒ¢ãƒã‚¯ãƒ­æ›´æ–°
         currentAmount = Mathf.Lerp(currentAmount, targetAmount, Time.deltaTime * transitionSpeed);
     }
 
     void LateUpdate()
     {
-        // ƒLƒƒƒ‰‚É’ÇÕ
+
+        // ã‚­ãƒ£ãƒ©ã«è¿½è·¡
         if (target != null)
         {
-            transform.position = target.position + offset;
+
+
+            desiredPosition = target.position + offset;
+            Vector3 pos2 = new Vector3(target.position.x, target.position.y + pos2Y, target.position.z); ;
+            
+
+            Vector3 footOffset = new Vector3(0f, 0.8f, 0f);
+            Vector3 directionToTarget = target.position - footOffset - desiredPosition;
+
+            // å°„ç·šã‚’é£›ã°ã—ã¦é®è”½ç‰©ã‚’æ¤œå‡º
+            RaycastHit[] hits = Physics.RaycastAll(desiredPosition, directionToTarget);
+            bool buildingOcclusion = false;
+            foreach (var hit in hits)
+            {
+                if (hit.collider.CompareTag("Building"))
+                {
+                    buildingOcclusion = true;
+                    break;
+                }
+            }
+            isOccluded = buildingOcclusion;
+
+            if (isOccluded != previousOcclusionState)
+            {
+                occlusionCheckTimer += Time.deltaTime;
+                if (occlusionCheckTimer >= occlusionCheckDelay)
+                {
+                    previousOcclusionState = isOccluded;
+                    occlusionCheckTimer = 0f;
+                }
+            }
+            else
+            {
+                
+                occlusionCheckTimer = 0f;
+            }
+
+
+            if (previousOcclusionState)
+            {
+                //ä½ç½®ã‚’å††æ»‘ã«æ›´æ–°
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rot2), Time.deltaTime / smoothTime);
+                transform.position = Vector3.Lerp(transform.position, pos2, Time.deltaTime / smoothTime );
+            }
+            else
+            {
+                //ä½ç½®ã‚’å††æ»‘ã«æ›´æ–°
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(oriRot), Time.deltaTime / smoothTime);
+                transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime / smoothTime);
+            }
+            
+            
+
+
+
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SwitchCameraUI();
+            }
+
         }
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            SwitchCameraUI();
-        }
+
     }
+
+
+    public void RotateAroundTarget(float angle)
+    {
+        // ãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ã§ã®å›è»¢è»¸ã‚’è¨ˆç®—ï¼ˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ­ãƒ¼ã‚«ãƒ«Xè»¸ï¼‰
+        Vector3 rotationAxis = transform.right;
+
+        // ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’å›è»¢è»¸å‘¨ã‚Šã«å›è»¢
+        Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis);
+        Vector3 rotatedOffset = rotation * offset;
+
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’æ›´æ–°
+        desiredPosition += rotatedOffset;
+
+        
+    }
+
 
     public void SetOffset(Vector3 pos)
     {
@@ -93,20 +194,20 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
-    // ƒXƒ‰ƒCƒ_[‚Ì”ÍˆÍ‚ğ0‚©‚ç360‚ÉŠg’£
+    // ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã®ç¯„å›²ã‚’0ã‹ã‚‰360ã«æ‹¡å¼µ
     private void SetupUIComponents()
     {
         if (uiCanvasPrefab != null)
         {
-            // Canvas‚ÌPrefab‚ğƒCƒ“ƒXƒ^ƒ“ƒX‰»
+            // Canvasã®Prefabã‚’ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–
             cameraUI = Instantiate(uiCanvasPrefab);
             
 
-            // ƒJƒƒ‰ó‘Ô‚ğ•\¦‚·‚éText‚ğæ“¾
+            // ã‚«ãƒ¡ãƒ©çŠ¶æ…‹ã‚’è¡¨ç¤ºã™ã‚‹Textã‚’å–å¾—
             cameraStatusText = cameraUI.GetComponentInChildren<Text>();
             if (cameraStatusText != null)
             {
-                // TextƒIƒuƒWƒFƒNƒg‚ÌqƒIƒuƒWƒFƒNƒg‚©‚çƒXƒ‰ƒCƒ_[‚ğæ“¾
+                // Textã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’å–å¾—
                 posXSlider = cameraStatusText.transform.Find("SliderPosX").GetComponent<Slider>();
                 posYSlider = cameraStatusText.transform.Find("SliderPosY").GetComponent<Slider>();
                 posZSlider = cameraStatusText.transform.Find("SliderPosZ").GetComponent<Slider>();
@@ -115,12 +216,12 @@ public class CameraFollow : MonoBehaviour
                 rotYSlider = cameraStatusText.transform.Find("SliderRotY").GetComponent<Slider>();
                 rotZSlider = cameraStatusText.transform.Find("SliderRotZ").GetComponent<Slider>();
 
-                // ƒXƒ‰ƒCƒ_[‚Ìİ’è
+                // ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã®è¨­å®š
                 ConfigureSlider(posXSlider, -30f, 30f, OnPositionSliderChanged);
                 ConfigureSlider(posYSlider, -30f, 30f, OnPositionSliderChanged);
                 ConfigureSlider(posZSlider, -30f, 30f, OnPositionSliderChanged);
 
-                // ‰ñ“]ƒXƒ‰ƒCƒ_[‚Ì”ÍˆÍ‚ğ0‚©‚ç360‚Éİ’è
+                // å›è»¢ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã®ç¯„å›²ã‚’0ã‹ã‚‰360ã«è¨­å®š
                 ConfigureSlider(rotXSlider, 0f, 360f, OnRotationSliderChanged);
                 ConfigureSlider(rotYSlider, 0f, 360f, OnRotationSliderChanged);
                 ConfigureSlider(rotZSlider, 0f, 360f, OnRotationSliderChanged);
@@ -136,7 +237,7 @@ public class CameraFollow : MonoBehaviour
             Debug.LogError("UI Canvas Prefab is not assigned.");
         }
     }
-    // ƒXƒ‰ƒCƒ_[‚Ì”ÍˆÍ‚ÆƒŠƒXƒi[‚ğİ’è‚·‚éƒwƒ‹ƒp[ƒƒ\ƒbƒh
+    // ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã®ç¯„å›²ã¨ãƒªã‚¹ãƒŠãƒ¼ã‚’è¨­å®šã™ã‚‹ãƒ˜ãƒ«ãƒ‘ãƒ¼ãƒ¡ã‚½ãƒƒãƒ‰
     private void ConfigureSlider(Slider slider, float minValue, float maxValue, UnityEngine.Events.UnityAction<float> callback)
     {
         if (slider != null)
@@ -147,7 +248,7 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
-    // ƒJƒƒ‰‚Ìó‘Ô‚ÉŠî‚Ã‚¢‚ÄƒXƒ‰ƒCƒ_[‚ğXV
+    // ã‚«ãƒ¡ãƒ©ã®çŠ¶æ…‹ã«åŸºã¥ã„ã¦ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’æ›´æ–°
     private void UpdateSliders()
     {
         //
@@ -177,7 +278,7 @@ public class CameraFollow : MonoBehaviour
         UpdateCameraStatusText();
     }
 
-    // ˆÊ’uƒXƒ‰ƒCƒ_[‚ª•ÏX‚³‚ê‚½‚Æ‚«‚Ìˆ—
+    // ä½ç½®ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ãŒå¤‰æ›´ã•ã‚ŒãŸã¨ãã®å‡¦ç†
     private void OnPositionSliderChanged(float value)
     {
         if (posXSlider != null && posYSlider != null && posZSlider != null)
@@ -188,7 +289,7 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
-    // ƒJƒƒ‰‚Ì‰ñ“]ƒXƒ‰ƒCƒ_[‚ª•ÏX‚³‚ê‚½‚Æ‚«‚Ìˆ—
+    // ã‚«ãƒ¡ãƒ©ã®å›è»¢ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ãŒå¤‰æ›´ã•ã‚ŒãŸã¨ãã®å‡¦ç†
     private void OnRotationSliderChanged(float value)
     {
         if (rotXSlider != null && rotYSlider != null && rotZSlider != null)
@@ -197,14 +298,14 @@ public class CameraFollow : MonoBehaviour
             float yRotation = rotYSlider.value;
             float zRotation = rotZSlider.value;
 
-            // Quaternion‚Å‰ñ“]‚ğİ’è
+            // Quaternionã§å›è»¢ã‚’è¨­å®š
             transform.rotation = Quaternion.Euler(xRotation, yRotation, zRotation);
 
             UpdateCameraStatusText();
         }
     }
 
-    // ƒJƒƒ‰‚Ìó‘Ô‚ğText‚ÉXV
+    // ã‚«ãƒ¡ãƒ©ã®çŠ¶æ…‹ã‚’Textã«æ›´æ–°
     private void UpdateCameraStatusText()
     {
         if (cameraStatusText != null)
@@ -220,7 +321,7 @@ public class CameraFollow : MonoBehaviour
     }
 
 
-    //ƒ‚ƒmƒNƒ
+    //ãƒ¢ãƒã‚¯ãƒ­
     void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
         monoTone.SetFloat("_GrayScaleAmount", currentAmount);

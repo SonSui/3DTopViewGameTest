@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     // GameManagerのインスタンスを保持する静的変数
     public static GameManager Instance { get; private set; }
 
-    public PlayerStatus playerStatus;
+    private PlayerStatus playerStatus = new PlayerStatus(6,3);
 
     // プレイヤーとカメラのPrefab
     public GameObject playerPrefab;
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     // プレイヤーのPlayerControllerスクリプトとカメラのCameraFollowスクリプト
     private PlayerController playerController;
+    private PlayerControl playerControl;
     private CameraFollow cameraFollow;
 
     public Vector3 defPlayerPos = new Vector3(0, 0, 0);
@@ -52,6 +53,8 @@ public class GameManager : MonoBehaviour
         {
             player = Instantiate(playerPrefab, defPlayerPos, Quaternion.identity);
             playerController = player.GetComponent<PlayerController>();
+            playerControl = player.GetComponent<PlayerControl>();
+            //playerControl.SetActSpeed(1.5f);
             /*if (abilityManager != null)
             {
                 abilityManager.player = playerController;
@@ -110,6 +113,22 @@ public class GameManager : MonoBehaviour
         SpawnPlayer();
         SpawnCamera();
     }
-
+    public int GetPlayerAttackNow()
+    {
+        return playerStatus.GetAttackNow();
+    }
+    public void PlayerTakeDamage(int dmg)
+    {
+        int realDmg = playerStatus.ReturnTakeDamage(dmg);
+        Debug.Log($"Player Take {realDmg}Damage,Remaining{playerStatus.GetHpNow()}");
+        if(realDmg > 0)
+        {
+            //UIManager.PlayerTakeDmg(realDmg);
+        }
+        if(playerStatus.IsDead())
+        {
+            // PlayerDead();
+        }
+    }
 
 }
