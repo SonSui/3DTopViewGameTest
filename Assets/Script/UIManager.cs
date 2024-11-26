@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     {
 
         //テスト用仮変化
-        currTime += Time.deltaTime;
+        /*currTime += Time.deltaTime;
         if(currTime > timeMax)
         {
             TakeDamage(1);
@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
             {
                 currHP = maxHP;
             }
-        }
+        }*/
     }
     public void TakeDamage(int dmg)
     {
