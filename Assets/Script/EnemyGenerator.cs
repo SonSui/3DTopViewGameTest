@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,44 +9,46 @@ public class EnemyGenerator : MonoBehaviour
     float span = 2.0f;
     float delta = 0;
 
-    //ƒNƒŠƒA”»’è•Ï”
+    //ã‚¯ãƒªã‚¢åˆ¤å®šå¤‰æ•°
 
     public  int enemyNumMax = 3;
 
 
     int currEnemyNum = 0;
-    public  int deadEnemyNum = 0;//ƒeƒXƒg‚½‚ßAEnemyA1‚ÌUpdateŠÖ”‚ª•ÏX‚µ‚Ä‚­‚é
+    public  int deadEnemyNum = 0;//ãƒ†ã‚¹ãƒˆãŸã‚ã€EnemyA1ã®Updateé–¢æ•°ãŒå¤‰æ›´ã—ã¦ãã‚‹
 
 
     //public GameObject clearUI;
     
     void Start()
     {
-       // clearUI.SetActive(false);//ƒNƒŠƒAƒeƒLƒXƒg‚ðŒ©‚¦‚È‚¢‚æ‚¤‚É‚·‚é
+       // clearUI.SetActive(false);//ã‚¯ãƒªã‚¢ãƒ†ã‚­ã‚¹ãƒˆã‚’è¦‹ãˆãªã„ã‚ˆã†ã«ã™ã‚‹
     }
 
     void Update()
     {
         this.delta += Time.deltaTime;
-        if (currEnemyNum < enemyNumMax)//ƒV[ƒ“‚Ì“G‚ðŠÇ—
-        {
-            if (this.delta > this.span)
-            {
-                this.delta = 0;
-                GameObject go = Instantiate(EnemyA1);
-                float px = Random.Range(-12f, 12f);
-                float pz = Random.Range(-5f, 5f);
-                go.transform.position = new Vector3(px, 0, pz);
 
-                currEnemyNum++;//“G‚Ì‹L”
-            }
-        }
-        /*
-        if(deadEnemyNum>= enemyNumMax)
+        if (this.delta > this.span)
         {
-            clearUI.SetActive(true);//ƒNƒŠƒAƒeƒLƒXƒg‚ð•\Ž¦‚·‚é
+            this.delta = 0;
+            float px;
+            float pz;
+
+            GameObject go = Instantiate(EnemyA1);
+            do
+            {
+                px = UnityEngine.Random.Range(-12.0f, 12.0f);
+            } while (px >= -3 && px <= 3);
+
+            do
+            {
+                pz = UnityEngine.Random.Range(-12.0f, 12.0f);
+            } while (pz >= -3 && pz <= 3);
+
+            go.transform.position = new Vector3(px, 3, pz);
+            Debug.Log(new Vector3(px, 3, pz));
         }
-        */
-        
+
     }
 }
