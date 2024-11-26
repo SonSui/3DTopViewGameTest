@@ -429,7 +429,7 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.055322148, g: 0.6365884, b: 0.7924528, a: 1}
-      key1: {r: 0.054901965, g: 0.63529414, b: 0.79215693, a: 0}
+      key1: {r: 0.0627451, g: 0.6392157, b: 0.79215693, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1020,6 +1020,22 @@ PrefabInstance:
     - target: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318219260051529624, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_Size.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318219260051529624, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_Center.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318219260051529624, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_Center.y
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318219260051529624, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_Center.z
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 9119505200161086360, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
       propertyPath: m_Name

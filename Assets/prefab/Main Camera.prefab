@@ -110,3 +110,4 @@ MonoBehaviour:
   smoothTime: 0.1
   uiCanvasPrefab: {fileID: 8360022501939295464, guid: ac32a980fa691ff4cbfb68e8d34a7679, type: 3}
   monoTone: {fileID: 2100000, guid: fecf1d0a530024e449aba51fbf3ac2e0, type: 2}
+  rotSpeed: 1

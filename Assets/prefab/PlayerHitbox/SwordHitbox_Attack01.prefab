@@ -29,20 +29,40 @@ PrefabInstance:
       value: Player_Attack
       objectReference: {fileID: 0}
     - target: {fileID: 3317361613104738393, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
+      propertyPath: m_Size.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317361613104738393, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
       propertyPath: m_Size.y
-      value: 4
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317361613104738393, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
+      propertyPath: m_Size.z
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317361613104738393, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
+      propertyPath: m_Center.x
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 3317361613104738393, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
       propertyPath: m_Center.y
-      value: -2
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 3317361613104738393, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
       propertyPath: m_Center.z
-      value: 0.2
+      value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5342200369990610902, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
+      propertyPath: hitParticleEffect
+      value: 
+      objectReference: {fileID: 5024009746357069194, guid: 6ef68365eb855c34abcdc5703d7a764d, type: 3}
     - target: {fileID: 7170553045373430001, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
       propertyPath: m_RootOrder
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7170553045373430001, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 7170553045373430001, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
       propertyPath: m_LocalPosition.x
