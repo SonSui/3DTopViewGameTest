@@ -10,22 +10,30 @@ public class EnemyA1 : MonoBehaviour
 
     private Material oriMaterial;
     private Material temMaterial;
+<<<<<<< HEAD
     int hp = 4;
     float speed = 2.0f;
 
     //プレイヤーの座標
     Transform playerT;
+=======
+    int hp = 7;
+
+    EnemyGenerator enemyGenerator;
+>>>>>>> bc84285b6e050fdb25c097a31287f66be4c13863
     void Start()
     {
         Renderer renderer = GetComponent<Renderer>();
         oriMaterial = renderer.material;
         temMaterial = new Material(oriMaterial);
+        enemyGenerator = FindObjectOfType<EnemyGenerator>();
 
         playerT = GameObject.FindGameObjectWithTag("Player").transform;
     }
     private void Update()
     {
         if (hp < 0) {
+            enemyGenerator.deadEnemyNum++;
             Destroy(gameObject);
         }
 
