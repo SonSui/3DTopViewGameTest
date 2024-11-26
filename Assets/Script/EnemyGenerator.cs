@@ -9,16 +9,16 @@ public class EnemyGenerator : MonoBehaviour
     float delta = 0;
 
     //クリア判定変数
-    int enemyNumMax = 3;
+    public  int enemyNumMax = 3;
     int currEnemyNum = 0;
-    public int deadEnemyNum = 0;//テストため、EnemyA1のUpdate関数が変更してくる
+    public  int deadEnemyNum = 0;//テストため、EnemyA1のUpdate関数が変更してくる
 
 
-    public GameObject clearUI;
+    //public GameObject clearUI;
     
     void Start()
     {
-        clearUI.SetActive(false);//クリアテキストを見えないようにする
+       // clearUI.SetActive(false);//クリアテキストを見えないようにする
     }
 
     void Update()
@@ -36,10 +36,12 @@ public class EnemyGenerator : MonoBehaviour
                 currEnemyNum++;//敵の記数
             }
         }
+        /*
         if(deadEnemyNum>= enemyNumMax)
         {
             clearUI.SetActive(true);//クリアテキストを表示する
         }
+        */
         
     }
 }
