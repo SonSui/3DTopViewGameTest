@@ -44,9 +44,13 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 5342200369990610902, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
+      propertyPath: hitParticleEffect
+      value: 
+      objectReference: {fileID: 5024009746357069194, guid: 6ef68365eb855c34abcdc5703d7a764d, type: 3}
     - target: {fileID: 7170553045373430001, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
       propertyPath: m_RootOrder
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7170553045373430001, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
       propertyPath: m_LocalPosition.x

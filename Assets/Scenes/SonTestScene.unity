@@ -759,7 +759,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 5
-  m_Text: Game Clear
+  m_Text: Stage Clear
 --- !u!222 &1314611047
 CanvasRenderer:
   m_ObjectHideFlags: 0

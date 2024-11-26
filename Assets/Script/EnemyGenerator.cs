@@ -5,11 +5,11 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour
 {
     public GameObject EnemyA1;
-    float span = 5.0f;
+    float span = 2.0f;
     float delta = 0;
 
     //クリア判定変数
-    int enemyNumMax = 3;
+    int enemyNumMax = 6;
     int currEnemyNum = 0;
     public int deadEnemyNum = 0;//テストため、EnemyA1のUpdate関数が変更してくる
 
@@ -30,8 +30,9 @@ public class EnemyGenerator : MonoBehaviour
             {
                 this.delta = 0;
                 GameObject go = Instantiate(EnemyA1);
-                int px = Random.Range(-20, 20);
-                go.transform.position = new Vector3(px, 0, 0);
+                float px = Random.Range(-15f, 15f);
+                float pz = Random.Range(-5f, 5f);
+                go.transform.position = new Vector3(px, 0, pz);
 
                 currEnemyNum++;//敵の記数
             }

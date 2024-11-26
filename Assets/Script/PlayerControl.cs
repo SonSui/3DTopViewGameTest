@@ -163,15 +163,16 @@ public class PlayerControl : MonoBehaviour
         Vector3 horizontalMove = (forward * inputMove.y + right * inputMove.x).normalized;
         // d—ÍŒvŽZ
         float yDirection = moveDirection.y - gravity * Time.deltaTime;
+        Vector3 gra = new Vector3(0f, yDirection, 0f);
 
         // ˆÚ“®‘¬“x‚Æ•ûŒü
         moveDirection = horizontalMove * currSpeed;
-        moveDirection.y = yDirection;
+        
         float speed_ = inputMove.magnitude * currSpeed;
 
+        controller.Move(gra * Time.deltaTime);
 
 
-        //controller.Move(moveDirection * Time.deltaTime);
         if (horizontalMove.magnitude > 0.1f && IsRotatable())
         {
             moveDirection = horizontalMove;
@@ -305,12 +306,15 @@ public class PlayerControl : MonoBehaviour
     {
         unAttackSword.SetActive(false);
         onAttackSword.SetActive(true);
-        swordAttack01Hitbox.SetActive(true);
-        swordAttack01Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
         comboResetTime = 0.8f;
         comboTimer = 0f;
     }
-    public void OnSwordAttack01Update()
+    public void OnSwordAttack01Update1()
+    {
+        swordAttack01Hitbox.SetActive(true);
+        swordAttack01Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+    }
+    public void OnSwordAttack01Update2()
     {
         isAttack1Acceptable = true;
     }
