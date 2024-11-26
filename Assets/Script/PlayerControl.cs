@@ -5,9 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
-    CharacterController controller;
-
-    //アニメーション
+    // アニメーション
     Animator animator;
     private HashSet<int> commonAttack;
     private HashSet<int> shootAttack;
@@ -16,24 +14,27 @@ public class PlayerControl : MonoBehaviour
     private HashSet<int> dashAct;
     private HashSet<int> inpactAct;
 
-
+    // 移動
+    CharacterController controller;
     Vector3 moveDirection = Vector3.zero;
     Vector3 charaRotationOri = Vector3.zero;
     Vector2 inputMove = Vector2.zero;
+    private float rotationSpeed = 20f;
+    private float currMoveSpeed = 1.2f;
 
-    public CharacterStatus finalState;
 
-    //攻撃
-    public GameObject hitbox;
+    // 攻撃
+    private float currActSpeed = 1.2f;
 
     private int comboStep = 0;
     private float comboTimer = 0f;
     private float comboResetTime = 0.8f;
     private int maxComboStep = 3;
+
     private bool isAttack1Acceptable = true;
     private bool isAttack2Acceptable = true;
 
-    //Hitbox生成
+    // Hitbox生成（エフェクト含み）
     public GameObject onAttackSword;
     public GameObject unAttackSword;
     public GameObject swordAttack01Hitbox;
@@ -46,37 +47,40 @@ public class PlayerControl : MonoBehaviour
     public GameObject leftLeg;
     public GameObject leftLegHitbox;
 
+    //　エフェクト
     public GameObject dashEffect;
 
 
-    //入力バッファ
-    public float bufferTime = 0.4f;
+    // 入力バッファ
     enum Action
     {
         Attack1, Attack2,
         Dash,
     }
     private Queue<(Action, float)> inputQueue = new Queue<(Action, float)>();
+
     private bool isAnimeOver;
     private bool isShortRotatable = false;
 
-    //カメラ
+    public float bufferTime = 0.25f;
+
+    // カメラ
     CameraFollow camera1;
     Transform cameraTransform;
 
-    //マネージャー
+    // マネージャー
     GameManager gameManager = GameManager.Instance;
 
 
-    //物理
+    // 物理
     public float gravity = 20f;
-    private float rotationSpeed = 20f;
-    private float currSpeed = 1.2f;
+
+
 
 
 
     //ダッシュ
-    public bool isDashing;
+    private bool isDashing = false;
     private float dashTimeMax = 0.46f;
     private float dashSpeed = 15f;
 
@@ -85,6 +89,9 @@ public class PlayerControl : MonoBehaviour
     private float dashEndTime;
 
     private bool isDashingEventTriggered = false;
+
+    // 被弾
+    private bool isOnImpact = false;
 
     void Start()
     {
@@ -139,6 +146,7 @@ public class PlayerControl : MonoBehaviour
         }
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        SetActSpeed(currActSpeed);
         charaRotationOri = transform.eulerAngles;
         isAnimeOver = true;
     }
@@ -164,18 +172,18 @@ public class PlayerControl : MonoBehaviour
         // 重力計算
         float yDirection = moveDirection.y - gravity * Time.deltaTime;
         Vector3 gra = new Vector3(0f, yDirection, 0f);
-
-        // 移動速度と方向
-        moveDirection = horizontalMove * currSpeed;
-        
-        float speed_ = inputMove.magnitude * currSpeed;
-
         controller.Move(gra * Time.deltaTime);
+
+        // 移動方向と速度（斜め1.414倍）
+        moveDirection = horizontalMove;
+        float speed_ = inputMove.magnitude * currMoveSpeed;
+
+        
 
 
         if (horizontalMove.magnitude > 0.1f && IsRotatable())
         {
-            moveDirection = horizontalMove;
+            //回転
             Quaternion targetRotation = Quaternion.LookRotation(horizontalMove, Vector3.up);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
@@ -191,6 +199,7 @@ public class PlayerControl : MonoBehaviour
     // ===== Combo =====
     void UpdateCombo()
     {
+        // 攻撃入力停止すると自動的にコンボ記数リセット
         comboTimer += Time.deltaTime;
         if (comboTimer > comboResetTime)
         {
@@ -202,7 +211,9 @@ public class PlayerControl : MonoBehaviour
 
     public void ResetAttack1Combo()
     {
+        //コンボ記数リセット
         comboStep = 0;
+        comboTimer = 0;
         animator.SetInteger("ComboStep", comboStep);
     }
 
@@ -234,7 +245,7 @@ public class PlayerControl : MonoBehaviour
 
     private bool CanPerformNextAction(Action key)//アニメーション実行可能性確認
     {
-        if (key == Action.Dash)
+        if (key == Action.Dash) //ダッシュ割り込み
         {
             if (!IsInInpactState())
                 return true;
@@ -252,10 +263,11 @@ public class PlayerControl : MonoBehaviour
 
                 if (isAttack1Acceptable)
                 {
-                    isAttack1Acceptable = false;
+                    isAttack1Acceptable = false; //次の攻撃アニメ流す前にコンボ入力不可
                     Debug.Log("attack1");
                     comboStep++;
-                    comboStep %= (maxComboStep+1);
+                    comboStep %= (maxComboStep+1); //連続コンボのため、循環にする
+                    comboTimer = 0;
                     animator.SetInteger("ComboStep", comboStep);
                 }
 
@@ -275,7 +287,6 @@ public class PlayerControl : MonoBehaviour
                 {
                     Debug.Log("dash");
                     animator.SetTrigger("Dash");
-                    //StartDashing();
                 }
                 break;
         }
@@ -287,6 +298,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnRunningAnime()
     {
+        // 武器の表示位置と入力を整う
         isAttack1Acceptable = true;
         isAttack2Acceptable = true;
         unAttackSword.SetActive(true);
@@ -295,6 +307,7 @@ public class PlayerControl : MonoBehaviour
     }
     public void OnIdleAnime()
     {
+        // 武器の表示位置と入力を整う
         isAttack1Acceptable = true;
         isAttack2Acceptable = true;
         unAttackSword.SetActive(true);
@@ -304,66 +317,110 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSwordAttack01Enter()
     {
+        // 武器の攻撃の表示位置とコンボ入力
         unAttackSword.SetActive(false);
         onAttackSword.SetActive(true);
-        comboResetTime = 0.8f;
+        comboResetTime = 0.81f/currActSpeed;
         comboTimer = 0f;
     }
     public void OnSwordAttack01Update1()
     {
+        // Hitbox
         swordAttack01Hitbox.SetActive(true);
         swordAttack01Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
     }
     public void OnSwordAttack01Update2()
     {
+        // 次のコンボ入力可能
         isAttack1Acceptable = true;
+        animator.ResetTrigger("Shoot");//遠距離攻撃リセット
     }
     public void OnSwordAttack01Exit()
     {
+        // Hitbox非表示
         swordAttack01Hitbox.SetActive(false);
-        SetShortRotateBool();
+        SetShortRotateBool(0.28f); //短い間に回転可能
     }
     public void OnSwordAttack02Enter()
     {
+        // 武器の攻撃の表示位置とHitboxとコンボ入力
         unAttackSword.SetActive(false);
         onAttackSword.SetActive(true);
         swordAttack02Hitbox1.SetActive(true);
         swordAttack02Hitbox1.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
-        comboResetTime = 0.8f;
+        comboResetTime = 0.81f / currActSpeed;
         comboTimer = 0f;
     }
-    public void OnSwordAttack02Update()
+    public void OnSwordAttack02Update1()
     {
+        // 次のコンボ入力可能
         isAttack1Acceptable = true;
+        animator.ResetTrigger("Shoot");//遠距離攻撃リセット
+    }
+    public void OnSwordAttack02Update2()
+    {
+        // 二段コンボので、二つ目のHitbox表示
         swordAttack02Hitbox1.SetActive(false);
         swordAttack02Hitbox2.SetActive(true);
         swordAttack02Hitbox2.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
     }
     public void OnSwordArrack02Exit()
     {
+        // Hitbox非表示
         swordAttack02Hitbox2.SetActive(false);
-        SetShortRotateBool();
+        SetShortRotateBool(); //短い間に回転可能
     }
 
 
     public void OnSwordAttack03Enter()
     {
+        // 武器の攻撃の表示位置とHitboxとコンボ入力
         unAttackSword.SetActive(false);
         onAttackSword.SetActive(true);
         swordAttack03Hitbox.SetActive(true);
         swordAttack03Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
-        comboResetTime = 0.8f;
+        comboResetTime = 0.83f / currActSpeed;
         comboTimer = 0f;
+        comboStep = 0; //連続コンボのためにリセット
+        animator.SetInteger("ComboStep", comboStep);
     }
     public void OnSwordAttack03Update()
     {
+        // 次のコンボ入力可能
         isAttack1Acceptable = true;
+        animator.ResetTrigger("Shoot"); //遠距離攻撃リセット
     }
     public void OnSwordAttack03Exit()
     {
-        swordAttack03Hitbox.SetActive(false);
+        // Hitbox非表示
+        swordAttack03Hitbox.SetActive(false);  
     }
 
+    public void OnShootEnter()
+    {
+        unAttackSword.SetActive(false);
+        onAttackSword.SetActive(false);
+    }
+    public void OnShoot()
+    {
+        
+
+        Vector3 gunRot = gun.transform.eulerAngles;
+        gunRot.x = 90f;
+        
+        GameObject bull = Instantiate(bulletHitbox, gun.transform.position, Quaternion.Euler(gunRot));
+        bull.GetComponent<Hitbox_PlayerBullet>().Initialize(gameManager.GetPlayerAttackNow());
+        
+    }
+
+
+
+    public void OnHit(int dmg)
+    {
+        // 被弾
+        gameManager.PlayerTakeDamage(dmg);
+        animator.SetTrigger("Inpact");
+    }
 
 
     public void StartDashing()
@@ -374,14 +431,18 @@ public class PlayerControl : MonoBehaviour
         }
 
         isDashingEventTriggered = true;
+
+        //ダッシュは割り込み可能ので、すべてのコントロール制御と表示をリセット
         unAttackSword.SetActive(true);
         onAttackSword.SetActive(false);
-        dashEffect.SetActive(true);
         UnableAllHitBox();
         ResetAttack1Combo();
-        SetShortRotateBool(0.03f);
-        StartCoroutine(Dashing());
-        Invoke(nameof(ResetDashingEvent), dashTimeMax);
+        animator.ResetTrigger("Shoot");
+
+        dashEffect.SetActive(true);　//ダッシュのエフェクト
+        SetShortRotateBool(0.08f);　//回転可能
+        StartCoroutine(Dashing());　//コルーチンで移動
+        Invoke(nameof(ResetDashingEvent), dashTimeMax);　//
     }
     private void ResetDashingEvent()
     {
@@ -401,6 +462,7 @@ public class PlayerControl : MonoBehaviour
             dashDirection = transform.forward;
             controller.Move(dashDirection * dashSpeed * Time.deltaTime);
             //Debug.Log("dash dir" + dashDirection);
+            UnableAllHitBox();
             yield return null;
         }
 
@@ -422,6 +484,7 @@ public class PlayerControl : MonoBehaviour
     }
     private void UnableAllHitBox()
     {
+        //すべてのHitbox非表示
         swordAttack01Hitbox.SetActive(false);
         swordAttack02Hitbox1.SetActive(false);
         swordAttack02Hitbox2.SetActive(false);
@@ -436,7 +499,6 @@ public class PlayerControl : MonoBehaviour
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
-
         return commonAttack.Contains(currentAnimationHash);
     }
 
@@ -444,7 +506,6 @@ public class PlayerControl : MonoBehaviour
     {
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
-
 
         return shootAttack.Contains(currentAnimationHash);
     }
@@ -454,7 +515,6 @@ public class PlayerControl : MonoBehaviour
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
-
         return inpactAct.Contains(currentAnimationHash);
     }
     private bool IsInDashState()
@@ -462,13 +522,13 @@ public class PlayerControl : MonoBehaviour
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
-
         return dashAct.Contains(currentAnimationHash);
     }
 
     private bool IsRotatable()
     {
-        bool rotAnime = !(IsInDashState() || IsInAttack1State() || IsInInpactState() );
+        //ダッシュ、普通攻撃、被弾の時回転不可
+        bool rotAnime = !(IsInDashState() || IsInAttack1State() || IsInInpactState() || IsInAttack2State());
         return rotAnime || isShortRotatable;
     }
 
@@ -497,11 +557,15 @@ public class PlayerControl : MonoBehaviour
     void OnAim(InputValue value)//照準
     {
         Debug.Log("Aim");
-        Vector2 forw = value.Get<Vector2>();
+        
         if (cameraTransform == null) return;
+
+        Vector2 forw = value.Get<Vector2>();
+        //　カメラよる照準方向を計算
         Vector3 forward = new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z).normalized;
         Vector3 right = new Vector3(cameraTransform.right.x, 0, cameraTransform.right.z).normalized;
         Vector3 horizontalMove = (forward * forw.y + right * forw.x).normalized;
+        
         if (horizontalMove.magnitude > 0.1f && IsRotatable())
         {
             moveDirection = horizontalMove;
@@ -513,7 +577,15 @@ public class PlayerControl : MonoBehaviour
     //  ===== Getter/Setter =====
     public void SetMoveSpeed(float speed)
     {
-        currSpeed = speed;
+        currMoveSpeed = speed;
     }
-
+    public bool IsDashing()
+    {
+        return isDashing;
+    }
+    public void SetActSpeed(float speed)
+    {
+        currActSpeed = speed;
+        animator.SetFloat("ActSpeed",currActSpeed);
+    }
 }

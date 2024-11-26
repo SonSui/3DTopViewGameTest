@@ -245,6 +245,42 @@ public class PlayerStatus : BaseCharacterStatus
         RecoverAmmo();
         // その他の処理
     }
+    public int ReturnTakeDamage(int damage)
+    {
+        // バリアが有効な場合、ダメージを受けない
+        if (barrier)
+        {
+            Debug.Log("バリアによってダメージを無効化");
+            return 0;
+        }
+
+        // 回避判定
+        if (Random.value < evasionRate)
+        {
+            Debug.Log("攻撃を回避した");
+            return 0;
+        }
+
+        // 防御貫通が有効な場合、防御力を無視（防御力は常に0なので影響なし）
+        int actualDamage = damage;
+
+        // ダメージ適用
+        hpNow -= actualDamage;
+        Debug.Log($"プレイヤーは{actualDamage}のダメージを受けた（残りHP: {hpNow}/{hpMax}）");
+
+        if (IsDead())
+        {
+            if (resurrection && resurrectionTime > 0)
+            {
+                Resurrection();
+            }
+            else
+            {
+                OnDeath();
+            }
+        }
+        return actualDamage;
+    }
 
 
     // =====ステータスを表示=====

@@ -9,7 +9,7 @@ public class CameraFollow : MonoBehaviour
     
     
 
-    public float smoothTime = 0.2f;
+    public float smoothTime = 0.1f;
 
     // UI要素
     public GameObject uiCanvasPrefab; // CanvasのPrefab
@@ -35,6 +35,7 @@ public class CameraFollow : MonoBehaviour
     private Vector3 oriRot;
     private float pos2Y;
     private Vector3 rot2;
+    private float rot2X = 75f;
     private float occlusionCheckTimer = 0f;
     private float occlusionCheckDelay = 0.2f; // Adjust as needed
     private bool previousOcclusionState = false;
@@ -67,7 +68,7 @@ public class CameraFollow : MonoBehaviour
         offset = transform.position - target.position;
         pos2Y = offset.magnitude;
         oriRot = transform.eulerAngles;
-        rot2 = new Vector3 (80f, oriRot.y, oriRot.z);
+        rot2 = new Vector3 (rot2X, oriRot.y, oriRot.z);
         
 
         // UIの初期設定
@@ -130,7 +131,7 @@ public class CameraFollow : MonoBehaviour
             {
                 //位置を円滑に更新
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rot2), Time.deltaTime / smoothTime);
-                transform.position = Vector3.Lerp(transform.position, pos2, Time.deltaTime / smoothTime);
+                transform.position = Vector3.Lerp(transform.position, pos2, Time.deltaTime / smoothTime );
             }
             else
             {
