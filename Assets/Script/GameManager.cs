@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     // GameManagerのインスタンスを保持する静的変数
     public static GameManager Instance { get; private set; }
 
+    private PlayerStatus playerStatus = new PlayerStatus(6,3);
+
     // プレイヤーとカメラのPrefab
     public GameObject playerPrefab;
     public GameObject cameraPrefab;
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     // プレイヤーのPlayerControllerスクリプトとカメラのCameraFollowスクリプト
     private PlayerController playerController;
+    private PlayerControl playerControl;
     private CameraFollow cameraFollow;
 
     public Vector3 defPlayerPos = new Vector3(0, 0, 0);
@@ -41,38 +44,7 @@ public class GameManager : MonoBehaviour
     {
 
         Application.targetFrameRate = 60;
-        // プレイヤーの生成
-        /*player = Instantiate(playerPrefab, defPlayerPos, Quaternion.identity);
-        playerController = player.GetComponent<PlayerController>(); // PlayerControllerスクリプトを取得
-        if (abilityManager != null)
-        {
-            abilityManager.player = playerController;
-        }
-        else
-        {
-            abilityManager = FindObjectOfType<AbilityManager>();
-            if(abilityManager == null) 
-            {
-                Debug.Log("AbilityManger が見つけません");
-                return;
-            }
-            abilityManager.player = playerController;
-        }
-
-        // カメラの生成
-        Vector3 cameraPosition = player.transform.position + defCameraPos; // プレイヤーの相対位置に配置
-        //Quaternion cameraRotation = Quaternion.Euler(defCameraRot); // カメラの角度を設定
-
-        // カメラのインスタンス化
-        camera1 = Instantiate(cameraPrefab, cameraPosition, Quaternion.identity);
-        cameraFollow = camera1.GetComponent<CameraFollow>(); // CameraFollowスクリプトを取得
-
-        // カメラの初期回転を再設定
-        camera1.transform.Rotate(defCameraRot.x,0,0);
-        camera1.transform.Rotate(0, defCameraRot.y, 0);
-
-        // カメラがプレイヤーを追従するように設定
-        cameraFollow.SetTarget(player.transform);*/
+        
     }
 
     public bool SpawnPlayer()
@@ -81,7 +53,9 @@ public class GameManager : MonoBehaviour
         {
             player = Instantiate(playerPrefab, defPlayerPos, Quaternion.identity);
             playerController = player.GetComponent<PlayerController>();
-            if (abilityManager != null)
+            playerControl = player.GetComponent<PlayerControl>();
+            //playerControl.SetActSpeed(1.5f);
+            /*if (abilityManager != null)
             {
                 abilityManager.player = playerController;
             }
@@ -94,7 +68,7 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
                 abilityManager.player = playerController;
-            }
+            }*/
         }
         return true;
     }
@@ -111,9 +85,6 @@ public class GameManager : MonoBehaviour
 
             camera1.transform.position = cameraPosition;
             camera1.transform.rotation = cameraRotation;
-            // カメラの初期回転を再設定
-            //camera1.transform.Rotate(defCameraRot.x, 0, 0);
-            //camera1.transform.Rotate(0, defCameraRot.y, 0);
 
             // カメラがプレイヤーを追従するように設定
             cameraFollow.SetTarget(player.transform);
@@ -142,6 +113,22 @@ public class GameManager : MonoBehaviour
         SpawnPlayer();
         SpawnCamera();
     }
-
+    public int GetPlayerAttackNow()
+    {
+        return playerStatus.GetAttackNow();
+    }
+    public void PlayerTakeDamage(int dmg)
+    {
+        int realDmg = playerStatus.ReturnTakeDamage(dmg);
+        Debug.Log($"Player Take {realDmg}Damage,Remaining{playerStatus.GetHpNow()}");
+        if(realDmg > 0)
+        {
+            //UIManager.PlayerTakeDmg(realDmg);
+        }
+        if(playerStatus.IsDead())
+        {
+            // PlayerDead();
+        }
+    }
 
 }

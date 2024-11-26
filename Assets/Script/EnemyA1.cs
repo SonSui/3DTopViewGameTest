@@ -10,17 +10,21 @@ public class EnemyA1 : MonoBehaviour
 
     private Material oriMaterial;
     private Material temMaterial;
-    int hp = 100;
+    int hp = 7;
+
+    EnemyGenerator enemyGenerator;
     void Start()
     {
         Renderer renderer = GetComponent<Renderer>();
         oriMaterial = renderer.material;
         temMaterial = new Material(oriMaterial);
+        enemyGenerator = FindObjectOfType<EnemyGenerator>();
 
     }
     private void Update()
     {
         if (hp < 0) {
+            enemyGenerator.deadEnemyNum++;
             Destroy(gameObject);
         }
     }

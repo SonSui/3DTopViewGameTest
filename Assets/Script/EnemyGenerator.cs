@@ -6,18 +6,29 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour
 {
     public GameObject EnemyA1;
-    float span = 5.0f;
+    float span = 2.0f;
     float delta = 0;
-    // Start is called before the first frame update
+
+    //クリア判定変数
+
+    public  int enemyNumMax = 3;
+
+
+    int currEnemyNum = 0;
+    public  int deadEnemyNum = 0;//テストため、EnemyA1のUpdate関数が変更してくる
+
+
+    //public GameObject clearUI;
+    
     void Start()
     {
-
+       // clearUI.SetActive(false);//クリアテキストを見えないようにする
     }
 
-    // Update is called once per frame
     void Update()
     {
         this.delta += Time.deltaTime;
+
         if (this.delta > this.span)
         {
             this.delta = 0;
@@ -38,5 +49,6 @@ public class EnemyGenerator : MonoBehaviour
             go.transform.position = new Vector3(px, 3, pz);
             Debug.Log(new Vector3(px, 3, pz));
         }
+
     }
 }

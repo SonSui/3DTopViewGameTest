@@ -7,6 +7,7 @@ TagManager:
   - Player_Attack
   - Badge
   - Enemy
+  - Building
   layers:
   - Default
   - TransparentFX
