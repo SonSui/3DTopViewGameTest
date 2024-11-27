@@ -50,6 +50,7 @@ public class PlayerControl : MonoBehaviour
 
     //　エフェクト
     public GameObject dashEffect;
+    public GameObject evasionEffect;
 
 
     // 入力バッファ
@@ -605,7 +606,13 @@ public class PlayerControl : MonoBehaviour
 
     public void OnHit(int dmg)
     {
-        if (IsInDyingState()||IsInImpactState()||IsInDashState())
+        if (IsInDashState())
+        {
+            //回避エフェクト（未実装）
+            //SpawnEvasionEffect();
+            return;
+        }
+        if (IsInDyingState()||IsInImpactState())
         {
             return;
         }
@@ -615,6 +622,7 @@ public class PlayerControl : MonoBehaviour
     }
     public void OnDying()
     {
+        UnableAllHitBox();
         animator.SetTrigger("Dead");
     }
 }

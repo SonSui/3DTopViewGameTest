@@ -10,7 +10,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: ComboStep
-    m_EventTreshold: 2
+    m_EventTreshold: 3
   - m_ConditionMode: 4
     m_ConditionEvent: MoveSpeed
     m_EventTreshold: 0.01
@@ -975,9 +975,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 6
+  - m_ConditionMode: 4
     m_ConditionEvent: ComboStep
-    m_EventTreshold: 0
+    m_EventTreshold: 2
   - m_ConditionMode: 3
     m_ConditionEvent: MoveSpeed
     m_EventTreshold: 0.01
@@ -1003,9 +1003,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: SwordAttack01_to_Idle
   m_Conditions:
-  - m_ConditionMode: 6
+  - m_ConditionMode: 4
     m_ConditionEvent: ComboStep
-    m_EventTreshold: 0
+    m_EventTreshold: 2
   - m_ConditionMode: 4
     m_ConditionEvent: MoveSpeed
     m_EventTreshold: 0.01
@@ -1033,7 +1033,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: ComboStep
-    m_EventTreshold: 2
+    m_EventTreshold: 3
   - m_ConditionMode: 3
     m_ConditionEvent: MoveSpeed
     m_EventTreshold: 0

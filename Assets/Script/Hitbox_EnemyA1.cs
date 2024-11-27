@@ -8,15 +8,18 @@ public class Hitbox_EnemyA1 : MonoBehaviour
     public Material realAttack; //çUåÇ
 
     private MeshRenderer render;
+    private Collider collider1;
 
     private float preAtkTime = 0.8f;
     private float lifeTime = 2f;
     private float currTime = 0f;
 
     private int dmg = 0;
+    private bool isHitted = false;
     void Start()
     {
         render = GetComponent<MeshRenderer>();
+        collider1 = GetComponent<Collider>();
         render.material = preAttack;
     }
 
@@ -27,7 +30,9 @@ public class Hitbox_EnemyA1 : MonoBehaviour
 
         if(currTime > preAtkTime) 
         {
+            collider1.enabled = false;
             render.material = realAttack;
+            collider1.enabled = true;
         }
 
         if (currTime > lifeTime) 
@@ -38,10 +43,10 @@ public class Hitbox_EnemyA1 : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player")&& currTime > preAtkTime)
+        if(other.gameObject.CompareTag("Player")&& currTime > preAtkTime&&!isHitted)
         {
             other.GetComponent<PlayerControl>().OnHit(dmg);
-            Destroy(gameObject);
+            isHitted = true;
         }
     }
 

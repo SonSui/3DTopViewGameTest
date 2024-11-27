@@ -18,8 +18,10 @@ public class EnemyA1 : MonoBehaviour
     float speed = 2.0f;
     int dmg = 1;
 
-    float atkInterval = 3f;
+    float atkInterval = 4f;
     float atkTime = 0f;
+
+    bool isDying = false;
 
     //プレイヤーの座標
     Transform playerT;
@@ -37,10 +39,7 @@ public class EnemyA1 : MonoBehaviour
     }
     private void Update()
     {
-        if (hp < 0) {
-            enemyGenerator.deadEnemyNum++;
-            Destroy(gameObject);
-        }
+        
         if(hitbox==null)
         {
             atkTime += Time.deltaTime;
@@ -48,11 +47,7 @@ public class EnemyA1 : MonoBehaviour
 
         if (Vector3.Distance(transform.position, playerT.position) < 3.0f && hitbox == null && atkTime>atkInterval)
         {
-            hitbox = Instantiate(hitboxPrefab);
-            hitbox.GetComponent<Hitbox_EnemyA1>().Initialized(dmg);
-            hitbox.transform.position = transform.position;
-            hitbox.transform.SetParent(transform);
-            atkTime = 0f;
+            Attack();
         }
 
         //プレイヤーとの距離が近くなったら移動を止める
@@ -67,8 +62,18 @@ public class EnemyA1 : MonoBehaviour
     //撃たれると0.1秒間赤くなる
     public void OnHit(int dmg)
     {
+        if (isDying) return;
+
         hp -= dmg;
         StartCoroutine(ChangeColorTemporarily());
+        //被弾アニメーションとエフェクト
+
+        if (hp < 0)
+        {
+            enemyGenerator.deadEnemyNum++;
+            OnDead();
+            
+        }
     }
     private IEnumerator ChangeColorTemporarily()
     {
@@ -82,5 +87,21 @@ public class EnemyA1 : MonoBehaviour
         
         temMaterial.color = oriMaterial.color;
         GetComponent<Renderer>().material = temMaterial;
+    }
+    private void OnDead()
+    {
+        isDying = true;
+        //死亡アニメーションとエフェクト
+
+        //アニメーション完了したら削除
+        Destroy(gameObject);
+    }
+    private void Attack()
+    {
+        hitbox = Instantiate(hitboxPrefab);
+        hitbox.GetComponent<Hitbox_EnemyA1>().Initialized(dmg);
+        hitbox.transform.position = transform.position;
+        hitbox.transform.SetParent(transform);
+        atkTime = 0f;
     }
 }
