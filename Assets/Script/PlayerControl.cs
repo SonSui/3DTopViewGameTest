@@ -90,10 +90,16 @@ public class PlayerControl : MonoBehaviour
     private float dashTime;
     private float dashEndTime;
 
+    private int defaultLayer;
+    private int dashingLayer; //敵との衝突防止
+
     private bool isDashingEventTriggered = false;
 
     // 被弾
     private bool isOnImpact = false;
+    private bool isInvic = false;
+    private float InvincibilityTime = 1.1f;
+    private float currInvinTime = 0f;
 
     void Start()
     {
@@ -132,7 +138,8 @@ public class PlayerControl : MonoBehaviour
         {
             Animator.StringToHash("Dying")
         };
-
+        defaultLayer = gameObject.layer;
+        dashingLayer = LayerMask.NameToLayer("DashingPlayer");
 
         controller = GetComponent<CharacterController>();
 
@@ -162,6 +169,16 @@ public class PlayerControl : MonoBehaviour
         //アニメ状態
         string animeName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
+        if (isInvic) //被弾の無敵時間
+        {
+            currInvinTime += Time.deltaTime;
+            if (currInvinTime > InvincibilityTime)
+            {
+                isInvic = false;
+            }
+        }
+
+
         //攻撃コンボ更新
         if (comboStep > 0)
         {
@@ -184,7 +201,7 @@ public class PlayerControl : MonoBehaviour
         moveDirection = horizontalMove;
         float speed_ = inputMove.magnitude * currMoveSpeed;
 
-        
+
 
 
         if (horizontalMove.magnitude > 0.1f && IsRotatable())
@@ -272,7 +289,7 @@ public class PlayerControl : MonoBehaviour
                     isAttack1Acceptable = false; //次の攻撃アニメ流す前にコンボ入力不可
                     Debug.Log("attack1");
                     comboStep++;
-                    comboStep %= (maxComboStep+1); //連続コンボのため、循環にする
+                    comboStep %= (maxComboStep + 1); //連続コンボのため、循環にする
                     comboTimer = 0;
                     animator.SetInteger("ComboStep", comboStep);
                 }
@@ -292,6 +309,7 @@ public class PlayerControl : MonoBehaviour
                 if (!isDashing)
                 {
                     Debug.Log("dash");
+                    
                     animator.SetTrigger("Dash");
                 }
                 break;
@@ -326,7 +344,7 @@ public class PlayerControl : MonoBehaviour
         // 武器の攻撃の表示位置とコンボ入力
         unAttackSword.SetActive(false);
         onAttackSword.SetActive(true);
-        comboResetTime = 0.81f/currActSpeed;
+        comboResetTime = 0.81f / currActSpeed;
         comboTimer = 0f;
     }
     public void OnSwordAttack01Update1()
@@ -399,7 +417,7 @@ public class PlayerControl : MonoBehaviour
     public void OnSwordAttack03Exit()
     {
         // Hitbox非表示
-        swordAttack03Hitbox.SetActive(false);  
+        swordAttack03Hitbox.SetActive(false);
     }
 
     public void OnShootEnter()
@@ -409,14 +427,14 @@ public class PlayerControl : MonoBehaviour
     }
     public void OnShoot()
     {
-        
+
 
         Vector3 gunRot = gun.transform.eulerAngles;
         gunRot.x = 90f;
-        
+
         GameObject bull = Instantiate(bulletHitbox, gun.transform.position, Quaternion.Euler(gunRot));
         bull.GetComponent<Hitbox_PlayerBullet>().Initialize(gameManager.GetPlayerAttackNow());
-        
+
     }
 
     public void OnImpact()
@@ -445,6 +463,7 @@ public class PlayerControl : MonoBehaviour
         UnableAllHitBox();
         ResetAttack1Combo();
         animator.ResetTrigger("Shoot");
+        gameObject.layer = dashingLayer;//敵との衝撃禁止
 
         dashEffect.SetActive(true);　//ダッシュのエフェクト
         SetShortRotateBool(0.08f);　//回転可能
@@ -457,6 +476,7 @@ public class PlayerControl : MonoBehaviour
         isDashingEventTriggered = false;
         isAttack1Acceptable = true;
         isAttack2Acceptable = true;
+        gameObject.layer = defaultLayer;//敵との衝撃戻る
     }
     private IEnumerator Dashing()//コルーチンでダッシュ処理
     {
@@ -475,6 +495,13 @@ public class PlayerControl : MonoBehaviour
 
         isDashing = false;
     }
+
+    private void SpawnEvasionEffect()
+    {
+        GameObject eff = Instantiate(evasionEffect);
+        eff.transform.position = transform.position;
+    }
+
     private void SetShortRotateBool(float sTime = 0.3f)
     {
         // 短い時間内で回転できる
@@ -502,7 +529,7 @@ public class PlayerControl : MonoBehaviour
 
     // ===== アニメーション状態 =====
     private bool IsInAttack1State()
-    {
+    {   //近接攻撃
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
@@ -510,7 +537,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     private bool IsInAttack2State()
-    {
+    {　 // 遠距離攻撃
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
@@ -518,14 +545,14 @@ public class PlayerControl : MonoBehaviour
     }
 
     private bool IsInImpactState()
-    {
+    {   // 被弾
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
         return impactAct.Contains(currentAnimationHash);
     }
     private bool IsInDashState()
-    {
+    {   // ダッシュ
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
@@ -533,7 +560,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     private bool IsInDyingState() 
-    {
+    {   // 死亡
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
@@ -606,22 +633,30 @@ public class PlayerControl : MonoBehaviour
 
     public void OnHit(int dmg)
     {
-        if (IsInDashState())
+        if (IsDashing())
         {
-            //回避エフェクト（未実装）
-            //SpawnEvasionEffect();
+            //回避エフェクト
+            SpawnEvasionEffect();
             return;
         }
-        if (IsInDyingState()||IsInImpactState())
+        if (IsInDyingState()||IsInImpactState()||isInvic)
         {
             return;
         }
         // 被弾
         int applyDmg = gameManager.PlayerTakeDamage(dmg);
-        if (applyDmg > 0) animator.SetTrigger("Impact");
+        if (applyDmg > 0)
+        {
+
+            animator.SetTrigger("Impact");
+            
+            isInvic = true;
+            currInvinTime = 0;
+        }
     }
     public void OnDying()
     {
+        //死亡
         UnableAllHitBox();
         animator.SetTrigger("Dead");
     }

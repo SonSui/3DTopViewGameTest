@@ -74,6 +74,8 @@ public class EnemyA1 : MonoBehaviour
             OnDead();
             
         }
+        DeleteHitbox();
+        atkTime = 0;
     }
     private IEnumerator ChangeColorTemporarily()
     {
@@ -103,5 +105,9 @@ public class EnemyA1 : MonoBehaviour
         hitbox.transform.position = transform.position;
         hitbox.transform.SetParent(transform);
         atkTime = 0f;
+    }
+    private void DeleteHitbox()
+    {
+        if(hitbox!=null)Destroy(hitbox.gameObject);
     }
 }
