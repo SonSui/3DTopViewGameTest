@@ -121,11 +121,20 @@ public class GameManager : MonoBehaviour
     }
     private void OnSceneLoaded(Scene scene,LoadSceneMode loadSceneMode)
     {
+        ResetPlayerStatus();
         SpawnPlayer();
         SpawnCamera();
         FindUIManager();
 
     }
+
+    private void ResetPlayerStatus()
+    {
+        playerStatus = new PlayerStatus(6, 3);
+        isPlayerDead = false;
+    }
+
+
     public int GetPlayerAttackNow()
     {
         return playerStatus.GetAttackNow();

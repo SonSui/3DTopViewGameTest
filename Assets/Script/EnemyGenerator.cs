@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour
 {
     public GameObject EnemyA1;
-    float span = 2.0f;
+    public float span = 3.0f;
     float delta = 0;
 
     //クリア判定変数
@@ -35,7 +35,8 @@ public class EnemyGenerator : MonoBehaviour
             float px;
             float pz;
 
-            GameObject go = Instantiate(EnemyA1);
+            Vector3 pos = new Vector3(0f, 10f, 0f);
+            GameObject go = Instantiate(EnemyA1,pos,Quaternion.identity);
             do
             {
                 px = UnityEngine.Random.Range(-12.0f, 12.0f);
