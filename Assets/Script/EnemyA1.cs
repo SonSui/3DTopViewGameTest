@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyA1 : MonoBehaviour
+public class EnemyA1 : MonoBehaviour,IOnHit
 {
     public Color hitColor = Color.red;
 

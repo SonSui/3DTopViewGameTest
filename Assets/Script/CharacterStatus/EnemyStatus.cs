@@ -25,16 +25,18 @@ public class EnemyStatus : BaseCharacterStatus
         int hpMax = 10,
         int attackPower = 1,
         int defense = 1,
-        float criticalRate = 0.0f,
-        float criticalDamage = 1.5f,
+        string enemyType = "Normal",
+        bool hasShield = false,
+        int shieldDurability = 0,
+
         float moveSpeed = 0.8f,
         float attackSpeed = 1.0f,
         float attackRange = 1.0f,
         float evasionRate = 0.0f,
-        string enemyType = "Normal",
         
-        bool hasShield = false,
-        int shieldDurability = 0
+        float criticalRate = 0.0f,
+        float criticalDamage = 1.5f
+
     ) : base(
         name: name,
         hpMax: hpMax,
