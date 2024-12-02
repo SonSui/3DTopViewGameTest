@@ -60,7 +60,7 @@ public class EnemyA1 : MonoBehaviour,IOnHit
 
 
     //åÇÇΩÇÍÇÈÇ∆0.1ïbä‘ê‘Ç≠Ç»ÇÈ
-    public void OnHit(int dmg)
+    public void OnHit(int dmg, bool crit = false)
     {
         if (isDying) return;
 
