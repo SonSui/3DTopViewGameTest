@@ -77,7 +77,7 @@ public class EnemyStatus : BaseCharacterStatus
 
         // ダメージ適用
         hpNow -= actualDamage;
-        Debug.Log($"{this.name}は{actualDamage}のダメージを受けた（残りHP: {hpNow}/{hpMax}）");
+        Debug.Log($"{this.name} は{actualDamage} のダメージを受けた（残りHP: {hpNow}/{hpMax}）");
 
 
 
@@ -101,7 +101,7 @@ public class EnemyStatus : BaseCharacterStatus
     protected override void OnDeath()
     {
         // 敵の死亡処理
-        Debug.Log($"{this.name}は倒された");
+        Debug.Log($"{this.name} は倒された");
         DropItems();
 
     }
@@ -115,7 +115,7 @@ public class EnemyStatus : BaseCharacterStatus
         {
             // アイテムを生成?
             
-            Debug.Log($"{item.itemName}をドロップした");
+            Debug.Log($"{item.itemName} をドロップした");
         }
     }
 
