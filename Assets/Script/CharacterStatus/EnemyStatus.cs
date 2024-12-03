@@ -25,16 +25,18 @@ public class EnemyStatus : BaseCharacterStatus
         int hpMax = 10,
         int attackPower = 1,
         int defense = 1,
-        float criticalRate = 0.0f,
-        float criticalDamage = 1.5f,
+        string enemyType = "Normal",
+        bool hasShield = false,
+        int shieldDurability = 0,
+
         float moveSpeed = 0.8f,
         float attackSpeed = 1.0f,
         float attackRange = 1.0f,
         float evasionRate = 0.0f,
-        string enemyType = "Normal",
         
-        bool hasShield = false,
-        int shieldDurability = 0
+        float criticalRate = 0.0f,
+        float criticalDamage = 1.5f
+
     ) : base(
         name: name,
         hpMax: hpMax,
@@ -75,7 +77,7 @@ public class EnemyStatus : BaseCharacterStatus
 
         // ダメージ適用
         hpNow -= actualDamage;
-        Debug.Log($"{this.name}は{actualDamage}のダメージを受けた（残りHP: {hpNow}/{hpMax}）");
+        Debug.Log($"{this.name} は{actualDamage} のダメージを受けた（残りHP: {hpNow}/{hpMax}）");
 
 
 
@@ -99,7 +101,7 @@ public class EnemyStatus : BaseCharacterStatus
     protected override void OnDeath()
     {
         // 敵の死亡処理
-        Debug.Log($"{this.name}は倒された");
+        Debug.Log($"{this.name} は倒された");
         DropItems();
 
     }
@@ -113,7 +115,7 @@ public class EnemyStatus : BaseCharacterStatus
         {
             // アイテムを生成?
             
-            Debug.Log($"{item.itemName}をドロップした");
+            Debug.Log($"{item.itemName} をドロップした");
         }
     }
 

@@ -2,20 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyA1 : MonoBehaviour
+public class EnemyA1 : MonoBehaviour,IOnHit
 {
     public Color hitColor = Color.red;
 
     public float hitDuration = 0.1f;
 
+    public GameObject hitboxPrefab;
+    private GameObject hitbox=null;
+
     private Material oriMaterial;
     private Material temMaterial;
 
-    int hp = 4;
-    float speed = 2.0f;
 
-    //ƒvƒŒƒCƒ„[‚ÌÀ•W
+    int hp = 4;
+
+    float speed = 2.0f;
+    int dmg = 1;
+
+    float atkInterval = 4f;
+    float atkTime = 0f;
+
+    bool isDying = false;
+
+    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™
+
     private Transform playerT;
+
 
     EnemyGenerator enemyGenerator;
 
@@ -30,26 +43,50 @@ public class EnemyA1 : MonoBehaviour
     }
     private void Update()
     {
+
         if (hp < 0) {
             //enemyGenerator.deadEnemyNum++;
             Destroy(gameObject);
+            }
+
+        
+        if(hitbox==null)
+        {
+            atkTime += Time.deltaTime;
         }
 
-        //ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª‹ß‚­‚È‚Á‚½‚çˆÚ“®‚ğ~‚ß‚é
-        if (Vector3.Distance(transform.position, playerT.position) < 2.1f)
-        return;
+        if (Vector3.Distance(transform.position, playerT.position) < 3.0f && hitbox == null && atkTime>atkInterval)
+        {
+            Attack();
 
-        //ƒvƒŒƒCƒ„[‚ÉŒü‚¯‚Äi‚Ş
+        }
+
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ãŒè¿‘ããªã£ãŸã‚‰ç§»å‹•ã‚’æ­¢ã‚ã‚‹
+        if (Vector3.Distance(transform.position, playerT.position) < 2.1f){ return; }
+
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‘ã¦é€²ã‚€
         transform.position = 
             Vector3.MoveTowards(transform.position, new Vector3(playerT.position.x, playerT.position.y, playerT.position.z), speed * Time.deltaTime);
     }
 
 
-    //Œ‚‚½‚ê‚é‚Æ0.1•bŠÔÔ‚­‚È‚é
-    public void OnHit(int dmg)
+    //æ’ƒãŸã‚Œã‚‹ã¨0.1ç§’é–“èµ¤ããªã‚‹
+    public void OnHit(int dmg, bool crit = false)
     {
+        if (isDying) return;
+
         hp -= dmg;
         StartCoroutine(ChangeColorTemporarily());
+        //è¢«å¼¾ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã¨ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
+
+        if (hp < 0)
+        {
+            enemyGenerator.deadEnemyNum++;
+            OnDead();
+            
+        }
+        DeleteHitbox();
+        atkTime = 0;
     }
     private IEnumerator ChangeColorTemporarily()
     {
@@ -63,5 +100,25 @@ public class EnemyA1 : MonoBehaviour
         
         temMaterial.color = oriMaterial.color;
         GetComponent<Renderer>().material = temMaterial;
+    }
+    private void OnDead()
+    {
+        isDying = true;
+        //æ­»äº¡ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã¨ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
+
+        //ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å®Œäº†ã—ãŸã‚‰å‰Šé™¤
+        Destroy(gameObject);
+    }
+    private void Attack()
+    {
+        hitbox = Instantiate(hitboxPrefab);
+        hitbox.GetComponent<Hitbox_EnemyA1>().Initialized(dmg);
+        hitbox.transform.position = transform.position;
+        hitbox.transform.SetParent(transform);
+        atkTime = 0f;
+    }
+    private void DeleteHitbox()
+    {
+        if(hitbox!=null)Destroy(hitbox.gameObject);
     }
 }

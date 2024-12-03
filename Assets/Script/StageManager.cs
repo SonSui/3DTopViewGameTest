@@ -8,7 +8,9 @@ public class StageManager : MonoBehaviour
     // Start is called before the first frame update
 
     public GameObject clearUI;
+    public GameObject defeatUI;
     EnemyGenerator enemyGenerator;
+    UIManager uiManager;
 
 
 
@@ -16,15 +18,24 @@ public class StageManager : MonoBehaviour
     void Start()
     {
         enemyGenerator = FindObjectOfType<EnemyGenerator>();
+        uiManager = FindObjectOfType<UIManager>();
         clearUI.SetActive(false);
+        defeatUI.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (enemyGenerator.deadEnemyNum >= enemyGenerator.enemyNumMax)
+        if (GameManager.Instance.IsPlayerDead())
+        {
+            defeatUI.SetActive(true);
+            uiManager.AbleButtons();
+        }
+        else if (enemyGenerator.deadEnemyNum >= enemyGenerator.enemyNumMax)
         {
             clearUI.SetActive(true);//クリアテキストを表示する
+            uiManager.AbleButtons();
         }
+        
     }
 }

@@ -39,7 +39,7 @@ public class Hitbox_PlayerBullet : MonoBehaviour
             // 記録
             hitTargets.Add(other);
             // ダメージ与える
-            other.gameObject.GetComponent<EnemyA1>().OnHit(damage);
+            other.gameObject.GetComponent<IOnHit>().OnHit(damage);
 
             // 接する位置
             Vector3 contactPoint = other.ClosestPoint(transform.position);

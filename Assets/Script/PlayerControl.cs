@@ -12,7 +12,8 @@ public class PlayerControl : MonoBehaviour
     private HashSet<int> idleAct;
     private HashSet<int> runAct;
     private HashSet<int> dashAct;
-    private HashSet<int> inpactAct;
+    private HashSet<int> impactAct;
+    private HashSet<int> dyingAct;
 
     // 移動
     CharacterController controller;
@@ -49,6 +50,7 @@ public class PlayerControl : MonoBehaviour
 
     //　エフェクト
     public GameObject dashEffect;
+    public GameObject evasionEffect;
 
 
     // 入力バッファ
@@ -88,10 +90,16 @@ public class PlayerControl : MonoBehaviour
     private float dashTime;
     private float dashEndTime;
 
+    private int defaultLayer;
+    private int dashingLayer; //敵との衝突防止
+
     private bool isDashingEventTriggered = false;
 
     // 被弾
     private bool isOnImpact = false;
+    private bool isInvic = false;
+    private float InvincibilityTime = 1.1f;
+    private float currInvinTime = 0f;
 
     void Start()
     {
@@ -122,11 +130,16 @@ public class PlayerControl : MonoBehaviour
         {
             Animator.StringToHash("Dash")
         };
-        inpactAct = new HashSet<int>
+        impactAct = new HashSet<int>
         {
-            Animator.StringToHash("Inpact")
+            Animator.StringToHash("Impact")
         };
-
+        dyingAct = new HashSet<int>
+        {
+            Animator.StringToHash("Dying")
+        };
+        defaultLayer = gameObject.layer;
+        dashingLayer = LayerMask.NameToLayer("DashingPlayer");
 
         controller = GetComponent<CharacterController>();
 
@@ -156,6 +169,16 @@ public class PlayerControl : MonoBehaviour
         //アニメ状態
         string animeName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
+        if (isInvic) //被弾の無敵時間
+        {
+            currInvinTime += Time.deltaTime;
+            if (currInvinTime > InvincibilityTime)
+            {
+                isInvic = false;
+            }
+        }
+
+
         //攻撃コンボ更新
         if (comboStep > 0)
         {
@@ -178,7 +201,7 @@ public class PlayerControl : MonoBehaviour
         moveDirection = horizontalMove;
         float speed_ = inputMove.magnitude * currMoveSpeed;
 
-        
+
 
 
         if (horizontalMove.magnitude > 0.1f && IsRotatable())
@@ -247,7 +270,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (key == Action.Dash) //ダッシュ割り込み
         {
-            if (!IsInInpactState())
+            if (!IsInImpactState())
                 return true;
         }
         return isAnimeOver;
@@ -266,7 +289,7 @@ public class PlayerControl : MonoBehaviour
                     isAttack1Acceptable = false; //次の攻撃アニメ流す前にコンボ入力不可
                     Debug.Log("attack1");
                     comboStep++;
-                    comboStep %= (maxComboStep+1); //連続コンボのため、循環にする
+                    comboStep %= (maxComboStep + 1); //連続コンボのため、循環にする
                     comboTimer = 0;
                     animator.SetInteger("ComboStep", comboStep);
                 }
@@ -286,6 +309,7 @@ public class PlayerControl : MonoBehaviour
                 if (!isDashing)
                 {
                     Debug.Log("dash");
+                    
                     animator.SetTrigger("Dash");
                 }
                 break;
@@ -320,7 +344,7 @@ public class PlayerControl : MonoBehaviour
         // 武器の攻撃の表示位置とコンボ入力
         unAttackSword.SetActive(false);
         onAttackSword.SetActive(true);
-        comboResetTime = 0.81f/currActSpeed;
+        comboResetTime = 0.81f / currActSpeed;
         comboTimer = 0f;
     }
     public void OnSwordAttack01Update1()
@@ -393,7 +417,7 @@ public class PlayerControl : MonoBehaviour
     public void OnSwordAttack03Exit()
     {
         // Hitbox非表示
-        swordAttack03Hitbox.SetActive(false);  
+        swordAttack03Hitbox.SetActive(false);
     }
 
     public void OnShootEnter()
@@ -403,23 +427,24 @@ public class PlayerControl : MonoBehaviour
     }
     public void OnShoot()
     {
-        
+
 
         Vector3 gunRot = gun.transform.eulerAngles;
         gunRot.x = 90f;
-        
+
         GameObject bull = Instantiate(bulletHitbox, gun.transform.position, Quaternion.Euler(gunRot));
         bull.GetComponent<Hitbox_PlayerBullet>().Initialize(gameManager.GetPlayerAttackNow());
-        
+
     }
 
-
-
-    public void OnHit(int dmg)
+    public void OnImpact()
     {
-        // 被弾
-        gameManager.PlayerTakeDamage(dmg);
-        animator.SetTrigger("Inpact");
+        //割り込み可能ので、すべてのコントロール制御と表示をリセット
+        unAttackSword.SetActive(true);
+        onAttackSword.SetActive(false);
+        UnableAllHitBox();
+        ResetAttack1Combo();
+        animator.ResetTrigger("Shoot");
     }
 
 
@@ -438,6 +463,7 @@ public class PlayerControl : MonoBehaviour
         UnableAllHitBox();
         ResetAttack1Combo();
         animator.ResetTrigger("Shoot");
+        gameObject.layer = dashingLayer;//敵との衝撃禁止
 
         dashEffect.SetActive(true);　//ダッシュのエフェクト
         SetShortRotateBool(0.08f);　//回転可能
@@ -450,6 +476,7 @@ public class PlayerControl : MonoBehaviour
         isDashingEventTriggered = false;
         isAttack1Acceptable = true;
         isAttack2Acceptable = true;
+        gameObject.layer = defaultLayer;//敵との衝撃戻る
     }
     private IEnumerator Dashing()//コルーチンでダッシュ処理
     {
@@ -468,6 +495,13 @@ public class PlayerControl : MonoBehaviour
 
         isDashing = false;
     }
+
+    private void SpawnEvasionEffect()
+    {
+        GameObject eff = Instantiate(evasionEffect);
+        eff.transform.position = transform.position;
+    }
+
     private void SetShortRotateBool(float sTime = 0.3f)
     {
         // 短い時間内で回転できる
@@ -495,7 +529,7 @@ public class PlayerControl : MonoBehaviour
 
     // ===== アニメーション状態 =====
     private bool IsInAttack1State()
-    {
+    {   //近接攻撃
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
@@ -503,32 +537,40 @@ public class PlayerControl : MonoBehaviour
     }
 
     private bool IsInAttack2State()
-    {
+    {　 // 遠距離攻撃
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
         return shootAttack.Contains(currentAnimationHash);
     }
 
-    private bool IsInInpactState()
-    {
+    private bool IsInImpactState()
+    {   // 被弾
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
-        return inpactAct.Contains(currentAnimationHash);
+        return impactAct.Contains(currentAnimationHash);
     }
     private bool IsInDashState()
-    {
+    {   // ダッシュ
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         int currentAnimationHash = currentState.shortNameHash;
 
         return dashAct.Contains(currentAnimationHash);
     }
 
+    private bool IsInDyingState() 
+    {   // 死亡
+        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+        int currentAnimationHash = currentState.shortNameHash;
+
+        return dyingAct.Contains(currentAnimationHash);
+    }
+
     private bool IsRotatable()
     {
         //ダッシュ、普通攻撃、被弾の時回転不可
-        bool rotAnime = !(IsInDashState() || IsInAttack1State() || IsInInpactState() || IsInAttack2State());
+        bool rotAnime = !(IsInDashState() || IsInAttack1State() || IsInImpactState() || IsInAttack2State()|| IsInDyingState());
         return rotAnime || isShortRotatable;
     }
 
@@ -587,5 +629,35 @@ public class PlayerControl : MonoBehaviour
     {
         currActSpeed = speed;
         animator.SetFloat("ActSpeed",currActSpeed);
+    }
+
+    public void OnHit(int dmg)
+    {
+        if (IsDashing())
+        {
+            //回避エフェクト
+            SpawnEvasionEffect();
+            return;
+        }
+        if (IsInDyingState()||IsInImpactState()||isInvic)
+        {
+            return;
+        }
+        // 被弾
+        int applyDmg = gameManager.PlayerTakeDamage(dmg);
+        if (applyDmg > 0)
+        {
+
+            animator.SetTrigger("Impact");
+            
+            isInvic = true;
+            currInvinTime = 0;
+        }
+    }
+    public void OnDying()
+    {
+        //死亡
+        UnableAllHitBox();
+        animator.SetTrigger("Dead");
     }
 }

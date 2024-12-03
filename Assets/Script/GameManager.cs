@@ -19,13 +19,18 @@ public class GameManager : MonoBehaviour
     private GameObject player;
 
     // プレイヤーのPlayerControllerスクリプトとカメラのCameraFollowスクリプト
-    private PlayerController playerController;
+    
     private PlayerControl playerControl;
     private CameraFollow cameraFollow;
 
     public Vector3 defPlayerPos = new Vector3(0, 0, 0);
     public Vector3 defCameraPos = new Vector3(5, 5, -5);
     public Vector3 defCameraRot = new Vector3(45, -45, 0);
+
+
+    private UIManager uiManager;
+
+    private bool isPlayerDead = false;
     private void Awake()
     {
         // シングルトンパターンの実装：GameManagerが1つしか存在しないようにする
@@ -47,12 +52,12 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public bool SpawnPlayer()
+    private bool SpawnPlayer()
     {
         if (player == null)
         {
             player = Instantiate(playerPrefab, defPlayerPos, Quaternion.identity);
-            playerController = player.GetComponent<PlayerController>();
+            
             playerControl = player.GetComponent<PlayerControl>();
             //playerControl.SetActSpeed(1.5f);
             /*if (abilityManager != null)
@@ -72,7 +77,7 @@ public class GameManager : MonoBehaviour
         }
         return true;
     }
-    public bool SpawnCamera()
+    private bool SpawnCamera()
     {
         if(camera1==null)
         {
@@ -90,6 +95,12 @@ public class GameManager : MonoBehaviour
             cameraFollow.SetTarget(player.transform);
         }
         return false;
+    }
+
+    private void FindUIManager()
+    {
+        uiManager = FindObjectOfType<UIManager>();
+        uiManager.SetHP(playerStatus.GetHpNow(),playerStatus.GetHpMax());
     }
 
     public GameObject GetPlayer()
@@ -110,25 +121,44 @@ public class GameManager : MonoBehaviour
     }
     private void OnSceneLoaded(Scene scene,LoadSceneMode loadSceneMode)
     {
+        ResetPlayerStatus();
         SpawnPlayer();
         SpawnCamera();
+        FindUIManager();
+
     }
+
+    private void ResetPlayerStatus()
+    {
+        playerStatus = new PlayerStatus(6, 3);
+        isPlayerDead = false;
+    }
+
+
     public int GetPlayerAttackNow()
     {
         return playerStatus.GetAttackNow();
     }
-    public void PlayerTakeDamage(int dmg)
+    public int PlayerTakeDamage(int dmg)
     {
         int realDmg = playerStatus.ReturnTakeDamage(dmg);
         Debug.Log($"Player Take {realDmg}Damage,Remaining{playerStatus.GetHpNow()}");
         if(realDmg > 0)
         {
-            //UIManager.PlayerTakeDmg(realDmg);
+            uiManager.TakeDamage(realDmg);
         }
         if(playerStatus.IsDead())
         {
-            // PlayerDead();
+            playerControl.OnDying();
+            isPlayerDead = true;
         }
+
+        return realDmg;
+    }
+
+    public bool IsPlayerDead()
+    {
+        return isPlayerDead;
     }
 
 }
