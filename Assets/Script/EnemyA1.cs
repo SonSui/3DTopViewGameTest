@@ -14,7 +14,9 @@ public class EnemyA1 : MonoBehaviour,IOnHit
     private Material oriMaterial;
     private Material temMaterial;
 
-    int hp = 7;
+
+    int hp = 4;
+
     float speed = 2.0f;
     int dmg = 1;
 
@@ -23,8 +25,10 @@ public class EnemyA1 : MonoBehaviour,IOnHit
 
     bool isDying = false;
 
-    //ƒvƒŒƒCƒ„[‚ÌÀ•W
-    Transform playerT;
+    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™
+
+    private Transform playerT;
+
 
     EnemyGenerator enemyGenerator;
 
@@ -33,12 +37,18 @@ public class EnemyA1 : MonoBehaviour,IOnHit
         Renderer renderer = GetComponent<Renderer>();
         oriMaterial = renderer.material;
         temMaterial = new Material(oriMaterial);
-        enemyGenerator = FindObjectOfType<EnemyGenerator>();
+        //enemyGenerator = FindObjectOfType<EnemyGenerator>();
 
         playerT = GameObject.FindGameObjectWithTag("Player").transform;
     }
     private void Update()
     {
+
+        if (hp < 0) {
+            //enemyGenerator.deadEnemyNum++;
+            Destroy(gameObject);
+            }
+
         
         if(hitbox==null)
         {
@@ -48,25 +58,26 @@ public class EnemyA1 : MonoBehaviour,IOnHit
         if (Vector3.Distance(transform.position, playerT.position) < 3.0f && hitbox == null && atkTime>atkInterval)
         {
             Attack();
+
         }
 
-        //ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª‹ß‚­‚È‚Á‚½‚çˆÚ“®‚ğ~‚ß‚é
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ãŒè¿‘ããªã£ãŸã‚‰ç§»å‹•ã‚’æ­¢ã‚ã‚‹
         if (Vector3.Distance(transform.position, playerT.position) < 2.1f){ return; }
 
-        //ƒvƒŒƒCƒ„[‚ÉŒü‚¯‚Äi‚Ş
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‘ã¦é€²ã‚€
         transform.position = 
             Vector3.MoveTowards(transform.position, new Vector3(playerT.position.x, playerT.position.y, playerT.position.z), speed * Time.deltaTime);
     }
 
 
-    //Œ‚‚½‚ê‚é‚Æ0.1•bŠÔÔ‚­‚È‚é
+    //æ’ƒãŸã‚Œã‚‹ã¨0.1ç§’é–“èµ¤ããªã‚‹
     public void OnHit(int dmg, bool crit = false)
     {
         if (isDying) return;
 
         hp -= dmg;
         StartCoroutine(ChangeColorTemporarily());
-        //”í’eƒAƒjƒ[ƒVƒ‡ƒ“‚ÆƒGƒtƒFƒNƒg
+        //è¢«å¼¾ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã¨ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 
         if (hp < 0)
         {
@@ -93,9 +104,9 @@ public class EnemyA1 : MonoBehaviour,IOnHit
     private void OnDead()
     {
         isDying = true;
-        //€–SƒAƒjƒ[ƒVƒ‡ƒ“‚ÆƒGƒtƒFƒNƒg
+        //æ­»äº¡ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã¨ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 
-        //ƒAƒjƒ[ƒVƒ‡ƒ“Š®—¹‚µ‚½‚çíœ
+        //ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å®Œäº†ã—ãŸã‚‰å‰Šé™¤
         Destroy(gameObject);
     }
     private void Attack()
