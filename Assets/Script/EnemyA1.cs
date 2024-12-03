@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class EnemyA1 : MonoBehaviour,IOnHit
 {
+    EnemyStatus enemyStatus;
+
     public Color hitColor = Color.red;
 
     public float hitDuration = 0.1f;
@@ -14,7 +17,6 @@ public class EnemyA1 : MonoBehaviour,IOnHit
     private Material oriMaterial;
     private Material temMaterial;
 
-
     int hp = 4;
 
     float speed = 2.0f;
@@ -23,12 +25,11 @@ public class EnemyA1 : MonoBehaviour,IOnHit
     float atkInterval = 4f;
     float atkTime = 0f;
 
+    //死亡判定
     bool isDying = false;
 
     //プレイヤーの座標
-
-    private Transform playerT;
-
+    public Transform playerT;
 
     EnemyGenerator enemyGenerator;
 
@@ -37,19 +38,20 @@ public class EnemyA1 : MonoBehaviour,IOnHit
         Renderer renderer = GetComponent<Renderer>();
         oriMaterial = renderer.material;
         temMaterial = new Material(oriMaterial);
-        //enemyGenerator = FindObjectOfType<EnemyGenerator>();
+        enemyGenerator = FindObjectOfType<EnemyGenerator>();
 
         playerT = GameObject.FindGameObjectWithTag("Player").transform;
+
     }
     private void Update()
     {
 
-        if (hp < 0) {
-            //enemyGenerator.deadEnemyNum++;
+        if (hp < 0) 
+        {
+            enemyGenerator.deadEnemyNum++;
             Destroy(gameObject);
-            }
+        }
 
-        
         if(hitbox==null)
         {
             atkTime += Time.deltaTime;
