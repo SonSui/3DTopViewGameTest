@@ -29,28 +29,30 @@ public class EnemyGenerator : MonoBehaviour
     {
         this.delta += Time.deltaTime;
 
-        if (this.delta > this.span && currEnemyNum< enemyNumMax)
+        if (deadEnemyNum < 10)
         {
-            this.delta = 0;
-            float px;
-            float pz;
-
-            Vector3 pos = new Vector3(0f, 10f, 0f);
-            GameObject go = Instantiate(EnemyA1,pos,Quaternion.identity);
-            do
+            if (this.delta > this.span && currEnemyNum < enemyNumMax)
             {
-                px = UnityEngine.Random.Range(-12.0f, 12.0f);
-            } while (px >= -3 && px <= 3);
+                this.delta = 0;
+                float px;
+                float pz;
 
-            do
-            {
-                pz = UnityEngine.Random.Range(-5.0f, 5.0f);
-            } while (pz >= -3 && pz <= 3);
+                Vector3 pos = new Vector3(0f, 10f, 0f);
+                GameObject go = Instantiate(EnemyA1, pos, Quaternion.identity);
+                do
+                {
+                    px = UnityEngine.Random.Range(-12.0f, 12.0f);
+                } while (px >= -3 && px <= 3);
 
-            go.transform.position = new Vector3(px, 3, pz);
-            Debug.Log(new Vector3(px, 3, pz));
-            currEnemyNum++;
+                do
+                {
+                    pz = UnityEngine.Random.Range(-5.0f, 5.0f);
+                } while (pz >= -3 && pz <= 3);
+
+                go.transform.position = new Vector3(px, 3, pz);
+                Debug.Log(new Vector3(px, 3, pz));
+                currEnemyNum++;
+            }
         }
-
     }
 }
