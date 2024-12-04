@@ -8,6 +8,7 @@ TagManager:
   - Badge
   - Enemy
   - Building
+  - Ground
   layers:
   - Default
   - TransparentFX
