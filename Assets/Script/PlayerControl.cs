@@ -723,18 +723,23 @@ public class PlayerControl : MonoBehaviour
 
             while (elapsedTime < pullDuration)
             {
+                if (pullTarget == null) break;
+
                 elapsedTime += Time.deltaTime;
 
                 Vector3 targetPosition = pullTarget.transform.position;
+                targetPosition.y = transform.position.y;
 
-               
                 Vector3 newPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / pullDuration);
                 Vector3 displacement = newPosition - transform.position;
 
-                Debug.Log($"On Coroutine Pull, Player:{transform.position} Target:{targetPosition} Displacement:{displacement}");
+                Vector3 dir = targetPosition - transform.position;
+                Quaternion targetRotation = Quaternion.LookRotation(dir, Vector3.up);
+                
 
                 //  CharacterController.Move
                 characterController.Move(displacement);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
                 yield return null;
             }

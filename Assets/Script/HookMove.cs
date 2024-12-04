@@ -6,26 +6,26 @@ using static UnityEngine.GraphicsBuffer;
 
 public class HookMove : MonoBehaviour
 {
-    public GameObject linePos;　//糸の端１
-    public GameObject hookShooter; //端
+    public GameObject linePos;　//縄の端１
+    public GameObject hookShooter; //縄の端２
+
+    public LineRenderer lineRenderer;
+    public GameObject trailRenderer;
+    public List<string> targetTags;
+    public GameObject hitParticleEffect;
+
     public float flyTime = 1.0f;
     public float flySpeed = 60f;
     public float forcePower = 3000f;
 
-    public float pullDuration = 1.0f;
-
-    public LineRenderer lineRenderer;
-    public TrailRenderer trailRenderer;
-    public List<string> targetTags;
-    public GameObject hitParticleEffect;
-
-    private float adjustTime = 1f;
-    private PlayerControl player;
-    private float time = 0f;
-    private Rigidbody rb;
-    private float distoryCountdown = 999f;
-    private int atk=0;
     private Collider colli;
+    private PlayerControl player;
+    private Rigidbody rb;
+    private float adjustTime = 1f;
+    private float time = 0f;
+    private float distoryCountdown = 999f;
+    private int atk = 0;
+    
     private bool isPulling = false;
 
     enum Status //フックの状態
@@ -53,9 +53,9 @@ public class HookMove : MonoBehaviour
             lineRenderer.SetPosition(0, hookShooter.transform.position);
             lineRenderer.SetPosition(1, linePos.transform.position);
         }
-        if(status== Status.Ground)
+        if(status== Status.Ground||status == Status.Pull)
         {
-            distoryCountdown-=Time.deltaTime;
+            distoryCountdown -= Time.deltaTime * adjustTime;
             if(distoryCountdown<=0) 
             {
                 Destroy(gameObject);
@@ -98,18 +98,19 @@ public class HookMove : MonoBehaviour
 
                 // 自動的に削除
                 Destroy(effect, 2f);
+
+                
             }
 
             PullPlayer();
+            distoryCountdown = 2f;
+            trailRenderer.SetActive(false);
 
         }
         if(collision.gameObject.tag=="Ground")
         {
             distoryCountdown = 2f;
             status = Status.Ground;
-            PullPlayer();
-
-
         }
         
     }
