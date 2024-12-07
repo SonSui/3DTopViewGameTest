@@ -29,33 +29,23 @@ public class EnemyStatus : BaseCharacterStatus
         bool hasShield = false,
         int shieldDurability = 0,
 
-        float moveSpeed = 0.8f,
-        float attackSpeed = 1.0f,
-        float attackRange = 1.0f,
-        float evasionRate = 0.0f,
+        float moveSpeed = 1.0f,
+        float attackSpeed = 1.0f
         
-        float criticalRate = 0.0f,
-        float criticalDamage = 1.5f
 
     ) : base(
         name: name,
         hpMax: hpMax,
         attackPower: attackPower,
         defense: defense,
-        criticalRate: criticalRate,
-        criticalDamage: criticalDamage,
         moveSpeed: moveSpeed,
-        attackSpeed: attackSpeed,
-        attackRange: attackRange,
-        evasionRate: evasionRate
+        attackSpeed: attackSpeed
     )
     {
         // 敵専用の属性を初期化
         this.enemyType = enemyType;
-      
         this.dropItems = new List<Item>();
 
-        
         this.hasShield = hasShield;
         this.shieldDurability = shieldDurability;
 
@@ -66,8 +56,6 @@ public class EnemyStatus : BaseCharacterStatus
     // ダメージを受ける処理
     public override void TakeDamage(int damage, bool isDefensePenetration = false)
     {
-
-
         // 防御貫通が有効な場合、防御力を無視
         int actualDamage = damage;
         if (!isDefensePenetration)

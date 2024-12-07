@@ -7,16 +7,26 @@ public class PlayerStatus : BaseCharacterStatus
 {
     // ===== プレイヤー専用の属性 =====
 
+    // 攻撃範囲
+    protected float attackRange;  // 攻撃範囲（1.0が基準）
+
+    // 回避率
+    protected float evasionRate;  // 回避率
+
+    // クリティカル関連
+    protected float criticalRate;    // クリティカル率
+    protected float criticalDamage;  // クリティカルダメージ倍率
+
     // 弾量関連
     private int ammoCapacity;    // 弾量
     private int ammoRecovery;    // 敵を倒したときに回復する弾数（デフォルト0）
+    private float ammoEcho;      // 弾節約確率
+    private int ammoPenetration; // 弾貫通
 
-    // HP自動回復
-    private float hpAutoRecovery;   // 一定時間ごとに回復するHP量（デフォルト0）
-    private float hpRecoveryInterval; // HP回復の間隔
-    private float hpRecoveryTimer;    // HP回復のタイマー
+
 
     // 特殊能力の有効化フラグ
+    private bool hpRecovery;          // HP回復する
     private bool explosion;           // 爆発
     private bool timeStop;            // 時間停止
     private bool teleport;            // 瞬間移動
@@ -26,9 +36,17 @@ public class PlayerStatus : BaseCharacterStatus
     private int resurrectionTime;     // 復活可能な回数
 
     private bool barrier;             // バリア
+    private int barrierHP;          　// バリアのHP
     private bool oneHitKill;          // 一撃必殺
     private bool multiAttack;         // 多重攻撃
     private bool defensePenetration;  // 防御貫通
+
+
+    private bool isDefenseReduction;    // 防御力ダウン
+    private bool isAttackReduction;  // 攻撃力ダウン
+    private bool isSlowEffect;       // 減速
+    private bool isBleedingEffect;   // 流血
+    private bool isStun;             // スタン
 
     // ===== コンストラクタ =====
 
@@ -44,8 +62,6 @@ public class PlayerStatus : BaseCharacterStatus
         float evasionRate = 0.05f,
         int ammoCapacity = 10,
         int ammoRecovery = 0,
-        float hpAutoRecovery = 0f,
-        float hpRecoveryInterval = 5f,
         int resurrectionTime = 1,
         string name = "Player"
     ) : base(
@@ -53,21 +69,23 @@ public class PlayerStatus : BaseCharacterStatus
         hpMax: hpMax,
         attackPower: attackPower,
         defense: 0, // プレイヤーの防御力は常に0
-        criticalRate: criticalRate,
-        criticalDamage: criticalDamage,
         moveSpeed: moveSpeed,
-        attackSpeed: attackSpeed,
-        attackRange: attackRange,
-        evasionRate: evasionRate
+        attackSpeed: attackSpeed
     )
     {
         // プレイヤー専用の属性を初期化
+
+        this.criticalRate = criticalRate;
+        this.criticalDamage = criticalDamage;
+        this.attackSpeed = attackSpeed;
+        this.attackRange = attackRange;
+        this.evasionRate = evasionRate;
+
+
         this.ammoCapacity = ammoCapacity;
         this.ammoRecovery = ammoRecovery;
-
-        this.hpAutoRecovery = hpAutoRecovery;
-        this.hpRecoveryInterval = hpRecoveryInterval;
-        this.hpRecoveryTimer = this.hpRecoveryInterval;
+        this.ammoEcho = 0f;
+        this.ammoPenetration = 0;
 
         this.explosion = false;
         this.timeStop = false;
@@ -78,9 +96,15 @@ public class PlayerStatus : BaseCharacterStatus
         this.resurrectionTime = resurrectionTime;
 
         this.barrier = false;
+        this.barrierHP = 0;
         this.oneHitKill = false;
         this.multiAttack = false;
         this.defensePenetration = false;
+        this.isAttackReduction = false;
+        this.isBleedingEffect = false;
+        this.isDefenseReduction = false;
+        this.isSlowEffect = false;
+        this.isStun = false;
     }
 
     // ===== メソッド =====
@@ -129,23 +153,6 @@ public class PlayerStatus : BaseCharacterStatus
 
         float adjustedDeltaTime = deltaTime * timeRate;
 
-        // HP自動回復
-        if (hpAutoRecovery > 0)
-        {
-            hpRecoveryTimer -= adjustedDeltaTime;
-            if (hpRecoveryTimer <= 0)
-            {
-                hpNow = Mathf.Min(hpNow + (int)hpAutoRecovery, hpMax);
-                hpRecoveryTimer = hpRecoveryInterval;
-                Debug.Log($"HPが自動回復：現在のHPは{hpNow}/{hpMax}");
-            }
-        }
-
-        // 時限強化モードの処理（必要に応じて実装）
-        if (timedPowerUpMode)
-        {
-            // 強化モードの処理
-        }
 
         // その他の特殊能力の処理（必要に応じて実装）
     }
@@ -177,12 +184,9 @@ public class PlayerStatus : BaseCharacterStatus
     public void SetAmmoRecovery(int value) => ammoRecovery = Mathf.Max(0, value);
 
     // HP自動回復量
-    public float GetHpAutoRecovery() => hpAutoRecovery;
-    public void SetHpAutoRecovery(float value) => hpAutoRecovery = Mathf.Max(0f, value);
+    public bool GetHpAutoRecovery() => hpRecovery;
+    public void SetHpAutoRecovery(bool value) => hpRecovery = value;
 
-    // HP回復間隔
-    public float GetHpRecoveryInterval() => hpRecoveryInterval;
-    public void SetHpRecoveryInterval(float value) => hpRecoveryInterval = Mathf.Max(0.1f, value); // 0.1秒以上
 
     // 特殊能力の有効化フラグのGetter/Setter
 
