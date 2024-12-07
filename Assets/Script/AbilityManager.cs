@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class AbilityManager : MonoBehaviour
+public class AbilityManager 
 {
     // すべてのタグ
     public List<AbilityTagDefinition> abilityTagDefinitions;
@@ -31,39 +31,6 @@ public class AbilityManager : MonoBehaviour
 
     public static AbilityManager Instance { get; private set; }
 
-    private void Awake()
-    {
-        // シングルトンパターンの実装
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    public void Start()
-    {
-        // プレイヤーを探す
-        
-
-        // UIの初期設定
-        SetupUI();
-        Update_UI(); // UIの初期状態を更新
-    }
-    public void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            SwitchParameterUI();
-        }
-    }
-
-    // プレイヤーの生成を待つコルーチン
-
 
     private void SwitchParameterUI()
     {
@@ -85,8 +52,7 @@ public class AbilityManager : MonoBehaviour
         // CanvasのPrefabをインスタンス化
         if (uiCanvasPrefab != null)
         {
-            parameterUI = Instantiate(uiCanvasPrefab);
-            DontDestroyOnLoad(parameterUI); // シーン遷移時に削除されないように設定
+            
 
             // プレイヤー状態表示用のTextを取得
             Transform statusTextTransform = parameterUI.transform.Find("PlayerStatusText");
