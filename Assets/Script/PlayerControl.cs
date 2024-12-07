@@ -213,9 +213,9 @@ public class PlayerControl : MonoBehaviour
         Vector3 gra = new Vector3(0f, yDirection, 0f);
         controller.Move(gra * Time.deltaTime);
 
-        // 移動方向と速度）
+        // 移動方向と速度（斜め1.414倍）
         moveDirection = horizontalMove;
-        float speed_ = currMoveSpeed * Mathf.Min(inputMove.magnitude, 1f);
+        float speed_ = inputMove.magnitude * currMoveSpeed;
 
 
 
