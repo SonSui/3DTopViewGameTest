@@ -12,17 +12,11 @@ public class TagEffect
     [SerializeField] private float attackRange;          // UŒ‚”ÍˆÍi1.0‚ªŠî€j
     [SerializeField] private float evasionRate;          // ‰ñ”ğ—¦
 
-
-
     [SerializeField] private bool isDefenseReduction;    // –hŒä—Íƒ_ƒEƒ“
     [SerializeField] private bool isAttackReduction;     // UŒ‚—Íƒ_ƒEƒ“
     [SerializeField] private bool isSlowEffect;          // Œ¸‘¬
     [SerializeField] private bool isBleedingEffect;      // —¬ŒŒ
     [SerializeField] private bool isStun;                // ƒXƒ^ƒ“
-
-
-
-
 
     [SerializeField] private int ammoCapacity;           // ’e—Ê
     [SerializeField] private int ammoRecovery;           // “G‚ğ“|‚µ‚½‚Æ‚«‚É‰ñ•œ‚·‚é’e”
