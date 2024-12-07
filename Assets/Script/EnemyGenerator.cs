@@ -55,7 +55,7 @@ public class EnemyGenerator : MonoBehaviour
                 Debug.Log(new Vector3(px, 3, pz));
                 currEnemyNum++;
                 ///////4EnemyShooter/////
-                go = Instantiate(EnemyShooter, pos, Quaternion.identity);
+                /*go = Instantiate(EnemyShooter, pos, Quaternion.identity);
                 do
                 {
                     px = UnityEngine.Random.Range(-12.0f, 12.0f);
@@ -68,7 +68,7 @@ public class EnemyGenerator : MonoBehaviour
 
                 go.transform.position = new Vector3(px, 3, pz);
                 Debug.Log(new Vector3(px, 3, pz));
-                currEnemyNum++;
+                currEnemyNum++;*/
             }
         }
     }
