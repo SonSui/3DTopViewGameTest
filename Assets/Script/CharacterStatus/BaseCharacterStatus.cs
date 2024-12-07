@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 基底クラス：キャラクターステータス
-public abstract class BaseCharacterStatus 
+public abstract class BaseCharacterStatus
 {
     // ===== 基本属性 =====
     // 名前
@@ -21,10 +21,6 @@ public abstract class BaseCharacterStatus
     protected int defenseNow;   // 現在の防御力（バフ・デバフ適用後）
     protected int defense;      // 基本防御力
 
-    // クリティカル関連
-    protected float criticalRate;    // クリティカル率
-    protected float criticalDamage;  // クリティカルダメージ倍率
-
     // 移動速度
     protected float moveSpeedNow; // 現在の移動速度
     protected float moveSpeed;    // 基本移動速度（1.0が基準）
@@ -32,11 +28,7 @@ public abstract class BaseCharacterStatus
     // 攻撃速度
     protected float attackSpeed;  // 攻撃速度（1.0が基準）
 
-    // 攻撃範囲
-    protected float attackRange;  // 攻撃範囲（1.0が基準）
 
-    // 回避率
-    protected float evasionRate;  // 回避率
 
     // ===== 状態効果 =====
 
@@ -65,16 +57,12 @@ public abstract class BaseCharacterStatus
 
     // 初期化（パラメータ付き、デフォルト値あり）
     public BaseCharacterStatus(
-        string name="",
+        string name = "",
         int hpMax = 5,
         int attackPower = 2,
         int defense = 1,
-        float criticalRate = 0.0f,
-        float criticalDamage = 2.0f,
         float moveSpeed = 1.0f,
-        float attackSpeed = 1.0f,
-        float attackRange = 1.0f,
-        float evasionRate = 0.0f
+        float attackSpeed = 1.0f
     )
     {
         this.name = name;
@@ -88,16 +76,12 @@ public abstract class BaseCharacterStatus
         this.defense = defense;
         this.defenseNow = this.defense;
 
-        this.criticalRate = criticalRate;
-        this.criticalDamage = criticalDamage;
 
         this.moveSpeed = moveSpeed;
         this.moveSpeedNow = this.moveSpeed;
 
         this.attackSpeed = attackSpeed;
-        this.attackRange = attackRange;
 
-        this.evasionRate = evasionRate;
 
         // 状態効果の初期化
         this.defenseReduction = 0f;
@@ -250,14 +234,6 @@ public abstract class BaseCharacterStatus
     public int GetDefense() => defense;
     public void SetDefense(int value) => defense = Mathf.Max(0, value);
 
-    // クリティカル率
-    public float GetCriticalRate() => criticalRate;
-    public void SetCriticalRate(float value) => criticalRate = Mathf.Clamp01(value);
-
-    // クリティカルダメージ
-    public float GetCriticalDamage() => criticalDamage;
-    public void SetCriticalDamage(float value) => criticalDamage = Mathf.Max(1.0f, value);
-
     // 移動速度
     public float GetMoveSpeedNow() => moveSpeedNow;
     public float GetMoveSpeed() => moveSpeed;
@@ -267,13 +243,7 @@ public abstract class BaseCharacterStatus
     public float GetAttackSpeed() => attackSpeed;
     public void SetAttackSpeed(float value) => attackSpeed = Mathf.Max(0f, value);
 
-    // 攻撃範囲
-    public float GetAttackRange() => attackRange;
-    public void SetAttackRange(float value) => attackRange = Mathf.Max(0f, value);
 
-    // 回避率
-    public float GetEvasionRate() => evasionRate;
-    public void SetEvasionRate(float value) => evasionRate = Mathf.Clamp01(value);
 
     // ===== 状態効果の適用 =====
 
@@ -306,6 +276,16 @@ public abstract class BaseCharacterStatus
     {
         stun = Mathf.Max(stun, duration);
     }
+    //まとめて適用
+    public void ApplyDebuff(float stun,float bleed,float slow,float defReduce,float atkReduce)
+    {
+        this.stun = stun;
+        this.bleedingEffect = bleed;
+        this.slowEffect = slow;
+        this.defenseReduction = defReduce;
+        this.attackReduction = atkReduce;
+    }
+
 
     // ===== 状態効果の確認 =====
 
@@ -324,6 +304,25 @@ public abstract class BaseCharacterStatus
     // スタン中か確認
     public bool IsStunned() => stun > 0;
 
+    public (
+        bool isStunned, 
+        bool isBleeding, 
+        bool isSlowed, 
+        bool isDefReduced, 
+        bool isAtkReduced
+        ) GetAllDebuffStatus()
+    {
+        // まとめて確認
+        return (
+            stun > 0,
+            bleedingEffect > 0,
+            slowEffect > 0,
+            defenseReduction > 0,
+            attackReduction > 0
+            );
+    }
+    
+
     // =====基本ステータスを表示=====
     public string GetBaseStatus()
     {
@@ -332,12 +331,8 @@ public abstract class BaseCharacterStatus
             $"HP: {hpNow}/{hpMax}\n" +
             $"Attack Power: {attackPower}\n" +
             $"Defense: {defense}\n" +
-            $"Critical Rate: {criticalRate * 100:F2}%\n" +
-            $"Critical Damage: {criticalDamage * 100:F2}%\n" +
             $"Movement Speed: {moveSpeed:F2}\n" +
             $"Attack Speed: {attackSpeed:F2}\n" +
-            $"Attack Range: {attackRange:F2}\n" +
-            $"Evasion Rate: {evasionRate * 100:F2}%\n" +
             $"Defense Reduction Time: {defenseReduction:F2}s (Rate: {defenseReductionRate * 100:F2}%)\n" +
             $"Attack Reduction Time: {attackReduction:F2}s (Rate: {attackReductionRate * 100:F2}%)\n" +
             $"Slow Effect Time: {slowEffect:F2}s (Rate: {slowEffectRate * 100:F2}%)\n" +

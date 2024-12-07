@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     // GameManagerのインスタンスを保持する静的変数
     public static GameManager Instance { get; private set; }
 
-    private PlayerStatus playerStatus = new PlayerStatus(6,3);
+    private PlayerStatus playerStatus ;
 
     // プレイヤーとカメラのPrefab
     public GameObject playerPrefab;

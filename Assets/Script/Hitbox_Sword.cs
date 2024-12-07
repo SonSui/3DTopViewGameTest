@@ -32,17 +32,20 @@ public class Hitbox_Sword : MonoBehaviour
         {
             // 記録
             hitTargets.Add(other);
-            // ダメージ与える
-            other.gameObject.GetComponent<IOnHit>().OnHit(damage);
-            
-            // 接する位置
-            Vector3 contactPoint = other.ClosestPoint(transform.position);
-            
-            // エフェクト生成
-            GameObject effect = Instantiate(hitParticleEffect, contactPoint, Quaternion.identity);
+            if (other.gameObject.GetComponent<IOnHit>() != null)
+            {
+                // ダメージ与える
+                other.gameObject.GetComponent<IOnHit>().OnHit(damage);
 
-            // 自動的に削除
-            Destroy(effect, 2f);
+                // 接する位置
+                Vector3 contactPoint = other.ClosestPoint(transform.position);
+
+                // エフェクト生成
+                GameObject effect = Instantiate(hitParticleEffect, contactPoint, Quaternion.identity);
+
+                // 自動的に削除
+                Destroy(effect, 2f);
+            }
 
         }
     }

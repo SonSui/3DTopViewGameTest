@@ -26,7 +26,7 @@ public class PlayerControl : MonoBehaviour
 
 
     // 攻撃
-    private float currActSpeed = 1.6f;
+    private float currActSpeed = 1.0f;
 
     private int comboStep = 0;
     private float comboTimer = 0f;
@@ -247,7 +247,6 @@ public class PlayerControl : MonoBehaviour
             animator.SetInteger("ComboStep", comboStep);
         }
     }
-
     public void ResetAttack1Combo()
     {
         //コンボ記数リセット
@@ -255,10 +254,6 @@ public class PlayerControl : MonoBehaviour
         comboTimer = 0;
         animator.SetInteger("ComboStep", comboStep);
     }
-
-
-
-
     // ===== 入力管理 =====
 
     private void AddToInputQueue(Action key)//入力バッファに入力情報入れる
@@ -281,7 +276,6 @@ public class PlayerControl : MonoBehaviour
             PerformAction(nextInput);
         }
     }
-
     private bool CanPerformNextAction(Action key)//アニメーション実行可能性確認
     {
         if (key == Action.Dash) //ダッシュ割り込み
@@ -291,7 +285,6 @@ public class PlayerControl : MonoBehaviour
         }
         return isAnimeOver;
     }
-
     private void PerformAction(Action input)//アクション管理
     {
 
@@ -341,8 +334,6 @@ public class PlayerControl : MonoBehaviour
                 break;
         }
     }
-
-
 
     // ===== アニメーションイベント =====
 
@@ -447,8 +438,6 @@ public class PlayerControl : MonoBehaviour
     }
     public void OnShoot()
     {
-
-
         Vector3 gunRot = gun.transform.eulerAngles;
         gunRot.x = 90f;
 
@@ -456,7 +445,6 @@ public class PlayerControl : MonoBehaviour
         bull.GetComponent<Hitbox_PlayerBullet>().Initialize(gameManager.GetPlayerAttackNow());
 
     }
-
     public void OnHookEnter()
     {
         OnHookWeaponDisplay();
@@ -470,8 +458,6 @@ public class PlayerControl : MonoBehaviour
         hookMove.InitHook(this, hookShooter, gameManager.GetPlayerAttackNow());
 
     }
-
-
     public void OnImpact()
     {
         //割り込み可能ので、すべてのコントロール制御と表示をリセット
@@ -479,9 +465,8 @@ public class PlayerControl : MonoBehaviour
         UnableAllHitBox();
         ResetAttack1Combo();
         animator.ResetTrigger("Shoot");
+        animator.ResetTrigger("HookShoot");
     }
-
-
     public void StartDashing()
     {
         if (isDashingEventTriggered)
@@ -639,7 +624,6 @@ public class PlayerControl : MonoBehaviour
         return rotAnime || isShortRotatable;
     }
 
-
     // ===== ImputSystem =====
     void OnMove(InputValue value)//移動入力
     {
@@ -727,17 +711,19 @@ public class PlayerControl : MonoBehaviour
 
                 elapsedTime += Time.deltaTime;
 
+                //プレイヤーの方向計算
                 Vector3 targetPosition = pullTarget.transform.position;
                 targetPosition.y = transform.position.y;
 
+                //移動距離計算
                 Vector3 newPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / pullDuration);
                 Vector3 displacement = newPosition - transform.position;
 
+                //回転
                 Vector3 dir = targetPosition - transform.position;
                 Quaternion targetRotation = Quaternion.LookRotation(dir, Vector3.up);
                 
-
-                //  CharacterController.Move
+                //移動
                 characterController.Move(displacement);
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
@@ -762,7 +748,6 @@ public class PlayerControl : MonoBehaviour
         int applyDmg = gameManager.PlayerTakeDamage(dmg);
         if (applyDmg > 0)
         {
-
             animator.SetTrigger("Impact");
             
             isInvic = true;
