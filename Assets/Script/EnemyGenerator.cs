@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour
 {
     public GameObject EnemyA1;
-    public GameObject EnemyShooter;
+    public GameObject Enemy_Teki01;
     public float span = 3.0f;
     float delta = 0;
 
@@ -37,9 +37,14 @@ public class EnemyGenerator : MonoBehaviour
             float px;
             float pz;
             Vector3 pos = new Vector3(0f, 10f, 0f);
-            ///////4Enemy1/////
+            int r = UnityEngine.Random.Range(0, 2);
+            GameObject enemy_ = EnemyA1;
+            if(r == 1 )
+            {
+                enemy_ = Enemy_Teki01;
+            }
 
-            GameObject go = Instantiate(EnemyA1, pos, Quaternion.identity);
+            GameObject go = Instantiate(enemy_, pos, Quaternion.identity);
             do
             {
                 px = UnityEngine.Random.Range(-12.0f, 12.0f);
@@ -53,21 +58,7 @@ public class EnemyGenerator : MonoBehaviour
             go.transform.position = new Vector3(px, 3, pz);
             Debug.Log(new Vector3(px, 3, pz));
             currEnemyNum++;
-            ///////4EnemyShooter/////
-            /*go = Instantiate(EnemyShooter, pos, Quaternion.identity);
-            do
-            {
-                px = UnityEngine.Random.Range(-12.0f, 12.0f);
-            } while (px >= -3 && px <= 3);
-
-            do
-            {
-                pz = UnityEngine.Random.Range(-5.0f, 5.0f);
-            } while (pz >= -3 && pz <= 3);
-
-            go.transform.position = new Vector3(px, 3, pz);
-            Debug.Log(new Vector3(px, 3, pz));
-            currEnemyNum++;*/
+            
         }
 
     }

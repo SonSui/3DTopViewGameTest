@@ -51,23 +51,10 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     public Transform playerT;
     EnemyGenerator enemyGenerator;
 
-    void Start()
-    {
-        name_ += System.Guid.NewGuid().ToString(); //唯一の名前付ける
-        if (enemyGenerator == null) enemyGenerator = FindObjectOfType<EnemyGenerator>();
-        playerT = GameObject.FindGameObjectWithTag("Player").transform;
-
-        // 全てのRendererを取得
-        renderers = GetComponentsInChildren<Renderer>();
-        // overlayMaterialが未設定の場合エラー
-        if (overlayMaterial == null)
-        {
-            Debug.Log("Overlay Material が設定されていません！");
-        }
-    }
 
     private void OnEnable()
     {
+        name_ += System.Guid.NewGuid().ToString(); //唯一の名前付ける
         //EnemyBufferを使う場合、Enableたびにステータスをリセットする
         enemyStatus = new EnemyStatus(
             name_,
@@ -81,9 +68,25 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             attackSpeed_);
         enemyState = EnemyState.Idle;
     }
+
+    void Start()
+    {
+        if (enemyGenerator == null) enemyGenerator = FindObjectOfType<EnemyGenerator>();
+        playerT = GameObject.FindGameObjectWithTag("Player").transform;
+
+        // 全てのRendererを取得
+        renderers = GetComponentsInChildren<Renderer>();
+        // overlayMaterialが未設定の場合エラー
+        if (overlayMaterial == null)
+        {
+            Debug.Log("Overlay Material が設定されていません！");
+        }
+    }
+
+
     private void Update()
     {
-        if(enemyStatus.IsDead())
+        if (enemyStatus.IsDead())
         {
 
         }
@@ -97,10 +100,10 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     {
 
         enemyStatus.TakeDamage(dmg);
+    
         //被弾アニメーションとエフェクト
         if (enemyStatus.IsDead())
         {
-            Debug.Log($"{name_} dead");
             OnDead();
             return;
         }
@@ -109,6 +112,11 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             StartCoroutine(HitFlash());
         }
     }
+
+  
+
+
+
     public void SetGenerator(EnemyGenerator generator)
     {
         enemyGenerator = generator;
@@ -160,7 +168,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         //死亡アニメーションとエフェクト
 
         //EnemyGeneratorに通知
-
+        if(enemyGenerator!=null)enemyGenerator.deadEnemyNum++;
         //アニメーション完了したら削除
         Destroy(gameObject);
     }

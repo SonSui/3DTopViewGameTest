@@ -243,7 +243,30 @@ public abstract class BaseCharacterStatus
     public float GetAttackSpeed() => attackSpeed;
     public void SetAttackSpeed(float value) => attackSpeed = Mathf.Max(0f, value);
 
+    // 名前を取得
+    public string GetName() => name;
+    public void SetName(string value) => name = value;
 
+    // 状態効果関連 (新規追加)
+    // 現在の防御力ダウン残り時間を取得
+    public float GetDefenseReduction() => defenseReduction;
+    // 現在の攻撃力ダウン残り時間を取得
+    public float GetAttackReduction() => attackReduction;
+    //現在の減速残り時間を取得
+    public float GetSlowEffect() => slowEffect;
+    // 現在の流血残り時間を取得
+    public float GetBleedingEffect() => bleedingEffect;
+    // 現在のスタン残り時間を取得
+    public float GetStunTime() => stun;
+
+    // 流血間隔を取得
+    public float GetBleedingInterval() => bleedingInterval;
+    // 流血タイマーを取得
+    public float GetBleedingTimer() => bleedingTimer;
+    // 流血間隔を設定
+    public void SetBleedingInterval(float value) => bleedingInterval = Mathf.Max(0f, value);
+    // 流血タイマーを設定
+    public void SetBleedingTimer(float value) => bleedingTimer = Mathf.Max(0f, value);
 
     // ===== 状態効果の適用 =====
 

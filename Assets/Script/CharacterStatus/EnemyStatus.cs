@@ -65,7 +65,7 @@ public class EnemyStatus : BaseCharacterStatus
 
         // ダメージ適用
         hpNow -= actualDamage;
-        Debug.Log($"{this.name} は{actualDamage} のダメージを受けた（残りHP: {hpNow}/{hpMax}）");
+        Debug.Log($"{name} は{actualDamage} のダメージを受けた（残りHP: {hpNow}/{hpMax}）");
 
 
 
@@ -103,7 +103,7 @@ public class EnemyStatus : BaseCharacterStatus
         {
             // アイテムを生成?
             
-            Debug.Log($"{item.itemName} をドロップした");
+            //Debug.Log($"{item.itemName} をドロップした");
         }
     }
 
