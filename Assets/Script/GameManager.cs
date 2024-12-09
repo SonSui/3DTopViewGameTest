@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     // GameManagerのインスタンスを保持する静的変数
     public static GameManager Instance { get; private set; }
 
-    private PlayerStatus playerStatus ;
+    public PlayerStatus playerStatus ;
 
     // プレイヤーとカメラのPrefab
     public GameObject playerPrefab;
@@ -160,5 +160,8 @@ public class GameManager : MonoBehaviour
     {
         return isPlayerDead;
     }
-
+    public void EquipItem(Item item)
+    {
+        playerStatus.OnItemCollected(item.itemData);
+    }
 }

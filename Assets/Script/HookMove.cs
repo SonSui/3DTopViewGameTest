@@ -16,7 +16,7 @@ public class HookMove : MonoBehaviour
 
     public float flyTime = 1.0f;
     public float flySpeed = 60f;
-    public float forcePower = 3000f;
+    public float forcePower = 20f;
 
     private Collider colli;
     private PlayerControl player;
@@ -81,8 +81,10 @@ public class HookMove : MonoBehaviour
 
         if(targetTags.Contains(collision.gameObject.tag))
         {
+            colli.enabled = false;
             rb.isKinematic = true;
             rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
             status = Status.Pull;
             transform.position = collision.contacts[0].point;
             transform.SetParent(collision.transform);

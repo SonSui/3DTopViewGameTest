@@ -5,6 +5,8 @@ using UnityEngine;
 // プレイヤークラス：プレイヤーのステータス管理
 public class PlayerStatus : BaseCharacterStatus
 {
+
+    private AbilityManager abilityManager;
     // ===== プレイヤー専用の属性 =====
 
     // 攻撃範囲
@@ -234,6 +236,94 @@ public class PlayerStatus : BaseCharacterStatus
     public int GetResurrectionTime() => resurrectionTime;
     public void SetResurrectionTime(int value) => resurrectionTime = Mathf.Max(0, value);
 
+    // 攻撃範囲を取得
+    public float GetAttackRange() => attackRange;
+    // 攻撃範囲を設定
+    public void SetAttackRange(float value) => attackRange = Mathf.Max(0f, value);
+
+    // 回避率を取得
+    public float GetEvasionRate() => evasionRate;
+    public void SetEvasionRate(float value) => evasionRate = Mathf.Clamp01(value);
+
+    // クリティカル率
+    public float GetCriticalRate() => criticalRate;
+    public void SetCriticalRate(float value) => criticalRate = Mathf.Clamp01(value);
+
+    /// クリティカルダメージ倍率
+    public float GetCriticalDamage() => criticalDamage;
+    public void SetCriticalDamage(float value) => criticalDamage = Mathf.Max(1f, value);
+
+    // 弾節約確率
+    public float GetAmmoEcho() => ammoEcho;
+    public void SetAmmoEcho(float value) => ammoEcho = Mathf.Clamp01(value);
+
+    // 弾貫通回数
+    public int GetAmmoPenetration() => ammoPenetration;
+    public void SetAmmoPenetration(int value) => ammoPenetration = Mathf.Max(0, value);
+
+    // バリアのHP
+    public int GetBarrierHP() => barrierHP;
+    public void SetBarrierHP(int value) => barrierHP = Mathf.Max(0, value);
+
+    //防御力ダウン状態
+    public bool GetIsDefenseReductionFlag() => isDefenseReduction;
+    public void SetIsDefenseReductionFlag(bool value) => isDefenseReduction = value;
+
+    //攻撃力ダウン
+    public bool GetIsAttackReductionFlag() => isAttackReduction;
+    public void SetIsAttackReductionFlag(bool value) => isAttackReduction = value;
+
+    //減速
+    public bool GetIsSlowEffectFlag() => isSlowEffect;
+    public void SetIsSlowEffectFlag(bool value) => isSlowEffect = value;
+
+    //血状態
+    public bool GetIsBleedingEffectFlag() => isBleedingEffect;
+    public void SetIsBleedingEffectFlag(bool value) => isBleedingEffect = value;
+
+    // スタン
+    public bool GetIsStunFlag() => isStun;
+    public void SetIsStunFlag(bool value) => isStun = value;
+
+
+    // 下記は例：Base用のGetter（実際は初期化時の値を記憶して返すなどの工夫が必要）
+    public int GetBaseHpMax() { /* 初期値を返す処理をここに */ return 5; }
+    public int GetBaseAttackPower() { /*初期値*/ return 3; }
+    public float GetBaseCriticalRate() { return 0.1f; }
+    public float GetBaseCriticalDamage() { return 2.0f; }
+    public float GetBaseMoveSpeed() { return 1.0f; }
+    public float GetBaseAttackSpeed() { return 1.0f; }
+    public float GetBaseAttackRange() { return 1.0f; }
+    public float GetBaseEvasionRate() { return 0.05f; }
+
+    public int GetBaseAmmoCapacity() { return 0; }
+    public int GetBaseAmmoRecovery() { return 0; }
+    public float GetBaseAmmoEcho() { return 0f; }
+    public int GetBaseAmmoPenetration() { return 0; }
+    public int GetBaseResurrectionTime() { return 1; }
+
+    // bool系Base値はすべてfalse(またはデフォルト)とする想定
+    public bool GetBaseHpAutoRecovery() { return false; }
+    public bool GetBaseExplosion() { return false; }
+    public bool GetBaseTimeStop() { return false; }
+    public bool GetBaseTeleport() { return false; }
+    public bool GetBaseTimedPowerUpMode() { return false; }
+    public bool GetBaseSwordBeam() { return false; }
+    public bool GetBaseResurrection() { return false; }
+    public bool GetBaseBarrier() { return false; }
+    public bool GetBaseOneHitKill() { return false; }
+    public bool GetBaseMultiAttack() { return false; }
+    public bool GetBaseDefensePenetration() { return false; }
+
+    public bool GetBaseIsDefenseReduction() { return false; }
+    public bool GetBaseIsAttackReduction() { return false; }
+    public bool GetBaseIsSlowEffect() { return false; }
+    public bool GetBaseIsBleedingEffect() { return false; }
+    public bool GetBaseIsStun() { return false; }
+
+
+
+
     // ===== その他のメソッド =====
 
     // 弾薬を回復
@@ -301,5 +391,40 @@ public class PlayerStatus : BaseCharacterStatus
 
         Debug.Log($"PlayerStatus:{fullStatus}");
         return fullStatus;
+    }
+    public Dictionary<string, bool> GetAllAbilitiesStatus()
+    {
+        // 全てのboolフラグをまとめて返す例
+        Dictionary<string, bool> abilities = new Dictionary<string, bool>()
+        {
+            { "HpRecovery", hpRecovery },
+            { "Explosion", explosion },
+            { "TimeStop", timeStop },
+            { "Teleport", teleport },
+            { "TimedPowerUpMode", timedPowerUpMode },
+            { "SwordBeam", swordBeam },
+            { "Resurrection", resurrection },
+            { "Barrier", barrier },
+            { "OneHitKill", oneHitKill },
+            { "MultiAttack", multiAttack },
+            { "DefensePenetration", defensePenetration },
+            { "IsDefenseReduction", isDefenseReduction },
+            { "IsAttackReduction", isAttackReduction },
+            { "IsSlowEffect", isSlowEffect },
+            { "IsBleedingEffect", isBleedingEffect },
+            { "IsStun", isStun }
+        };
+
+        return abilities;
+    }
+    // アイテム取得時に呼ぶメソッドの例
+    public void OnItemCollected(ItemData item)
+    {
+        abilityManager.AddItem(item);
+    }
+
+    public void OnItemRemoved(ItemData item)
+    {
+        abilityManager.RemoveItem(item);
     }
 }

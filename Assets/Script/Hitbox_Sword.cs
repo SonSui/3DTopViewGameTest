@@ -9,6 +9,9 @@ public class Hitbox_Sword : MonoBehaviour
     public Material genMaterial;
 
     public GameObject hitParticleEffect;
+    public GameObject defaultTrail;
+    public GameObject fireTrail;
+
 
     private HashSet<Collider> hitTargets = new HashSet<Collider>(); //UŒ‚‚µ‚½“G‚ğ‹L˜^
 
@@ -51,12 +54,27 @@ public class Hitbox_Sword : MonoBehaviour
     }
     
 
-    public void Initialize(int dmg, float criRate = 0.01f, bool isDefPen = false)
+    public void Initialize(int dmg, int type = 0,float criRate = 0.01f, bool isDefPen = false)
     {
         damage = dmg;
         critical = criRate;
         isDefensePenetration = isDefPen;
+        switch(type)
+        {
+            case 0:SetDefaultTrail();break;
+            case 1:SetFireTrail();break;
+        }
         
+    }
+    private void SetDefaultTrail()
+    {
+        defaultTrail.SetActive(true);
+        fireTrail.SetActive(false);
+    }
+    private void SetFireTrail()
+    {
+        defaultTrail.SetActive(false );
+        fireTrail.SetActive(true);
     }
 
 }

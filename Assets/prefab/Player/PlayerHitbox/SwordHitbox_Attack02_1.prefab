@@ -44,6 +44,10 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 4366010466992771222, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
+      propertyPath: m_Name
+      value: Trail_Default
+      objectReference: {fileID: 0}
     - target: {fileID: 5342200369990610902, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
       propertyPath: hitParticleEffect
       value: 
@@ -121,7 +125,8 @@ PrefabInstance:
       value: 0.78564465
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 848805438873805604, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}

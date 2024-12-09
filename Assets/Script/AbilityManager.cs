@@ -1,173 +1,342 @@
-using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.UI;
-using System.Linq;
-using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class AbilityManager 
+// PlayerStatusに内包する能力管理クラス
+// 装備品(ItemData)を収集し、それに伴うタグを集計し、対応する能力(TagEffect)を有効化し、
+// 最終的なプレイヤー能力値を計算する。
+public class AbilityManager
 {
-    // すべてのタグ
-    public List<AbilityTagDefinition> abilityTagDefinitions;
+    // ===== フィールド =====
+    // 保持中の装備リスト
+    private List<ItemData> collectedItems = new List<ItemData>();
 
-    // タグの数字と効果
-    private Dictionary<string, int> tagCounts = new Dictionary<string, int>();
-    private Dictionary<string, TagEffect> currentEffects = new Dictionary<string, TagEffect>();
+    // タグごとの所持数カウント
+    private Dictionary<string, int> tagCountMap = new Dictionary<string, int>();
 
-    // 集めたもの
-    private List<Item> collectedItems = new List<Item>();
+    // 現在有効になっている合計のTagEffect（集計結果用）
+    private TagEffect totalTagEffect = new TagEffect();
 
-    // 集めたものを表示
-    public IReadOnlyList<Item> CollectedItems => collectedItems.AsReadOnly();
+    // 基本属性加算（アイテムの基礎属性合計）
+    private TagEffect totalItemBaseEffect = new TagEffect();
 
-    // UI関連
-    public GameObject uiCanvasPrefab; // プレイヤーが用意したCanvasのPrefab
-    private GameObject parameterUI;
-    private Text playerStatusText;    // プレイヤー状態表示用のText
-    private Text itemTag;             // アイテム表示用のText
-    private InputField[] inputFields; // プレイヤー状態編集用のInputField
+    // ===== 参照 =====
+    private PlayerStatus playerStatus;
 
-    
-
-    public static AbilityManager Instance { get; private set; }
-
-
-    private void SwitchParameterUI()
+    // ===== コンストラクタ =====
+    public AbilityManager(PlayerStatus playerStatus)
     {
-        if (parameterUI.activeInHierarchy)
-        {
-            parameterUI.SetActive(false);
-        }
-        else
-        {
-            parameterUI.SetActive(true);
-            Update_UI();
-        }
+        this.playerStatus = playerStatus;
     }
 
+    // ===== メソッド =====
 
-    // UIの初期設定
-    private void SetupUI()
+    /// <summary>
+    /// アイテムを追加するとき呼び出す
+    /// アイテムの基本属性加算・タグ数を更新する
+    /// </summary>
+    public void AddItem(ItemData item)
     {
-        // CanvasのPrefabをインスタンス化
-        if (uiCanvasPrefab != null)
-        {
-            
-
-            // プレイヤー状態表示用のTextを取得
-            Transform statusTextTransform = parameterUI.transform.Find("PlayerStatusText");
-            if (statusTextTransform != null)
-                playerStatusText = statusTextTransform.GetComponent<Text>();
-
-            // アイテム表示用のTextを取得
-            Transform itemTagTransform = parameterUI.transform.Find("ItemTagText");
-            if (itemTagTransform != null)
-                itemTag = itemTagTransform.GetComponent<Text>();
-
-            // InputFieldの取得
-            inputFields = statusTextTransform.GetComponentsInChildren<InputField>();
-            for (int i = 0; i < inputFields.Length; i++)
-            {
-                int index = i; // ローカル変数としてインデックスを保存
-                inputFields[i].onEndEdit.AddListener((input) => UpdatePlayerStatusFromInput(index, input));
-            }
-        }
-        else
-        {
-            Debug.LogError("UI Canvas Prefab is not assigned.");
-        }
-        parameterUI.SetActive(false);
-    }
-
-    // InputFieldからプレイヤーの状態を更新
-    private void UpdatePlayerStatusFromInput(int index, string input)
-    {
-        
-    }
-
-    // 新しいものを集めるメソッド
-    public void CollectItem(Item item)
-    {
+        // 装備リストに追加
         collectedItems.Add(item);
 
-        foreach (string tag in item.tags)
-        {
-            // 持っているタグの数量を増加
-            if (tagCounts.ContainsKey(tag))
-                tagCounts[tag]++;
-            else
-                tagCounts[tag] = 1;
+        // アイテムの基本属性を加算
+        AddItemBaseStats(item);
 
-            // 効果を更新
-            UpdateAbilityEffect(tag);
+        // タグカウントを更新
+        UpdateTagCountAdd(item);
+
+        // 最終的な能力を再計算
+        RecalculateAllEffects();
+    }
+
+    /// <summary>
+    /// アイテムを削除するとき呼び出す
+    /// </summary>
+    public void RemoveItem(ItemData item)
+    {
+        if (collectedItems.Contains(item))
+        {
+            collectedItems.Remove(item);
+
+            // アイテムの基本属性を減算
+            RemoveItemBaseStats(item);
+
+            // タグカウントを更新（減算）
+            UpdateTagCountRemove(item);
+
+            // 再計算
+            RecalculateAllEffects();
         }
     }
 
-    // 効果を更新するメソッド
-    private void UpdateAbilityEffect(string tag)
+    /// <summary>
+    /// 全ての効果を再計算
+    /// collectedItemsおよびtagCountMapをもとに
+    /// totalTagEffectを計算し、playerStatusへ反映する
+    /// </summary>
+    private void RecalculateAllEffects()
     {
-        if (abilityTagDefinitions == null || abilityTagDefinitions.Count == 0)
+        // タグ効果の再計算
+        RecalculateTagEffects();
+
+        // 最終的な合計効果 = アイテム基礎属性効果 + タグ効果
+        TagEffect finalEffect = CombineEffects(totalItemBaseEffect, totalTagEffect);
+
+        // 計算結果をplayerStatusに適用
+        ApplyEffectsToPlayer(finalEffect);
+    }
+
+    /// <summary>
+    /// アイテム基礎属性を加算
+    /// </summary>
+    private void AddItemBaseStats(ItemData item)
+    {
+        totalItemBaseEffect.hpMax += item.hpMax;
+        totalItemBaseEffect.attackPower += item.attackPower;
+        totalItemBaseEffect.criticalRate += item.criticalRate;
+        totalItemBaseEffect.criticalDamage += item.criticalDamage;
+        totalItemBaseEffect.moveSpeed += item.moveSpeed;
+        totalItemBaseEffect.attackSpeed += item.attackSpeed;
+        totalItemBaseEffect.attackRange += item.attackRange;
+        totalItemBaseEffect.evasionRate += item.evasionRate;
+        totalItemBaseEffect.ammoCapacity += item.ammoCapacity;
+        // 基本属性に関しては他のbool能力はデフォルトfalse/0なので加算不要
+    }
+
+    /// <summary>
+    /// アイテム基礎属性を減算
+    /// </summary>
+    private void RemoveItemBaseStats(ItemData item)
+    {
+        totalItemBaseEffect.hpMax -= item.hpMax;
+        totalItemBaseEffect.attackPower -= item.attackPower;
+        totalItemBaseEffect.criticalRate -= item.criticalRate;
+        totalItemBaseEffect.criticalDamage -= item.criticalDamage;
+        totalItemBaseEffect.moveSpeed -= item.moveSpeed;
+        totalItemBaseEffect.attackSpeed -= item.attackSpeed;
+        totalItemBaseEffect.attackRange -= item.attackRange;
+        totalItemBaseEffect.evasionRate -= item.evasionRate;
+        totalItemBaseEffect.ammoCapacity -= item.ammoCapacity;
+    }
+
+    /// <summary>
+    /// アイテム追加時、タグカウントを増やす
+    /// </summary>
+    private void UpdateTagCountAdd(ItemData item)
+    {
+        foreach (var tagDef in item.tags)
         {
-            Debug.LogError("AbilityTagDefinitions is null");
-            return;
+            string tagName = tagDef.tagName;
+            if (!tagCountMap.ContainsKey(tagName))
+                tagCountMap[tagName] = 0;
+            tagCountMap[tagName]++;
         }
+    }
 
-        // タグを探す
-        AbilityTagDefinition tagDefinition = abilityTagDefinitions.Find(t => t.tagName == tag);
-        if (tagDefinition == null)
+    /// <summary>
+    /// アイテム削除時、タグカウントを減らす
+    /// </summary>
+    private void UpdateTagCountRemove(ItemData item)
+    {
+        foreach (var tagDef in item.tags)
         {
-            Debug.Log("Can't Find tag:" + tag);
-            return;
-        }
-
-        int count = tagCounts[tag];
-        TagEffect totalEffect = new TagEffect();
-
-        // タグ効果を加算
-        for (int i = 0; i < tagDefinition.thresholds.Count; i++)
-        {
-            if (count >= tagDefinition.thresholds[i])
+            string tagName = tagDef.tagName;
+            if (tagCountMap.ContainsKey(tagName))
             {
-                TagEffect effect = tagDefinition.effects[i];
-                totalEffect = effect;
+                tagCountMap[tagName] = Mathf.Max(tagCountMap[tagName] - 1, 0);
+                if (tagCountMap[tagName] == 0)
+                    tagCountMap.Remove(tagName);
             }
         }
-
-        // タグ効果を更新
-        if (currentEffects.ContainsKey(tag))
-            currentEffects[tag] = totalEffect;
-        else
-            currentEffects.Add(tag, totalEffect);
-
-        // プレイヤーに効果を適用
-        ApplyEffects();
     }
 
-    // プレイヤーに効果を適用するメソッド
-    private void ApplyEffects()
+    /// <summary>
+    /// タグ効果を再計算する
+    /// tagCountMapからthresholdsをチェックし、該当のTagEffectを合計する
+    /// </summary>
+    private void RecalculateTagEffects()
     {
-        
-        Update_UI(); // UIの更新
-    }
+        // 一度初期化
+        totalTagEffect = new TagEffect();
 
-    // 画面にタグと状態を表示するメソッド
-    private void Update_UI()
-    {
-        // プレイヤー状態の表示
-       
-
-        // アイテムの表示
-        if (itemTag != null)
+        // 現在所持している全タグをループ
+        // 所有数に応じてどのeffectが有効かを判定
+        foreach (var pair in tagCountMap)
         {
-            string text = "Item:\n";
-            var sortedTagCounts = tagCounts.OrderBy(kv => kv.Key);
-            foreach (var kvp in sortedTagCounts)
+            string tagName = pair.Key;
+            int count = pair.Value;
+
+            // 適合するタグ定義を全アイテムから拾う
+            // （複数アイテムが同じTagDefinitionを持つ場合、thresholdsやeffectsは同じオブジェクトを指すことを想定）
+            // 本例では簡略のため、itemsをループして最初に見つけたtagDefを採用
+            AbilityTagDefinition tagDef = FindTagDefinitionFromName(tagName);
+
+            if (tagDef == null) continue;
+
+            // thresholdsをチェックして、countがどのレベルまで達したか確認
+            // それぞれのthresholdを越えた分のeffectsを適用
+            for (int i = 0; i < tagDef.thresholds.Count; i++)
             {
-                string tag = kvp.Key;
-                string count = kvp.Value.ToString();
-                text += tag + " " + count + "\n";
+                if (count >= tagDef.thresholds[i])
+                {
+                    // そのthresholdに対応するTagEffectを加算
+                    AddTagEffect(tagDef.effects[i]);
+                }
             }
-            itemTag.text = text;
         }
+    }
+
+    /// <summary>
+    /// tagNameに対応するAbilityTagDefinitionを全てのcollectedItemsから探す
+    /// </summary>
+    private AbilityTagDefinition FindTagDefinitionFromName(string tagName)
+    {
+        foreach (var item in collectedItems)
+        {
+            foreach (var td in item.tags)
+            {
+                if (td.tagName == tagName)
+                    return td;
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// 指定したTagEffectを合計する（加算）
+    /// </summary>
+    private void AddTagEffect(TagEffect effect)
+    {
+        totalTagEffect.hpMax += effect.hpMax;
+        totalTagEffect.attackPower += effect.attackPower;
+        totalTagEffect.criticalRate += effect.criticalRate;
+        totalTagEffect.criticalDamage += effect.criticalDamage;
+        totalTagEffect.moveSpeed += effect.moveSpeed;
+        totalTagEffect.attackSpeed += effect.attackSpeed;
+        totalTagEffect.attackRange += effect.attackRange;
+        totalTagEffect.evasionRate += effect.evasionRate;
+
+        totalTagEffect.isDefenseReduction = totalTagEffect.isDefenseReduction || effect.isDefenseReduction;
+        totalTagEffect.isAttackReduction = totalTagEffect.isAttackReduction || effect.isAttackReduction;
+        totalTagEffect.isSlowEffect = totalTagEffect.isSlowEffect || effect.isSlowEffect;
+        totalTagEffect.isBleedingEffect = totalTagEffect.isBleedingEffect || effect.isBleedingEffect;
+        totalTagEffect.isStun = totalTagEffect.isStun || effect.isStun;
+
+        totalTagEffect.ammoCapacity += effect.ammoCapacity;
+        totalTagEffect.ammoRecovery += effect.ammoRecovery;
+        totalTagEffect.ammoEcho = Mathf.Max(totalTagEffect.ammoEcho, effect.ammoEcho); // 例：値が大きい方を優先するなど、要件次第で処理変更可能
+        totalTagEffect.ammoPenetration += effect.ammoPenetration;
+        totalTagEffect.resurrectionTime += effect.resurrectionTime;
+
+        totalTagEffect.hpRecovery = totalTagEffect.hpRecovery || effect.hpRecovery;
+        totalTagEffect.explosion = totalTagEffect.explosion || effect.explosion;
+        totalTagEffect.timeStop = totalTagEffect.timeStop || effect.timeStop;
+        totalTagEffect.teleport = totalTagEffect.teleport || effect.teleport;
+        totalTagEffect.timedPowerUpMode = totalTagEffect.timedPowerUpMode || effect.timedPowerUpMode;
+        totalTagEffect.swordBeam = totalTagEffect.swordBeam || effect.swordBeam;
+        totalTagEffect.resurrection = totalTagEffect.resurrection || effect.resurrection;
+        totalTagEffect.barrier = totalTagEffect.barrier || effect.barrier;
+        totalTagEffect.oneHitKill = totalTagEffect.oneHitKill || effect.oneHitKill;
+        totalTagEffect.multiAttack = totalTagEffect.multiAttack || effect.multiAttack;
+        totalTagEffect.defensePenetration = totalTagEffect.defensePenetration || effect.defensePenetration;
+    }
+
+    /// <summary>
+    /// 2つのTagEffectを合成（加算）する
+    /// </summary>
+    private TagEffect CombineEffects(TagEffect baseEffect, TagEffect addEffect)
+    {
+        TagEffect combined = new TagEffect();
+
+        combined.hpMax = baseEffect.hpMax + addEffect.hpMax;
+        combined.attackPower = baseEffect.attackPower + addEffect.attackPower;
+        combined.criticalRate = baseEffect.criticalRate + addEffect.criticalRate;
+        combined.criticalDamage = baseEffect.criticalDamage + addEffect.criticalDamage;
+        combined.moveSpeed = baseEffect.moveSpeed + addEffect.moveSpeed;
+        combined.attackSpeed = baseEffect.attackSpeed + addEffect.attackSpeed;
+        combined.attackRange = baseEffect.attackRange + addEffect.attackRange;
+        combined.evasionRate = baseEffect.evasionRate + addEffect.evasionRate;
+
+        combined.isDefenseReduction = baseEffect.isDefenseReduction || addEffect.isDefenseReduction;
+        combined.isAttackReduction = baseEffect.isAttackReduction || addEffect.isAttackReduction;
+        combined.isSlowEffect = baseEffect.isSlowEffect || addEffect.isSlowEffect;
+        combined.isBleedingEffect = baseEffect.isBleedingEffect || addEffect.isBleedingEffect;
+        combined.isStun = baseEffect.isStun || addEffect.isStun;
+
+        combined.ammoCapacity = baseEffect.ammoCapacity + addEffect.ammoCapacity;
+        combined.ammoRecovery = baseEffect.ammoRecovery + addEffect.ammoRecovery;
+        // 弾節約確率など合成のルールは任意、ここでは最大値を採用
+        combined.ammoEcho = Mathf.Max(baseEffect.ammoEcho, addEffect.ammoEcho);
+        combined.ammoPenetration = baseEffect.ammoPenetration + addEffect.ammoPenetration;
+        combined.resurrectionTime = baseEffect.resurrectionTime + addEffect.resurrectionTime;
+
+        combined.hpRecovery = baseEffect.hpRecovery || addEffect.hpRecovery;
+        combined.explosion = baseEffect.explosion || addEffect.explosion;
+        combined.timeStop = baseEffect.timeStop || addEffect.timeStop;
+        combined.teleport = baseEffect.teleport || addEffect.teleport;
+        combined.timedPowerUpMode = baseEffect.timedPowerUpMode || addEffect.timedPowerUpMode;
+        combined.swordBeam = baseEffect.swordBeam || addEffect.swordBeam;
+        combined.resurrection = baseEffect.resurrection || addEffect.resurrection;
+        combined.barrier = baseEffect.barrier || addEffect.barrier;
+        combined.oneHitKill = baseEffect.oneHitKill || addEffect.oneHitKill;
+        combined.multiAttack = baseEffect.multiAttack || addEffect.multiAttack;
+        combined.defensePenetration = baseEffect.defensePenetration || addEffect.defensePenetration;
+
+        return combined;
+    }
+
+    /// <summary>
+    /// 計算結果をプレイヤーステータスに反映する
+    /// PlayerStatusにSetterを利用して属性値を再設定する
+    /// </summary>
+    private void ApplyEffectsToPlayer(TagEffect effect)
+    {
+        // PlayerStatus側に加算結果を反映
+        // プレイヤーは元々のベースステータス + effect分をSetterで上書きする想定
+        // ここではplayerStatusのSet〇〇を使用し、最終値を設定する。
+
+        // 元々のベース値に対して、effect分を加算する必要がある。
+        // 例えば、playerStatus.GetAttackPower()はベース+アイテム前の値のため、
+        // 元々のベース値を保持しておくか、最終値を直接上書きする設計が必要。
+        // 本例ではPlayerStatus自体を"ベースステータス+装備効果込み"として扱い、
+        // AbilityManagerからは最終値をplayerStatusに直接上書きする。
+
+        playerStatus.SetHpMax(playerStatus.GetBaseHpMax() + effect.hpMax);
+        playerStatus.SetHpNow(Mathf.Min(playerStatus.GetHpNow(), playerStatus.GetHpMax())); // HPNowは最大値を超えないように。
+
+        playerStatus.SetAttackPower(playerStatus.GetBaseAttackPower() + effect.attackPower);
+        playerStatus.SetMoveSpeed(playerStatus.GetBaseMoveSpeed() + effect.moveSpeed);
+        playerStatus.SetAttackSpeed(playerStatus.GetBaseAttackSpeed() + effect.attackSpeed);
+        playerStatus.SetEvasionRate(playerStatus.GetBaseEvasionRate() + effect.evasionRate);
+        playerStatus.SetCriticalRate(playerStatus.GetBaseCriticalRate() + effect.criticalRate);
+        playerStatus.SetCriticalDamage(playerStatus.GetBaseCriticalDamage() + effect.criticalDamage);
+        playerStatus.SetAttackRange(playerStatus.GetBaseAttackRange() + effect.attackRange);
+
+        playerStatus.SetAmmoCapacity(playerStatus.GetBaseAmmoCapacity() + effect.ammoCapacity);
+        playerStatus.SetAmmoRecovery(playerStatus.GetBaseAmmoRecovery() + effect.ammoRecovery);
+        playerStatus.SetAmmoEcho(Mathf.Max(playerStatus.GetBaseAmmoEcho(), effect.ammoEcho));
+        playerStatus.SetAmmoPenetration(playerStatus.GetBaseAmmoPenetration() + effect.ammoPenetration);
+        playerStatus.SetResurrectionTime(playerStatus.GetBaseResurrectionTime() + effect.resurrectionTime);
+
+        // bool系はOR条件で有効化しているため、直接上書き
+        playerStatus.SetHpAutoRecovery(playerStatus.GetBaseHpAutoRecovery() || effect.hpRecovery);
+        playerStatus.SetExplosion(playerStatus.GetBaseExplosion() || effect.explosion);
+        playerStatus.SetTimeStop(playerStatus.GetBaseTimeStop() || effect.timeStop);
+        playerStatus.SetTeleport(playerStatus.GetBaseTeleport() || effect.teleport);
+        playerStatus.SetTimedPowerUpMode(playerStatus.GetBaseTimedPowerUpMode() || effect.timedPowerUpMode);
+        playerStatus.SetSwordBeam(playerStatus.GetBaseSwordBeam() || effect.swordBeam);
+        playerStatus.SetResurrection(playerStatus.GetBaseResurrection() || effect.resurrection);
+        playerStatus.SetBarrier(playerStatus.GetBaseBarrier() || effect.barrier);
+        playerStatus.SetOneHitKill(playerStatus.GetBaseOneHitKill() || effect.oneHitKill);
+        playerStatus.SetMultiAttack(playerStatus.GetBaseMultiAttack() || effect.multiAttack);
+        playerStatus.SetDefensePenetration(playerStatus.GetBaseDefensePenetration() || effect.defensePenetration);
+
+        // デバフ系フラグ
+        playerStatus.SetIsDefenseReductionFlag(playerStatus.GetBaseIsDefenseReduction() || effect.isDefenseReduction);
+        playerStatus.SetIsAttackReductionFlag(playerStatus.GetBaseIsAttackReduction() || effect.isAttackReduction);
+        playerStatus.SetIsSlowEffectFlag(playerStatus.GetBaseIsSlowEffect() || effect.isSlowEffect);
+        playerStatus.SetIsBleedingEffectFlag(playerStatus.GetBaseIsBleedingEffect() || effect.isBleedingEffect);
+        playerStatus.SetIsStunFlag(playerStatus.GetBaseIsStun() || effect.isStun);
     }
 }

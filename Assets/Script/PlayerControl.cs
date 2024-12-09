@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -368,7 +369,12 @@ public class PlayerControl : MonoBehaviour
     {
         // Hitbox
         swordAttack01Hitbox.SetActive(true);
-        swordAttack01Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+        int type = 0;
+        if (gameManager.playerStatus.IsBleeding())
+        {
+            type = 1;
+        }
+        swordAttack01Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow(),type);
     }
     public void OnSwordAttack01Update2()
     {
@@ -387,7 +393,12 @@ public class PlayerControl : MonoBehaviour
         // 武器の攻撃の表示位置とHitboxとコンボ入力
         OnAttackWeaponDisplay();
         swordAttack02Hitbox1.SetActive(true);
-        swordAttack02Hitbox1.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+        int type = 0;
+        if (gameManager.playerStatus.IsBleeding())
+        {
+            type = 1;
+        }
+        swordAttack02Hitbox1.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow(),type);
         comboResetTime = 0.81f / currActSpeed;
         comboTimer = 0f;
     }
@@ -402,7 +413,12 @@ public class PlayerControl : MonoBehaviour
         // 二段コンボので、二つ目のHitbox表示
         swordAttack02Hitbox1.SetActive(false);
         swordAttack02Hitbox2.SetActive(true);
-        swordAttack02Hitbox2.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+        int type = 0;
+        if (gameManager.playerStatus.IsBleeding())
+        {
+            type = 1;
+        }
+        swordAttack02Hitbox2.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow(),type);
     }
     public void OnSwordArrack02Exit()
     {
@@ -415,7 +431,12 @@ public class PlayerControl : MonoBehaviour
         // 武器の攻撃の表示位置とHitboxとコンボ入力
         OnAttackWeaponDisplay();
         swordAttack03Hitbox.SetActive(true);
-        swordAttack03Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+        int type = 0;
+        if (gameManager.playerStatus.IsBleeding())
+        {
+            type = 1;
+        }
+        swordAttack03Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow(),type);
         comboResetTime = 0.83f / currActSpeed;
         comboTimer = 0f;
         comboStep = 0; //連続コンボのためにリセット
