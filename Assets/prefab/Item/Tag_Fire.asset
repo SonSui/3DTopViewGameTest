@@ -31,6 +31,7 @@ MonoBehaviour:
     ammoCapacity: 0
     ammoRecovery: 0
     ammoEcho: 0
+    ammoPenetration: 0
     resurrectionTime: 0
     hpRecovery: 0
     explosion: 0
@@ -54,11 +55,12 @@ MonoBehaviour:
     isDefenseReduction: 0
     isAttackReduction: 0
     isSlowEffect: 0
-    isBleedingEffect: 1
+    isBleedingEffect: 0
     isStun: 0
     ammoCapacity: 0
     ammoRecovery: 0
     ammoEcho: 0
+    ammoPenetration: 0
     resurrectionTime: 0
     hpRecovery: 0
     explosion: 0
@@ -82,11 +84,12 @@ MonoBehaviour:
     isDefenseReduction: 0
     isAttackReduction: 0
     isSlowEffect: 0
-    isBleedingEffect: 1
+    isBleedingEffect: 0
     isStun: 0
     ammoCapacity: 0
     ammoRecovery: 0
     ammoEcho: 0
+    ammoPenetration: 0
     resurrectionTime: 0
     hpRecovery: 0
     explosion: 1
@@ -98,4 +101,5 @@ MonoBehaviour:
     barrier: 0
     oneHitKill: 0
     multiAttack: 0
-    defensePenetration: 1
+    defensePenetration: 0
+  icon: {fileID: 0}

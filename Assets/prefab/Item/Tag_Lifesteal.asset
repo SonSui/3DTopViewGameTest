@@ -62,7 +62,7 @@ MonoBehaviour:
     ammoEcho: 0
     ammoPenetration: 0
     resurrectionTime: 0
-    hpRecovery: 1
+    hpRecovery: 0
     explosion: 0
     timeStop: 0
     teleport: 0
@@ -81,7 +81,7 @@ MonoBehaviour:
     attackSpeed: 0
     attackRange: 0
     evasionRate: 0
-    isDefenseReduction: 1
+    isDefenseReduction: 0
     isAttackReduction: 1
     isSlowEffect: 0
     isBleedingEffect: 0
@@ -91,7 +91,7 @@ MonoBehaviour:
     ammoEcho: 0
     ammoPenetration: 0
     resurrectionTime: 0
-    hpRecovery: 1
+    hpRecovery: 0
     explosion: 0
     timeStop: 0
     teleport: 0
@@ -102,3 +102,4 @@ MonoBehaviour:
     oneHitKill: 0
     multiAttack: 0
     defensePenetration: 0
+  icon: {fileID: 0}

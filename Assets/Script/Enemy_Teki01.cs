@@ -168,7 +168,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         //死亡アニメーションとエフェクト
 
         //EnemyGeneratorに通知
-
+        if(enemyGenerator!=null)enemyGenerator.deadEnemyNum++;
         //アニメーション完了したら削除
         Destroy(gameObject);
     }

@@ -370,7 +370,7 @@ public class PlayerControl : MonoBehaviour
         // Hitbox
         swordAttack01Hitbox.SetActive(true);
         int type = 0;
-        if (gameManager.playerStatus.IsBleeding())
+        if (gameManager.playerStatus.GetIsBleedingEffectFlag())
         {
             type = 1;
         }
@@ -394,7 +394,7 @@ public class PlayerControl : MonoBehaviour
         OnAttackWeaponDisplay();
         swordAttack02Hitbox1.SetActive(true);
         int type = 0;
-        if (gameManager.playerStatus.IsBleeding())
+        if (gameManager.playerStatus.GetIsBleedingEffectFlag())
         {
             type = 1;
         }
@@ -414,7 +414,7 @@ public class PlayerControl : MonoBehaviour
         swordAttack02Hitbox1.SetActive(false);
         swordAttack02Hitbox2.SetActive(true);
         int type = 0;
-        if (gameManager.playerStatus.IsBleeding())
+        if (gameManager.playerStatus.GetIsBleedingEffectFlag())
         {
             type = 1;
         }
@@ -432,7 +432,7 @@ public class PlayerControl : MonoBehaviour
         OnAttackWeaponDisplay();
         swordAttack03Hitbox.SetActive(true);
         int type = 0;
-        if (gameManager.playerStatus.IsBleeding())
+        if (gameManager.playerStatus.GetIsBleedingEffectFlag())
         {
             type = 1;
         }

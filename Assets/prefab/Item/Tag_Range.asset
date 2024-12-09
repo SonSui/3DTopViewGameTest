@@ -50,7 +50,7 @@ MonoBehaviour:
     criticalDamage: 0
     moveSpeed: 0
     attackSpeed: 0
-    attackRange: 0.5
+    attackRange: 0.3
     evasionRate: 0
     isDefenseReduction: 0
     isAttackReduction: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
     criticalDamage: 0
     moveSpeed: 0
     attackSpeed: 0
-    attackRange: 0.8
+    attackRange: 0.5
     evasionRate: 0
     isDefenseReduction: 0
     isAttackReduction: 0
@@ -102,3 +102,4 @@ MonoBehaviour:
     oneHitKill: 0
     multiAttack: 0
     defensePenetration: 0
+  icon: {fileID: 0}

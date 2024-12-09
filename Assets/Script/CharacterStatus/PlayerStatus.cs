@@ -107,6 +107,7 @@ public class PlayerStatus : BaseCharacterStatus
         this.isDefenseReduction = false;
         this.isSlowEffect = false;
         this.isStun = false;
+        abilityManager = new AbilityManager(this);
     }
 
     // ===== メソッド =====
@@ -420,7 +421,9 @@ public class PlayerStatus : BaseCharacterStatus
     // アイテム取得時に呼ぶメソッドの例
     public void OnItemCollected(ItemData item)
     {
+        Debug.Log($"{item.itemName} in playerStatus");
         abilityManager.AddItem(item);
+        Debug.Log($"{isBleedingEffect} in playerStatus");
     }
 
     public void OnItemRemoved(ItemData item)

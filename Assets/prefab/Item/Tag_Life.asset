@@ -44,7 +44,7 @@ MonoBehaviour:
     oneHitKill: 0
     multiAttack: 0
     defensePenetration: 0
-  - hpMax: 5
+  - hpMax: 3
     attackPower: 0
     criticalRate: 0
     criticalDamage: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
     oneHitKill: 0
     multiAttack: 0
     defensePenetration: 0
-  - hpMax: 5
+  - hpMax: 0
     attackPower: 0
     criticalRate: 0
     criticalDamage: 0
@@ -102,3 +102,4 @@ MonoBehaviour:
     oneHitKill: 0
     multiAttack: 0
     defensePenetration: 0
+  icon: {fileID: 0}

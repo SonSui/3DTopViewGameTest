@@ -160,8 +160,9 @@ public class GameManager : MonoBehaviour
     {
         return isPlayerDead;
     }
-    public void EquipItem(Item item)
+    public void EquipItem(ItemData item)
     {
-        playerStatus.OnItemCollected(item.itemData);
+        Debug.Log($"{item.itemName} in gameManager");
+        playerStatus.OnItemCollected(item);
     }
 }

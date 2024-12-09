@@ -81,7 +81,8 @@ public class Item : MonoBehaviour
         // プレイヤーと接触し、まだ装備されていない場合
         if (other.gameObject.tag == "Player" && isEquipped == false)
         {
-            GameManager.Instance.EquipItem(this); // 装備をGameManagerに追加
+            Debug.Log($"{itemData.itemName} in items");
+            GameManager.Instance.EquipItem(itemData); // 装備をGameManagerに追加
             isEquipped = true; // 装備済みフラグを設定
             StartCoroutine(OnEquipped()); // 装備後の処理を開始
         }
