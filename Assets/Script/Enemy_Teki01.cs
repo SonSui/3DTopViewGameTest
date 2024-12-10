@@ -102,11 +102,11 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         if (enemyState != EnemyState.Dead)//今の状態を判断、死んでいるのはダメージ受けない
         {
 
-            enemyStatus.TakeDamage(dmg);
-
-
-
+            enemyStatus.TakeDamage(dmg);//防御力などの影響を含めてダメージ計算できる
             //被弾アニメーションとエフェクト
+
+
+
             if (enemyStatus.IsDead())
             {
                 OnDead();
@@ -133,7 +133,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     private System.Collections.IEnumerator HitFlash()
     {
-        enemyState = EnemyState.Hit;
+        enemyState = EnemyState.Hit;// 被撃状態
         isFlashing = true;
 
         // 全てのRendererにマテリアルを追加
@@ -166,7 +166,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         }
 
         isFlashing = false;
-        enemyState = EnemyState.Idle;
+        enemyState = EnemyState.Idle;// 待機状態
     }
 
 
@@ -185,7 +185,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
         while (dyingTime < dyingTimeMax)
         {
-            //削除前のアニメーション（例：段々小さくなるなど）
+            //削除前のアニメーション（例：小さくなるなど）
 
             dyingTime += Time.deltaTime;
             yield return null;
