@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyA1 : MonoBehaviour,IOnHit
 {
     EnemyStatus enemyStatus;
+    EnemyGenerator enemyGenerator;
 
     public Color hitColor = Color.red;
 
@@ -17,11 +18,10 @@ public class EnemyA1 : MonoBehaviour,IOnHit
     private Material oriMaterial;
     private Material temMaterial;
 
+    //ステータス
     int hp = 4;
-
     float speed = 2.0f;
     int dmg = 1;
-
     float atkInterval = 4f;
     float atkTime = 0f;
 
@@ -30,8 +30,6 @@ public class EnemyA1 : MonoBehaviour,IOnHit
 
     //プレイヤーの座標
     public Transform playerT;
-
-    EnemyGenerator enemyGenerator;
 
     void Start()
     {
@@ -83,9 +81,8 @@ public class EnemyA1 : MonoBehaviour,IOnHit
 
         if (hp < 0)
         {
-            enemyGenerator.deadEnemyNum++;
+            enemyGenerator.deadEnemyNum += 1;
             OnDead();
-            
         }
         DeleteHitbox();
         atkTime = 0;

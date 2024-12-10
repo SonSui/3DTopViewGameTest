@@ -23,7 +23,6 @@ public class Hitbox_EnemyA1 : MonoBehaviour
         render.material = preAttack;
     }
 
-    
     void Update()
     {
         currTime += Time.deltaTime;

@@ -11,25 +11,23 @@ public class EnemyGenerator : MonoBehaviour
     float delta = 0;
 
     //クリア判定変数
-
-    public int enemyNumMax = 15;
-
+    public  int enemyNumMax = 15;
 
     int currEnemyNum = 0;
-    public int deadEnemyNum = 0;//テストため、EnemyA1のUpdate関数が変更してくる
+    public int deadEnemyNum = 0;//テストのため、EnemyA1のUpdate関数が変更してくる
 
 
     //public GameObject clearUI;
 
     void Start()
     {
-        // clearUI.SetActive(false);//クリアテキストを見えないようにする
+       //clearUI.SetActive(false);//クリアテキストを見えないようにする
+
     }
 
     void Update()
     {
         this.delta += Time.deltaTime;
-
 
         if (this.delta > this.span && currEnemyNum < enemyNumMax)
         {
