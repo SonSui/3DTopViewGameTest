@@ -6,30 +6,29 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour
 {
     public GameObject EnemyA1;
+    public GameObject EnemyA2;
     public float span = 3.0f;
     float delta = 0;
 
     //クリア判定変数
-
     public  int enemyNumMax = 15;
 
 
     int currEnemyNum = 0;
-    public  int deadEnemyNum = 0;//テストため、EnemyA1のUpdate関数が変更してくる
+    public int deadEnemyNum = 0;//テストのため、EnemyA1のUpdate関数が変更してくる
 
-
-    //public GameObject clearUI;
+    public GameObject clearUI;
     
     void Start()
     {
-       // clearUI.SetActive(false);//クリアテキストを見えないようにする
+       clearUI.SetActive(false);//クリアテキストを見えないようにする
     }
 
     void Update()
     {
         this.delta += Time.deltaTime;
 
-        if (deadEnemyNum < 10)
+        if (deadEnemyNum <= 10)
         {
             if (this.delta > this.span && currEnemyNum < enemyNumMax)
             {
@@ -39,6 +38,7 @@ public class EnemyGenerator : MonoBehaviour
 
                 Vector3 pos = new Vector3(0f, 10f, 0f);
                 GameObject go = Instantiate(EnemyA1, pos, Quaternion.identity);
+                //GameObject go2 = Instantiate(EnemyA2, pos, Quaternion.identity);
                 do
                 {
                     px = UnityEngine.Random.Range(-12.0f, 12.0f);
