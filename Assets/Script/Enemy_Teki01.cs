@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 public class Enemy_Teki01 : MonoBehaviour, IOnHit
 {
     EnemyStatus enemyStatus; //敵のステータス
 
-    //Inspector上設定できるステータス
+    //Inspector上設定できる基本のステータス
     public string name_ = "Enemy_Teki01";
     public int hp_ = 4;
     public int attack_ = 1;
@@ -21,30 +22,30 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     //被弾の色変化
     private Renderer[] renderers;        // 敵のRendererリスト
-    [SerializeField] private Material overlayMaterial;   // 半透明赤色のマテリアル
+    [SerializeField] private Material overlayMaterial;   // 被弾のマテリアル
     private bool isFlashing = false;    // フラッシュ中かどうか
     private float flashDuration = 0.1f; // フラッシュ持続時間
 
     //攻撃のPrefab
-    public GameObject hitboxPrefab;
+    public GameObject hitboxPrefab;    //攻撃のHitboxと攻撃のエフェクトをprefabにする
     private GameObject hitbox = null;　//生成したHitboxを保存
 
     //ステータスマシン
     public enum EnemyState
     {
+        //全部使う必要がない
         Idle,         // 待機状態：敵が動かずに待機している
         Patrol,       // 巡回状態：指定されたルートやランダムに移動している
         Chase,        // 追跡状態：プレイヤーを発見し追いかけている
         Attack,       // 攻撃状態：プレイヤーや目標を攻撃している
         Hit,          // 被撃状態：攻撃を受けてダメージを受けている
-
         Dead,         // 死亡状態：体力がゼロになり行動不能
+
         Stunned,      // 気絶状態：スキルや攻撃で行動不能な状態
         Flee,         // 逃走状態：プレイヤーに負けると判断し逃げる
         Alert,        // 警戒状態：プレイヤーの存在に気づいたがまだ追跡していない
         Guard,        // 防御状態：盾を持つ状態
     }
-
     private EnemyState enemyState;
 
     //プレイヤーの座標
@@ -55,6 +56,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     private void OnEnable()
     {
         name_ += System.Guid.NewGuid().ToString(); //唯一の名前付ける
+
         //EnemyBufferを使う場合、Enableたびにステータスをリセットする
         enemyStatus = new EnemyStatus(
             name_,
@@ -66,11 +68,13 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             shieldDurability_,
             moveSpeed_,
             attackSpeed_);
-        enemyState = EnemyState.Idle;
+        enemyState = EnemyState.Idle; //待機状態設定
     }
 
     void Start()
     {
+        //敵生成するとOnEnable(prefabはEnableの状態の場合)->Start->Update->Update->Update(毎フレイム循環)
+
         if (enemyGenerator == null) enemyGenerator = FindObjectOfType<EnemyGenerator>();
         playerT = GameObject.FindGameObjectWithTag("Player").transform;
 
@@ -86,34 +90,36 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     private void Update()
     {
-        if (enemyStatus.IsDead())
-        {
-
-        }
 
 
 
 
-        enemyStatus.UpdateStatus(Time.deltaTime);
+        enemyStatus.UpdateStatus(Time.deltaTime);//流血、スタン、デバフなど毎フレイム自動的に処理
     }
     public void OnHit(int dmg, bool crit = false)
     {
 
-        enemyStatus.TakeDamage(dmg);
-    
-        //被弾アニメーションとエフェクト
-        if (enemyStatus.IsDead())
+        if (enemyState != EnemyState.Dead)//今の状態を判断、死んでいるのはダメージ受けない
         {
-            OnDead();
-            return;
-        }
-        if (!isFlashing)
-        {
-            StartCoroutine(HitFlash());
+
+            enemyStatus.TakeDamage(dmg);
+
+
+
+            //被弾アニメーションとエフェクト
+            if (enemyStatus.IsDead())
+            {
+                OnDead();
+                return;
+            }
+            if (!isFlashing)
+            {
+                if (overlayMaterial != null) StartCoroutine(HitFlash());
+            }
         }
     }
 
-  
+
 
 
 
@@ -127,8 +133,9 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     private System.Collections.IEnumerator HitFlash()
     {
+        enemyState = EnemyState.Hit;
         isFlashing = true;
-        
+
         // 全てのRendererにマテリアルを追加
         foreach (Renderer renderer in renderers)
         {
@@ -159,23 +166,39 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         }
 
         isFlashing = false;
+        enemyState = EnemyState.Idle;
     }
 
 
     private void OnDead()
     {
-
+        enemyState = EnemyState.Dead;//死亡状態
         //死亡アニメーションとエフェクト
+        StartCoroutine(DyingAnimation());
 
+    }
+    private IEnumerator DyingAnimation()
+    {
+        float dyingTime = 0f;
+        float dyingTimeMax = 0.5f;//0.5秒後削除
+        //死亡エフェクトを生成
+
+        while (dyingTime < dyingTimeMax)
+        {
+            //削除前のアニメーション（例：段々小さくなるなど）
+
+            dyingTime += Time.deltaTime;
+            yield return null;
+        }
         //EnemyGeneratorに通知
-        if(enemyGenerator!=null)enemyGenerator.deadEnemyNum++;
+        if (enemyGenerator != null) enemyGenerator.deadEnemyNum++;
         //アニメーション完了したら削除
         Destroy(gameObject);
     }
 
     private void Attack()
     {
-        int atk = enemyStatus.GetAttackNow();
+        int atk = enemyStatus.GetAttackNow();//攻撃力ダウンなどを計算した攻撃力を取得
         //攻撃のprefabを生成
     }
 
