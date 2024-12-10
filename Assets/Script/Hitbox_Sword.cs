@@ -9,6 +9,9 @@ public class Hitbox_Sword : MonoBehaviour
     public Material genMaterial;
 
     public GameObject hitParticleEffect;
+    public GameObject defaultTrail;
+    public GameObject fireTrail;
+
 
     private HashSet<Collider> hitTargets = new HashSet<Collider>(); //攻撃した敵を記録
 
@@ -32,28 +35,46 @@ public class Hitbox_Sword : MonoBehaviour
         {
             // 記録
             hitTargets.Add(other);
-            // ダメージ与える
-            other.gameObject.GetComponent<IOnHit>().OnHit(damage);
-            
-            // 接する位置
-            Vector3 contactPoint = other.ClosestPoint(transform.position);
-            
-            // エフェクト生成
-            GameObject effect = Instantiate(hitParticleEffect, contactPoint, Quaternion.identity);
+            if (other.gameObject.GetComponent<IOnHit>() != null)
+            {
+                // ダメージ与える
+                other.gameObject.GetComponent<IOnHit>().OnHit(damage);
 
-            // 自動的に削除
-            Destroy(effect, 2f);
+                // 接する位置
+                Vector3 contactPoint = other.ClosestPoint(transform.position);
+
+                // エフェクト生成
+                GameObject effect = Instantiate(hitParticleEffect, contactPoint, Quaternion.identity);
+
+                // 自動的に削除
+                Destroy(effect, 2f);
+            }
 
         }
     }
     
 
-    public void Initialize(int dmg, float criRate = 0.01f, bool isDefPen = false)
+    public void Initialize(int dmg, int type = 0,float criRate = 0.01f, bool isDefPen = false)
     {
         damage = dmg;
         critical = criRate;
         isDefensePenetration = isDefPen;
+        switch(type)
+        {
+            case 0:SetDefaultTrail();break;
+            case 1:SetFireTrail();break;
+        }
         
+    }
+    private void SetDefaultTrail()
+    {
+        defaultTrail.SetActive(true);
+        fireTrail.SetActive(false);
+    }
+    private void SetFireTrail()
+    {
+        defaultTrail.SetActive(false );
+        fireTrail.SetActive(true);
     }
 
 }
