@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour
 {
     public GameObject EnemyA1;
-    public GameObject EnemyA2;
+    //public GameObject EnemyA2;
     public float span = 3.0f;
     float delta = 0;
 
