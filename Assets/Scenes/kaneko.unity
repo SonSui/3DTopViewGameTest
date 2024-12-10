@@ -192,8 +192,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ec90cf2d306b90e49bc1a492ceff0a8b, type: 2}
-  - {fileID: 2100000, guid: b67aa570532690a45a1204e113d7faaa, type: 2}
+  - {fileID: 2100000, guid: 5eecf04254c1f06408e08b39da29062b, type: 2}
+  - {fileID: 2100000, guid: 5eecf04254c1f06408e08b39da29062b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5984,7 +5984,6 @@ MonoBehaviour:
   span: 3
   enemyNumMax: 15
   deadEnemyNum: 0
-  clearUI: {fileID: 0}
 --- !u!4 &1602332398
 Transform:
   m_ObjectHideFlags: 0

@@ -17,11 +17,11 @@ public class EnemyGenerator : MonoBehaviour
     int currEnemyNum = 0;
     public int deadEnemyNum = 0;//テストのため、EnemyA1のUpdate関数が変更してくる
 
-    public GameObject clearUI;
+    //public GameObject clearUI;
     
     void Start()
     {
-       clearUI.SetActive(false);//クリアテキストを見えないようにする
+       //clearUI.SetActive(false);//クリアテキストを見えないようにする
     }
 
     void Update()
