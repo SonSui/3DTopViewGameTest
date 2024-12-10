@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class PlayerControl : MonoBehaviour
     Animator animator;
     private HashSet<int> commonAttack;
     private HashSet<int> shootAttack;
+    private HashSet<int> hookAttack;
     private HashSet<int> idleAct;
     private HashSet<int> runAct;
     private HashSet<int> dashAct;
@@ -25,7 +27,7 @@ public class PlayerControl : MonoBehaviour
 
 
     // 攻撃
-    private float currActSpeed = 1.2f;
+    private float currActSpeed = 1.0f;
 
     private int comboStep = 0;
     private float comboTimer = 0f;
@@ -56,7 +58,7 @@ public class PlayerControl : MonoBehaviour
     // 入力バッファ
     enum Action
     {
-        Attack1, Attack2,
+        Attack1, Attack2, Hook,
         Dash,
     }
     private Queue<(Action, float)> inputQueue = new Queue<(Action, float)>();
@@ -78,9 +80,6 @@ public class PlayerControl : MonoBehaviour
     public float gravity = 20f;
 
 
-
-
-
     //ダッシュ
     private bool isDashing = false;
     private float dashTimeMax = 0.46f;
@@ -94,6 +93,19 @@ public class PlayerControl : MonoBehaviour
     private int dashingLayer; //敵との衝突防止
 
     private bool isDashingEventTriggered = false;
+
+
+    //フック
+    public GameObject hookPrefab;
+    public GameObject hookShooter;
+    private HookMove hookMove;
+    private bool isHookAcceptable = true;
+    private bool isPulling = false;
+    private float pullDuration = 1.0f;
+    private GameObject pullTarget;
+
+
+
 
     // 被弾
     private bool isOnImpact = false;
@@ -116,6 +128,11 @@ public class PlayerControl : MonoBehaviour
         shootAttack = new HashSet<int>
         {
             Animator.StringToHash("Gun")
+        };
+        hookAttack = new HashSet<int>
+        {
+            Animator.StringToHash("ShootHook"),
+            Animator.StringToHash("PullHook")
         };
         idleAct = new HashSet<int>
         {
@@ -219,7 +236,7 @@ public class PlayerControl : MonoBehaviour
 
     }
 
-    // ===== Combo =====
+    // ===== Attack1Combo =====
     void UpdateCombo()
     {
         // 攻撃入力停止すると自動的にコンボ記数リセット
@@ -231,7 +248,6 @@ public class PlayerControl : MonoBehaviour
             animator.SetInteger("ComboStep", comboStep);
         }
     }
-
     public void ResetAttack1Combo()
     {
         //コンボ記数リセット
@@ -239,10 +255,6 @@ public class PlayerControl : MonoBehaviour
         comboTimer = 0;
         animator.SetInteger("ComboStep", comboStep);
     }
-
-
-
-
     // ===== 入力管理 =====
 
     private void AddToInputQueue(Action key)//入力バッファに入力情報入れる
@@ -265,17 +277,15 @@ public class PlayerControl : MonoBehaviour
             PerformAction(nextInput);
         }
     }
-
     private bool CanPerformNextAction(Action key)//アニメーション実行可能性確認
     {
         if (key == Action.Dash) //ダッシュ割り込み
         {
-            if (!IsInImpactState())
+            if (!(IsInImpactState()||IsInHookState()))
                 return true;
         }
         return isAnimeOver;
     }
-
     private void PerformAction(Action input)//アクション管理
     {
 
@@ -304,6 +314,16 @@ public class PlayerControl : MonoBehaviour
                     animator.SetTrigger("Shoot");
                 }
                 break;
+
+            case Action.Hook:
+                if (isHookAcceptable)
+                {
+                    isHookAcceptable = false;
+                    Debug.Log("HookShoot");
+                    //if(moveDirection.magnitude>0.05) transform.forward = moveDirection;
+                    animator.SetTrigger("HookShoot");
+                }
+                break;
             case Action.Dash:
 
                 if (!isDashing)
@@ -316,8 +336,6 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-
-
     // ===== アニメーションイベント =====
 
     public void OnRunningAnime()
@@ -325,8 +343,8 @@ public class PlayerControl : MonoBehaviour
         // 武器の表示位置と入力を整う
         isAttack1Acceptable = true;
         isAttack2Acceptable = true;
-        unAttackSword.SetActive(true);
-        onAttackSword.SetActive(false);
+        isHookAcceptable = true;
+        UnAttackWeaponDisplay();
         UnableAllHitBox();
     }
     public void OnIdleAnime()
@@ -334,24 +352,29 @@ public class PlayerControl : MonoBehaviour
         // 武器の表示位置と入力を整う
         isAttack1Acceptable = true;
         isAttack2Acceptable = true;
-        unAttackSword.SetActive(true);
-        onAttackSword.SetActive(false);
+        isHookAcceptable = true;
+        UnAttackWeaponDisplay() ;
+
         UnableAllHitBox();
     }
-
     public void OnSwordAttack01Enter()
     {
         // 武器の攻撃の表示位置とコンボ入力
-        unAttackSword.SetActive(false);
-        onAttackSword.SetActive(true);
+        OnAttackWeaponDisplay();
         comboResetTime = 0.81f / currActSpeed;
         comboTimer = 0f;
+        
     }
     public void OnSwordAttack01Update1()
     {
         // Hitbox
         swordAttack01Hitbox.SetActive(true);
-        swordAttack01Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+        int type = 0;
+        if (gameManager.playerStatus.GetIsBleedingEffectFlag())
+        {
+            type = 1;
+        }
+        swordAttack01Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow(),type);
     }
     public void OnSwordAttack01Update2()
     {
@@ -368,10 +391,14 @@ public class PlayerControl : MonoBehaviour
     public void OnSwordAttack02Enter()
     {
         // 武器の攻撃の表示位置とHitboxとコンボ入力
-        unAttackSword.SetActive(false);
-        onAttackSword.SetActive(true);
+        OnAttackWeaponDisplay();
         swordAttack02Hitbox1.SetActive(true);
-        swordAttack02Hitbox1.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+        int type = 0;
+        if (gameManager.playerStatus.GetIsBleedingEffectFlag())
+        {
+            type = 1;
+        }
+        swordAttack02Hitbox1.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow(),type);
         comboResetTime = 0.81f / currActSpeed;
         comboTimer = 0f;
     }
@@ -386,7 +413,12 @@ public class PlayerControl : MonoBehaviour
         // 二段コンボので、二つ目のHitbox表示
         swordAttack02Hitbox1.SetActive(false);
         swordAttack02Hitbox2.SetActive(true);
-        swordAttack02Hitbox2.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+        int type = 0;
+        if (gameManager.playerStatus.GetIsBleedingEffectFlag())
+        {
+            type = 1;
+        }
+        swordAttack02Hitbox2.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow(),type);
     }
     public void OnSwordArrack02Exit()
     {
@@ -394,15 +426,17 @@ public class PlayerControl : MonoBehaviour
         swordAttack02Hitbox2.SetActive(false);
         SetShortRotateBool(); //短い間に回転可能
     }
-
-
     public void OnSwordAttack03Enter()
     {
         // 武器の攻撃の表示位置とHitboxとコンボ入力
-        unAttackSword.SetActive(false);
-        onAttackSword.SetActive(true);
+        OnAttackWeaponDisplay();
         swordAttack03Hitbox.SetActive(true);
-        swordAttack03Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow());
+        int type = 0;
+        if (gameManager.playerStatus.GetIsBleedingEffectFlag())
+        {
+            type = 1;
+        }
+        swordAttack03Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow(),type);
         comboResetTime = 0.83f / currActSpeed;
         comboTimer = 0f;
         comboStep = 0; //連続コンボのためにリセット
@@ -419,16 +453,12 @@ public class PlayerControl : MonoBehaviour
         // Hitbox非表示
         swordAttack03Hitbox.SetActive(false);
     }
-
     public void OnShootEnter()
     {
-        unAttackSword.SetActive(false);
-        onAttackSword.SetActive(false);
+        OnShootWeaponDisplay();
     }
     public void OnShoot()
     {
-
-
         Vector3 gunRot = gun.transform.eulerAngles;
         gunRot.x = 90f;
 
@@ -436,18 +466,28 @@ public class PlayerControl : MonoBehaviour
         bull.GetComponent<Hitbox_PlayerBullet>().Initialize(gameManager.GetPlayerAttackNow());
 
     }
+    public void OnHookEnter()
+    {
+        OnHookWeaponDisplay();
+        SetShortRotateBool(0.2f);
+    }
+    public void OnHookShoot()
+    {
 
+        GameObject hook = Instantiate(hookPrefab, hookShooter.transform.position, hookShooter.transform.rotation);
+        hookMove = hook.GetComponent<HookMove>();
+        hookMove.InitHook(this, hookShooter, gameManager.GetPlayerAttackNow());
+
+    }
     public void OnImpact()
     {
         //割り込み可能ので、すべてのコントロール制御と表示をリセット
-        unAttackSword.SetActive(true);
-        onAttackSword.SetActive(false);
+        UnAttackWeaponDisplay();
         UnableAllHitBox();
         ResetAttack1Combo();
         animator.ResetTrigger("Shoot");
+        animator.ResetTrigger("HookShoot");
     }
-
-
     public void StartDashing()
     {
         if (isDashingEventTriggered)
@@ -458,8 +498,7 @@ public class PlayerControl : MonoBehaviour
         isDashingEventTriggered = true;
 
         //ダッシュは割り込み可能ので、すべてのコントロール制御と表示をリセット
-        unAttackSword.SetActive(true);
-        onAttackSword.SetActive(false);
+        UnAttackWeaponDisplay();
         UnableAllHitBox();
         ResetAttack1Combo();
         animator.ResetTrigger("Shoot");
@@ -476,6 +515,7 @@ public class PlayerControl : MonoBehaviour
         isDashingEventTriggered = false;
         isAttack1Acceptable = true;
         isAttack2Acceptable = true;
+        isHookAcceptable = true;
         gameObject.layer = defaultLayer;//敵との衝撃戻る
     }
     private IEnumerator Dashing()//コルーチンでダッシュ処理
@@ -495,13 +535,11 @@ public class PlayerControl : MonoBehaviour
 
         isDashing = false;
     }
-
     private void SpawnEvasionEffect()
     {
         GameObject eff = Instantiate(evasionEffect);
         eff.transform.position = transform.position;
     }
-
     private void SetShortRotateBool(float sTime = 0.3f)
     {
         // 短い時間内で回転できる
@@ -509,7 +547,6 @@ public class PlayerControl : MonoBehaviour
         Debug.Log("Can rot");
         StartCoroutine(ResetBoolAfterDelay(sTime)); 
     }
-
     private System.Collections.IEnumerator ResetBoolAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -524,8 +561,38 @@ public class PlayerControl : MonoBehaviour
         swordAttack02Hitbox2.SetActive(false);
         swordAttack03Hitbox.SetActive(false);
     }
-
-
+    private void UnAttackWeaponDisplay()
+    {
+        unAttackSword.SetActive(true);
+        onAttackSword.SetActive(false);
+        //モデリングなしで、未実装:
+        //Gun
+        //HookShoot
+    }
+    private void OnAttackWeaponDisplay()
+    {
+        unAttackSword.SetActive(false);
+        onAttackSword.SetActive(true);
+        //モデリングなしで、未実装:
+        //Gun
+        //HookShoot
+    }
+    private void OnShootWeaponDisplay()
+    {
+        unAttackSword.SetActive(false);
+        onAttackSword.SetActive(false);
+        //モデリングなしで、未実装:
+        //Gun
+        //HookShoot
+    }
+    private void OnHookWeaponDisplay()
+    {
+        unAttackSword.SetActive(false);
+        onAttackSword.SetActive(false);
+        //モデリングなしで、未実装:
+        //Gun
+        //HookShoot
+    }
 
     // ===== アニメーション状態 =====
     private bool IsInAttack1State()
@@ -535,7 +602,6 @@ public class PlayerControl : MonoBehaviour
 
         return commonAttack.Contains(currentAnimationHash);
     }
-
     private bool IsInAttack2State()
     {　 // 遠距離攻撃
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
@@ -543,7 +609,14 @@ public class PlayerControl : MonoBehaviour
 
         return shootAttack.Contains(currentAnimationHash);
     }
+    private bool IsInHookState() 
+    {
+        // ホックショット
+        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+        int currentAnimationHash = currentState.shortNameHash;
 
+        return hookAttack.Contains(currentAnimationHash);
+    }
     private bool IsInImpactState()
     {   // 被弾
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
@@ -558,7 +631,6 @@ public class PlayerControl : MonoBehaviour
 
         return dashAct.Contains(currentAnimationHash);
     }
-
     private bool IsInDyingState() 
     {   // 死亡
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
@@ -566,14 +638,12 @@ public class PlayerControl : MonoBehaviour
 
         return dyingAct.Contains(currentAnimationHash);
     }
-
     private bool IsRotatable()
     {
         //ダッシュ、普通攻撃、被弾の時回転不可
-        bool rotAnime = !(IsInDashState() || IsInAttack1State() || IsInImpactState() || IsInAttack2State()|| IsInDyingState());
+        bool rotAnime = !(IsInDashState() || IsInAttack1State() || IsInImpactState() || IsInAttack2State()|| IsInDyingState()|| IsInHookState());
         return rotAnime || isShortRotatable;
     }
-
 
     // ===== ImputSystem =====
     void OnMove(InputValue value)//移動入力
@@ -595,6 +665,11 @@ public class PlayerControl : MonoBehaviour
     {
         Debug.Log("Attack2KeyDown:" + Time.time);
         AddToInputQueue(Action.Attack2);
+    }
+    void OnHook()
+    {
+        Debug.Log("HookShootKeyDown:" + Time.time);
+        AddToInputQueue(Action.Hook);
     }
     void OnAim(InputValue value)//照準
     {
@@ -631,6 +706,53 @@ public class PlayerControl : MonoBehaviour
         animator.SetFloat("ActSpeed",currActSpeed);
     }
 
+    //  ===== インタラクション =====
+    public void PullPlayer(GameObject target)
+    {
+        pullTarget = target;
+
+       
+
+        StartCoroutine(PullToHook());
+    }
+    private IEnumerator PullToHook()
+    {
+        if (pullTarget != null)
+        {
+            isPulling = true;
+            float elapsedTime = 0f;
+
+            Vector3 initialPosition = transform.position;
+
+            CharacterController characterController = GetComponent<CharacterController>();
+
+            while (elapsedTime < pullDuration)
+            {
+                if (pullTarget == null) break;
+
+                elapsedTime += Time.deltaTime;
+
+                //プレイヤーの方向計算
+                Vector3 targetPosition = pullTarget.transform.position;
+                targetPosition.y = transform.position.y;
+
+                //移動距離計算
+                Vector3 newPosition = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / pullDuration);
+                Vector3 displacement = newPosition - transform.position;
+
+                //回転
+                Vector3 dir = targetPosition - transform.position;
+                Quaternion targetRotation = Quaternion.LookRotation(dir, Vector3.up);
+                
+                //移動
+                characterController.Move(displacement);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+                yield return null;
+            }
+        }
+        isPulling = false;
+    }
     public void OnHit(int dmg)
     {
         if (IsDashing())
@@ -647,7 +769,6 @@ public class PlayerControl : MonoBehaviour
         int applyDmg = gameManager.PlayerTakeDamage(dmg);
         if (applyDmg > 0)
         {
-
             animator.SetTrigger("Impact");
             
             isInvic = true;

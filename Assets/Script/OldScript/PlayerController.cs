@@ -45,7 +45,6 @@ public class PlayerController : MonoBehaviour
 
     //マネージャー
     GameManager gameManager = GameManager.Instance;
-    AbilityManager abilityManager = AbilityManager.Instance;
 
 
     //物理
