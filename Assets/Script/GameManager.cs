@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public Vector3 defPlayerPos = new Vector3(0, 0, 0);
     public Vector3 defCameraPos = new Vector3(5, 5, -5);
     public Vector3 defCameraRot = new Vector3(45, -45, 0);
+    public float defCameraFieldView = 70f;
 
 
     private UIManager uiManager;
@@ -90,6 +91,7 @@ public class GameManager : MonoBehaviour
 
             camera1.transform.position = cameraPosition;
             camera1.transform.rotation = cameraRotation;
+            camera1.GetComponentInParent<Camera>().fieldOfView = defCameraFieldView;
 
             // カメラがプレイヤーを追従するように設定
             cameraFollow.SetTarget(player.transform);

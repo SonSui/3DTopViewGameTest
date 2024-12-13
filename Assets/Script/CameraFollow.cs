@@ -21,6 +21,7 @@ public class CameraFollow : MonoBehaviour
     private Slider rotXSlider;
     private Slider rotYSlider;
     private Slider rotZSlider;
+    private Slider fieldViewSlider;
 
     // モノクロ
     public Material monoTone;
@@ -33,8 +34,10 @@ public class CameraFollow : MonoBehaviour
     private bool isOccluded = false;
     private Vector3 desiredPosition;
     private Vector3 oriRot;
-    private float pos2Y;
+    private float oriFieldView;
+
     private Vector3 rot2;
+    private float pos2Y;
     private float rot2X = 75f;
     private float occlusionCheckTimer = 0f;
     private float occlusionCheckDelay = 0.2f; // Adjust as needed
@@ -68,6 +71,7 @@ public class CameraFollow : MonoBehaviour
         offset = transform.position - target.position;
         pos2Y = offset.magnitude;
         oriRot = transform.eulerAngles;
+        oriFieldView = this.GetComponent<Camera>().fieldOfView;
         rot2 = new Vector3 (rot2X, oriRot.y, oriRot.z);
         
 
@@ -215,6 +219,7 @@ public class CameraFollow : MonoBehaviour
                 rotXSlider = cameraStatusText.transform.Find("SliderRotX").GetComponent<Slider>();
                 rotYSlider = cameraStatusText.transform.Find("SliderRotY").GetComponent<Slider>();
                 rotZSlider = cameraStatusText.transform.Find("SliderRotZ").GetComponent<Slider>();
+                fieldViewSlider = cameraStatusText.transform.Find("SliderFildedView").GetComponent<Slider>();
 
                 // スライダーの設定
                 ConfigureSlider(posXSlider, -30f, 30f, OnPositionSliderChanged);
@@ -225,6 +230,8 @@ public class CameraFollow : MonoBehaviour
                 ConfigureSlider(rotXSlider, 0f, 360f, OnRotationSliderChanged);
                 ConfigureSlider(rotYSlider, 0f, 360f, OnRotationSliderChanged);
                 ConfigureSlider(rotZSlider, 0f, 360f, OnRotationSliderChanged);
+                //視野の設定
+                ConfigureSlider(fieldViewSlider, 20f, 160f, OnRotationSliderChanged);
             }
             else
             {
@@ -258,6 +265,7 @@ public class CameraFollow : MonoBehaviour
         if (rotXSlider != null) rotXSlider.onValueChanged.RemoveListener(OnRotationSliderChanged);
         if (rotYSlider != null) rotYSlider.onValueChanged.RemoveListener(OnRotationSliderChanged);
         if (rotZSlider != null) rotZSlider.onValueChanged.RemoveListener(OnRotationSliderChanged);
+        if (fieldViewSlider != null) fieldViewSlider.onValueChanged.RemoveListener(OnFieldViewSliderChanged);
 
         // 
         if (posXSlider != null) posXSlider.value = offset.x;
@@ -266,6 +274,10 @@ public class CameraFollow : MonoBehaviour
         if (rotXSlider != null) rotXSlider.value = transform.eulerAngles.x;
         if (rotYSlider != null) rotYSlider.value = transform.eulerAngles.y;
         if (rotZSlider != null) rotZSlider.value = transform.eulerAngles.z;
+        if (fieldViewSlider != null) fieldViewSlider.value = oriFieldView;
+        
+            
+        
 
         // 
         if (posXSlider != null) posXSlider.onValueChanged.AddListener(OnPositionSliderChanged);
@@ -274,7 +286,7 @@ public class CameraFollow : MonoBehaviour
         if (rotXSlider != null) rotXSlider.onValueChanged.AddListener(OnRotationSliderChanged);
         if (rotYSlider != null) rotYSlider.onValueChanged.AddListener(OnRotationSliderChanged);
         if (rotZSlider != null) rotZSlider.onValueChanged.AddListener(OnRotationSliderChanged);
-
+        if (fieldViewSlider != null) fieldViewSlider.onValueChanged.AddListener(OnFieldViewSliderChanged);
         UpdateCameraStatusText();
     }
 
@@ -299,9 +311,21 @@ public class CameraFollow : MonoBehaviour
             float zRotation = rotZSlider.value;
 
             // Quaternionで回転を設定
-            transform.rotation = Quaternion.Euler(xRotation, yRotation, zRotation);
-
+            oriRot = new Vector3(xRotation, yRotation, zRotation);
+            transform.rotation = Quaternion.Euler(oriRot);
             UpdateCameraStatusText();
+        }
+    }
+    private void OnFieldViewSliderChanged(float value)
+    {
+        if(fieldViewSlider != null)
+        {
+            float fieldView = fieldViewSlider.value;
+
+            oriFieldView = fieldView;
+            this.GetComponent<Camera>().fieldOfView = oriFieldView;
+            UpdateCameraStatusText();
+
         }
     }
 
@@ -316,7 +340,8 @@ public class CameraFollow : MonoBehaviour
                 "RotZ: " + transform.eulerAngles.z.ToString("F2") + "\n" +
                 "PosX: " + transform.position.x.ToString("F2") + "\n" +
                 "PosY: " + transform.position.y.ToString("F2") + "\n" +
-                "PosZ: " + transform.position.z.ToString("F2");
+                "PosZ: " + transform.position.z.ToString("F2") + "\n" +
+                "View: " + oriFieldView.ToString("F2");
         }
     }
 
