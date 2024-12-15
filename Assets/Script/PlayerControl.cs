@@ -374,7 +374,7 @@ public class PlayerControl : MonoBehaviour
         {
             type = 1;
         }
-        swordAttack01Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow(),type);
+        swordAttack01Hitbox.GetComponent<Hitbox_Sword>().Initialize(camera1,gameManager.GetPlayerAttackNow(),type);
     }
     public void OnSwordAttack01Update2()
     {
@@ -398,7 +398,7 @@ public class PlayerControl : MonoBehaviour
         {
             type = 1;
         }
-        swordAttack02Hitbox1.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow(),type);
+        swordAttack02Hitbox1.GetComponent<Hitbox_Sword>().Initialize(camera1, gameManager.GetPlayerAttackNow(),type);
         comboResetTime = 0.81f / currActSpeed;
         comboTimer = 0f;
     }
@@ -418,7 +418,7 @@ public class PlayerControl : MonoBehaviour
         {
             type = 1;
         }
-        swordAttack02Hitbox2.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow(),type);
+        swordAttack02Hitbox2.GetComponent<Hitbox_Sword>().Initialize(camera1, gameManager.GetPlayerAttackNow(),type);
     }
     public void OnSwordArrack02Exit()
     {
@@ -436,7 +436,7 @@ public class PlayerControl : MonoBehaviour
         {
             type = 1;
         }
-        swordAttack03Hitbox.GetComponent<Hitbox_Sword>().Initialize(gameManager.GetPlayerAttackNow(),type);
+        swordAttack03Hitbox.GetComponent<Hitbox_Sword>().Initialize(camera1, gameManager.GetPlayerAttackNow(),type);
         comboResetTime = 0.83f / currActSpeed;
         comboTimer = 0f;
         comboStep = 0; //連続コンボのためにリセット
