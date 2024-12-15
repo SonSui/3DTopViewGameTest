@@ -106,7 +106,7 @@ public class CameraFollow : MonoBehaviour
         {
 
 
-            desiredPosition = target.position + defOffset;
+            desiredPosition = target.position + currTargetOffset;
             Vector3 pos2 = new Vector3(target.position.x, target.position.y + posUpDownY, target.position.z); ;
             
 
@@ -180,53 +180,59 @@ public class CameraFollow : MonoBehaviour
         
     }
 
-    public void ZoomAndShakeCamera(float zoomFactor = 0.5f, float shakeIntensity = 0.2f, float shakeDuration = 0.5f, float returnSpeed = 0.5f)
+    public void ZoomAndShakeCamera(float shakeIntensity = 0.1f, float shakeDuration = 0.5f, float returnSpeed = 0.5f)
     {
         // コルーチンが実行中の場合、停止する
         if (zoomShakeCoroutine != null)
         {
             StopCoroutine(zoomShakeCoroutine);
         }
-        // 新しいコルーチンを開始
-        zoomShakeCoroutine = StartCoroutine(ZoomAndShakeCoroutine(zoomFactor, shakeIntensity, shakeDuration, returnSpeed));
+
+        // 現在のオフセットが最小距離を超えない場合、新しいコルーチンを開始
+        if (currTargetOffset.magnitude > defOffset.magnitude * 0.5f)
+        {
+            Vector3 newTargetOffset = currTargetOffset * 0.9f; // 距離を0.1倍縮小
+            zoomShakeCoroutine = StartCoroutine(ZoomAndShakeCoroutine(newTargetOffset, shakeIntensity, shakeDuration, returnSpeed));
+        }
     }
 
-    private IEnumerator ZoomAndShakeCoroutine(float zoomFactor, float shakeIntensity, float shakeDuration, float returnSpeed)
+    private IEnumerator ZoomAndShakeCoroutine(Vector3 newTargetOffset, float shakeIntensity, float shakeDuration, float returnSpeed)
     {
-        // ズームターゲット（ズーム後のオフセット）を計算
-        Vector3 targetOffset = defOffset * zoomFactor;
-
-        // 徐々にカメラをズームイン
-        while (Vector3.Distance(currTargetOffset, targetOffset) > 0.1f)
-        {
-            currTargetOffset = Vector3.Lerp(currTargetOffset, targetOffset, Time.deltaTime * 5f);
-            yield return null; // 次のフレームを待つ
-        }
-
-        // カメラを揺らす処理
+        // ランダム揺れを加えつつズームインする
+        float zoomTime = 0.3f; // ランダム揺れとズームインの持続時間
         float elapsedTime = 0f;
-        while (elapsedTime < shakeDuration)
+
+        Vector3 initialOffset = currTargetOffset;
+
+        while (elapsedTime < zoomTime)
         {
-            // ランダムな揺れオフセットを生成
+            // ランダム揺れオフセット
             Vector3 shakeOffset = new Vector3(
                 Random.Range(-shakeIntensity, shakeIntensity),
                 Random.Range(-shakeIntensity, shakeIntensity),
                 Random.Range(-shakeIntensity, shakeIntensity)
             );
-            // 現在のオフセットに揺れを加える
+
+            // ズームと揺れを同時に適用
+            currTargetOffset = Vector3.Lerp(initialOffset, newTargetOffset, elapsedTime / zoomTime);
             transform.position = target.position + currTargetOffset + shakeOffset;
+
             elapsedTime += Time.deltaTime;
-            yield return null; // 次のフレームを待つ
+            yield return null;
         }
 
-        // 徐々に元のオフセットに戻す
+        // ズーム完了後、ターゲットオフセットを更新
+        currTargetOffset = newTargetOffset;
+
+        // 揺れの終了後、徐々に元のオフセットに戻す
         while (Vector3.Distance(currTargetOffset, defOffset) > 0.01f)
         {
             currTargetOffset = Vector3.Lerp(currTargetOffset, defOffset, Time.deltaTime * returnSpeed);
-            yield return null; // 次のフレームを待つ
+            transform.position = target.position + currTargetOffset;
+            yield return null;
         }
 
-        // 最終的に正確に元の位置に戻す
+        // オフセットを元の位置に戻す
         currTargetOffset = defOffset;
         zoomShakeCoroutine = null; // コルーチンをリセット
     }

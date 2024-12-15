@@ -6197,7 +6197,7 @@ MonoBehaviour:
   defPlayerPos: {x: 0, y: 0, z: 0}
   defCameraPos: {x: 5, y: 10, z: -5}
   defCameraRot: {x: 55, y: -45, z: 0}
-  defCameraFieldView: 70
+  defCameraFieldView: 60
 --- !u!4 &2047231620
 Transform:
   m_ObjectHideFlags: 0
