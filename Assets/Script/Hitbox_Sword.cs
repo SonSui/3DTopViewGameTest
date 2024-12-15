@@ -19,6 +19,7 @@ public class Hitbox_Sword : MonoBehaviour
     private int damage;
     private float critical;
     private bool isDefensePenetration;
+    private CameraFollow camera1;
 
 
     private void OnEnable()
@@ -40,6 +41,8 @@ public class Hitbox_Sword : MonoBehaviour
                 // ダメージ与える
                 other.gameObject.GetComponent<IOnHit>().OnHit(damage);
 
+                camera1.ZoomAndShakeCamera();
+
                 // 接する位置
                 Vector3 contactPoint = other.ClosestPoint(transform.position);
 
@@ -54,8 +57,9 @@ public class Hitbox_Sword : MonoBehaviour
     }
     
 
-    public void Initialize(int dmg, int type = 0,float criRate = 0.01f, bool isDefPen = false)
+    public void Initialize(CameraFollow camera_,int dmg, int type = 0,float criRate = 0.01f, bool isDefPen = false)
     {
+        camera1 = camera_;
         damage = dmg;
         critical = criRate;
         isDefensePenetration = isDefPen;
