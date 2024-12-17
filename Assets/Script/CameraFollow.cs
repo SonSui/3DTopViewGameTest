@@ -1,13 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
-    public Vector3 offset;
-    private Vector3 targetIdle;
-    
+    public Vector3 defOffset;
+    public Vector3 defRotation;
+    public float defFieldView;
+
+    private Vector3 currTargetOffset;
+    private Vector3 currTargetRot;
+    private float currTargetView;
+
 
     public float smoothTime = 0.1f;
 
@@ -21,6 +28,8 @@ public class CameraFollow : MonoBehaviour
     private Slider rotXSlider;
     private Slider rotYSlider;
     private Slider rotZSlider;
+    private Slider fieldViewSlider;
+    private FlexibleColorPicker colorPicker;
 
     // モノクロ
     public Material monoTone;
@@ -28,21 +37,17 @@ public class CameraFollow : MonoBehaviour
     private float currentAmount = 0f;
     private float transitionSpeed = 1f;
 
-    // 角度調整
-    
-    private bool isOccluded = false;
-    private Vector3 desiredPosition;
-    private Vector3 oriRot;
-    private float pos2Y;
-    private Vector3 rot2;
-    private float rot2X = 75f;
+    // カメラ変換
     private float occlusionCheckTimer = 0f;
     private float occlusionCheckDelay = 0.2f; // Adjust as needed
     private bool previousOcclusionState = false;
+    private bool isOccluded = false;
+    private Vector3 desiredPosition;
+    private Vector3 rotUpDown;
+    private float posUpDownY;
+    private float rotUpDownX = 75f; // 角度調整
 
-
-
-
+    private Coroutine zoomShakeCoroutine; // ズームと揺れのコルーチン
 
 
     void Start()
@@ -65,11 +70,14 @@ public class CameraFollow : MonoBehaviour
             Debug.LogError("There is no Material of shader");
         }
 
-        offset = transform.position - target.position;
-        pos2Y = offset.magnitude;
-        oriRot = transform.eulerAngles;
-        rot2 = new Vector3 (rot2X, oriRot.y, oriRot.z);
-        
+        defOffset = transform.position - target.position;
+        posUpDownY = defOffset.magnitude;
+        defRotation = transform.eulerAngles;
+        defFieldView = this.GetComponent<Camera>().fieldOfView;
+        rotUpDown = new Vector3 (rotUpDownX, defRotation.y, defRotation.z);
+        currTargetOffset = defOffset;
+        currTargetRot = defRotation;
+        currTargetView = defFieldView;
 
         // UIの初期設定
         SetupUIComponents();
@@ -81,6 +89,13 @@ public class CameraFollow : MonoBehaviour
 
         //モノクロ更新
         currentAmount = Mathf.Lerp(currentAmount, targetAmount, Time.deltaTime * transitionSpeed);
+
+        if (colorPicker != null)
+        {
+            RenderSettings.ambientLight = colorPicker.color;
+            Debug.Log("ColorPicker:"+colorPicker.color);
+        }
+
     }
 
     void LateUpdate()
@@ -91,8 +106,8 @@ public class CameraFollow : MonoBehaviour
         {
 
 
-            desiredPosition = target.position + offset;
-            Vector3 pos2 = new Vector3(target.position.x, target.position.y + pos2Y, target.position.z); ;
+            desiredPosition = target.position + currTargetOffset;
+            Vector3 pos2 = new Vector3(target.position.x, target.position.y + posUpDownY, target.position.z); ;
             
 
             Vector3 footOffset = new Vector3(0f, 0.8f, 0f);
@@ -122,7 +137,6 @@ public class CameraFollow : MonoBehaviour
             }
             else
             {
-                
                 occlusionCheckTimer = 0f;
             }
 
@@ -130,19 +144,15 @@ public class CameraFollow : MonoBehaviour
             if (previousOcclusionState)
             {
                 //位置を円滑に更新
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rot2), Time.deltaTime / smoothTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotUpDown), Time.deltaTime / smoothTime);
                 transform.position = Vector3.Lerp(transform.position, pos2, Time.deltaTime / smoothTime );
             }
             else
             {
                 //位置を円滑に更新
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(oriRot), Time.deltaTime / smoothTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(defRotation), Time.deltaTime / smoothTime);
                 transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime / smoothTime);
             }
-            
-            
-
-
 
 
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -162,7 +172,7 @@ public class CameraFollow : MonoBehaviour
 
         // オフセットを回転軸周りに回転
         Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis);
-        Vector3 rotatedOffset = rotation * offset;
+        Vector3 rotatedOffset = rotation * defOffset;
 
         // オブジェクトの位置を更新
         desiredPosition += rotatedOffset;
@@ -170,10 +180,68 @@ public class CameraFollow : MonoBehaviour
         
     }
 
+    public void ZoomAndShakeCamera(float shakeIntensity = 0.1f, float shakeDuration = 0.5f, float returnSpeed = 0.5f)
+    {
+        // コルーチンが実行中の場合、停止する
+        if (zoomShakeCoroutine != null)
+        {
+            StopCoroutine(zoomShakeCoroutine);
+        }
+
+        // 現在のオフセットが最小距離を超えない場合、新しいコルーチンを開始
+        if (currTargetOffset.magnitude > defOffset.magnitude * 0.5f)
+        {
+            Vector3 newTargetOffset = currTargetOffset * 0.9f; // 距離を0.1倍縮小
+            zoomShakeCoroutine = StartCoroutine(ZoomAndShakeCoroutine(newTargetOffset, shakeIntensity, shakeDuration, returnSpeed));
+        }
+    }
+
+    private IEnumerator ZoomAndShakeCoroutine(Vector3 newTargetOffset, float shakeIntensity, float shakeDuration, float returnSpeed)
+    {
+        // ランダム揺れを加えつつズームインする
+        float zoomTime = 0.3f; // ランダム揺れとズームインの持続時間
+        float elapsedTime = 0f;
+
+        Vector3 initialOffset = currTargetOffset;
+
+        while (elapsedTime < zoomTime)
+        {
+            // ランダム揺れオフセット
+            Vector3 shakeOffset = new Vector3(
+                Random.Range(-shakeIntensity, shakeIntensity),
+                Random.Range(-shakeIntensity, shakeIntensity),
+                Random.Range(-shakeIntensity, shakeIntensity)
+            );
+
+            // ズームと揺れを同時に適用
+            currTargetOffset = Vector3.Lerp(initialOffset, newTargetOffset, elapsedTime / zoomTime);
+            transform.position = target.position + currTargetOffset + shakeOffset;
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // ズーム完了後、ターゲットオフセットを更新
+        currTargetOffset = newTargetOffset;
+
+        // 揺れの終了後、徐々に元のオフセットに戻す
+        while (Vector3.Distance(currTargetOffset, defOffset) > 0.01f)
+        {
+            currTargetOffset = Vector3.Lerp(currTargetOffset, defOffset, Time.deltaTime * returnSpeed);
+            transform.position = target.position + currTargetOffset;
+            yield return null;
+        }
+
+        // オフセットを元の位置に戻す
+        currTargetOffset = defOffset;
+        zoomShakeCoroutine = null; // コルーチンをリセット
+    }
+
+
 
     public void SetOffset(Vector3 pos)
     {
-        offset = pos;
+        defOffset = pos;
     }
 
     public void SetRotate(Vector3 rot)
@@ -181,6 +249,9 @@ public class CameraFollow : MonoBehaviour
         transform.Rotate(rot);
     }
 
+
+
+    // ===== カメラUI =====
     private void SwitchCameraUI()
     {
         if (cameraUI.activeInHierarchy)
@@ -215,6 +286,7 @@ public class CameraFollow : MonoBehaviour
                 rotXSlider = cameraStatusText.transform.Find("SliderRotX").GetComponent<Slider>();
                 rotYSlider = cameraStatusText.transform.Find("SliderRotY").GetComponent<Slider>();
                 rotZSlider = cameraStatusText.transform.Find("SliderRotZ").GetComponent<Slider>();
+                fieldViewSlider = cameraStatusText.transform.Find("SliderFildedView").GetComponent<Slider>();
 
                 // スライダーの設定
                 ConfigureSlider(posXSlider, -30f, 30f, OnPositionSliderChanged);
@@ -225,6 +297,11 @@ public class CameraFollow : MonoBehaviour
                 ConfigureSlider(rotXSlider, 0f, 360f, OnRotationSliderChanged);
                 ConfigureSlider(rotYSlider, 0f, 360f, OnRotationSliderChanged);
                 ConfigureSlider(rotZSlider, 0f, 360f, OnRotationSliderChanged);
+                //視野の設定
+                ConfigureSlider(fieldViewSlider, 20f, 160f, OnRotationSliderChanged);
+
+                colorPicker = cameraStatusText.transform.Find("FlexibleColorPicker").GetComponent<FlexibleColorPicker>();
+                colorPicker.color = RenderSettings.ambientLight;
             }
             else
             {
@@ -251,30 +328,32 @@ public class CameraFollow : MonoBehaviour
     // カメラの状態に基づいてスライダーを更新
     private void UpdateSliders()
     {
-        //
+        // 他のパラメータに影響を与えないため一旦停止
         if (posXSlider != null) posXSlider.onValueChanged.RemoveListener(OnPositionSliderChanged);
         if (posYSlider != null) posYSlider.onValueChanged.RemoveListener(OnPositionSliderChanged);
         if (posZSlider != null) posZSlider.onValueChanged.RemoveListener(OnPositionSliderChanged);
         if (rotXSlider != null) rotXSlider.onValueChanged.RemoveListener(OnRotationSliderChanged);
         if (rotYSlider != null) rotYSlider.onValueChanged.RemoveListener(OnRotationSliderChanged);
         if (rotZSlider != null) rotZSlider.onValueChanged.RemoveListener(OnRotationSliderChanged);
+        if (fieldViewSlider != null) fieldViewSlider.onValueChanged.RemoveListener(OnFieldViewSliderChanged);
 
-        // 
-        if (posXSlider != null) posXSlider.value = offset.x;
-        if (posYSlider != null) posYSlider.value = offset.y;
-        if (posZSlider != null) posZSlider.value = offset.z;
+        // スライダーの位置を更新
+        if (posXSlider != null) posXSlider.value = defOffset.x;
+        if (posYSlider != null) posYSlider.value = defOffset.y;
+        if (posZSlider != null) posZSlider.value = defOffset.z;
         if (rotXSlider != null) rotXSlider.value = transform.eulerAngles.x;
         if (rotYSlider != null) rotYSlider.value = transform.eulerAngles.y;
         if (rotZSlider != null) rotZSlider.value = transform.eulerAngles.z;
-
-        // 
+        if (fieldViewSlider != null) fieldViewSlider.value = defFieldView;
+        
+        // 更新イベントを戻す 
         if (posXSlider != null) posXSlider.onValueChanged.AddListener(OnPositionSliderChanged);
         if (posYSlider != null) posYSlider.onValueChanged.AddListener(OnPositionSliderChanged);
         if (posZSlider != null) posZSlider.onValueChanged.AddListener(OnPositionSliderChanged);
         if (rotXSlider != null) rotXSlider.onValueChanged.AddListener(OnRotationSliderChanged);
         if (rotYSlider != null) rotYSlider.onValueChanged.AddListener(OnRotationSliderChanged);
         if (rotZSlider != null) rotZSlider.onValueChanged.AddListener(OnRotationSliderChanged);
-
+        if (fieldViewSlider != null) fieldViewSlider.onValueChanged.AddListener(OnFieldViewSliderChanged);
         UpdateCameraStatusText();
     }
 
@@ -284,7 +363,7 @@ public class CameraFollow : MonoBehaviour
         if (posXSlider != null && posYSlider != null && posZSlider != null)
         {
             Vector3 newPosition = new Vector3(posXSlider.value, posYSlider.value, posZSlider.value);
-            offset = newPosition;
+            defOffset = newPosition;
             UpdateCameraStatusText();
         }
     }
@@ -299,9 +378,22 @@ public class CameraFollow : MonoBehaviour
             float zRotation = rotZSlider.value;
 
             // Quaternionで回転を設定
-            transform.rotation = Quaternion.Euler(xRotation, yRotation, zRotation);
-
+            defRotation = new Vector3(xRotation, yRotation, zRotation);
+            transform.rotation = Quaternion.Euler(defRotation);
             UpdateCameraStatusText();
+        }
+    }
+    private void OnFieldViewSliderChanged(float value)
+    {
+        if(fieldViewSlider != null)
+        {
+            // 視野角を更新
+            float fieldView = fieldViewSlider.value;
+
+            defFieldView = fieldView;
+            this.GetComponent<Camera>().fieldOfView = defFieldView;
+            UpdateCameraStatusText();
+
         }
     }
 
@@ -316,12 +408,13 @@ public class CameraFollow : MonoBehaviour
                 "RotZ: " + transform.eulerAngles.z.ToString("F2") + "\n" +
                 "PosX: " + transform.position.x.ToString("F2") + "\n" +
                 "PosY: " + transform.position.y.ToString("F2") + "\n" +
-                "PosZ: " + transform.position.z.ToString("F2");
+                "PosZ: " + transform.position.z.ToString("F2") + "\n" +
+                "View: " + defFieldView.ToString("F2");
         }
     }
 
 
-    //モノクロ
+    // ===== モノクロ =====
     void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
         monoTone.SetFloat("_GrayScaleAmount", currentAmount);

@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class Enemy_Teki01 : MonoBehaviour, IOnHit
 {
-    EnemyStatus enemyStatus; //“G‚ÌƒXƒe[ƒ^ƒX
+    EnemyStatus enemyStatus; //æ•µã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 
-    //Inspectorãİ’è‚Å‚«‚éŠî–{‚ÌƒXƒe[ƒ^ƒX
+    //Inspectorä¸Šè¨­å®šã§ãã‚‹åŸºæœ¬ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
     public string name_ = "Enemy_Teki01";
     public int hp_ = 4;
     public int attack_ = 1;
@@ -20,45 +20,45 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     public float attackSpeed_ = 1.0f;
 
 
-    //”í’e‚ÌF•Ï‰»
-    private Renderer[] renderers;        // “G‚ÌRendererƒŠƒXƒg
-    [SerializeField] private Material overlayMaterial;   // ”í’e‚Ìƒ}ƒeƒŠƒAƒ‹
-    private bool isFlashing = false;    // ƒtƒ‰ƒbƒVƒ…’†‚©‚Ç‚¤‚©
-    private float flashDuration = 0.1f; // ƒtƒ‰ƒbƒVƒ…‘±ŠÔ
+    //è¢«å¼¾ã®è‰²å¤‰åŒ–
+    private Renderer[] renderers;        // æ•µã®Rendererãƒªã‚¹ãƒˆ
+    [SerializeField] private Material overlayMaterial;   // è¢«å¼¾ã®ãƒãƒ†ãƒªã‚¢ãƒ«
+    private bool isFlashing = false;    // ãƒ•ãƒ©ãƒƒã‚·ãƒ¥ä¸­ã‹ã©ã†ã‹
+    private float flashDuration = 0.1f; // ãƒ•ãƒ©ãƒƒã‚·ãƒ¥æŒç¶šæ™‚é–“
 
-    //UŒ‚‚ÌPrefab
-    public GameObject hitboxPrefab;    //UŒ‚‚ÌHitbox‚ÆUŒ‚‚ÌƒGƒtƒFƒNƒg‚ğprefab‚É‚·‚é
-    private GameObject hitbox = null;@//¶¬‚µ‚½Hitbox‚ğ•Û‘¶
+    //æ”»æ’ƒã®Prefab
+    public GameObject hitboxPrefab;    //æ”»æ’ƒã®Hitboxã¨æ”»æ’ƒã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’prefabã«ã™ã‚‹
+    private GameObject hitbox = null;ã€€//ç”Ÿæˆã—ãŸHitboxã‚’ä¿å­˜
 
-    //ƒXƒe[ƒ^ƒXƒ}ƒVƒ“
+    //ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒã‚·ãƒ³
     public enum EnemyState
     {
-        //‘S•”g‚¤•K—v‚ª‚È‚¢
-        Idle,         // ‘Ò‹@ó‘ÔF“G‚ª“®‚©‚¸‚É‘Ò‹@‚µ‚Ä‚¢‚é
-        Patrol,       // „‰ñó‘ÔFw’è‚³‚ê‚½ƒ‹[ƒg‚âƒ‰ƒ“ƒ_ƒ€‚ÉˆÚ“®‚µ‚Ä‚¢‚é
-        Chase,        // ’ÇÕó‘ÔFƒvƒŒƒCƒ„[‚ğ”­Œ©‚µ’Ç‚¢‚©‚¯‚Ä‚¢‚é
-        Attack,       // UŒ‚ó‘ÔFƒvƒŒƒCƒ„[‚â–Ú•W‚ğUŒ‚‚µ‚Ä‚¢‚é
-        Hit,          // ”íŒ‚ó‘ÔFUŒ‚‚ğó‚¯‚Äƒ_ƒ[ƒW‚ğó‚¯‚Ä‚¢‚é
-        Dead,         // €–Só‘ÔF‘Ì—Í‚ªƒ[ƒ‚É‚È‚ès“®•s”\
+        //å…¨éƒ¨ä½¿ã†å¿…è¦ãŒãªã„
+        Idle,         // å¾…æ©ŸçŠ¶æ…‹ï¼šæ•µãŒå‹•ã‹ãšã«å¾…æ©Ÿã—ã¦ã„ã‚‹
+        Patrol,       // å·¡å›çŠ¶æ…‹ï¼šæŒ‡å®šã•ã‚ŒãŸãƒ«ãƒ¼ãƒˆã‚„ãƒ©ãƒ³ãƒ€ãƒ ã«ç§»å‹•ã—ã¦ã„ã‚‹
+        Chase,        // è¿½è·¡çŠ¶æ…‹ï¼šãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç™ºè¦‹ã—è¿½ã„ã‹ã‘ã¦ã„ã‚‹
+        Attack,       // æ”»æ’ƒçŠ¶æ…‹ï¼šãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚„ç›®æ¨™ã‚’æ”»æ’ƒã—ã¦ã„ã‚‹
+        Hit,          // è¢«æ’ƒçŠ¶æ…‹ï¼šæ”»æ’ƒã‚’å—ã‘ã¦ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã¦ã„ã‚‹
+        Dead,         // æ­»äº¡çŠ¶æ…‹ï¼šä½“åŠ›ãŒã‚¼ãƒ­ã«ãªã‚Šè¡Œå‹•ä¸èƒ½
 
-        //Stunned,      // ‹Câó‘ÔFƒXƒLƒ‹‚âUŒ‚‚Ås“®•s”\‚Èó‘Ô
-        //Flee,         // “¦‘–ó‘ÔFƒvƒŒƒCƒ„[‚É•‰‚¯‚é‚Æ”»’f‚µ“¦‚°‚é
-        //Alert,        // Œx‰úó‘ÔFƒvƒŒƒCƒ„[‚Ì‘¶İ‚É‹C‚Ã‚¢‚½‚ª‚Ü‚¾’ÇÕ‚µ‚Ä‚¢‚È‚¢
-        //Guard,        // –hŒäó‘ÔF‚‚ğ‚Âó‘Ô
+        //Stunned,      // æ°—çµ¶çŠ¶æ…‹ï¼šã‚¹ã‚­ãƒ«ã‚„æ”»æ’ƒã§è¡Œå‹•ä¸èƒ½ãªçŠ¶æ…‹
+        //Flee,         // é€ƒèµ°çŠ¶æ…‹ï¼šãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è² ã‘ã‚‹ã¨åˆ¤æ–­ã—é€ƒã’ã‚‹
+        //Alert,        // è­¦æˆ’çŠ¶æ…‹ï¼šãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å­˜åœ¨ã«æ°—ã¥ã„ãŸãŒã¾ã è¿½è·¡ã—ã¦ã„ãªã„
+        //Guard,        // é˜²å¾¡çŠ¶æ…‹ï¼šç›¾ã‚’æŒã¤çŠ¶æ…‹
     }
     private EnemyState _state = EnemyState.Idle;
     private EnemyState _nextstate = EnemyState.Idle;
 
-    //ƒvƒŒƒCƒ„[‚ÌÀ•W
+    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™
     public Transform playerT;
     EnemyGenerator enemyGenerator;
 
 
     private void OnEnable()
     {
-        name_ += System.Guid.NewGuid().ToString(); //—Bˆê‚Ì–¼‘O•t‚¯‚é
+        name_ += System.Guid.NewGuid().ToString(); //å”¯ä¸€ã®åå‰ä»˜ã‘ã‚‹
 
-        //EnemyBuffer‚ğg‚¤ê‡AEnable‚½‚Ñ‚ÉƒXƒe[ƒ^ƒX‚ğƒŠƒZƒbƒg‚·‚é
+        //EnemyBufferã‚’ä½¿ã†å ´åˆã€EnableãŸã³ã«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
         enemyStatus = new EnemyStatus(
             name_,
             hp_,
@@ -69,7 +69,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             shieldDurability_,
             moveSpeed_,
             attackSpeed_);
-        ChangeState(EnemyState.Idle); //‘Ò‹@ó‘Ôİ’è
+        ChangeState(EnemyState.Idle); //å¾…æ©ŸçŠ¶æ…‹è¨­å®š
     }
 
     public void SetGenerator(EnemyGenerator generator)
@@ -79,17 +79,17 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     void Start()
     {
-        //“G¶¬‚·‚é‚ÆOnEnable(prefab‚ÍEnable‚Ìó‘Ô‚Ìê‡)->Start->Update->Update->Update(–ˆƒtƒŒƒCƒ€zŠÂ)
+        //æ•µç”Ÿæˆã™ã‚‹ã¨OnEnable(prefabã¯Enableã®çŠ¶æ…‹ã®å ´åˆ)->Start->Update->Update->Update(æ¯ãƒ•ãƒ¬ã‚¤ãƒ å¾ªç’°)
 
         if (enemyGenerator == null) enemyGenerator = FindObjectOfType<EnemyGenerator>();
         playerT = GameObject.FindGameObjectWithTag("Player").transform;
 
-        // ‘S‚Ä‚ÌRenderer‚ğæ“¾
+        // å…¨ã¦ã®Rendererã‚’å–å¾—
         renderers = GetComponentsInChildren<Renderer>();
-        // overlayMaterial‚ª–¢İ’è‚Ìê‡ƒGƒ‰[
+        // overlayMaterialãŒæœªè¨­å®šã®å ´åˆã‚¨ãƒ©ãƒ¼
         if (overlayMaterial == null)
         {
-            Debug.Log("Overlay Material ‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñI");
+            Debug.Log("Overlay Material ãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼");
         }
     }
 
@@ -97,7 +97,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     {
         switch(_state)
         { 
-            //Œ»İ‚ÌUpsate
+            //ç¾åœ¨ã®Upsate
                 case EnemyState.Idle:
                 IdleUpdate();
                 break;
@@ -120,7 +120,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
         if (_state != _nextstate)
         {
-            //I—¹ˆ—
+            //çµ‚äº†å‡¦ç†
             switch (_state)
             {
                 case EnemyState.Idle:
@@ -143,7 +143,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                     break;
             }
 
-            //Ÿ‚ÌƒXƒe[ƒg‘JˆÚ
+            //æ¬¡ã®ã‚¹ãƒ†ãƒ¼ãƒˆé·ç§»
             _state = _nextstate;
             switch (_state)
             {
@@ -168,7 +168,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             }
         }
 
-     enemyStatus.UpdateStatus(Time.deltaTime);//—¬ŒŒAƒXƒ^ƒ“Aƒfƒoƒt‚È‚Ç–ˆƒtƒŒƒCƒ€©“®“I‚Éˆ—
+     enemyStatus.UpdateStatus(Time.deltaTime);//æµè¡€ã€ã‚¹ã‚¿ãƒ³ã€ãƒ‡ãƒãƒ•ãªã©æ¯ãƒ•ãƒ¬ã‚¤ãƒ è‡ªå‹•çš„ã«å‡¦ç†
     }
 
     public void ChangeState(EnemyState nextState)
@@ -176,7 +176,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         _nextstate = nextState;
     }
 
-    //ƒXƒe[ƒgˆ—-----------------------------------------------------------------------------
+    //ã‚¹ãƒ†ãƒ¼ãƒˆå‡¦ç†-----------------------------------------------------------------------------
 
     //Idle
     private void IdleStart() { }
@@ -186,12 +186,12 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     private void PatrolStart() { }
     private void PatrolUpdate()
     {
-        //ƒvƒŒƒCƒ„[‚ÉŒü‚¯‚Äi‚Ş
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‘ã¦é€²ã‚€
         transform.position =
             Vector3.MoveTowards
             (transform.position, new Vector3(playerT.position.x, playerT.position.y, playerT.position.z), moveSpeed_ * Time.deltaTime);
 
-        //ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª‹ß‚­‚È‚Á‚½‚çAttack
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ãŒè¿‘ããªã£ãŸã‚‰Attack
         if (Vector3.Distance(transform.position, playerT.position) < 2.1f) { ChangeState(EnemyState.Attack); }
     }
     private void PatrolEnd() { }
@@ -221,17 +221,17 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         OnDead();
     }
 
-    private bool enemyDying;//Enemy‚Í€‚ñ‚Å‚¢‚é‚©HOnHit‚Ég—p
+    private bool enemyDying;//Enemyã¯æ­»ã‚“ã§ã„ã‚‹ã‹ï¼ŸOnHitã«ä½¿ç”¨
 
     public void OnHit(int dmg, bool crit = false)
     {
 
-        if (enemyDying)//¡‚Ìó‘Ô‚ğ”»’fA€‚ñ‚Å‚¢‚é‚Ì‚Íƒ_ƒ[ƒWó‚¯‚È‚¢
+        if (enemyDying)//ä»Šã®çŠ¶æ…‹ã‚’åˆ¤æ–­ã€æ­»ã‚“ã§ã„ã‚‹ã®ã¯ãƒ€ãƒ¡ãƒ¼ã‚¸å—ã‘ãªã„
         {
 
-            enemyStatus.TakeDamage(dmg);
+            enemyStatus.TakeDamage(dmg);//é˜²å¾¡åŠ›ãªã©ã®å½±éŸ¿ã‚’å«ã‚ã¦ãƒ€ãƒ¡ãƒ¼ã‚¸è¨ˆç®—ã§ãã‚‹
+            //è¢«å¼¾ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã¨ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 
-            //”í’eƒAƒjƒ[ƒVƒ‡ƒ“‚ÆƒGƒtƒFƒNƒg
             if (enemyStatus.IsDead())
             {
                 OnDead();
@@ -246,10 +246,11 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     private System.Collections.IEnumerator HitFlash()
     {
-        ChangeState(EnemyState.Hit);
+        ChangeState(EnemyState.Hit);// è¢«æ’ƒçŠ¶æ…‹
+
         isFlashing = true;
 
-        // ‘S‚Ä‚ÌRenderer‚Éƒ}ƒeƒŠƒAƒ‹‚ğ’Ç‰Á
+        // å…¨ã¦ã®Rendererã«ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’è¿½åŠ 
         foreach (Renderer renderer in renderers)
         {
             var materials = renderer.materials;
@@ -258,12 +259,12 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             {
                 newMaterials[i] = materials[i];
             }
-            newMaterials[materials.Length] = overlayMaterial; // ÅŒã‚É’Ç‰Á
+            newMaterials[materials.Length] = overlayMaterial; // æœ€å¾Œã«è¿½åŠ 
             renderer.materials = newMaterials;
         }
-        // w’èŠÔ‘Ò‹@
+        // æŒ‡å®šæ™‚é–“å¾…æ©Ÿ
         yield return new WaitForSeconds(flashDuration);
-        // ƒ}ƒeƒŠƒAƒ‹‚ğíœ
+        // ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’å‰Šé™¤
         foreach (Renderer renderer in renderers)
         {
             var materials = renderer.materials;
@@ -274,45 +275,47 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 {
                     newMaterials[i] = materials[i];
                 }
-                renderer.materials = newMaterials; // ÅŒã‚Ìƒ}ƒeƒŠƒAƒ‹‚ğœ‹
+                renderer.materials = newMaterials; // æœ€å¾Œã®ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’é™¤å»
             }
         }
 
         isFlashing = false;
-        ChangeState(EnemyState.Idle);
+
+        ChangeState(EnemyState.Idle);// å¾…æ©ŸçŠ¶æ…‹
+
     }
 
 
     private void OnDead()
     {
-        ChangeState(EnemyState.Dead);//€–Só‘Ô
-        //€–SƒAƒjƒ[ƒVƒ‡ƒ“‚ÆƒGƒtƒFƒNƒg
+        ChangeState(EnemyState.Dead);//æ­»äº¡çŠ¶æ…‹
+        //æ­»äº¡ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã¨ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
         StartCoroutine(DyingAnimation());
 
     }
     private IEnumerator DyingAnimation()
     {
         float dyingTime = 0f;
-        float dyingTimeMax = 0.5f;//0.5•bŒãíœ
-        //€–SƒGƒtƒFƒNƒg‚ğ¶¬
+        float dyingTimeMax = 0.5f;//0.5ç§’å¾Œå‰Šé™¤
+        //æ­»äº¡ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ
 
         while (dyingTime < dyingTimeMax)
         {
-            //íœ‘O‚ÌƒAƒjƒ[ƒVƒ‡ƒ“i—áF’iX¬‚³‚­‚È‚é‚È‚Çj
+            //å‰Šé™¤å‰ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ï¼ˆä¾‹ï¼šå°ã•ããªã‚‹ãªã©ï¼‰
 
             dyingTime += Time.deltaTime;
             yield return null;
         }
-        //EnemyGenerator‚É’Ê’m
+        //EnemyGeneratorã«é€šçŸ¥
         if (enemyGenerator != null) enemyGenerator.deadEnemyNum++;
-        //ƒAƒjƒ[ƒVƒ‡ƒ“Š®—¹‚µ‚½‚çíœ
+        //ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å®Œäº†ã—ãŸã‚‰å‰Šé™¤
         Destroy(gameObject);
     }
 
     private void Attack()
     {
-        int atk = enemyStatus.GetAttackNow();  //UŒ‚—Íƒ_ƒEƒ“‚È‚Ç‚ğŒvZ‚µ‚½UŒ‚—Í‚ğæ“¾
-        //UŒ‚‚Ìprefab‚ğ¶¬
+        int atk = enemyStatus.GetAttackNow();  //æ”»æ’ƒåŠ›ãƒ€ã‚¦ãƒ³ãªã©ã‚’è¨ˆç®—ã—ãŸæ”»æ’ƒåŠ›ã‚’å–å¾—
+        //æ”»æ’ƒã®prefabã‚’ç”Ÿæˆ
     }
 }
 
