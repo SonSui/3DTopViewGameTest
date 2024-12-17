@@ -41,12 +41,13 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         Hit,          // 被撃状態：攻撃を受けてダメージを受けている
         Dead,         // 死亡状態：体力がゼロになり行動不能
 
-        Stunned,      // 気絶状態：スキルや攻撃で行動不能な状態
-        Flee,         // 逃走状態：プレイヤーに負けると判断し逃げる
-        Alert,        // 警戒状態：プレイヤーの存在に気づいたがまだ追跡していない
-        Guard,        // 防御状態：盾を持つ状態
+        //Stunned,      // 気絶状態：スキルや攻撃で行動不能な状態
+        //Flee,         // 逃走状態：プレイヤーに負けると判断し逃げる
+        //Alert,        // 警戒状態：プレイヤーの存在に気づいたがまだ追跡していない
+        //Guard,        // 防御状態：盾を持つ状態
     }
-    private EnemyState enemyState;
+    private EnemyState _state = EnemyState.Idle;
+    private EnemyState _nextstate = EnemyState.Idle;
 
     //プレイヤーの座標
     public Transform playerT;
@@ -68,7 +69,12 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             shieldDurability_,
             moveSpeed_,
             attackSpeed_);
-        enemyState = EnemyState.Idle; //待機状態設定
+        ChangeState(EnemyState.Idle); //待機状態設定
+    }
+
+    public void SetGenerator(EnemyGenerator generator)
+    {
+        enemyGenerator = generator;
     }
 
     void Start()
@@ -87,24 +93,143 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         }
     }
 
-
     private void Update()
     {
+        switch(_state)
+        { 
+            //現在のUpsate
+                case EnemyState.Idle:
+                IdleUpdate();
+                break;
+                case EnemyState.Patrol:
+                PatrolUpdate();
+                break;
+                case EnemyState.Chase:
+                ChaseUpdate();
+                break;
+                case EnemyState.Attack:
+                AttackUpdate();
+                break;
+                case EnemyState.Hit:
+                HitUpdate();
+                break;
+                case EnemyState.Dead:
+                DeadUpdate();
+                break;
+        }
 
+        if (_state != _nextstate)
+        {
+            //終了処理
+            switch (_state)
+            {
+                case EnemyState.Idle:
+                    IdleEnd();
+                    break;
+                case EnemyState.Patrol:
+                    PatrolEnd();
+                    break;
+                case EnemyState.Chase:
+                    ChaseEnd();
+                    break;
+                case EnemyState.Attack:
+                    AttackEnd();
+                    break;
+                case EnemyState.Hit:
+                    HitEnd();
+                    break;
+                case EnemyState.Dead:
+                    DeadEnd();
+                    break;
+            }
 
+            //次のステート遷移
+            _state = _nextstate;
+            switch (_state)
+            {
+                case EnemyState.Idle:
+                    IdleStart();
+                    break;
+                case EnemyState.Patrol:
+                    PatrolStart();
+                    break;
+                case EnemyState.Chase:
+                    ChaseStart();
+                    break;
+                case EnemyState.Attack:
+                    AttackStart();
+                    break;
+                case EnemyState.Hit:
+                    HitStart();
+                    break;
+                case EnemyState.Dead:
+                    DeadStart();
+                    break;
+            }
+        }
 
-
-        enemyStatus.UpdateStatus(Time.deltaTime);//流血、スタン、デバフなど毎フレイム自動的に処理
+     enemyStatus.UpdateStatus(Time.deltaTime);//流血、スタン、デバフなど毎フレイム自動的に処理
     }
+
+    public void ChangeState(EnemyState nextState)
+    {
+        _nextstate = nextState;
+    }
+
+    //ステート処理-----------------------------------------------------------------------------
+
+    //Idle
+    private void IdleStart() { }
+    private void IdleUpdate() { }
+    private void IdleEnd() { }
+
+    private void PatrolStart() { }
+    private void PatrolUpdate()
+    {
+        //プレイヤーに向けて進む
+        transform.position =
+            Vector3.MoveTowards
+            (transform.position, new Vector3(playerT.position.x, playerT.position.y, playerT.position.z), moveSpeed_ * Time.deltaTime);
+
+        //プレイヤーとの距離が近くなったらAttack
+        if (Vector3.Distance(transform.position, playerT.position) < 2.1f) { ChangeState(EnemyState.Attack); }
+    }
+    private void PatrolEnd() { }
+
+    private void ChaseStart() { }
+    private void ChaseUpdate() { }
+    private void ChaseEnd() { }
+
+    private void AttackStart() { }
+    private void AttackUpdate()
+    {
+        Attack();
+    }
+    private void AttackEnd() { }
+
+    private void HitStart() { }
+    private void HitUpdate() { }
+    private void HitEnd() { }
+
+    private void DeadStart() 
+    {
+        DyingAnimation();
+    }
+    private void DeadUpdate() { }
+    private void DeadEnd()
+    { 
+        OnDead();
+    }
+
+    private bool enemyDying;//Enemyは死んでいるか？OnHitに使用
+
     public void OnHit(int dmg, bool crit = false)
     {
 
-        if (enemyState != EnemyState.Dead)//今の状態を判断、死んでいるのはダメージ受けない
+        if (enemyDying)//今の状態を判断、死んでいるのはダメージ受けない
         {
 
             enemyStatus.TakeDamage(dmg);
-
-
 
             //被弾アニメーションとエフェクト
             if (enemyStatus.IsDead())
@@ -119,21 +244,9 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         }
     }
 
-
-
-
-
-    public void SetGenerator(EnemyGenerator generator)
-    {
-        enemyGenerator = generator;
-    }
-
-
-
-
     private System.Collections.IEnumerator HitFlash()
     {
-        enemyState = EnemyState.Hit;
+        ChangeState(EnemyState.Hit);
         isFlashing = true;
 
         // 全てのRendererにマテリアルを追加
@@ -166,13 +279,13 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         }
 
         isFlashing = false;
-        enemyState = EnemyState.Idle;
+        ChangeState(EnemyState.Idle);
     }
 
 
     private void OnDead()
     {
-        enemyState = EnemyState.Dead;//死亡状態
+        ChangeState(EnemyState.Dead);//死亡状態
         //死亡アニメーションとエフェクト
         StartCoroutine(DyingAnimation());
 
@@ -198,9 +311,8 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     private void Attack()
     {
-        int atk = enemyStatus.GetAttackNow();//攻撃力ダウンなどを計算した攻撃力を取得
+        int atk = enemyStatus.GetAttackNow();  //攻撃力ダウンなどを計算した攻撃力を取得
         //攻撃のprefabを生成
     }
-
 }
 
