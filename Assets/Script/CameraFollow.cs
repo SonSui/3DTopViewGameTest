@@ -180,8 +180,9 @@ public class CameraFollow : MonoBehaviour
         
     }
 
-    public void ZoomAndShakeCamera(float shakeIntensity = 0.1f, float shakeDuration = 0.5f, float returnSpeed = 0.5f)
+    public void ZoomAndShakeCamera(float shakeIntensity = 0.1f, float shakeDuration = 0.5f, float returnSpeed = 0.5f, float minZoomRate = 0.3f)
     {
+        float zoomRate = 0.9f; // 距離を0.1倍縮小
         // コルーチンが実行中の場合、停止する
         if (zoomShakeCoroutine != null)
         {
@@ -189,9 +190,9 @@ public class CameraFollow : MonoBehaviour
         }
 
         // 現在のオフセットが最小距離を超えない場合、新しいコルーチンを開始
-        if (currTargetOffset.magnitude > defOffset.magnitude * 0.5f)
+        if (currTargetOffset.magnitude > defOffset.magnitude * minZoomRate)
         {
-            Vector3 newTargetOffset = currTargetOffset * 0.9f; // 距離を0.1倍縮小
+            Vector3 newTargetOffset = currTargetOffset * zoomRate; 
             zoomShakeCoroutine = StartCoroutine(ZoomAndShakeCoroutine(newTargetOffset, shakeIntensity, shakeDuration, returnSpeed));
         }
     }
