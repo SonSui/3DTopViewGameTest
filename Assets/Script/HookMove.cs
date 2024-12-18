@@ -113,6 +113,7 @@ public class HookMove : MonoBehaviour
         {
             distoryCountdown = 2f;
             status = Status.Ground;
+            player.HookDown();
         }
         
     }

@@ -42,8 +42,6 @@ public class EnemyGenerator : MonoBehaviour
             }
 
             GameObject go = Instantiate(enemy_, pos, Quaternion.identity);
-            GameObject go1 = Instantiate(enemy_, pos, Quaternion.identity);
-            
             do
             {
                 px = UnityEngine.Random.Range(-12.0f, 12.0f);

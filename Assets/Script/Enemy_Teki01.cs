@@ -226,7 +226,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     public void OnHit(int dmg, bool crit = false)
     {
 
-        if (enemyDying)//今の状態を判断、死んでいるのはダメージ受けない
+        if (!enemyDying)//今の状態を判断、死んでいるのはダメージ受けない
         {
 
             enemyStatus.TakeDamage(dmg);//防御力などの影響を含めてダメージ計算できる
