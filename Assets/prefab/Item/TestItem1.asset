@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestItem1
   m_EditorClassIdentifier: 
   itemName: FireChip
-  rare: 2
+  rare: 3
   hpMax: 0
   attackPower: 0
   criticalRate: 0

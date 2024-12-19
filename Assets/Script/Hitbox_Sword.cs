@@ -21,12 +21,18 @@ public class Hitbox_Sword : MonoBehaviour
     private bool isDefensePenetration;
     private CameraFollow camera1;
 
+    PlayerControl player;
+
 
     private void OnEnable()
     {
         // 有効化されるたびに記録をクリアする
         hitTargets.Clear();
         
+    }
+    private void Start()
+    {
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerControl>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -42,7 +48,9 @@ public class Hitbox_Sword : MonoBehaviour
                 other.gameObject.GetComponent<IOnHit>().OnHit(damage);
 
                 camera1.ZoomAndShakeCamera();
-
+                
+                 
+                player.VibrateForDuration();
                 // 接する位置
                 Vector3 contactPoint = other.ClosestPoint(transform.position);
 
