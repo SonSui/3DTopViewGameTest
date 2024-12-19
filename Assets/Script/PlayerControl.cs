@@ -807,4 +807,26 @@ public class PlayerControl : MonoBehaviour
         UnableAllHitBox();
         animator.SetTrigger("Dead");
     }
+    public void VibrateForDuration(float duration=0.2f,float speed_ = 0.5f)
+    {
+        var gamepad = Gamepad.current; 
+        if (gamepad != null)
+        {
+            gamepad.SetMotorSpeeds(speed_, speed_); 
+            Invoke(nameof(StopVibration), duration); 
+        }
+        else
+        {
+            Debug.LogWarning("No gamepad connected!");
+        }
+    }
+
+    private void StopVibration()
+    {
+        var gamepad = Gamepad.current;
+        if (gamepad != null)
+        {
+            gamepad.SetMotorSpeeds(0f, 0f); 
+        }
+    }
 }
