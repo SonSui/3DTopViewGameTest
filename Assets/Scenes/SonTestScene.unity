@@ -3846,7 +3846,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 247
+    m_Bits: 759
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -4085,6 +4085,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -9064114903961122858, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -9064114903961122858, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_TagString
       value: Building
       objectReference: {fileID: 0}
@@ -4157,12 +4161,20 @@ PrefabInstance:
       value: 0.397
       objectReference: {fileID: 0}
     - target: {fileID: -6980478215133257328, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -6980478215133257328, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_TagString
       value: Building
       objectReference: {fileID: 0}
     - target: {fileID: -6980478215133257328, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -4791132271492982481, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -4791132271492982481, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_TagString
@@ -4183,6 +4195,10 @@ PrefabInstance:
     - target: {fileID: -3840069888165505771, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.365
+      objectReference: {fileID: 0}
+    - target: {fileID: -3244703348503730819, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -3244703348503730819, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_TagString
@@ -4694,7 +4710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41ec68cdc447f347a464b2181e9fcea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 5697312311567684297, guid: 748178530716d6947a230522f969264d, type: 3}
+  playerPrefab: {fileID: 2375457254355534779, guid: 748178530716d6947a230522f969264d, type: 3}
   cameraPrefab: {fileID: 2979765311667726876, guid: 16f3c8519e5e4914baa169a8c7c1fe86, type: 3}
   defPlayerPos: {x: 0, y: 0, z: 0}
   defCameraPos: {x: 8, y: 16, z: -8}
