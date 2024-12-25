@@ -96,24 +96,26 @@ public abstract class BaseCharacterStatus
     // ===== メソッド =====
 
     // ダメージを受ける処理（抽象メソッド）
-    public abstract void TakeDamage(int damage, bool isDefensePenetration = false);
+    public abstract int TakeDamage(int damage, bool isDefensePenetration = false);
 
     // ステータスを更新（毎フレーム呼び出す）
-    public virtual void UpdateStatus(float deltaTime, float timeRate = 1.0f)
+    public virtual int UpdateStatus(float deltaTime, float timeRate = 1.0f)
     {
         // バフ計算を一時停止する場合は、timeRateを0に設定
         float adjustedDeltaTime = deltaTime * timeRate;
 
         // 状態効果の時間を更新
-        UpdateStateEffects(adjustedDeltaTime);
+        int bleedDmg = UpdateStateEffects(adjustedDeltaTime);
 
         // 現在のステータスを再計算
         RecalculateStats();
+        return bleedDmg;
     }
 
     // 状態効果の時間を更新
-    protected void UpdateStateEffects(float deltaTime)
+    protected int UpdateStateEffects(float deltaTime)
     {
+        int bleedDmg = 0;
         // 防御力ダウン時間の更新
         if (defenseReduction > 0)
         {
@@ -142,7 +144,7 @@ public abstract class BaseCharacterStatus
             if (bleedingTimer <= 0)
             {
                 // 流血ダメージを適用
-                ApplyBleedingDamage();
+                bleedDmg =ApplyBleedingDamage();
                 bleedingTimer = bleedingInterval;
             }
         }
@@ -156,6 +158,7 @@ public abstract class BaseCharacterStatus
         {
             stun = Mathf.Max(0, stun - deltaTime);
         }
+        return bleedDmg;
     }
 
     // ステータスの再計算
@@ -184,9 +187,9 @@ public abstract class BaseCharacterStatus
     }
 
     // 流血ダメージを適用
-    protected void ApplyBleedingDamage()
+    protected int ApplyBleedingDamage()
     {
-        int bleedingDamage = (int)(hpMax * bleedingEffectRate);
+        int bleedingDamage = Mathf.Max((int)(hpMax * bleedingEffectRate),1);
         hpNow -= bleedingDamage;
 
         // ダメージログ
@@ -197,6 +200,7 @@ public abstract class BaseCharacterStatus
             hpNow = 0;
             OnDeath();
         }
+        return bleedingDamage;
     }
 
     // 死亡時の処理

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy_Teki01 : MonoBehaviour, IOnHit
@@ -20,15 +21,26 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     public float attackSpeed_ = 1.0f;
 
 
+
+
     //被弾の色変化
     private Renderer[] renderers;        // 敵のRendererリスト
     [SerializeField] private Material overlayMaterial;   // 被弾のマテリアル
+    [SerializeField] private Material brightMaterial;
+    [SerializeField] private GameObject lightCirclePrefab;
     private bool isFlashing = false;    // フラッシュ中かどうか
     private float flashDuration = 0.1f; // フラッシュ持続時間
 
     //攻撃のPrefab
     public GameObject hitboxPrefab;    //攻撃のHitboxと攻撃のエフェクトをprefabにする
-    private GameObject hitbox = null;　//生成したHitboxを保存
+    private GameObject hitbox = null; //生成したHitboxを保存
+    public float attackRange = 1f;
+    private bool isAttacking = false;
+    float atkInterval = 3f;
+    float atkTime = 0f;
+
+
+    private bool enemyDying;//Enemyは死んでいるか？OnHitに使用
 
     //ステータスマシン
     public enum EnemyState
@@ -53,7 +65,28 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     public Transform playerT;
     EnemyGenerator enemyGenerator;
 
+    private void Awake()
+    {
+        // 全てのRendererを取得
+        renderers = GetComponentsInChildren<Renderer>();
+        // overlayMaterialが未設定の場合エラー
+        if (overlayMaterial == null)
+        {
+            Debug.Log("Overlay Material が設定されていません！");
+        }
 
+        foreach (Renderer renderer in renderers)
+        {
+            var materials = renderer.materials;
+            var newMaterials = new Material[materials.Length + 1];
+            for (int i = 0; i < materials.Length; i++)
+            {
+                newMaterials[i] = materials[i];
+            }
+            newMaterials[materials.Length] = brightMaterial;
+            renderer.materials = newMaterials;
+        }
+    }
     private void OnEnable()
     {
         name_ += System.Guid.NewGuid().ToString(); //唯一の名前付ける
@@ -69,7 +102,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             shieldDurability_,
             moveSpeed_,
             attackSpeed_);
-        ChangeState(EnemyState.Idle); //待機状態設定
+        _state = EnemyState.Idle; //待機状態設定
     }
 
     public void SetGenerator(EnemyGenerator generator)
@@ -79,169 +112,171 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     void Start()
     {
-        //敵生成するとOnEnable(prefabはEnableの状態の場合)->Start->Update->Update->Update(毎フレイム循環)
+        //敵生成するとAwake->OnEnable(prefabはEnableの状態の場合)->Start->Update->Update->Update(毎フレイム循環)
 
         if (enemyGenerator == null) enemyGenerator = FindObjectOfType<EnemyGenerator>();
         playerT = GameObject.FindGameObjectWithTag("Player").transform;
 
-        // 全てのRendererを取得
-        renderers = GetComponentsInChildren<Renderer>();
-        // overlayMaterialが未設定の場合エラー
-        if (overlayMaterial == null)
+        if (lightCirclePrefab != null)
         {
-            Debug.Log("Overlay Material が設定されていません！");
+            GameObject lightCircle = Instantiate(lightCirclePrefab, transform);
+            lightCircle.transform.localPosition = new Vector3(0, 0.48f, 0); 
+            lightCircle.transform.SetParent(transform, false);
         }
     }
 
     private void Update()
     {
-        switch(_state)
-        { 
-            //現在のUpsate
-                case EnemyState.Idle:
-                IdleUpdate();
-                break;
-                case EnemyState.Patrol:
-                PatrolUpdate();
-                break;
-                case EnemyState.Chase:
-                ChaseUpdate();
-                break;
-                case EnemyState.Attack:
-                AttackUpdate();
-                break;
-                case EnemyState.Hit:
-                HitUpdate();
-                break;
-                case EnemyState.Dead:
-                DeadUpdate();
-                break;
-        }
+        
 
-        if (_state != _nextstate)
+        int bleedDmg = enemyStatus.UpdateStatus(Time.deltaTime);//流血、スタン、デバフなど毎フレイム自動的に処理
+        if (bleedDmg > 0)
         {
-            //終了処理
-            switch (_state)
+            UIManager.Instance.ShowDamage(bleedDmg, transform.position, new Color(1f, 0.5f, 0f, 1f));
+            if (enemyStatus.IsDead())
             {
-                case EnemyState.Idle:
-                    IdleEnd();
-                    break;
-                case EnemyState.Patrol:
-                    PatrolEnd();
-                    break;
-                case EnemyState.Chase:
-                    ChaseEnd();
-                    break;
-                case EnemyState.Attack:
-                    AttackEnd();
-                    break;
-                case EnemyState.Hit:
-                    HitEnd();
-                    break;
-                case EnemyState.Dead:
-                    DeadEnd();
-                    break;
-            }
-
-            //次のステート遷移
-            _state = _nextstate;
-            switch (_state)
-            {
-                case EnemyState.Idle:
-                    IdleStart();
-                    break;
-                case EnemyState.Patrol:
-                    PatrolStart();
-                    break;
-                case EnemyState.Chase:
-                    ChaseStart();
-                    break;
-                case EnemyState.Attack:
-                    AttackStart();
-                    break;
-                case EnemyState.Hit:
-                    HitStart();
-                    break;
-                case EnemyState.Dead:
-                    DeadStart();
-                    break;
+                OnDead();
             }
         }
 
-     enemyStatus.UpdateStatus(Time.deltaTime);//流血、スタン、デバフなど毎フレイム自動的に処理
+        StateUpdate();
     }
 
-    public void ChangeState(EnemyState nextState)
-    {
-        _nextstate = nextState;
-    }
+    
 
     //ステート処理-----------------------------------------------------------------------------
-
-    //Idle
-    private void IdleStart() { }
-    private void IdleUpdate() { }
-    private void IdleEnd() { }
-
-    private void PatrolStart() { }
-    private void PatrolUpdate()
+    private void StateUpdate()
     {
-        //プレイヤーに向けて進む
-        transform.position =
-            Vector3.MoveTowards
-            (transform.position, new Vector3(playerT.position.x, playerT.position.y, playerT.position.z), moveSpeed_ * Time.deltaTime);
-
-        //プレイヤーとの距離が近くなったらAttack
-        if (Vector3.Distance(transform.position, playerT.position) < 2.1f) { ChangeState(EnemyState.Attack); }
-    }
-    private void PatrolEnd() { }
-
-    private void ChaseStart() { }
-    private void ChaseUpdate() { }
-    private void ChaseEnd() { }
-
-    private void AttackStart() { }
-    private void AttackUpdate()
-    {
-        Attack();
-    }
-    private void AttackEnd() { }
-
-    private void HitStart() { }
-    private void HitUpdate() { }
-    private void HitEnd() { }
-
-    private void DeadStart() 
-    {
-        DyingAnimation();
-    }
-    private void DeadUpdate() { }
-    private void DeadEnd()
-    { 
-        OnDead();
-    }
-
-    private bool enemyDying;//Enemyは死んでいるか？OnHitに使用
-
-    public void OnHit(int dmg, bool crit = false)
-    {
-
-        if (!enemyDying)//今の状態を判断、死んでいるのはダメージ受けない
+        switch (_state)
         {
+            case EnemyState.Idle:
+                OnIdle();
+                // 待機中の処理
+                break;
 
-            enemyStatus.TakeDamage(dmg);//防御力などの影響を含めてダメージ計算できる
+            case EnemyState.Chase:
+                ChasePlayer();
+                break;
+
+            case EnemyState.Attack:
+                if (!isAttacking)OnAttack();
+                    
+                break;
+
+            case EnemyState.Hit:
+                // 被撃処理（アニメーションで管理）
+                break;
+
+            case EnemyState.Dead:
+                // 死亡時の処理
+                break;
+        }
+    }
+    public void ChangeState(EnemyState nextState)
+    {
+        _state = nextState;
+    }
+    private void OnIdle()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, playerT.position, enemyStatus.GetMoveSpeed() * Time.deltaTime);
+        float distance = Vector3.Distance(transform.position, playerT.position);
+
+        if (distance > attackRange)
+        {
+            ChangeState(EnemyState.Chase);
+        }
+        else
+        {
+            if(atkTime > 0)
+            {
+                atkTime-= Time.deltaTime;
+            }
+            else
+            {
+                ChangeState(EnemyState.Attack);
+            }
+        }
+    }
+    private void ChasePlayer()
+    {
+        if (playerT != null)
+        {
+            //移動
+            transform.position = Vector3.MoveTowards(transform.position, playerT.position, enemyStatus.GetMoveSpeed() * Time.deltaTime);
+            float distance = Vector3.Distance(transform.position, playerT.position);
+            //回転
+            Vector3 direction = (playerT.position - transform.position).normalized;
+            direction.y = 0;
+            if (direction.magnitude > 0.01)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+            }
+
+            //状態変更
+            if (distance <= attackRange)
+            {
+                ChangeState(EnemyState.Attack);
+            }
+        }
+    }
+
+
+
+    public void OnHit(
+        int dmg,                //ダメージ
+        bool crit = false,      //クリティカル
+        bool isPenetrate = false, //防御貫通
+        bool isBleed = false,   //流血、燃焼
+        bool isDefDown = false,  //防御力減
+        bool isAtkDown = false, //攻撃力減
+        bool isRecover = false  //HP回復
+        )
+    {
+
+        if (_state !=EnemyState.Dead)//今の状態を判断、死んでいるのはダメージ受けない
+        {
+            if (crit) 
+            {
+                //クリティカルエフェクト（あれば）
+            }
+            if (isBleed) { enemyStatus.ApplyBleedingEffect(5f); }
+            if (isDefDown) { enemyStatus.ApplyDefenseReduction(5f); }
+            if (isAtkDown) { enemyStatus.ApplyAttackReduction(5f); }
+
+            int hitDmg =enemyStatus.TakeDamage(dmg,isPenetrate);//防御力などの影響を含めてダメージ計算できる
+            if (hitDmg != 0)
+            {
+                Color displayColor = Color.red;
+                if (hitDmg < 0)
+                {
+                    displayColor = Color.white;
+                    hitDmg = -hitDmg;
+                }
+                //Vector3 worldPosition = transform.position + Vector3.up * 1; // テキスト表示位置
+
+                UIManager.Instance.ShowDamage(hitDmg, transform.position, displayColor);
+                Debug.Log($"Enemyは{hitDmg}ダメージ受けた");
+            }
             //被弾アニメーションとエフェクト
 
             if (enemyStatus.IsDead())
             {
                 OnDead();
+                if (isRecover)
+                {
+                    //回復エフェクト
+                    GameManager.Instance.RecoverHP();
+                }
                 return;
             }
-            if (!isFlashing)
-            {
-                if (overlayMaterial != null) StartCoroutine(HitFlash());
-            }
+            if (isFlashing) StopCoroutine(HitFlash());
+            if (overlayMaterial != null) StartCoroutine(HitFlash());
         }
+    }
+    public void OnHooked(int dmg)
+    {
+
     }
 
     private System.Collections.IEnumerator HitFlash()
@@ -312,10 +347,20 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         Destroy(gameObject);
     }
 
-    private void Attack()
+    private void OnAttack()
     {
+        
         int atk = enemyStatus.GetAttackNow();  //攻撃力ダウンなどを計算した攻撃力を取得
+        atkTime = atkInterval;
+        StartCoroutine(Attack(atk));
         //攻撃のprefabを生成
+
+    }
+    private System.Collections.IEnumerator Attack(int atk)
+    {
+        isAttacking = true;
+        yield return null;
+        isAttacking = false;
     }
 }
 

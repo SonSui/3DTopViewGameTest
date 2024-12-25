@@ -19,7 +19,9 @@ public class Hitbox_Sword : MonoBehaviour
     private int damage;
     private float critical;
     private bool isDefensePenetration;
+    private bool isBleed;
     private CameraFollow camera1;
+
 
     PlayerControl player;
 
@@ -44,8 +46,9 @@ public class Hitbox_Sword : MonoBehaviour
             hitTargets.Add(other);
             if (other.gameObject.GetComponent<IOnHit>() != null)
             {
+                bool crit = Random.Range(0f, 1f) < critical;
                 // ƒ_ƒ[ƒW—^‚¦‚é
-                other.gameObject.GetComponent<IOnHit>().OnHit(damage);
+                other.gameObject.GetComponent<IOnHit>().OnHit(damage,crit,isDefensePenetration,isBleed);
 
                 camera1.ZoomAndShakeCamera();
                 
@@ -80,11 +83,13 @@ public class Hitbox_Sword : MonoBehaviour
     }
     private void SetDefaultTrail()
     {
+        isBleed = false;
         defaultTrail.SetActive(true);
         fireTrail.SetActive(false);
     }
     private void SetFireTrail()
     {
+        isBleed = true;
         defaultTrail.SetActive(false );
         fireTrail.SetActive(true);
     }

@@ -90,7 +90,7 @@ public class CameraFollow : MonoBehaviour
         //モノクロ更新
         currentAmount = Mathf.Lerp(currentAmount, targetAmount, Time.deltaTime * transitionSpeed);
 
-        if (colorPicker != null)
+        if (colorPicker != null&&cameraUI.activeSelf)
         {
             RenderSettings.ambientLight = colorPicker.color;
             Debug.Log("ColorPicker:"+colorPicker.color);
