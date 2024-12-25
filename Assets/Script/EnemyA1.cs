@@ -71,7 +71,13 @@ public class EnemyA1 : MonoBehaviour,IOnHit
 
 
     //撃たれると0.1秒間赤くなる
-    public void OnHit(int dmg, bool crit = false)
+    public void OnHit(int dmg,
+        bool crit = false,
+        bool isPenetrate = false,
+        bool isBleed = false,
+        bool isDefDown = false,
+        bool isAtkDown = false,
+        bool isRecover = false)
     {
         if (isDying) return;
 
@@ -86,6 +92,10 @@ public class EnemyA1 : MonoBehaviour,IOnHit
         }
         DeleteHitbox();
         atkTime = 0;
+    }
+    public void OnHooked(int dmg)
+    {
+        //未実装
     }
     private IEnumerator ChangeColorTemporarily()
     {

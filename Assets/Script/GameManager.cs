@@ -61,20 +61,7 @@ public class GameManager : MonoBehaviour
             
             playerControl = player.GetComponent<PlayerControl>();
             //playerControl.SetActSpeed(1.5f);
-            /*if (abilityManager != null)
-            {
-                abilityManager.player = playerController;
-            }
-            else
-            {
-                abilityManager = FindObjectOfType<AbilityManager>();
-                if (abilityManager == null)
-                {
-                    Debug.Log("AbilityManger が見つけません");
-                    return false;
-                }
-                abilityManager.player = playerController;
-            }*/
+            
         }
         return true;
     }
@@ -95,6 +82,8 @@ public class GameManager : MonoBehaviour
 
             // カメラがプレイヤーを追従するように設定
             cameraFollow.SetTarget(player.transform);
+
+            if (uiManager != null) uiManager.SetMainCamera(camera1.GetComponent<Camera>());
         }
         return false;
     }
@@ -124,9 +113,11 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene,LoadSceneMode loadSceneMode)
     {
         ResetPlayerStatus();
+        FindUIManager();
+        
         SpawnPlayer();
         SpawnCamera();
-        FindUIManager();
+        
 
     }
 
@@ -166,5 +157,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"{item.itemName} in gameManager");
         playerStatus.OnItemCollected(item);
+    }
+    public void RecoverHP()
+    {
+        //
     }
 }
