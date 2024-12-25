@@ -105,7 +105,10 @@ MonoBehaviour:
   moveSpeed_: 1
   attackSpeed_: 1
   overlayMaterial: {fileID: 2100000, guid: 26ad81837a4f04349b8056c66cf09ad4, type: 2}
+  brightMaterial: {fileID: 2100000, guid: fa97bcbd0fde8c24db22bf6ff45fd71b, type: 2}
+  lightCirclePrefab: {fileID: 1210518689740856146, guid: b789f5013303c3d49baa83dc35a9b586, type: 3}
   hitboxPrefab: {fileID: 7640618496599304812, guid: 30ae77700bd4d0446b93244032ea7de4, type: 3}
+  attackRange: 1
   playerT: {fileID: 0}
 --- !u!1001 &4639356103517071370
 PrefabInstance:

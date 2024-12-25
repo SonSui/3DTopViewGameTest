@@ -5,7 +5,7 @@ public class DamageDisplay : MonoBehaviour
 {
     public TextMeshProUGUI damageText; // TextMeshPro コンポーネント
     public float displayDuration = 1.0f; // 表示時間
-    public Vector3 floatUpOffset = new Vector3(0, 200, 0); // 浮き上がるオフセット
+    public float floatUpOffset = 150f; // 浮き上がるオフセット
     private float timer;
     private RectTransform rectTransform;
     private Vector2 floatSpeed;
@@ -35,8 +35,11 @@ public class DamageDisplay : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         rectTransform.anchoredPosition = uiPosition;
 
-        // 浮き上がり速度を設定
-        floatSpeed = (Vector2)floatUpOffset / displayDuration;
+        // ランダム方向を計算
+        Vector2 randomDirection = Random.insideUnitCircle.normalized;
+
+        // 移動速度を設定
+        floatSpeed = randomDirection * floatUpOffset / displayDuration;
     }
 
     private void Update()
@@ -50,7 +53,7 @@ public class DamageDisplay : MonoBehaviour
 
             // アニメーションカーブに基づくサイズ変更
             float normalizedTime = 1 - (timer / displayDuration); // 進行度（0～1）
-            float newSize = Mathf.Lerp(50, 100, sizeCurve.Evaluate(normalizedTime)); // サイズをアニメーションカーブに基づいて計算
+            float newSize = Mathf.Lerp(10, 100, sizeCurve.Evaluate(normalizedTime)); // サイズをアニメーションカーブに基づいて計算
             damageText.fontSize = newSize;
 
             if (timer <= 0)

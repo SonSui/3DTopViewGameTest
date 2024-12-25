@@ -26,6 +26,8 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     //被弾の色変化
     private Renderer[] renderers;        // 敵のRendererリスト
     [SerializeField] private Material overlayMaterial;   // 被弾のマテリアル
+    [SerializeField] private Material brightMaterial;
+    [SerializeField] private GameObject lightCirclePrefab;
     private bool isFlashing = false;    // フラッシュ中かどうか
     private float flashDuration = 0.1f; // フラッシュ持続時間
 
@@ -63,7 +65,28 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     public Transform playerT;
     EnemyGenerator enemyGenerator;
 
+    private void Awake()
+    {
+        // 全てのRendererを取得
+        renderers = GetComponentsInChildren<Renderer>();
+        // overlayMaterialが未設定の場合エラー
+        if (overlayMaterial == null)
+        {
+            Debug.Log("Overlay Material が設定されていません！");
+        }
 
+        foreach (Renderer renderer in renderers)
+        {
+            var materials = renderer.materials;
+            var newMaterials = new Material[materials.Length + 1];
+            for (int i = 0; i < materials.Length; i++)
+            {
+                newMaterials[i] = materials[i];
+            }
+            newMaterials[materials.Length] = brightMaterial;
+            renderer.materials = newMaterials;
+        }
+    }
     private void OnEnable()
     {
         name_ += System.Guid.NewGuid().ToString(); //唯一の名前付ける
@@ -89,17 +112,16 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     void Start()
     {
-        //敵生成するとOnEnable(prefabはEnableの状態の場合)->Start->Update->Update->Update(毎フレイム循環)
+        //敵生成するとAwake->OnEnable(prefabはEnableの状態の場合)->Start->Update->Update->Update(毎フレイム循環)
 
         if (enemyGenerator == null) enemyGenerator = FindObjectOfType<EnemyGenerator>();
         playerT = GameObject.FindGameObjectWithTag("Player").transform;
 
-        // 全てのRendererを取得
-        renderers = GetComponentsInChildren<Renderer>();
-        // overlayMaterialが未設定の場合エラー
-        if (overlayMaterial == null)
+        if (lightCirclePrefab != null)
         {
-            Debug.Log("Overlay Material が設定されていません！");
+            GameObject lightCircle = Instantiate(lightCirclePrefab, transform);
+            lightCircle.transform.localPosition = new Vector3(0, 0.48f, 0); 
+            lightCircle.transform.SetParent(transform, false);
         }
     }
 
@@ -179,9 +201,19 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     {
         if (playerT != null)
         {
+            //移動
             transform.position = Vector3.MoveTowards(transform.position, playerT.position, enemyStatus.GetMoveSpeed() * Time.deltaTime);
             float distance = Vector3.Distance(transform.position, playerT.position);
+            //回転
+            Vector3 direction = (playerT.position - transform.position).normalized;
+            direction.y = 0;
+            if (direction.magnitude > 0.01)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+            }
 
+            //状態変更
             if (distance <= attackRange)
             {
                 ChangeState(EnemyState.Attack);
