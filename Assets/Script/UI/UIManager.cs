@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     public Canvas canvas; // UIキャンバス
     public GameObject settingUI; // 設定UI
     public GameObject damageTextPrefab; // ダメージテキストのプレハブ
-    public int poolSize = 20; // オブジェクトプールのサイズ
+    public int poolSize = 30; // オブジェクトプールのサイズ
 
     private Queue<GameObject> damageTextPool; // ダメージテキストのオブジェクトプール
 
