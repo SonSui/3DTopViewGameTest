@@ -21,7 +21,7 @@ public class Hitbox_Teki01_Bite : MonoBehaviour
     {
         isHitted = false;
         currTime = 0f;
-        collider1.enabled = false;
+        
         ParticleSystem particleSystem = GetComponent<ParticleSystem>();
         particleSystem.Clear(); //エフェクトをリセット
         particleSystem.Play();
