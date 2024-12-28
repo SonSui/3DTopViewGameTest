@@ -1,0 +1,383 @@
+fileFormatVersion: 2
+guid: b060d9eb1101a2d40a1fe408ae0dcc66
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BOX_1_shader1
+    second: {fileID: 2100000, guid: 4c3a9147cd583804380e9d3668ee7352, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BOX_2_shader1
+    second: {fileID: 2100000, guid: 8bcb8c7071d104b48bead6dd8d063d2a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BOX_3_shader1
+    second: {fileID: 2100000, guid: 56f9e6a4813acac44857425263986740, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BOX_4_shader1
+    second: {fileID: 2100000, guid: 58f523e822b6eab428d6f2c3fe89ea47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Boss_shader
+    second: {fileID: 2100000, guid: 3375f491bbf6ce346bc969d9ba587bed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: big_container_1_shader1
+    second: {fileID: 2100000, guid: 72829e3098f94a444a87858167c4cc91, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: boat1_shader
+    second: {fileID: 2100000, guid: 5f3aae20c44fcb84497e7ed0c4ff320b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: building1_shader
+    second: {fileID: 2100000, guid: 769fb4b8a2d0c244a8b59ee85ad7bbb5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: building2_shader
+    second: {fileID: 2100000, guid: 49897a90848d5824c8fbbd95843b7bcc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: building3_shader
+    second: {fileID: 2100000, guid: 7b5e871ddd658344aa4d3c816222c606, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: building4_shader
+    second: {fileID: 2100000, guid: 30cdd2a8895d54f4fb1b49420b15dd0f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: chelun_shader
+    second: {fileID: 2100000, guid: d24f61c53b5c71941899c03e8dd87b45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: container_1_shader1
+    second: {fileID: 2100000, guid: 3a9ce701f38055a48867f97bdac75c22, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: container_2_shader1
+    second: {fileID: 2100000, guid: b84a9529eb81dce4ba8082cc773e6826, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: container_3_shader1
+    second: {fileID: 2100000, guid: 14b0cffab2a83f74fb098c5a6cbb35ec, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: container_4_shader1
+    second: {fileID: 2100000, guid: 521e81b2ede34ad46919995f7ec96f10, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: container_5_shader1
+    second: {fileID: 2100000, guid: 1b8da30a1d9178b45bd76cf3e99e680d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: floor1_shader1
+    second: {fileID: 2100000, guid: 88eb4c5a31217d34eb34e139fac63638, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gaskan_1_plus_shader
+    second: {fileID: 2100000, guid: 4227005e67384604cbfde78bc0ef6998, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gaskan_1_shader
+    second: {fileID: 2100000, guid: 5e56c11fa01567e4eb6cdafafd600ac0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gaskan_2_shader
+    second: {fileID: 2100000, guid: b257015a287b1744f80625a551a21a3c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube12_shader1
+    second: {fileID: 2100000, guid: e1790dce64e691741bdecb0956b3a9b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube13_shader1
+    second: {fileID: 2100000, guid: 94835220aa68ec349af8dc36d949bd15, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube14_shader1
+    second: {fileID: 2100000, guid: 89c8306598f5fea41ad71372122a90e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube15_shader1
+    second: {fileID: 2100000, guid: 3b5bddd3dc7140346a1b015429b168e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube16_shader1
+    second: {fileID: 2100000, guid: b2699f178053dfd448c62e138b6813ae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube17_shader1
+    second: {fileID: 2100000, guid: b97dcbdd615285244a18a18f8427b1fa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube18_shader1
+    second: {fileID: 2100000, guid: 3d92da4e584cc75429537da4782c453a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube19_shader1
+    second: {fileID: 2100000, guid: b5cd0e5c04a163c4d9325953d4d1d4b3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube20_shader1
+    second: {fileID: 2100000, guid: 4af00c7a5afb5c543bed3f5293f72ed8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube21_shader1
+    second: {fileID: 2100000, guid: 666ed93d207f98d44a48345a85882b45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube22_shader1
+    second: {fileID: 2100000, guid: e3b2343a226c7e748b9392f9611ee8ad, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube23_shader1
+    second: {fileID: 2100000, guid: 7fe5d97c365b2244aa44ed86b62adbdd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube24_shader1
+    second: {fileID: 2100000, guid: e705854b954f77f47b30d551c5cbe449, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube25_shader1
+    second: {fileID: 2100000, guid: fb1381f41e71236448a7d7056c97af1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube26_shader1
+    second: {fileID: 2100000, guid: 9fbe1baae75518543aa4209390617ee5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube27_shader1
+    second: {fileID: 2100000, guid: 58819c8338942764d80176a33c432cfc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube28_shader1
+    second: {fileID: 2100000, guid: 2bf0e85c0494f364492862fdbee019a1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCube29_shader1
+    second: {fileID: 2100000, guid: ca71af1060f68b0479c59eacfd029d91, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCylinder11_shader1
+    second: {fileID: 2100000, guid: 63a071846198b044384a781f78014f37, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCylinder12_shader1
+    second: {fileID: 2100000, guid: 0b73fd8a9b026da4a9fdc015486a1b02, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCylinder13_shader1
+    second: {fileID: 2100000, guid: 1ba80a4ae650a02439ac43071be3ffd6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCylinder14_shader1
+    second: {fileID: 2100000, guid: 82414c069fddb8c4da31c179ca814394, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCylinder15_shader1
+    second: {fileID: 2100000, guid: d9dfddfae1bffcf4081c12de54fedfb3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCylinder16_shader1
+    second: {fileID: 2100000, guid: 5a399a2495e4beb40a0907bdfcef21a5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCylinder17_shader1
+    second: {fileID: 2100000, guid: b1a0d729bfdba694db11454401a5a2ca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCylinder18_shader1
+    second: {fileID: 2100000, guid: 5dc87ea8c6fbbf3438cdede3abd7df8f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pCylinder19_shader1
+    second: {fileID: 2100000, guid: 9045183fe4289f448b496affef55b326, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pipe_1_shader1
+    second: {fileID: 2100000, guid: 07fd5aace4cb88e458b48b0873a5829a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pipe_2_shader1
+    second: {fileID: 2100000, guid: 3e52cfaad49cded4f9e9691ef21241f4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pipe_3_shader1
+    second: {fileID: 2100000, guid: 7ffdc18b1bed6304da66bcc477483594, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pipe_4_shader1
+    second: {fileID: 2100000, guid: 7c5be883154a1d943a9c5078ff6bb01e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pipe_5_shader1
+    second: {fileID: 2100000, guid: 8106c5578fdfa0d4e9021588ddf81d97, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pipe_6_shader1
+    second: {fileID: 2100000, guid: fd08b7e1ba2b9854795b6aa71ba0aec4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: player1_shader1
+    second: {fileID: 2100000, guid: b5935293bfdbcd04680a1d3389c78f7f, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
