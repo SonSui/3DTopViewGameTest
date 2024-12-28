@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
 
     private void ResetPlayerStatus()
     {
-        playerStatus = new PlayerStatus(6, 3);
+        playerStatus = new PlayerStatus(5, 3);
         isPlayerDead = false;
     }
 

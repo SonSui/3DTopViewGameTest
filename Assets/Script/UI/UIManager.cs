@@ -115,6 +115,7 @@ public class UIManager : MonoBehaviour
     private void UpdateHPBar() // HPバーを更新
     {
         hp.fillAmount = (float)currHP / (float)maxHP;
+        Debug.Log($"Hp{currHP},max{maxHP}");
     }
 
     public void SetHP(int curr, int max_)

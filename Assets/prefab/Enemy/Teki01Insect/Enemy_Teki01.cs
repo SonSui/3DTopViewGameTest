@@ -8,6 +8,7 @@ using UnityEngine;
 public class Enemy_Teki01 : MonoBehaviour, IOnHit
 {
     EnemyStatus enemyStatus; //敵のステータス
+    public Animator animator;
 
     //Inspector上設定できる基本のステータス
     public string name_ = "Enemy_Teki01";
@@ -29,14 +30,14 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     //光調節シェーダー
     [SerializeField] private Material brightMaterial;
-    [SerializeField] private GameObject lightCirclePrefab;
 
     //攻撃のPrefab
-    public GameObject hitboxPrefab;    //攻撃のHitboxと攻撃のエフェクトをprefabにする
+    public GameObject biteHitbox;    //攻撃のHitboxと攻撃のエフェクトをprefabにする
+    public GameObject bombPrefab;
     private GameObject hitbox = null; //生成したHitboxを保存
-    public float attackRange = 1f;
+    public float attackRange = 1.5f;
     private bool isAttacking = false;
-    float atkInterval = 3f;
+    float atkInterval = 1f;
     float atkTime = 0f;
 
 
@@ -46,20 +47,22 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     public enum EnemyState
     {
         //全部使う必要がない
-        Idle,         // 待機状態：敵が動かずに待機している
-        Patrol,       // 巡回状態：指定されたルートやランダムに移動している
-        Chase,        // 追跡状態：プレイヤーを発見し追いかけている
-        Attack,       // 攻撃状態：プレイヤーや目標を攻撃している
-        Hit,          // 被撃状態：攻撃を受けてダメージを受けている
-        Dead,         // 死亡状態：体力がゼロになり行動不能
+        Idle,           // 待機状態：敵が動かずに待機している
+        //Patrol,         // 巡回状態：指定されたルートやランダムに移動している
+        Chase,          // 追跡状態：プレイヤーを発見し追いかけている
+        Attack,         // 攻撃状態：プレイヤーや目標を攻撃している
+        Hit,            // 被撃状態：攻撃を受けてダメージを受けている
+        Dead,           // 死亡状態：体力がゼロになり行動不能
+
+        Bomb            // 爆発状態：虫敵の特殊能力
 
         //Stunned,      // 気絶状態：スキルや攻撃で行動不能な状態
         //Flee,         // 逃走状態：プレイヤーに負けると判断し逃げる
         //Alert,        // 警戒状態：プレイヤーの存在に気づいたがまだ追跡していない
         //Guard,        // 防御状態：盾を持つ状態
     }
-    private EnemyState _state = EnemyState.Idle;
-    private EnemyState _nextstate = EnemyState.Idle;
+    public EnemyState _state = EnemyState.Idle;
+
 
     //プレイヤーの座標
     public Transform playerT;
@@ -67,6 +70,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     private void Awake()
     {
+
         // overlayMaterialが設定されているか確認
         if (overlayMaterial == null)
         {
@@ -84,6 +88,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
         renderers = targetTransform.GetComponentsInChildren<Renderer>();
 
+        //明るさ調整
         foreach (Renderer renderer in renderers)
         {
             // 現在のオブジェクトの全てのマテリアルを取得
@@ -103,7 +108,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     {
         name_ += System.Guid.NewGuid().ToString(); //唯一の名前付ける
 
-        //EnemyBufferを使う場合、Enableたびにステータスをリセットする
+        //EnemyPoolを使うなら、Enableたびにステータスをリセットする
         enemyStatus = new EnemyStatus(
             name_,
             hp_,
@@ -114,7 +119,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             shieldDurability_,
             moveSpeed_,
             attackSpeed_);
-        _state = EnemyState.Idle; //待機状態設定
+        ChangeState(EnemyState.Idle); //待機状態設定
     }
     void Start()
     {
@@ -123,21 +128,13 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         if (enemyGenerator == null) enemyGenerator = FindObjectOfType<EnemyGenerator>();
         playerT = GameObject.FindGameObjectWithTag("Player").transform;
 
-        /*if (lightCirclePrefab != null)
-        {
-            GameObject lightCircle = Instantiate(lightCirclePrefab, transform);
-            lightCircle.transform.localPosition = new Vector3(0, 0.48f, 0); 
-            lightCircle.transform.SetParent(transform, false);
-        }*/
     }
 
     private void Update()
     {
-        
-
         int bleedDmg = enemyStatus.UpdateStatus(Time.deltaTime);//流血、スタン、デバフなど毎フレイム自動的に処理
-        
-        if (bleedDmg > 0) //流血（燃焼）ダメージが出たら数字で表示
+
+        if (bleedDmg > 0 && _state != EnemyState.Dead) //流血（燃焼）ダメージが出たら数字で表示
         {
             UIManager.Instance.ShowDamage(bleedDmg, transform.position, new Color(1f, 0.5f, 0f, 1f));
             if (enemyStatus.IsDead())
@@ -146,71 +143,97 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             }
         }
 
+        //状態更新
         StateUpdate();
     }
 
-    
 
-    //ステート処理-----------------------------------------------------------------------------
+
+    // ===== ステート処理 =====
     private void StateUpdate()
     {
         switch (_state)
         {
             case EnemyState.Idle:
-                OnIdle();
-                // 待機中の処理
+                OnIdle();// 待機中の処理
                 break;
-
             case EnemyState.Chase:
-                ChasePlayer();
+                OnChase();// 追跡の処理
                 break;
 
+            //以下の行動はAnimationEventや他のオブジェクトが呼んでくれる
             case EnemyState.Attack:
-                if (!isAttacking)OnAttack();
-                    
                 break;
-
+            case EnemyState.Bomb:
+                break;
             case EnemyState.Hit:
-                // 被撃処理（アニメーションで管理）
                 break;
-
             case EnemyState.Dead:
-                // 死亡時の処理
                 break;
         }
     }
     private void ChangeState(EnemyState nextState)
     {
         _state = nextState;
+        //状態変更したら、アニメーションも変更
+        switch (nextState)
+        {
+            case EnemyState.Idle:
+                animator.SetBool("Chase", false);
+                break;
+
+            case EnemyState.Chase:
+                animator.SetBool("Chase", true);
+                break;
+
+            case EnemyState.Attack:
+                animator.SetTrigger("Bite");
+                atkTime = atkInterval;
+                break;
+            case EnemyState.Hit:
+                animator.SetTrigger("Hit");
+                break;
+            case EnemyState.Bomb:
+                animator.SetTrigger("Bomb");
+                break;
+            case EnemyState.Dead:
+                animator.SetTrigger("Dead");
+                break;
+        }
     }
     private void OnIdle()
     {
-        transform.position = Vector3.MoveTowards(transform.position, playerT.position, enemyStatus.GetMoveSpeed() * Time.deltaTime);
         float distance = Vector3.Distance(transform.position, playerT.position);
 
+        //プレイヤーの距離計算、遠いなら追跡、近いなら攻撃
         if (distance > attackRange)
         {
             ChangeState(EnemyState.Chase);
         }
         else
         {
-            if(atkTime > 0)
+            //攻撃間隔の判断
+            if (atkTime > 0)
             {
-                atkTime-= Time.deltaTime;
+                atkTime -= Time.deltaTime;
             }
             else
             {
+                atkTime = 0;
                 ChangeState(EnemyState.Attack);
             }
         }
     }
-    private void ChasePlayer()
+    private void OnChase()
     {
         if (playerT != null)
         {
+
+
             //移動
             transform.position = Vector3.MoveTowards(transform.position, playerT.position, enemyStatus.GetMoveSpeed() * Time.deltaTime);
             float distance = Vector3.Distance(transform.position, playerT.position);
+
             //回転
             Vector3 direction = (playerT.position - transform.position).normalized;
             direction.y = 0;
@@ -223,7 +246,17 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             //状態変更
             if (distance <= attackRange)
             {
-                ChangeState(EnemyState.Attack);
+                //攻撃間隔の判断
+                if (atkTime > 0)
+                {
+                    atkTime -= Time.deltaTime;
+                    ChangeState(EnemyState.Idle);
+                }
+                else
+                {
+                    atkTime = 0;
+                    ChangeState(EnemyState.Attack);
+                }
             }
         }
     }
@@ -263,15 +296,18 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             }
         }
 
-        isFlashing = false;
+        //被弾のアニメーションが終了したかを確認し
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0.95) yield return null;
 
-        ChangeState(EnemyState.Idle);// 待機状態
+        isFlashing = false;　//被弾の行動終了
+        ChangeState(EnemyState.Bomb);// 一般の敵は待機状態に戻す。虫は爆発
 
     }
 
 
     private void OnDead()
     {
+
         ChangeState(EnemyState.Dead);//死亡状態
         //死亡アニメーションとエフェクト
         StartCoroutine(DyingAnimation());
@@ -280,7 +316,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     private IEnumerator DyingAnimation()
     {
         float dyingTime = 0f;
-        float dyingTimeMax = 0.5f;//0.5秒後削除
+        float dyingTimeMax = 2f;//2秒後削除
         //死亡エフェクトを生成
 
         while (dyingTime < dyingTimeMax)
@@ -296,28 +332,49 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         Destroy(gameObject);
     }
 
-    private void OnAttack()
-    {
-        
-        int atk = enemyStatus.GetAttackNow();  //攻撃力ダウンなどを計算した攻撃力を取得
-        atkTime = atkInterval;
-        StartCoroutine(Attack(atk));
-        //攻撃のprefabを生成
 
-    }
-    private System.Collections.IEnumerator Attack(int atk)
+    private System.Collections.IEnumerator Attack()
     {
-        isAttacking = true;
-        yield return null;
+        //被弾のアニメーションが終了したかを確認し
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0.95) yield return null;
         isAttacking = false;
+        biteHitbox.SetActive(false);
+        //待機状態に戻す
         ChangeState(EnemyState.Idle);
     }
+
+
 
     // =====　外部インタラクション　=====
     public void SetGenerator(EnemyGenerator generator)
     {
         enemyGenerator = generator;
     }
+    public void OnBiteAnime()
+    {
+        //攻撃AnimationEvent
+        if (isAttacking) return;
+        isAttacking = true;
+        biteHitbox.SetActive(true);　//Hitbox有効化
+        biteHitbox.GetComponent<Hitbox_Teki01_Bite>().Initialized(enemyStatus.GetAttackNow());　//攻撃力設定
+        StartCoroutine(Attack());　//状態処理
+    }
+    public void OnBombAnime()
+    {
+        isAttacking = true;
+        GameObject bomb = Instantiate(bombPrefab, transform);　//爆発Hitbox生成
+        bomb.GetComponent<Hitbox_Teki01_Bomb>().Initialized(enemyStatus.GetAttackNow());
+        //爆発したら死ぬ
+        ChangeState(EnemyState.Dead);
+        OnDead();
+    }
+    public void OnIdleAnime()
+    {
+        ChangeState(EnemyState.Idle);
+    }
+
+
+
 
     public void OnHit(
     int dmg,                //ダメージ
@@ -372,7 +429,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     }
     public void OnHooked(int dmg)
     {
-
+        //フックショットに当たる行動（シールド破壊）
     }
 }
 
