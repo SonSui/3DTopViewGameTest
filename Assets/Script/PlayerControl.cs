@@ -6,8 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
+    public Transform charaTrans;
     // アニメーション
-    Animator animator;
+    public Animator animator;
     private HashSet<int> commonAttack;
     private HashSet<int> shootAttack;
     private HashSet<int> hookAttack;
@@ -27,7 +28,7 @@ public class PlayerControl : MonoBehaviour
 
 
     // 攻撃
-    private float currActSpeed = 1.0f;
+    private float currActSpeed = 1.3f;
 
     private int comboStep = 0;
     private float comboTimer = 0f;
@@ -175,7 +176,10 @@ public class PlayerControl : MonoBehaviour
             }
         }
         controller = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
         SetActSpeed(currActSpeed);
         charaRotationOri = transform.eulerAngles;
         isAnimeOver = true;
@@ -183,6 +187,17 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
+        if (charaTrans != null&& charaTrans.localPosition.magnitude>0.001f)
+        {
+
+            Vector3 worldMovement = charaTrans.TransformDirection(charaTrans.localPosition); 
+            worldMovement.y = 0; 
+            controller.Move(worldMovement);
+            charaTrans.localPosition = Vector3.zero;
+            //Debug.Log("World movement: " + worldMovement);
+        }
+        
+
         //アニメ状態
         string animeName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
@@ -214,7 +229,7 @@ public class PlayerControl : MonoBehaviour
         Vector3 gra = new Vector3(0f, yDirection, 0f);
         controller.Move(gra * Time.deltaTime);
 
-        // 移動方向と速度（斜め1.414倍）
+        // 移動方向と速度
         moveDirection = horizontalMove;
         float speed_ = inputMove.magnitude * currMoveSpeed;
 
@@ -226,15 +241,15 @@ public class PlayerControl : MonoBehaviour
             //回転
             Quaternion targetRotation = Quaternion.LookRotation(horizontalMove, Vector3.up);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            charaTrans.localRotation = Quaternion.identity;
         }
         animator.SetFloat("MoveSpeed", speed_);
         //Debug.Log("CurrMoveSpeed:" + speed_ + "Time:"+Time.time);
 
-
-
         CheckInputQueue();
 
     }
+
 
     // ===== Attack1Combo =====
     void UpdateCombo()
@@ -346,6 +361,7 @@ public class PlayerControl : MonoBehaviour
         isHookAcceptable = true;
         UnAttackWeaponDisplay();
         UnableAllHitBox();
+        
     }
     public void OnIdleAnime()
     {
@@ -356,6 +372,7 @@ public class PlayerControl : MonoBehaviour
         UnAttackWeaponDisplay() ;
 
         UnableAllHitBox();
+        
     }
     public void OnSwordAttack01Enter()
     {
@@ -477,6 +494,7 @@ public class PlayerControl : MonoBehaviour
         GameObject hook = Instantiate(hookPrefab, hookShooter.transform.position, hookShooter.transform.rotation);
         hookMove = hook.GetComponent<HookMove>();
         hookMove.InitHook(this, hookShooter, gameManager.GetPlayerAttackNow());
+        animator.SetFloat("HookSpeed", 0.1f);
 
     }
     public void OnImpact()
@@ -710,8 +728,9 @@ public class PlayerControl : MonoBehaviour
     public void PullPlayer(GameObject target)
     {
         pullTarget = target;
+        animator.SetBool("isHooked", true);
+        animator.SetFloat("HookSpeed", 1f);
 
-       
 
         StartCoroutine(PullToHook());
     }
@@ -720,6 +739,7 @@ public class PlayerControl : MonoBehaviour
         if (pullTarget != null)
         {
             isPulling = true;
+            
             float elapsedTime = 0f;
 
             Vector3 initialPosition = transform.position;
@@ -752,6 +772,12 @@ public class PlayerControl : MonoBehaviour
             }
         }
         isPulling = false;
+        animator.SetBool("isHooked", false);
+    }
+    public void HookDown()
+    {
+        animator.SetBool("isHooked", false);
+        animator.SetFloat("HookSpeed", 1f);
     }
     public void OnHit(int dmg)
     {
@@ -780,5 +806,27 @@ public class PlayerControl : MonoBehaviour
         //死亡
         UnableAllHitBox();
         animator.SetTrigger("Dead");
+    }
+    public void VibrateForDuration(float duration=0.2f,float speed_ = 0.5f)
+    {
+        var gamepad = Gamepad.current; 
+        if (gamepad != null)
+        {
+            gamepad.SetMotorSpeeds(speed_, speed_); 
+            Invoke(nameof(StopVibration), duration); 
+        }
+        else
+        {
+            Debug.LogWarning("No gamepad connected!");
+        }
+    }
+
+    private void StopVibration()
+    {
+        var gamepad = Gamepad.current;
+        if (gamepad != null)
+        {
+            gamepad.SetMotorSpeeds(0f, 0f); 
+        }
     }
 }

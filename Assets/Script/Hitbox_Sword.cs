@@ -19,7 +19,11 @@ public class Hitbox_Sword : MonoBehaviour
     private int damage;
     private float critical;
     private bool isDefensePenetration;
+    private bool isBleed;
     private CameraFollow camera1;
+
+
+    PlayerControl player;
 
 
     private void OnEnable()
@@ -27,6 +31,10 @@ public class Hitbox_Sword : MonoBehaviour
         // 有効化されるたびに記録をクリアする
         hitTargets.Clear();
         
+    }
+    private void Start()
+    {
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerControl>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,11 +46,14 @@ public class Hitbox_Sword : MonoBehaviour
             hitTargets.Add(other);
             if (other.gameObject.GetComponent<IOnHit>() != null)
             {
+                bool crit = Random.Range(0f, 1f) < critical;
                 // ダメージ与える
-                other.gameObject.GetComponent<IOnHit>().OnHit(damage);
+                other.gameObject.GetComponent<IOnHit>().OnHit(damage,crit,isDefensePenetration,isBleed);
 
                 camera1.ZoomAndShakeCamera();
-
+                
+                 
+                player.VibrateForDuration();
                 // 接する位置
                 Vector3 contactPoint = other.ClosestPoint(transform.position);
 
@@ -72,11 +83,13 @@ public class Hitbox_Sword : MonoBehaviour
     }
     private void SetDefaultTrail()
     {
+        isBleed = false;
         defaultTrail.SetActive(true);
         fireTrail.SetActive(false);
     }
     private void SetFireTrail()
     {
+        isBleed = true;
         defaultTrail.SetActive(false );
         fireTrail.SetActive(true);
     }

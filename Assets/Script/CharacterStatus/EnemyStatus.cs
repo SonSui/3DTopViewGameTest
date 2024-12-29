@@ -54,7 +54,7 @@ public class EnemyStatus : BaseCharacterStatus
     // ===== メソッド =====
 
     // ダメージを受ける処理
-    public override void TakeDamage(int damage, bool isDefensePenetration = false)
+    public override int TakeDamage(int damage, bool isDefensePenetration = false)
     {
         // 防御貫通が有効な場合、防御力を無視
         int actualDamage = damage;
@@ -73,16 +73,14 @@ public class EnemyStatus : BaseCharacterStatus
         {
             OnDeath();
         }
+        return actualDamage;
     }
 
 
     // ステータスを更新（毎フレーム呼び出す）
-    public override void UpdateStatus(float deltaTime, float timeRate = 1.0f)
+    public override int UpdateStatus(float deltaTime, float timeRate = 1.0f)
     {
-        base.UpdateStatus(deltaTime, timeRate);
-
-        float adjustedDeltaTime = deltaTime * timeRate;
-
+        return base.UpdateStatus(deltaTime, timeRate);
     }
 
     // 死亡時の処理

@@ -34,7 +34,7 @@ public class EnemyGenerator : MonoBehaviour
             float px;
             float pz;
             Vector3 pos = new Vector3(0f, 10f, 0f);
-            int r = UnityEngine.Random.Range(0, 2);
+            int r = UnityEngine.Random.Range(1, 2);
             GameObject enemy_ = EnemyA1;
             if(r == 1 )
             {
@@ -42,11 +42,9 @@ public class EnemyGenerator : MonoBehaviour
             }
 
             GameObject go = Instantiate(enemy_, pos, Quaternion.identity);
-            GameObject go1 = Instantiate(enemy_, pos, Quaternion.identity);
-            
             do
             {
-                px = UnityEngine.Random.Range(-12.0f, 12.0f);
+                px = UnityEngine.Random.Range(-10.0f, 10.0f);
             } while (px >= -3 && px <= 3);
 
             do

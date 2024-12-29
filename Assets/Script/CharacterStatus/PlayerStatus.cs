@@ -113,20 +113,26 @@ public class PlayerStatus : BaseCharacterStatus
     // ===== メソッド =====
 
     // ダメージを受ける処理
-    public override void TakeDamage(int damage, bool isDefensePenetration = false)
+    public override int TakeDamage(int damage, bool isDefensePenetration = false)
     {
         // バリアが有効な場合、ダメージを受けない
         if (barrier)
         {
             Debug.Log("バリアによってダメージを無効化");
-            return;
+            barrierHP -= damage;
+            if (barrierHP < 0)
+            {
+                barrierHP = 0;
+                barrier = false;
+            }
+            return 0;
         }
 
         // 回避判定
         if (Random.value < evasionRate)
         {
             Debug.Log("攻撃を回避した");
-            return;
+            return 0;
         }
 
         // 防御貫通が有効な場合、防御力を無視（防御力は常に0なので影響なし）
@@ -147,17 +153,15 @@ public class PlayerStatus : BaseCharacterStatus
                 OnDeath();
             }
         }
+        return actualDamage;
     }
 
     // ステータスを更新（毎フレーム呼び出す）
-    public override void UpdateStatus(float deltaTime, float timeRate = 1.0f)
+    public override int UpdateStatus(float deltaTime, float timeRate = 1.0f)
     {
-        base.UpdateStatus(deltaTime, timeRate);
-
-        float adjustedDeltaTime = deltaTime * timeRate;
-
-
         // その他の特殊能力の処理（必要に応じて実装）
+        return base.UpdateStatus(deltaTime, timeRate);
+
     }
 
     // 復活処理

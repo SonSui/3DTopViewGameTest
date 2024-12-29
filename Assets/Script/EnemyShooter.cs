@@ -109,7 +109,7 @@ public class EnemyShooter : MonoBehaviour, IOnHit
 
 
     //åÇÇΩÇÍÇÈÇ∆0.1ïbä‘ê‘Ç≠Ç»ÇÈ
-    public void OnHit(int dmg, bool crit = false)
+    public void OnHit(int dmg, bool crit = false, bool isPenetrate = false,bool isBleed=false, bool isDefDown = false, bool isAtkDown = false, bool isRecover = false)
     {
         if (isDying) return;
 
@@ -125,6 +125,10 @@ public class EnemyShooter : MonoBehaviour, IOnHit
         }
         DeleteHitbox();
         atkTime = 0;
+    }
+    public void OnHooked(int dmg)
+    {
+
     }
     private IEnumerator ChangeColorTemporarily()
     {
