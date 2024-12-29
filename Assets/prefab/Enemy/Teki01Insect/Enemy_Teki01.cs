@@ -263,8 +263,6 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     private System.Collections.IEnumerator HitFlash()
     {
-        ChangeState(EnemyState.Hit);// 被撃状態
-
         isFlashing = true;
 
         // 全てのRendererにマテリアルを追加
@@ -406,6 +404,10 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                     displayColor = Color.white;
                     hitDmg = -hitDmg;
                 }
+                else
+                {
+                    ChangeState(EnemyState.Hit); // シールドないなら被撃状態
+                }
                 //Vector3 worldPosition = transform.position + Vector3.up * 1; // テキスト表示位置
 
                 UIManager.Instance.ShowDamage(hitDmg, transform.position, displayColor);
@@ -430,6 +432,10 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     public void OnHooked(int dmg)
     {
         //フックショットに当たる行動（シールド破壊）
+        if(enemyStatus.HasShield())
+        {
+
+        }
     }
 }
 
