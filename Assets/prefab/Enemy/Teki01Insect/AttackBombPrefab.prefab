@@ -4865,7 +4865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preAtkTime: 0.1
-  afterAtkTime: 0.8
+  afterAtkTime: 0.3
   lifeTime: 2
   currTime: 0
 --- !u!1001 &5299892709079065991

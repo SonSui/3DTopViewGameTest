@@ -344,6 +344,10 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
 
     // =====　外部インタラクション　=====
+    public void Initialize()
+    {
+        
+    }
     public void SetGenerator(EnemyGenerator generator)
     {
         enemyGenerator = generator;
