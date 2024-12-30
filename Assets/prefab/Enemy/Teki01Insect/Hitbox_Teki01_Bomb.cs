@@ -7,7 +7,8 @@ public class Hitbox_Teki01_Bomb : MonoBehaviour
     private Collider collider1;
 
     public float preAtkTime = 0.1f;
-    public float lifeTime = 1f;
+    public float afterAtkTime = 1f;
+    public float lifeTime = 2f;
     public float currTime = 0f;
 
     private int dmg = 1;
@@ -29,8 +30,10 @@ public class Hitbox_Teki01_Bomb : MonoBehaviour
     void Update()
     {
         currTime += Time.deltaTime;
-        if (currTime > preAtkTime)
+        if (currTime > preAtkTime&& currTime < afterAtkTime)
             collider1.enabled = true;
+        if (currTime > afterAtkTime)
+            collider1.enabled = false;
         if (currTime > lifeTime)
             Destroy(gameObject);
 

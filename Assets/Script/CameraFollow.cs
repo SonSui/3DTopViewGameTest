@@ -112,9 +112,14 @@ public class CameraFollow : MonoBehaviour
 
             Vector3 footOffset = new Vector3(0f, 0.8f, 0f);
             Vector3 directionToTarget = target.position - footOffset - desiredPosition;
+            float distanceToTarget = Vector3.Distance(desiredPosition, target.position - footOffset);
 
             // 射線を飛ばして遮蔽物を検出
-            RaycastHit[] hits = Physics.RaycastAll(desiredPosition, directionToTarget);
+            int layerToIgnore = LayerMask.GetMask("AirWall");
+            int layerMask = ~layerToIgnore;
+
+            RaycastHit[] hits = Physics.RaycastAll(desiredPosition, directionToTarget, distanceToTarget, layerMask);
+
             bool buildingOcclusion = false;
             foreach (var hit in hits)
             {

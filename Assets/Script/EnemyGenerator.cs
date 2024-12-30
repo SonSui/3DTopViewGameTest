@@ -9,6 +9,8 @@ public class EnemyGenerator : MonoBehaviour
     public GameObject Enemy_Teki01;
     public float span = 3.0f;
     float delta = 0;
+    public List<SpawnPoint> spawnPoints = new List<SpawnPoint>();
+    
 
     //クリア判定変数
     public  int enemyNumMax = 15;
@@ -27,8 +29,29 @@ public class EnemyGenerator : MonoBehaviour
     void Update()
     {
         this.delta += Time.deltaTime;
-
         if (this.delta > this.span && currEnemyNum < enemyNumMax)
+        {
+            foreach (SpawnPoint p in spawnPoints)
+            {
+                if (p.GetSpawnedNum() < 1)
+                {
+                    this.delta = 0;
+                    Vector3 pos = new Vector3(0f, 10f, 0f);
+                    int r = UnityEngine.Random.Range(1, 2);
+                    GameObject enemy_ = EnemyA1;
+                    if (r == 1)
+                    {
+                        enemy_ = Enemy_Teki01;
+                    }
+
+                    GameObject go = Instantiate(enemy_, pos, Quaternion.identity);
+                    p.SpawnEnemy(go);
+                    break;
+                }
+            }
+        }
+
+        /*if (this.delta > this.span && currEnemyNum < enemyNumMax)
         {
             this.delta = 0;
             float px;
@@ -56,7 +79,15 @@ public class EnemyGenerator : MonoBehaviour
             Debug.Log(new Vector3(px, 3, pz));
             currEnemyNum++;
             
-        }
+        }*/
+
+    }
+    public void DropItem(Vector3 pos)
+    {
+
+    }
+    public void SetItem()
+    {
 
     }
 }
