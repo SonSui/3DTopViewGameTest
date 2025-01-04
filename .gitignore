@@ -87,3 +87,5 @@ crashlytics-build.properties
 *.apk
 # Ignore platform-specific Unity engine DLL files
 UnityPlayer.dll
+# Ignore Asset Store files
+/Assets/UnityAssetStore/
