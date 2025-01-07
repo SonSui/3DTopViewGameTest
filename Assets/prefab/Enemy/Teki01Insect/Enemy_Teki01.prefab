@@ -33,11 +33,8 @@ Transform:
   m_Children:
   - {fileID: 5181660437134020577}
   - {fileID: 2383050871544776048}
-<<<<<<< HEAD
   - {fileID: 2565772857734910389}
   - {fileID: 3784346543755020867}
-=======
->>>>>>> origin/main
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -115,7 +112,6 @@ MonoBehaviour:
   brightMaterial: {fileID: 2100000, guid: fa97bcbd0fde8c24db22bf6ff45fd71b, type: 2}
   biteHitbox: {fileID: 3209785562985766734}
   bombPrefab: {fileID: 2658281740619783984, guid: f49c5d486a92a2a42a80e8bd72602fd9, type: 3}
-<<<<<<< HEAD
   attackRange: 1.5
   _state: 0
   playerT: {fileID: 0}
@@ -275,11 +271,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1289543790355709915, guid: 6b3a41feefe9b3844ac374972782f425, type: 3}
   m_PrefabInstance: {fileID: 2611432357173077037}
   m_PrefabAsset: {fileID: 0}
-=======
-  attackRange: 1
-  _state: 0
-  playerT: {fileID: 0}
->>>>>>> origin/main
 --- !u!1001 &4639356103517071370
 PrefabInstance:
   m_ObjectHideFlags: 0

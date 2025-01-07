@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
 
-<<<<<<< HEAD
 public class EnemyShooter : MonoBehaviour
-=======
-public class EnemyShooter : MonoBehaviour, IOnHit
->>>>>>> origin/main
 {
     EnemyStatus enemyStatus;
 
@@ -113,15 +109,9 @@ public class EnemyShooter : MonoBehaviour, IOnHit
 
 
     //åÇÇΩÇÍÇÈÇ∆0.1ïbä‘ê‘Ç≠Ç»ÇÈ
-<<<<<<< HEAD
     public int OnHit(int dmg, bool crit = false, bool isPenetrate = false,bool isBleed=false, bool isDefDown = false, bool isAtkDown = false, bool isRecover = false)
     {
         if (isDying) return 0;
-=======
-    public void OnHit(int dmg, bool crit = false, bool isPenetrate = false,bool isBleed=false, bool isDefDown = false, bool isAtkDown = false, bool isRecover = false)
-    {
-        if (isDying) return;
->>>>>>> origin/main
 
         hp -= dmg;
         StartCoroutine(ChangeColorTemporarily());
@@ -135,10 +125,7 @@ public class EnemyShooter : MonoBehaviour, IOnHit
         }
         DeleteHitbox();
         atkTime = 0;
-<<<<<<< HEAD
         return dmg;
-=======
->>>>>>> origin/main
     }
     public void OnHooked(int dmg)
     {

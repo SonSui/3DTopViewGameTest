@@ -8,32 +8,24 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
-<<<<<<< HEAD
     public GameObject hpBarContainer; // HPバーコンテナ
     public GameObject hpSegmentPrefab; // HPセグメントプレハブ
     public GameObject ammoBarContainer; // 弾薬バーコンテナ
     public GameObject ammoSegmentPrefab; // 弾薬セグメントプレハブ
-=======
-    public Image hp; // HPバー
->>>>>>> origin/main
     public Canvas canvas; // UIキャンバス
     public GameObject settingUI; // 設定UI
     public GameObject damageTextPrefab; // ダメージテキストのプレハブ
     public int poolSize = 30; // オブジェクトプールのサイズ
 
     private Queue<GameObject> damageTextPool; // ダメージテキストのオブジェクトプール
-<<<<<<< HEAD
     private List<GameObject> hpSegments; // 現在のHPセグメントのリスト
     private List<GameObject> ammoSegments; // 現在の弾薬セグメントのリスト
-=======
->>>>>>> origin/main
 
     private Camera mainCamera;
 
     int maxHP = 5;
     int currHP = 5;
 
-<<<<<<< HEAD
     int maxAmmo = 10;
     int currAmmo = 10;
 
@@ -43,22 +35,17 @@ public class UIManager : MonoBehaviour
     private const float ammoSegmentSpacing = 30f; // 弾薬セグメント間の距離
     private const float ammoBarHeight = 200f; // 弾薬バーの高さ
 
-=======
->>>>>>> origin/main
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             InitializeDamageTextPool(); // オブジェクトプールを初期化
-<<<<<<< HEAD
             hpSegments = new List<GameObject>();
             ammoSegments = new List<GameObject>();
             UpdateHPBar(); // 初期HPバーの設定
             UpdateAmmoBar(); // 初期弾薬バーの設定
             UnableButtons();
-=======
->>>>>>> origin/main
         }
         else
         {
@@ -66,14 +53,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
-=======
-    void Start()
-    {
-        UnableButtons();
-    }
-
->>>>>>> origin/main
 
     // =====ダメージ表示=====
     private void InitializeDamageTextPool()
@@ -122,10 +101,6 @@ public class UIManager : MonoBehaviour
 
         GameObject damageTextObj = GetDamageTextObject();
 
-<<<<<<< HEAD
-=======
-        
->>>>>>> origin/main
         DamageDisplay damageDisplay = damageTextObj.GetComponent<DamageDisplay>();
         if (damageDisplay != null)
         {
@@ -137,20 +112,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
->>>>>>> origin/main
     // ===== プレイヤーステータス =====
     public void TakeDamage(int dmg)
     {
         currHP -= dmg;
-<<<<<<< HEAD
         if (currHP < 0) currHP = 0;
         UpdateHPBar();
     }
@@ -159,14 +124,11 @@ public class UIManager : MonoBehaviour
     {
         currHP += healAmount;
         if (currHP > maxHP) currHP = maxHP;
-=======
->>>>>>> origin/main
         UpdateHPBar();
     }
 
     private void UpdateHPBar() // HPバーを更新
     {
-<<<<<<< HEAD
         if (hpBarContainer == null || hpSegmentPrefab == null)
         {
             Debug.LogError("hpBarContainer または hpSegmentPrefab が設定されていません！");
@@ -220,17 +182,12 @@ public class UIManager : MonoBehaviour
 
             hpSegments.Add(segment);
         }
-=======
-        hp.fillAmount = (float)currHP / (float)maxHP;
-        Debug.Log($"Hp{currHP},max{maxHP}");
->>>>>>> origin/main
     }
 
     public void SetHP(int curr, int max_)
     {
         currHP = curr;
         maxHP = max_;
-<<<<<<< HEAD
         if (currHP > maxHP) currHP = maxHP;
         UpdateHPBar();
     }
@@ -299,13 +256,6 @@ public class UIManager : MonoBehaviour
             ammoSegments.Add(segment);
         }
     }
-=======
-        UpdateHPBar();
-    }
-
-
-
->>>>>>> origin/main
 
     // ===== UI管理 =====
     public void AbleButtons()
@@ -327,14 +277,11 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-<<<<<<< HEAD
     public void OnGameStart()
     {
         SceneManager.LoadScene("Tutorial");
     }
 
-=======
->>>>>>> origin/main
     public void SetMainCamera(Camera cam)
     {
         mainCamera = cam;
