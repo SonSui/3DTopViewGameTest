@@ -10,7 +10,10 @@ public class Item : MonoBehaviour
     [Header("ビジュアルエフェクト")]
     [SerializeField] private List<Material> rareMaterials; // レアリティに応じたマテリアルリスト
     private MeshRenderer rareRenderer;                     // メッシュレンダラー
+<<<<<<< HEAD
     public Material brightCircle;
+=======
+>>>>>>> origin/main
 
     // アニメーション関連
     private float rotSpd = 45f;            // 回転速度
@@ -73,6 +76,7 @@ public class Item : MonoBehaviour
             mainModule.startColor = materialColor;
         }
 
+<<<<<<< HEAD
         if (brightCircle != null)
         {
             brightCircle.SetColor("_Color", materialColor);
@@ -82,6 +86,8 @@ public class Item : MonoBehaviour
             Debug.LogWarning("brightCircleマテリアルが設定されていません。");
         }
 
+=======
+>>>>>>> origin/main
         // アイテムを有効化
         gameObject.SetActive(true);
     }

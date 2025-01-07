@@ -145,6 +145,7 @@ public class AnimationEventForwarder : MonoBehaviour
             parentObject.SendMessage("StartDashing", SendMessageOptions.DontRequireReceiver);
         }
     }
+<<<<<<< HEAD
     public void OnDeadAnimation()
     {
         if (parentObject != null)
@@ -152,4 +153,6 @@ public class AnimationEventForwarder : MonoBehaviour
             parentObject.SendMessage("OnDeadAnimation", SendMessageOptions.DontRequireReceiver);
         }
     }
+=======
+>>>>>>> origin/main
 }

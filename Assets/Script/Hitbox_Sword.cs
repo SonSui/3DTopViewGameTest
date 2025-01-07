@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+<<<<<<< HEAD
+=======
+using UnityEngine.UIElements;
+>>>>>>> origin/main
 
 public class Hitbox_Sword : MonoBehaviour
 {
@@ -11,7 +15,13 @@ public class Hitbox_Sword : MonoBehaviour
     public GameObject defaultTrail;
     public GameObject fireTrail;
 
+<<<<<<< HEAD
     private HashSet<Collider> hitTargets = new HashSet<Collider>(); // 攻撃した敵を記録するハッシュセット
+=======
+
+    private HashSet<Collider> hitTargets = new HashSet<Collider>(); //攻撃した敵を記録
+
+>>>>>>> origin/main
 
     private int damage;
     private float critical;
@@ -19,14 +29,21 @@ public class Hitbox_Sword : MonoBehaviour
     private bool isBleed;
     private CameraFollow camera1;
 
+<<<<<<< HEAD
     private PlayerControl player;
     private Collider hitboxCollider;
     private Vector3 originalColliderSize; // 元のColliderサイズを保存
+=======
+
+    PlayerControl player;
+
+>>>>>>> origin/main
 
     private void OnEnable()
     {
         // 有効化されるたびに記録をクリアする
         hitTargets.Clear();
+<<<<<<< HEAD
 
         // Colliderサイズを一時的に0にする
         if (hitboxCollider != null)
@@ -46,10 +63,18 @@ public class Hitbox_Sword : MonoBehaviour
             originalColliderSize = hitboxCollider.bounds.size;
             hitboxCollider.enabled = true; // Colliderを有効化
         }
+=======
+        
+    }
+    private void Start()
+    {
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerControl>();
+>>>>>>> origin/main
     }
 
     private void OnTriggerEnter(Collider other)
     {
+<<<<<<< HEAD
         Debug.Log($"Hit {other}");
         if (other.gameObject.CompareTag("Enemy") && !hitTargets.Contains(other))
         {
@@ -81,11 +106,44 @@ public class Hitbox_Sword : MonoBehaviour
     }
 
     public void Initialize(CameraFollow camera_, int dmg, int type = 0, float criRate = 0.01f, bool isDefPen = false)
+=======
+        Debug.Log("Box:crit:" + critical.ToString() + " DefPen:" + isDefensePenetration.ToString());
+        if (other.gameObject.CompareTag("Enemy") && !hitTargets.Contains(other))
+        {
+            // 記録
+            hitTargets.Add(other);
+            if (other.gameObject.GetComponent<IOnHit>() != null)
+            {
+                bool crit = Random.Range(0f, 1f) < critical;
+                // ダメージ与える
+                other.gameObject.GetComponent<IOnHit>().OnHit(damage,crit,isDefensePenetration,isBleed);
+
+                camera1.ZoomAndShakeCamera();
+                
+                 
+                player.VibrateForDuration();
+                // 接する位置
+                Vector3 contactPoint = other.ClosestPoint(transform.position);
+
+                // エフェクト生成
+                GameObject effect = Instantiate(hitParticleEffect, contactPoint, Quaternion.identity);
+
+                // 自動的に削除
+                Destroy(effect, 2f);
+            }
+
+        }
+    }
+    
+
+    public void Initialize(CameraFollow camera_,int dmg, int type = 0,float criRate = 0.01f, bool isDefPen = false)
+>>>>>>> origin/main
     {
         camera1 = camera_;
         damage = dmg;
         critical = criRate;
         isDefensePenetration = isDefPen;
+<<<<<<< HEAD
         switch (type)
         {
             case 0: SetDefaultTrail(); break;
@@ -93,12 +151,22 @@ public class Hitbox_Sword : MonoBehaviour
         }
     }
 
+=======
+        switch(type)
+        {
+            case 0:SetDefaultTrail();break;
+            case 1:SetFireTrail();break;
+        }
+        
+    }
+>>>>>>> origin/main
     private void SetDefaultTrail()
     {
         isBleed = false;
         defaultTrail.SetActive(true);
         fireTrail.SetActive(false);
     }
+<<<<<<< HEAD
 
     private void SetFireTrail()
     {
@@ -132,4 +200,13 @@ public class Hitbox_Sword : MonoBehaviour
         }
         
     }
+=======
+    private void SetFireTrail()
+    {
+        isBleed = true;
+        defaultTrail.SetActive(false );
+        fireTrail.SetActive(true);
+    }
+
+>>>>>>> origin/main
 }

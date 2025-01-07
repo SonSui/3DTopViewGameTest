@@ -114,11 +114,14 @@ public class PlayerControl : MonoBehaviour
     private float InvincibilityTime = 1.1f;
     private float currInvinTime = 0f;
 
+<<<<<<< HEAD
     //自動照準
     private float detectionAngle = 60f; 
     private float detectionDistance = 50f;
     private Coroutine rotationCoroutine;
 
+=======
+>>>>>>> origin/main
     void Start()
     {
 
@@ -326,7 +329,11 @@ public class PlayerControl : MonoBehaviour
 
                 break;
             case Action.Attack2:
+<<<<<<< HEAD
                 if (isAttack2Acceptable&&gameManager.IsHaveAmmo())
+=======
+                if (isAttack2Acceptable)
+>>>>>>> origin/main
                 {
                     isAttack2Acceptable = false;
                     Debug.Log("Shoot");
@@ -385,12 +392,16 @@ public class PlayerControl : MonoBehaviour
         OnAttackWeaponDisplay();
         comboResetTime = 0.81f / currActSpeed;
         comboTimer = 0f;
+<<<<<<< HEAD
         //AdjustYRotationRelativeToParent(charaTrans, 128.154f);
         
         //AdjustRotationToNearestEnemy();
 
 
 
+=======
+        
+>>>>>>> origin/main
     }
     public void OnSwordAttack01Update1()
     {
@@ -414,7 +425,10 @@ public class PlayerControl : MonoBehaviour
         // Hitbox非表示
         swordAttack01Hitbox.SetActive(false);
         SetShortRotateBool(0.28f); //短い間に回転可能
+<<<<<<< HEAD
         
+=======
+>>>>>>> origin/main
     }
     public void OnSwordAttack02Enter()
     {
@@ -429,8 +443,11 @@ public class PlayerControl : MonoBehaviour
         swordAttack02Hitbox1.GetComponent<Hitbox_Sword>().Initialize(camera1, gameManager.GetPlayerAttackNow(),type);
         comboResetTime = 0.81f / currActSpeed;
         comboTimer = 0f;
+<<<<<<< HEAD
         //AdjustYRotationRelativeToParent(charaTrans, 4.967f);
         //AdjustRotationToNearestEnemy();
+=======
+>>>>>>> origin/main
     }
     public void OnSwordAttack02Update1()
     {
@@ -455,7 +472,10 @@ public class PlayerControl : MonoBehaviour
         // Hitbox非表示
         swordAttack02Hitbox2.SetActive(false);
         SetShortRotateBool(); //短い間に回転可能
+<<<<<<< HEAD
         
+=======
+>>>>>>> origin/main
     }
     public void OnSwordAttack03Enter()
     {
@@ -472,8 +492,11 @@ public class PlayerControl : MonoBehaviour
         comboTimer = 0f;
         comboStep = 0; //連続コンボのためにリセット
         animator.SetInteger("ComboStep", comboStep);
+<<<<<<< HEAD
         //AdjustYRotationRelativeToParent(charaTrans, -75.012f);
         //AdjustRotationToNearestEnemy();
+=======
+>>>>>>> origin/main
     }
     public void OnSwordAttack03Update()
     {
@@ -485,11 +508,15 @@ public class PlayerControl : MonoBehaviour
     {
         // Hitbox非表示
         swordAttack03Hitbox.SetActive(false);
+<<<<<<< HEAD
        
+=======
+>>>>>>> origin/main
     }
     public void OnShootEnter()
     {
         OnShootWeaponDisplay();
+<<<<<<< HEAD
         
     }
     public void OnShoot()
@@ -502,11 +529,23 @@ public class PlayerControl : MonoBehaviour
         GameObject bull = Instantiate(bulletHitbox, gun.transform.position, Quaternion.Euler(gunRot));
         bull.GetComponent<Hitbox_PlayerBullet>().Initialize(gameManager.GetPlayerAttackNow());
         gameManager.UseAmmo();
+=======
+    }
+    public void OnShoot()
+    {
+        Vector3 gunRot = gun.transform.eulerAngles;
+        gunRot.x = 90f;
+
+        GameObject bull = Instantiate(bulletHitbox, gun.transform.position, Quaternion.Euler(gunRot));
+        bull.GetComponent<Hitbox_PlayerBullet>().Initialize(gameManager.GetPlayerAttackNow());
+
+>>>>>>> origin/main
     }
     public void OnHookEnter()
     {
         OnHookWeaponDisplay();
         SetShortRotateBool(0.2f);
+<<<<<<< HEAD
         isAttack1Acceptable = false;
         
     }
@@ -514,6 +553,12 @@ public class PlayerControl : MonoBehaviour
     {
         AdjustYRotationRelativeToParent(charaTrans, -41.015f);
         AdjustRotationToNearestEnemy();
+=======
+    }
+    public void OnHookShoot()
+    {
+
+>>>>>>> origin/main
         GameObject hook = Instantiate(hookPrefab, hookShooter.transform.position, hookShooter.transform.rotation);
         hookMove = hook.GetComponent<HookMove>();
         hookMove.InitHook(this, hookShooter, gameManager.GetPlayerAttackNow());
@@ -528,8 +573,11 @@ public class PlayerControl : MonoBehaviour
         ResetAttack1Combo();
         animator.ResetTrigger("Shoot");
         animator.ResetTrigger("HookShoot");
+<<<<<<< HEAD
         isAttack1Acceptable = true;
         isAttack2Acceptable = true;
+=======
+>>>>>>> origin/main
     }
     public void StartDashing()
     {
@@ -636,6 +684,7 @@ public class PlayerControl : MonoBehaviour
         //Gun
         //HookShoot
     }
+<<<<<<< HEAD
     private void AdjustRotationToNearestEnemy()
     {
         Vector3 forward = transform.forward;
@@ -711,6 +760,8 @@ public class PlayerControl : MonoBehaviour
     {
         controller.center = new Vector3(0f, 2f, 3f);
     }
+=======
+>>>>>>> origin/main
 
     // ===== アニメーション状態 =====
     private bool IsInAttack1State()
@@ -808,7 +859,10 @@ public class PlayerControl : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
+<<<<<<< HEAD
     
+=======
+>>>>>>> origin/main
 
     //  ===== Getter/Setter =====
     public void SetMoveSpeed(float speed)
@@ -873,7 +927,10 @@ public class PlayerControl : MonoBehaviour
             }
         }
         isPulling = false;
+<<<<<<< HEAD
         isAttack1Acceptable = true;
+=======
+>>>>>>> origin/main
         animator.SetBool("isHooked", false);
     }
     public void HookDown()

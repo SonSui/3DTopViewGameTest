@@ -29,7 +29,11 @@ Transform:
   m_LocalScale: {x: 10, y: 2, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
+<<<<<<< HEAD
   m_Father: {fileID: 5103768279884533159}
+=======
+  m_Father: {fileID: 6147122757683108070}
+>>>>>>> origin/main
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &3827198998522475011
@@ -165,7 +169,10 @@ GameObject:
   - component: {fileID: 5103768279884533159}
   - component: {fileID: 2656821181415244642}
   - component: {fileID: 8628796553177686078}
+<<<<<<< HEAD
   - component: {fileID: 6804090328153991257}
+=======
+>>>>>>> origin/main
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -184,8 +191,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
+<<<<<<< HEAD
   m_Children:
   - {fileID: 8447477389068837343}
+=======
+  m_Children: []
+>>>>>>> origin/main
   m_Father: {fileID: 6147122757683108070}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -4984,6 +4995,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+<<<<<<< HEAD
 --- !u!114 &6804090328153991257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4997,6 +5009,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectDuration: 0.1
+=======
+>>>>>>> origin/main
 --- !u!1 &5875798312262879871
 GameObject:
   m_ObjectHideFlags: 0
@@ -5032,6 +5046,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5103768279884533159}
+<<<<<<< HEAD
+=======
+  - {fileID: 8447477389068837343}
+>>>>>>> origin/main
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5119,7 +5137,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitParticleEffect: {fileID: 7226583673155636401, guid: 467d2853e85e438448c5b53c958bf110, type: 3}
+<<<<<<< HEAD
   trailEffect: {fileID: 4638486523770329953}
+=======
+>>>>>>> origin/main
   speed: 50
   lifeTime: 5
 --- !u!198 &6913046348810924521

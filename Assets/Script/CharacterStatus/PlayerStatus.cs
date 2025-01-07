@@ -21,11 +21,19 @@ public class PlayerStatus : BaseCharacterStatus
 
     // 弾量関連
     private int ammoCapacity;    // 弾量
+<<<<<<< HEAD
     private int ammoMax;
+=======
+>>>>>>> origin/main
     private int ammoRecovery;    // 敵を倒したときに回復する弾数（デフォルト0）
     private float ammoEcho;      // 弾節約確率
     private int ammoPenetration; // 弾貫通
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/main
     // 特殊能力の有効化フラグ
     private bool hpRecovery;          // HP回復する
     private bool explosion;           // 爆発
@@ -42,6 +50,10 @@ public class PlayerStatus : BaseCharacterStatus
     private bool multiAttack;         // 多重攻撃
     private bool defensePenetration;  // 防御貫通
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
     private bool isDefenseReduction;    // 防御力ダウン
     private bool isAttackReduction;  // 攻撃力ダウン
     private bool isSlowEffect;       // 減速
@@ -84,7 +96,10 @@ public class PlayerStatus : BaseCharacterStatus
 
         this.ammoCapacity = ammoCapacity;
         this.ammoRecovery = ammoRecovery;
+<<<<<<< HEAD
         this.ammoMax = ammoCapacity;
+=======
+>>>>>>> origin/main
         this.ammoEcho = 0f;
         this.ammoPenetration = 0;
 
@@ -184,8 +199,11 @@ public class PlayerStatus : BaseCharacterStatus
     // 弾量
     public int GetAmmoCapacity() => ammoCapacity;
     public void SetAmmoCapacity(int value) => ammoCapacity = Mathf.Max(0, value);
+<<<<<<< HEAD
     public int GetAmmoMax() => ammoMax;
     public void SetAmmoMax(int value) => ammoMax = Mathf.Max(0, value);
+=======
+>>>>>>> origin/main
 
     // 弾回復量
     public int GetAmmoRecovery() => ammoRecovery;
@@ -292,9 +310,15 @@ public class PlayerStatus : BaseCharacterStatus
     public void SetIsStunFlag(bool value) => isStun = value;
 
 
+<<<<<<< HEAD
     // 下記は例：Base用のGetter（初期化時の値を記憶して返す）
     public int GetBaseHpMax() {  return 5; }
     public int GetBaseAttackPower() { return 3; }
+=======
+    // 下記は例：Base用のGetter（実際は初期化時の値を記憶して返すなどの工夫が必要）
+    public int GetBaseHpMax() { /* 初期値を返す処理をここに */ return 5; }
+    public int GetBaseAttackPower() { /*初期値*/ return 3; }
+>>>>>>> origin/main
     public float GetBaseCriticalRate() { return 0.1f; }
     public float GetBaseCriticalDamage() { return 2.0f; }
     public float GetBaseMoveSpeed() { return 1.0f; }
@@ -302,8 +326,12 @@ public class PlayerStatus : BaseCharacterStatus
     public float GetBaseAttackRange() { return 1.0f; }
     public float GetBaseEvasionRate() { return 0.05f; }
 
+<<<<<<< HEAD
     public int GetBaseAmmoCapacity() { return 10; }
     public int GetBaseAmmoMax() { return 10; }
+=======
+    public int GetBaseAmmoCapacity() { return 0; }
+>>>>>>> origin/main
     public int GetBaseAmmoRecovery() { return 0; }
     public float GetBaseAmmoEcho() { return 0f; }
     public int GetBaseAmmoPenetration() { return 0; }
@@ -382,8 +410,11 @@ public class PlayerStatus : BaseCharacterStatus
         }
         return actualDamage;
     }
+<<<<<<< HEAD
     public bool IsHaveAmmo() => ammoCapacity > 0;
     public void UseAmmo() => ammoCapacity--;
+=======
+>>>>>>> origin/main
 
 
     // =====ステータスを表示=====

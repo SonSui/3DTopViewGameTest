@@ -4,7 +4,11 @@ using Unity.VisualScripting;
 
 public interface IOnHit
 {
+<<<<<<< HEAD
     public int OnHit(
+=======
+    public void OnHit(
+>>>>>>> origin/main
         int dmg,                //ダメージ
         bool crit = false,      //クリティカル
         bool isPenetrate=false, //防御貫通
@@ -14,6 +18,7 @@ public interface IOnHit
         bool isRecover = false  //HP回復
         );
     public void OnHooked(int dmg);
+<<<<<<< HEAD
     public bool IsDying();
     public void Initialize(
         string name = "Enemy",
@@ -26,5 +31,7 @@ public interface IOnHit
 
         float moveSpeed = 1.0f,
         float attackSpeed = 1.0f);
+=======
+>>>>>>> origin/main
 }
 
