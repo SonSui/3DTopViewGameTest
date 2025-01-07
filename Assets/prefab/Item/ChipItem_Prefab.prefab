@@ -4914,23 +4914,16 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 400000, guid: d49b236e24380bf43b655b7a375807a6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2303957913982773259}
-<<<<<<< HEAD
     - targetCorrespondingSourceObject: {fileID: 400000, guid: d49b236e24380bf43b655b7a375807a6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2651998949374393007}
-=======
->>>>>>> origin/main
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: d49b236e24380bf43b655b7a375807a6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2431655119772905063}
     - targetCorrespondingSourceObject: {fileID: 100000, guid: d49b236e24380bf43b655b7a375807a6, type: 3}
       insertIndex: -1
-<<<<<<< HEAD
       addedObject: {fileID: 6274201019523799100}
-=======
-      addedObject: {fileID: 1094679347245257586}
->>>>>>> origin/main
   m_SourcePrefab: {fileID: 100100000, guid: d49b236e24380bf43b655b7a375807a6, type: 3}
 --- !u!1 &6965963389030569640 stripped
 GameObject:
@@ -4951,14 +4944,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemData: {fileID: 0}
   rareMaterials: []
-<<<<<<< HEAD
   brightCircle: {fileID: 2100000, guid: 2e8b0fb397d699440bf51cb2e59331b7, type: 2}
 --- !u!65 &6274201019523799100
 BoxCollider:
-=======
---- !u!64 &1094679347245257586
-MeshCollider:
->>>>>>> origin/main
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4975,22 +4963,14 @@ MeshCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-<<<<<<< HEAD
   serializedVersion: 3
   m_Size: {x: 2, y: 1, z: 4}
   m_Center: {x: 0, y: 0, z: -0.0000004768373}
-=======
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: d49b236e24380bf43b655b7a375807a6, type: 3}
->>>>>>> origin/main
 --- !u!4 &6965963389030664840 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: d49b236e24380bf43b655b7a375807a6, type: 3}
   m_PrefabInstance: {fileID: 6965963389030535176}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
 --- !u!1001 &8203183351170494767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5069,5 +5049,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6132289940643449728, guid: 36dad7d922beae9419b155e9e1dd9ac8, type: 3}
   m_PrefabInstance: {fileID: 8203183351170494767}
   m_PrefabAsset: {fileID: 0}
-=======
->>>>>>> origin/main

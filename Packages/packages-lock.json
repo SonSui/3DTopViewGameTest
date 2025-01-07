@@ -1,6 +1,5 @@
 {
   "dependencies": {
-<<<<<<< HEAD
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -16,8 +15,6 @@
         "com.unity.modules.uielements": "1.0.0"
       }
     },
-=======
->>>>>>> origin/main
     "com.unity.burst": {
       "version": "1.8.3",
       "depth": 1,
@@ -52,11 +49,7 @@
     },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
-<<<<<<< HEAD
       "depth": 1,
-=======
-      "depth": 2,
->>>>>>> origin/main
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -77,11 +70,7 @@
     },
     "com.unity.ide.rider": {
       "version": "3.0.18",
-<<<<<<< HEAD
       "depth": 0,
-=======
-      "depth": 1,
->>>>>>> origin/main
       "source": "registry",
       "dependencies": {
         "com.unity.ext.nunit": "1.0.6"
@@ -90,11 +79,7 @@
     },
     "com.unity.ide.visualstudio": {
       "version": "2.0.17",
-<<<<<<< HEAD
       "depth": 0,
-=======
-      "depth": 1,
->>>>>>> origin/main
       "source": "registry",
       "dependencies": {
         "com.unity.test-framework": "1.1.9"
@@ -103,11 +88,7 @@
     },
     "com.unity.ide.vscode": {
       "version": "1.2.5",
-<<<<<<< HEAD
       "depth": 0,
-=======
-      "depth": 1,
->>>>>>> origin/main
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -144,7 +125,6 @@
       },
       "url": "https://packages.unity.com"
     },
-<<<<<<< HEAD
     "com.unity.progrids": {
       "version": "3.0.3-preview.4",
       "depth": 0,
@@ -152,8 +132,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-=======
->>>>>>> origin/main
     "com.unity.render-pipelines.core": {
       "version": "14.0.6",
       "depth": 1,
@@ -201,11 +179,7 @@
     },
     "com.unity.test-framework": {
       "version": "1.1.33",
-<<<<<<< HEAD
       "depth": 0,
-=======
-      "depth": 1,
->>>>>>> origin/main
       "source": "registry",
       "dependencies": {
         "com.unity.ext.nunit": "1.0.6",

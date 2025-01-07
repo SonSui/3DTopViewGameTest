@@ -56,7 +56,6 @@ public class EnemyStatus : BaseCharacterStatus
     // ダメージを受ける処理
     public override int TakeDamage(int damage, bool isDefensePenetration = false)
     {
-<<<<<<< HEAD
         if(damage<=0) return 0;
 
         int actualDamage = damage;
@@ -89,18 +88,6 @@ public class EnemyStatus : BaseCharacterStatus
             hpNow -= actualDamage;
             Debug.Log($"{name} は{actualDamage} のダメージを受けた（残りHP: {hpNow}/{hpMax}）");
         }
-=======
-        // 防御貫通が有効な場合、防御力を無視
-        int actualDamage = damage;
-        if (!isDefensePenetration)
-        {
-            actualDamage = Mathf.Max(1, damage - defenseNow);
-        }
-
-        // ダメージ適用
-        hpNow -= actualDamage;
-        Debug.Log($"{name} は{actualDamage} のダメージを受けた（残りHP: {hpNow}/{hpMax}）");
->>>>>>> origin/main
 
 
 

@@ -18,12 +18,9 @@ public class HookMove : MonoBehaviour
     public float flySpeed = 60f;
     public float forcePower = 20f;
 
-<<<<<<< HEAD
     public float detectionRange = 30f; // ìGÇíTÇ∑îÕàÕ
     public float detectionAngle = 30f;
 
-=======
->>>>>>> origin/main
     private Collider colli;
     private PlayerControl player;
     private Rigidbody rb;
@@ -67,14 +64,11 @@ public class HookMove : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-<<<<<<< HEAD
 
         if (status == Status.Flying)
         {
             AdjustDirectionTowardsEnemy();
         }
-=======
->>>>>>> origin/main
     }
     
     public void InitHook(PlayerControl player_,GameObject hookShooter_,int atk_)
@@ -105,11 +99,7 @@ public class HookMove : MonoBehaviour
 
             if(collision.gameObject.GetComponent<IOnHit>()!=null)
             {
-<<<<<<< HEAD
                 collision.gameObject.GetComponent<IOnHit>().OnHooked(atk);
-=======
-                collision.gameObject.GetComponent<IOnHit>().OnHit(atk);
->>>>>>> origin/main
                 // ê⁄Ç∑ÇÈà íu
                 Vector3 contactPoint = collision.contacts[0].point;
 
@@ -140,7 +130,6 @@ public class HookMove : MonoBehaviour
         player.PullPlayer(GetLinePos());
     }
 
-<<<<<<< HEAD
     private void AdjustDirectionTowardsEnemy()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange); // é¸àÕÇÃìGÇíTÇ∑
@@ -184,6 +173,4 @@ public class HookMove : MonoBehaviour
         }
     }
 
-=======
->>>>>>> origin/main
 }
