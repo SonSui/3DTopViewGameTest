@@ -101,7 +101,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3317361613104738393, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
       propertyPath: m_Size.x
+<<<<<<< HEAD
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317361613104738393, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
+      propertyPath: m_Size.y
+      value: 20
+=======
       value: 30
+>>>>>>> origin/main
       objectReference: {fileID: 0}
     - target: {fileID: 3317361613104738393, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
       propertyPath: m_Center.y

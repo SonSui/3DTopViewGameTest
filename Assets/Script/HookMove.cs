@@ -18,6 +18,12 @@ public class HookMove : MonoBehaviour
     public float flySpeed = 60f;
     public float forcePower = 20f;
 
+<<<<<<< HEAD
+    public float detectionRange = 30f; // 敵を探す範囲
+    public float detectionAngle = 30f;
+
+=======
+>>>>>>> origin/main
     private Collider colli;
     private PlayerControl player;
     private Rigidbody rb;
@@ -61,6 +67,14 @@ public class HookMove : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+<<<<<<< HEAD
+
+        if (status == Status.Flying)
+        {
+            AdjustDirectionTowardsEnemy();
+        }
+=======
+>>>>>>> origin/main
     }
     
     public void InitHook(PlayerControl player_,GameObject hookShooter_,int atk_)
@@ -91,7 +105,11 @@ public class HookMove : MonoBehaviour
 
             if(collision.gameObject.GetComponent<IOnHit>()!=null)
             {
+<<<<<<< HEAD
+                collision.gameObject.GetComponent<IOnHit>().OnHooked(atk);
+=======
                 collision.gameObject.GetComponent<IOnHit>().OnHit(atk);
+>>>>>>> origin/main
                 // 接する位置
                 Vector3 contactPoint = collision.contacts[0].point;
 
@@ -122,4 +140,50 @@ public class HookMove : MonoBehaviour
         player.PullPlayer(GetLinePos());
     }
 
+<<<<<<< HEAD
+    private void AdjustDirectionTowardsEnemy()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange); // 周囲の敵を探す
+        Transform closestTarget = null;
+        float smallestAngle = float.MaxValue; // 初期化最大角度
+
+        foreach (var hit in hits)
+        {
+            if (targetTags.Contains(hit.gameObject.tag))
+            {
+                if (hit.gameObject.tag == "Enemy")
+                {
+                    if (hit.GetComponent<IOnHit>().IsDying()) continue;
+                }
+
+                Vector3 directionToTarget = (hit.transform.position - transform.position).normalized; // ターゲットへの方向
+                directionToTarget.y = 0; // 水平方向に限定
+                directionToTarget.Normalize(); // 正規化
+
+                float angleToTarget = Vector3.Angle(transform.forward, directionToTarget); // 前方との角度
+
+                if (angleToTarget <= detectionAngle / 2 && angleToTarget < smallestAngle)
+                {
+                    // 更新最小角度とターゲット
+                    smallestAngle = angleToTarget;
+                    closestTarget = hit.transform;
+                }
+            }
+        }
+
+        // 最も角度の小さいターゲットを追跡
+        if (closestTarget != null)
+        {
+            Vector3 directionToClosest = (closestTarget.position - transform.position).normalized;
+            directionToClosest.y = 0; // 水平方向に限定
+            directionToClosest.Normalize();
+
+            Vector3 newDirection = Vector3.Lerp(transform.forward, directionToClosest, Time.deltaTime * 5f);
+            transform.rotation = Quaternion.LookRotation(newDirection); // 回転を適用
+            rb.velocity = newDirection * rb.velocity.magnitude; // 現在の速度を保持
+        }
+    }
+
+=======
+>>>>>>> origin/main
 }

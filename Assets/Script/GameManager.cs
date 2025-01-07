@@ -28,7 +28,11 @@ public class GameManager : MonoBehaviour
     public Vector3 defCameraRot = new Vector3(45, -45, 0);
     public float defCameraFieldView = 70f;
 
+<<<<<<< HEAD
+    public GameObject uiPrefab;
+=======
 
+>>>>>>> origin/main
     private UIManager uiManager;
 
     private bool isPlayerDead = false;
@@ -88,9 +92,16 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+<<<<<<< HEAD
+    private void SpawnUIManager()
+    {
+        GameObject obj = Instantiate(uiPrefab);
+        uiManager = obj.GetComponent<UIManager>();
+=======
     private void FindUIManager()
     {
         uiManager = FindObjectOfType<UIManager>();
+>>>>>>> origin/main
         uiManager.SetHP(playerStatus.GetHpNow(),playerStatus.GetHpMax());
     }
 
@@ -112,6 +123,28 @@ public class GameManager : MonoBehaviour
     }
     private void OnSceneLoaded(Scene scene,LoadSceneMode loadSceneMode)
     {
+<<<<<<< HEAD
+        if (scene.name != "Title")
+        {
+            ResetPlayerStatus();
+            SpawnUIManager();
+
+            SpawnPlayer();
+            SpawnCamera();
+        }
+    }
+    public void GameStart_Initialize()
+    {
+        ResetPlayerStatus();
+    }
+    
+    
+
+
+
+
+    // ===== Player =====
+=======
         ResetPlayerStatus();
         FindUIManager();
         
@@ -121,13 +154,23 @@ public class GameManager : MonoBehaviour
 
     }
 
+>>>>>>> origin/main
     private void ResetPlayerStatus()
     {
         playerStatus = new PlayerStatus(5, 3);
         isPlayerDead = false;
     }
 
+<<<<<<< HEAD
+    public bool IsHaveAmmo()=>playerStatus.IsHaveAmmo();
+    public void UseAmmo()
+    {
+        playerStatus.UseAmmo();
+        uiManager.SetAmmo(playerStatus.GetAmmoCapacity(), playerStatus.GetAmmoMax());
+    }
+=======
 
+>>>>>>> origin/main
     public int GetPlayerAttackNow()
     {
         return playerStatus.GetAttackNow();
@@ -157,6 +200,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"{item.itemName} in gameManager");
         playerStatus.OnItemCollected(item);
+<<<<<<< HEAD
+        uiManager.SetAmmo(playerStatus.GetAmmoCapacity(), playerStatus.GetAmmoMax());
+=======
+>>>>>>> origin/main
     }
     public void RecoverHP()
     {

@@ -2,12 +2,21 @@ Shader "Custom/BrightOverlay"
 {
     Properties
     {
+<<<<<<< HEAD
+        _Brightness ("Brightness", Range(0, 2)) = 1.2 
+    }
+    SubShader
+    {
+        Tags { "Queue" = "Overlay" "RenderType" = "Transparent" }
+        Blend SrcAlpha OneMinusSrcAlpha 
+=======
         _OverlayColor ("Overlay Color", Color) = (1, 1, 1, 0.5)
     }
     SubShader
     {
         Tags { "Queue"="Overlay" "RenderType"="Transparent" }
         Blend SrcAlpha OneMinusSrcAlpha
+>>>>>>> origin/main
         Pass
         {
             CGPROGRAM
@@ -25,7 +34,11 @@ Shader "Custom/BrightOverlay"
                 float4 vertex : SV_POSITION;
             };
 
+<<<<<<< HEAD
+            float _Brightness;
+=======
             float4 _OverlayColor;
+>>>>>>> origin/main
 
             v2f vert (appdata_t v)
             {
@@ -36,7 +49,18 @@ Shader "Custom/BrightOverlay"
 
             fixed4 frag (v2f i) : SV_Target
             {
+<<<<<<< HEAD
+                
+                fixed4 baseColor = fixed4(1, 1, 1, 1); 
+
+                
+                fixed4 result = baseColor * _Brightness;
+
+                
+                return saturate(result);
+=======
                 return _OverlayColor;
+>>>>>>> origin/main
             }
             ENDCG
         }

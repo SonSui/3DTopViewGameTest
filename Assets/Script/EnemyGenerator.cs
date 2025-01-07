@@ -1,6 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+<<<<<<< HEAD
+using System.Security.Cryptography;
+using Unity.VisualScripting;
+=======
+>>>>>>> origin/main
 using UnityEngine;
 
 public class EnemyGenerator : MonoBehaviour
@@ -36,7 +41,11 @@ public class EnemyGenerator : MonoBehaviour
                 if (p.GetSpawnedNum() < 1)
                 {
                     this.delta = 0;
+<<<<<<< HEAD
+                    Vector3 pos = new Vector3(0f, -100f, 0f);
+=======
                     Vector3 pos = new Vector3(0f, 10f, 0f);
+>>>>>>> origin/main
                     int r = UnityEngine.Random.Range(1, 2);
                     GameObject enemy_ = EnemyA1;
                     if (r == 1)
@@ -46,6 +55,18 @@ public class EnemyGenerator : MonoBehaviour
 
                     GameObject go = Instantiate(enemy_, pos, Quaternion.identity);
                     p.SpawnEnemy(go);
+<<<<<<< HEAD
+
+                    float r2 = UnityEngine.Random.Range(0f, 1f);
+                    if(r2 <0.3f)
+                    {
+                        go.GetComponent<IOnHit>().Initialize(
+                            "Enemy_Teki01",4,1,1,"SuicideBomb",true,5,1.0f,1.0f
+                            );
+                    }
+                    currEnemyNum++;
+=======
+>>>>>>> origin/main
                     break;
                 }
             }

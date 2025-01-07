@@ -56,7 +56,11 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
+<<<<<<< HEAD
+  m_Size: {x: 1, y: 0.3, z: 1}
+=======
   m_Size: {x: 0.3, y: 0.4, z: 0.3}
+>>>>>>> origin/main
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &9100788697754346964
 Rigidbody:
@@ -106,8 +110,15 @@ MonoBehaviour:
   - Enemy
   hitParticleEffect: {fileID: 7226583673155636401, guid: 467d2853e85e438448c5b53c958bf110, type: 3}
   flyTime: 0.2
+<<<<<<< HEAD
+  flySpeed: 80
+  forcePower: 0.02
+  detectionRange: 30
+  detectionAngle: 30
+=======
   flySpeed: 40
   forcePower: 0.02
+>>>>>>> origin/main
 --- !u!120 &8744082651137801960
 LineRenderer:
   serializedVersion: 2

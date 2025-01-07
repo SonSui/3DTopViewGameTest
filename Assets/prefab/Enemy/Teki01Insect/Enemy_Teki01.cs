@@ -54,9 +54,15 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         Hit,            // 被撃状態：攻撃を受けてダメージを受けている
         Dead,           // 死亡状態：体力がゼロになり行動不能
 
+<<<<<<< HEAD
+        Bomb ,           // 爆発状態：虫敵の特殊能力
+
+        Stunned      // 気絶状態：スキルや攻撃で行動不能な状態
+=======
         Bomb            // 爆発状態：虫敵の特殊能力
 
         //Stunned,      // 気絶状態：スキルや攻撃で行動不能な状態
+>>>>>>> origin/main
         //Flee,         // 逃走状態：プレイヤーに負けると判断し逃げる
         //Alert,        // 警戒状態：プレイヤーの存在に気づいたがまだ追跡していない
         //Guard,        // 防御状態：盾を持つ状態
@@ -68,6 +74,15 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     public Transform playerT;
     EnemyGenerator enemyGenerator;
 
+<<<<<<< HEAD
+    private float stunTime=0f;
+    private float stunTimeMax = 1f;
+
+    public GameObject fireParticle;
+    public GameObject shiled;
+
+=======
+>>>>>>> origin/main
     private void Awake()
     {
 
@@ -120,6 +135,11 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             moveSpeed_,
             attackSpeed_);
         ChangeState(EnemyState.Idle); //待機状態設定
+<<<<<<< HEAD
+        if(fireParticle != null)fireParticle.SetActive(false);
+        if(shiled!=null)shiled.SetActive(false);
+=======
+>>>>>>> origin/main
     }
     void Start()
     {
@@ -142,6 +162,13 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 OnDead();
             }
         }
+<<<<<<< HEAD
+        if (enemyStatus.IsBleeding()) fireParticle.SetActive(true);
+        else fireParticle.SetActive(false);
+        if(enemyStatus.HasShield())shiled.SetActive(true);
+        else shiled.SetActive(false);
+=======
+>>>>>>> origin/main
 
         //状態更新
         StateUpdate();
@@ -170,6 +197,12 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 break;
             case EnemyState.Dead:
                 break;
+<<<<<<< HEAD
+            case EnemyState.Stunned:
+                OnStuned();
+                break;
+=======
+>>>>>>> origin/main
         }
     }
     private void ChangeState(EnemyState nextState)
@@ -191,6 +224,11 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 atkTime = atkInterval;
                 break;
             case EnemyState.Hit:
+<<<<<<< HEAD
+                biteHitbox.SetActive(false);
+                isAttacking = false;
+=======
+>>>>>>> origin/main
                 animator.SetTrigger("Hit");
                 break;
             case EnemyState.Bomb:
@@ -199,6 +237,13 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             case EnemyState.Dead:
                 animator.SetTrigger("Dead");
                 break;
+<<<<<<< HEAD
+            case EnemyState.Stunned:
+                stunTime = 0;
+                animator.SetBool("Chase", false);
+                break;
+=======
+>>>>>>> origin/main
         }
     }
     private void OnIdle()
@@ -261,7 +306,16 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         }
     }
 
+<<<<<<< HEAD
+    private void OnStuned()
+    {
+        if (stunTime < stunTimeMax) return;
+        else ChangeState(EnemyState.Idle);
+    }
+    private System.Collections.IEnumerator HitFlash(bool isBomb)
+=======
     private System.Collections.IEnumerator HitFlash()
+>>>>>>> origin/main
     {
         isFlashing = true;
 
@@ -298,7 +352,11 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0.95) yield return null;
 
         isFlashing = false;　//被弾の行動終了
+<<<<<<< HEAD
+        if(isBomb)ChangeState(EnemyState.Bomb);// 一般の敵は待機状態に戻す。虫は爆発
+=======
         ChangeState(EnemyState.Bomb);// 一般の敵は待機状態に戻す。虫は爆発
+>>>>>>> origin/main
 
     }
 
@@ -335,8 +393,14 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     {
         //被弾のアニメーションが終了したかを確認し
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0.95) yield return null;
+<<<<<<< HEAD
+        biteHitbox.SetActive(false);
+        isAttacking = false;
+        
+=======
         isAttacking = false;
         biteHitbox.SetActive(false);
+>>>>>>> origin/main
         //待機状態に戻す
         ChangeState(EnemyState.Idle);
     }
@@ -344,9 +408,26 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
 
     // =====　外部インタラクション　=====
+<<<<<<< HEAD
+    public void Initialize(
+        string name = "Enemy_Teki01",
+        int hpMax = 4,
+        int attackPower = 1,
+        int defense = 1,
+        string enemyType = "SuicideBomb",
+        bool hasShield = false,
+        int shieldDurability = 0,
+
+        float moveSpeed = 1.0f,
+        float attackSpeed = 1.0f
+        )
+    {
+        enemyStatus=new EnemyStatus(name ,hpMax,attackPower,defense,enemyType,hasShield,shieldDurability,moveSpeed,attackSpeed);
+=======
     public void Initialize()
     {
         
+>>>>>>> origin/main
     }
     public void SetGenerator(EnemyGenerator generator)
     {
@@ -378,7 +459,11 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
 
 
+<<<<<<< HEAD
+    public int OnHit(
+=======
     public void OnHit(
+>>>>>>> origin/main
     int dmg,                //ダメージ
     bool crit = false,      //クリティカル
     bool isPenetrate = false, //防御貫通
@@ -391,6 +476,10 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
         if (_state != EnemyState.Dead)//今の状態を判断、死んでいるのはダメージ受けない
         {
+<<<<<<< HEAD
+            bool isBomb = false;
+=======
+>>>>>>> origin/main
             if (crit)
             {
                 //クリティカルエフェクト（あれば）
@@ -410,13 +499,37 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 }
                 else
                 {
+<<<<<<< HEAD
+                    //被弾アニメーションとエフェクト
+                    isBomb = true;
+                    if (enemyStatus.IsDead())
+                    {
+                        OnDead();
+                        if (isRecover)
+                        {
+                            //回復エフェクト
+                            GameManager.Instance.RecoverHP();
+                        }
+
+                    }
+                    else ChangeState(EnemyState.Hit); // シールドないなら被撃状態
+=======
                     ChangeState(EnemyState.Hit); // シールドないなら被撃状態
+>>>>>>> origin/main
                 }
                 //Vector3 worldPosition = transform.position + Vector3.up * 1; // テキスト表示位置
 
                 UIManager.Instance.ShowDamage(hitDmg, transform.position, displayColor);
                 Debug.Log($"Enemyは{hitDmg}ダメージ受けた");
             }
+<<<<<<< HEAD
+            
+            if (isFlashing) StopCoroutine("HitFlash");
+            if (overlayMaterial != null) StartCoroutine(HitFlash(isBomb));
+            return hitDmg;
+        }
+        return 0;
+=======
             //被弾アニメーションとエフェクト
 
             if (enemyStatus.IsDead())
@@ -432,14 +545,50 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             if (isFlashing) StopCoroutine(HitFlash());
             if (overlayMaterial != null) StartCoroutine(HitFlash());
         }
+>>>>>>> origin/main
     }
     public void OnHooked(int dmg)
     {
         //フックショットに当たる行動（シールド破壊）
         if(enemyStatus.HasShield())
         {
+<<<<<<< HEAD
+            enemyStatus.SetShield(false ,0);
+        }
+        ChangeState(EnemyState.Stunned);
+        int hitDmg=enemyStatus.TakeDamage(dmg);
+        if (hitDmg != 0)
+        {
+            Color displayColor = Color.red;
+            if (hitDmg < 0)
+            {
+                displayColor = Color.white;
+                hitDmg = -hitDmg;
+            }
+            else
+            {
+                //被弾アニメーションとエフェクト
+
+                if (enemyStatus.IsDead())
+                {
+                    OnDead();
+                }
+            }
+            //Vector3 worldPosition = transform.position + Vector3.up * 1; // テキスト表示位置
+
+            UIManager.Instance.ShowDamage(hitDmg, transform.position, displayColor);
+            Debug.Log($"Enemyは{hitDmg}ダメージ受けた");
+        }
+    }
+    
+    public bool IsDying()
+    {
+        return _state == EnemyState.Dead;
+    }
+=======
 
         }
     }
+>>>>>>> origin/main
 }
 

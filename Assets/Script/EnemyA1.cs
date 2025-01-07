@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
 
+<<<<<<< HEAD
+public class EnemyA1 : MonoBehaviour
+=======
 public class EnemyA1 : MonoBehaviour,IOnHit
+>>>>>>> origin/main
 {
     EnemyStatus enemyStatus;
     EnemyGenerator enemyGenerator;
@@ -71,7 +75,11 @@ public class EnemyA1 : MonoBehaviour,IOnHit
 
 
     //撃たれると0.1秒間赤くなる
+<<<<<<< HEAD
+    public int OnHit(int dmg,
+=======
     public void OnHit(int dmg,
+>>>>>>> origin/main
         bool crit = false,
         bool isPenetrate = false,
         bool isBleed = false,
@@ -79,7 +87,11 @@ public class EnemyA1 : MonoBehaviour,IOnHit
         bool isAtkDown = false,
         bool isRecover = false)
     {
+<<<<<<< HEAD
+        if (isDying) return 0;
+=======
         if (isDying) return;
+>>>>>>> origin/main
 
         hp -= dmg;
         StartCoroutine(ChangeColorTemporarily());
@@ -92,6 +104,10 @@ public class EnemyA1 : MonoBehaviour,IOnHit
         }
         DeleteHitbox();
         atkTime = 0;
+<<<<<<< HEAD
+        return dmg;
+=======
+>>>>>>> origin/main
     }
     public void OnHooked(int dmg)
     {

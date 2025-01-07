@@ -6,6 +6,10 @@ public class Hitbox_PlayerBullet : MonoBehaviour
 {
     
     public GameObject hitParticleEffect;
+<<<<<<< HEAD
+    public GameObject trailEffect;
+=======
+>>>>>>> origin/main
 
     private HashSet<Collider> hitTargets = new HashSet<Collider>(); //UŒ‚‚µ‚½“G‚ğ‹L˜^
 
@@ -17,6 +21,11 @@ public class Hitbox_PlayerBullet : MonoBehaviour
     public float speed = 10f; 
     public float lifeTime = 5f;
 
+<<<<<<< HEAD
+    private int ammoPenetration = 0;
+
+=======
+>>>>>>> origin/main
 
     private void OnEnable()
     {
@@ -50,6 +59,12 @@ public class Hitbox_PlayerBullet : MonoBehaviour
             // ©“®“I‚Éíœ
             Destroy(effect, 2f);
 
+<<<<<<< HEAD
+            ammoPenetration--;
+            if (ammoPenetration < 0)
+                Destroy(gameObject);
+=======
+>>>>>>> origin/main
         }
     }
 
@@ -68,4 +83,22 @@ public class Hitbox_PlayerBullet : MonoBehaviour
         yield return new WaitForSeconds(time);
         Destroy(gameObject);
     }
+<<<<<<< HEAD
+    private void OnDestroy()
+    {
+        if (trailEffect != null)
+        {
+            
+            trailEffect.transform.parent = null;
+
+            
+            var effectDestroyer = trailEffect.GetComponent<TrailEffectDestroyer>();
+            if (effectDestroyer != null)
+            {
+                effectDestroyer.StartDestroySequence();
+            }
+        }
+    }
+=======
+>>>>>>> origin/main
 }
