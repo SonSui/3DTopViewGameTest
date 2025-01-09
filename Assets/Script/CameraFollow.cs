@@ -29,7 +29,7 @@ public class CameraFollow : MonoBehaviour
     private Slider rotYSlider;
     private Slider rotZSlider;
     private Slider fieldViewSlider;
-    private FlexibleColorPicker colorPicker;
+    //private FlexibleColorPicker colorPicker;
 
     // モノクロ
     public Material monoTone;
@@ -90,11 +90,11 @@ public class CameraFollow : MonoBehaviour
         //モノクロ更新
         currentAmount = Mathf.Lerp(currentAmount, targetAmount, Time.deltaTime * transitionSpeed);
 
-        if (colorPicker != null&&cameraUI.activeSelf)
+        /*if (colorPicker != null&&cameraUI.activeSelf)
         {
             RenderSettings.ambientLight = colorPicker.color;
             Debug.Log("ColorPicker:"+colorPicker.color);
-        }
+        }*/
 
     }
 
@@ -308,8 +308,8 @@ public class CameraFollow : MonoBehaviour
                 //視野の設定
                 ConfigureSlider(fieldViewSlider, 20f, 160f, OnRotationSliderChanged);
 
-                colorPicker = cameraStatusText.transform.Find("FlexibleColorPicker").GetComponent<FlexibleColorPicker>();
-                colorPicker.color = RenderSettings.ambientLight;
+                /*colorPicker = cameraStatusText.transform.Find("FlexibleColorPicker").GetComponent<FlexibleColorPicker>();
+                colorPicker.color = RenderSettings.ambientLight;*/
             }
             else
             {

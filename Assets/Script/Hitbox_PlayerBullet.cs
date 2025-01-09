@@ -55,7 +55,22 @@ public class Hitbox_PlayerBullet : MonoBehaviour
 
             ammoPenetration--;
             if (ammoPenetration < 0)
+            {
+                if (trailEffect != null)
+                {
+
+                    trailEffect.transform.parent = null;
+
+
+                    var effectDestroyer = trailEffect.GetComponent<TrailEffectDestroyer>();
+                    if (effectDestroyer != null)
+                    {
+                        effectDestroyer.StartDestroySequence();
+                    }
+                }
                 Destroy(gameObject);
+            }
+                
         }
     }
 
@@ -76,17 +91,6 @@ public class Hitbox_PlayerBullet : MonoBehaviour
     }
     private void OnDestroy()
     {
-        if (trailEffect != null)
-        {
-            
-            trailEffect.transform.parent = null;
-
-            
-            var effectDestroyer = trailEffect.GetComponent<TrailEffectDestroyer>();
-            if (effectDestroyer != null)
-            {
-                effectDestroyer.StartDestroySequence();
-            }
-        }
+        
     }
 }
