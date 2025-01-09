@@ -144,7 +144,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
         if (bleedDmg > 0 && _state != EnemyState.Dead) //流血（燃焼）ダメージが出たら数字で表示
         {
-            UIManager.Instance.ShowDamage(bleedDmg, transform.position, new Color(1f, 0.5f, 0f, 1f));
+            UIManager.Instance.ShowDamage(bleedDmg, transform.position, new Color(0.5f, 0f, 0.5f, 1f));
             if (enemyStatus.IsDead())
             {
                 OnDead();
@@ -324,6 +324,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0.95) yield return null;
 
         isFlashing = false;　//被弾の行動終了
+
         if(isBomb)ChangeState(EnemyState.Bomb);// 一般の敵は待機状態に戻す。虫は爆発
 
     }

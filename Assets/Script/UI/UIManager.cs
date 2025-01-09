@@ -29,10 +29,10 @@ public class UIManager : MonoBehaviour
     int maxAmmo = 10;
     int currAmmo = 10;
 
-    private const float hpSegmentSpacing = 65f; // HPセグメント間の距離
+    private const float hpSegmentSpacing = 60f; // HPセグメント間の距離
     private const float hpBarHeight = 200f; // HPバーの高さ
 
-    private const float ammoSegmentSpacing = 30f; // 弾薬セグメント間の距離
+    private const float ammoSegmentSpacing = 28f; // 弾薬セグメント間の距離
     private const float ammoBarHeight = 200f; // 弾薬バーの高さ
 
     private void Awake()
@@ -213,7 +213,7 @@ public class UIManager : MonoBehaviour
         if (barRect != null)
         {
             // 幅を計算
-            float newWidth = 45 + ammoSegmentSpacing * (maxAmmo - 1);
+            float newWidth = 48 + ammoSegmentSpacing * (maxAmmo - 1);
             barRect.sizeDelta = new Vector2(newWidth, ammoBarHeight);
 
             // 位置を計算

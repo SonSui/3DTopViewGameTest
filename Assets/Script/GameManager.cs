@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
     }
     private void OnSceneLoaded(Scene scene,LoadSceneMode loadSceneMode)
     {
-        if (scene.name != "Title")
+        if (scene.name != "Title"&&scene.name!= "Test_BossScene")
         {
             ResetPlayerStatus();
             SpawnUIManager();

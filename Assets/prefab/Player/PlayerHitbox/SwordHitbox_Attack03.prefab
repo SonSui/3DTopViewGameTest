@@ -130,7 +130,7 @@ PrefabInstance:
     - target: {fileID: 5342200369990610902, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
       propertyPath: hitParticleEffect
       value: 
-      objectReference: {fileID: 5024009746357069194, guid: 6ef68365eb855c34abcdc5703d7a764d, type: 3}
+      objectReference: {fileID: 3958340381621826096, guid: 6ef68365eb855c34abcdc5703d7a764d, type: 3}
     - target: {fileID: 7170553045373430001, guid: 03877232b8e9ffa44a2aa6106ad23122, type: 3}
       propertyPath: m_RootOrder
       value: 0
