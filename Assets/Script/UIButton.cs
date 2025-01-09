@@ -18,4 +18,8 @@ public class UIButton : MonoBehaviour
     {
         SceneManager.LoadScene("Tutorial");
     }
+    public void OnSecretButtonDown()
+    {
+        SceneManager.LoadScene("Test_BossScene");
+    }
 }

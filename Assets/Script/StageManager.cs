@@ -19,8 +19,8 @@ public class StageManager : MonoBehaviour
     {
         enemyGenerator = FindObjectOfType<EnemyGenerator>();
         uiManager = FindObjectOfType<UIManager>();
-        clearUI.SetActive(false);
-        defeatUI.SetActive(false);
+        /*clearUI.SetActive(false);
+        defeatUI.SetActive(false);*/
     }
 
     // Update is called once per frame
@@ -28,12 +28,12 @@ public class StageManager : MonoBehaviour
     {
         if (GameManager.Instance.IsPlayerDead())
         {
-            defeatUI.SetActive(true);
+            //defeatUI.SetActive(true);
             uiManager.AbleButtons();
         }
         else if (enemyGenerator.deadEnemyNum >= enemyGenerator.enemyNumMax)
         {
-            clearUI.SetActive(true);//クリアテキストを表示する
+            //clearUI.SetActive(true);//クリアテキストを表示する
             uiManager.AbleButtons();
         }
         

@@ -40,7 +40,7 @@ public class SpawnPoint : MonoBehaviour
             enemy.transform.position = Vector3.Lerp(startPos, targetPos, t); 
             yield return null;
         }
-        enemy.transform.position = targetPos;
+        //enemy.transform.position = targetPos;
         foreach (Animator animator in animators)
         {
             animator.enabled = true;

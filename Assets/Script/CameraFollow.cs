@@ -372,6 +372,7 @@ public class CameraFollow : MonoBehaviour
         {
             Vector3 newPosition = new Vector3(posXSlider.value, posYSlider.value, posZSlider.value);
             defOffset = newPosition;
+            currTargetOffset = defOffset;
             UpdateCameraStatusText();
         }
     }
