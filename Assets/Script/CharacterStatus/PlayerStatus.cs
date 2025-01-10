@@ -57,7 +57,7 @@ public class PlayerStatus : BaseCharacterStatus
         float criticalRate = 0.1f,
         float criticalDamage = 2.0f,
         float moveSpeed = 1.0f,
-        float attackSpeed = 1.0f,
+        float attackSpeed = 1.3f,
         float attackRange = 1.0f,
         float evasionRate = 0.05f,
         int ammoCapacity = 10,
@@ -298,7 +298,7 @@ public class PlayerStatus : BaseCharacterStatus
     public float GetBaseCriticalRate() { return 0.1f; }
     public float GetBaseCriticalDamage() { return 2.0f; }
     public float GetBaseMoveSpeed() { return 1.0f; }
-    public float GetBaseAttackSpeed() { return 1.0f; }
+    public float GetBaseAttackSpeed() { return 1.3f; }
     public float GetBaseAttackRange() { return 1.0f; }
     public float GetBaseEvasionRate() { return 0.05f; }
 
