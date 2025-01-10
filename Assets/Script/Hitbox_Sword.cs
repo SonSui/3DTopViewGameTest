@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class Hitbox_Sword : MonoBehaviour
@@ -23,6 +24,8 @@ public class Hitbox_Sword : MonoBehaviour
     private Collider hitboxCollider;
     private Vector3 originalColliderSize; // 元のColliderサイズを保存
 
+    public float resetColliderTime = 0f;
+
     private void OnEnable()
     {
         // 有効化されるたびに記録をクリアする
@@ -31,8 +34,12 @@ public class Hitbox_Sword : MonoBehaviour
         // Colliderサイズを一時的に0にする
         if (hitboxCollider != null)
         {
-            StartCoroutine(ResetColliderSize());
+            StartCoroutine(ResetCollider());
         }
+    }
+    private void OnDisable()
+    {
+        hitTargets.Clear();
     }
 
     private void Start()
@@ -50,7 +57,18 @@ public class Hitbox_Sword : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Hit {other}");
+        Debug.Log($"SwordHitbox Enter {other}");
+        CheckTrigger(other);
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        Debug.Log($"SwordHitbox Stay {other}");
+        CheckTrigger(other);
+    }
+
+    private void CheckTrigger(Collider other)
+    {
+
         if (other.gameObject.CompareTag("Enemy") && !hitTargets.Contains(other))
         {
             // 攻撃対象を記録する
@@ -108,7 +126,7 @@ public class Hitbox_Sword : MonoBehaviour
     }
 
     /// <summary>
-    /// Colliderサイズを一時的に0にし、0.1秒後に元のサイズに戻す
+    /// Colliderサイズを一時的に0にし、resetColliderTime秒後に元のサイズに戻す
     /// </summary>
     private IEnumerator ResetColliderSize()
     {
@@ -120,16 +138,19 @@ public class Hitbox_Sword : MonoBehaviour
         {
             boxCollider.size = zeroSize;
         }
-        
-
-        // 0.1秒待つ
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(resetColliderTime / GameManager.Instance.playerStatus.GetAttackSpeed());
 
         // 元のサイズに戻す
         if (hitboxCollider is BoxCollider boxColliderRestore)
         {
             boxColliderRestore.size = originalColliderSize;
         }
-        
+
+    }
+    private IEnumerator ResetCollider()
+    {
+        hitboxCollider.enabled = false;
+        yield return new WaitForSeconds(resetColliderTime / GameManager.Instance.playerStatus.GetAttackSpeed());
+        hitboxCollider.enabled = true;
     }
 }

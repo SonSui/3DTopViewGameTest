@@ -1127,7 +1127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41ec68cdc447f347a464b2181e9fcea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1490066325856365702, guid: 748178530716d6947a230522f969264d, type: 3}
+  playerPrefab: {fileID: 7479536566215725808, guid: 748178530716d6947a230522f969264d, type: 3}
   cameraPrefab: {fileID: 2979765311667726876, guid: 16f3c8519e5e4914baa169a8c7c1fe86, type: 3}
   defPlayerPos: {x: 0, y: 0, z: 0}
   defCameraPos: {x: 8, y: 16, z: -8}

@@ -42,7 +42,7 @@ public class EnemyGenerator : MonoBehaviour
                 if (p.GetSpawnedNum() < 1)
                 {
                     this.delta = 0;
-                    Vector3 pos = new Vector3(0f, -1f, 0f);
+                    Vector3 pos = new Vector3(0f, -10f, 0f);
                     int r = UnityEngine.Random.Range(1, 2);
                     GameObject enemy_ = EnemyA1;
                     if (r == 1)

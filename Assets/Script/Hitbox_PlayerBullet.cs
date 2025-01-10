@@ -33,8 +33,8 @@ public class Hitbox_PlayerBullet : MonoBehaviour
         transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
 
-
-    private void OnTriggerEnter(Collider other)
+    
+    private void OnTriggerStay(Collider other)
     {
         Debug.Log("Box:crit:" + critical.ToString() + " DefPen:" + isDefensePenetration.ToString());
         if (other.gameObject.CompareTag("Enemy") && !hitTargets.Contains(other))
