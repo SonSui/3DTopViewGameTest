@@ -224,7 +224,9 @@ public abstract class BaseCharacterStatus
     public void SetHpNow(int value) => hpNow = Mathf.Clamp(value, 0, hpMax);
     public void SetHpMax(int value)
     {
+        int oldHpMax = hpMax;
         hpMax = Mathf.Max(1, value);
+        if (oldHpMax < hpMax) hpNow += (hpMax - oldHpMax);
         hpNow = Mathf.Min(hpNow, hpMax); // Å‘åHP‚ªŒ¸­‚µ‚½ê‡AŒ»Ý‚ÌHP‚ð’²®
     }
 

@@ -352,7 +352,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             yield return null;
         }
         //EnemyGeneratorに通知
-        if (enemyGenerator != null) enemyGenerator.deadEnemyNum++;
+        if (enemyGenerator != null) enemyGenerator.EnemyDead(gameObject);
         //アニメーション完了したら削除
         Destroy(gameObject);
     }
@@ -428,7 +428,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     )
     {
 
-        if (_state != EnemyState.Dead)//今の状態を判断、死んでいるのはダメージ受けない
+        if (_state != EnemyState.Dead && !enemyStatus.IsDead())//今の状態を判断、死んでいるのはダメージ受けない
         {
             bool isBomb = false;
             if (crit)

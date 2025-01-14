@@ -1,26 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Processors;
 using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour
 {
     // Start is called before the first frame update
-
-    public GameObject clearUI;
-    public GameObject defeatUI;
-    EnemyGenerator enemyGenerator;
+    public static StageManager Instance { get; private set; }
+    
     UIManager uiManager;
+    private bool isDead= false;
+    private bool isClear = false;
 
-
-
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject); // すでに存在する場合は削除する
+        }
+    }
 
     void Start()
     {
-        enemyGenerator = FindObjectOfType<EnemyGenerator>();
-        uiManager = FindObjectOfType<UIManager>();
-        /*clearUI.SetActive(false);
-        defeatUI.SetActive(false);*/
+        
+        uiManager = UIManager.Instance;
+        
     }
 
     // Update is called once per frame
@@ -28,14 +37,27 @@ public class StageManager : MonoBehaviour
     {
         if (GameManager.Instance.IsPlayerDead())
         {
-            //defeatUI.SetActive(true);
-            uiManager.AbleButtons();
-        }
-        else if (enemyGenerator.deadEnemyNum >= enemyGenerator.enemyNumMax)
+            if (!isDead)
+            {
+                isDead = true;
+                uiManager.FailUI();
+            }
+        }   
+    }
+
+    public void StageClear()
+    {
+        if (!isClear)
         {
-            //clearUI.SetActive(true);//クリアテキストを表示する
-            uiManager.AbleButtons();
+            isClear = true;
+            uiManager.ContinueUI1();
         }
-        
+    }
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }

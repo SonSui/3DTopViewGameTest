@@ -4942,8 +4942,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73dbf1a589811ba4cbacbee937999285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 0}
-  rareMaterials: []
+  itemData: {fileID: 11400000, guid: 7d84e9d331f966449bdf2ed5bad73c5e, type: 2}
+  rareMaterials:
+  - {fileID: 2100000, guid: efe6fc25350958c479cd9fcde7e565f9, type: 2}
+  - {fileID: 2100000, guid: d3fdd53a2b5dd904fad8d824266a4cad, type: 2}
+  - {fileID: 2100000, guid: 640dc2f025ee433489ca50d9f685de47, type: 2}
+  - {fileID: 2100000, guid: 5a9e6cf91cbfc1a4fbc9470cca37b97a, type: 2}
   brightCircle: {fileID: 2100000, guid: 2e8b0fb397d699440bf51cb2e59331b7, type: 2}
 --- !u!65 &6274201019523799100
 BoxCollider:

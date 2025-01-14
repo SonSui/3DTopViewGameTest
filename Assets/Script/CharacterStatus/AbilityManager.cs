@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 // PlayerStatusに内包する能力管理クラス
 // 装備品(ItemData)を収集し、それに伴うタグを集計し、対応する能力(TagEffect)を有効化し、
@@ -338,5 +339,34 @@ public class AbilityManager
         playerStatus.SetIsSlowEffectFlag(playerStatus.GetBaseIsSlowEffect() || effect.isSlowEffect);
         playerStatus.SetIsBleedingEffectFlag(playerStatus.GetBaseIsBleedingEffect() || effect.isBleedingEffect);
         playerStatus.SetIsStunFlag(playerStatus.GetBaseIsStun() || effect.isStun);
+    }
+
+    // 現在収集されているタグ定義とその数を取得する
+    public Dictionary<AbilityTagDefinition, int> GetCollectedTagDefinitions()
+    {
+        // タグ定義とそのカウントを格納する辞書
+        Dictionary<AbilityTagDefinition, int> tagDefinitionCountMap = new Dictionary<AbilityTagDefinition, int>();
+
+        // tagCountMapのキー（タグ名）をもとに対応するタグ定義を探す
+        foreach (var tagEntry in tagCountMap)
+        {
+            string tagName = tagEntry.Key;
+            int count = tagEntry.Value;
+
+            // タグ名に対応するタグ定義を取得
+            AbilityTagDefinition tagDefinition = FindTagDefinitionFromName(tagName);
+
+            // 定義が存在する場合のみ辞書に追加
+            if (tagDefinition != null)
+            {
+                tagDefinitionCountMap[tagDefinition] = count;
+            }
+            else
+            {
+                Debug.LogWarning($"タグ名 '{tagName}' に対応するタグ定義が見つかりません。");
+            }
+        }
+
+        return tagDefinitionCountMap;
     }
 }

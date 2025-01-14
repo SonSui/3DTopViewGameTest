@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     // GameManagerのインスタンスを保持する静的変数
     public static GameManager Instance { get; private set; }
 
-    public PlayerStatus playerStatus ;
+    public PlayerStatus playerStatus;
 
     // プレイヤーとカメラのPrefab
     public GameObject playerPrefab;
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     private GameObject player;
 
     // プレイヤーのPlayerControllerスクリプトとカメラのCameraFollowスクリプト
-    
+
     private PlayerControl playerControl;
     private CameraFollow cameraFollow;
 
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     {
 
         Application.targetFrameRate = 60;
-        
+
     }
 
     private bool SpawnPlayer()
@@ -58,16 +58,16 @@ public class GameManager : MonoBehaviour
         if (player == null)
         {
             player = Instantiate(playerPrefab, defPlayerPos, Quaternion.identity);
-            
+
             playerControl = player.GetComponent<PlayerControl>();
             //playerControl.SetActSpeed(1.5f);
-            
+
         }
         return true;
     }
     private bool SpawnCamera()
     {
-        if(camera1==null)
+        if (camera1 == null)
         {
             Vector3 cameraPosition = defPlayerPos + defCameraPos; // プレイヤーの相対位置に配置
             Quaternion cameraRotation = Quaternion.Euler(defCameraRot); // カメラの角度を設定
@@ -88,11 +88,15 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    private void SpawnUIManager()
+    private void FindUIManager()
     {
-        GameObject obj = Instantiate(uiPrefab);
-        uiManager = obj.GetComponent<UIManager>();
-        uiManager.SetHP(playerStatus.GetHpNow(),playerStatus.GetHpMax());
+        uiManager = FindAnyObjectByType<UIManager>();
+        if (uiManager == null)
+        {
+            GameObject obj = Instantiate(uiPrefab);
+            uiManager = obj.GetComponent<UIManager>();
+        }
+        uiManager.SetHP(playerStatus.GetHpNow(), playerStatus.GetHpMax());
     }
 
     public GameObject GetPlayer()
@@ -100,8 +104,8 @@ public class GameManager : MonoBehaviour
         return player;
     }
     public GameObject GetCamera()
-    { 
-        return camera1; 
+    {
+        return camera1;
     }
     private void OnDisable()
     {
@@ -111,12 +115,13 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    private void OnSceneLoaded(Scene scene,LoadSceneMode loadSceneMode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (scene.name != "Title"&&scene.name!= "Test_BossScene")
+        UnpauseGame();
+        if (scene.name != "Title" && scene.name != "Test_BossScene")
         {
             ResetPlayerStatus();
-            SpawnUIManager();
+            FindUIManager();
 
             SpawnPlayer();
             SpawnCamera();
@@ -126,8 +131,15 @@ public class GameManager : MonoBehaviour
     {
         ResetPlayerStatus();
     }
-    
-    
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0.02f;
+    }
+    public void UnpauseGame()
+    {
+        Time.timeScale = 1f;
+    }
 
 
 
@@ -160,11 +172,11 @@ public class GameManager : MonoBehaviour
         if(playerStatus.IsDead())
         {
             playerControl.OnDying();
-            isPlayerDead = true;
         }
 
         return realDmg;
     }
+    public void PlayerDeadAnimeOver()=>isPlayerDead = true;
 
     public bool IsPlayerDead()
     {
@@ -174,6 +186,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"{item.itemName} in gameManager");
         playerStatus.OnItemCollected(item);
+        Dictionary<AbilityTagDefinition, int> currTags = playerStatus.GetCollectedTagDefinitions();
+        uiManager.SetCurrentTags(currTags);
+        uiManager.SetHP(playerStatus.GetHpNow(), playerStatus.GetHpMax());
         uiManager.SetAmmo(playerStatus.GetAmmoCapacity(), playerStatus.GetAmmoMax());
     }
     public void RecoverHP()

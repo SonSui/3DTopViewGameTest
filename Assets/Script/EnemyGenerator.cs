@@ -43,7 +43,7 @@ public class EnemyGenerator : MonoBehaviour
                 {
                     this.delta = 0;
                     Vector3 pos = new Vector3(0f, -10f, 0f);
-                    int r = UnityEngine.Random.Range(1, 2);
+                    int r = 1;//UnityEngine.Random.Range(1, 2);
                     GameObject enemy_ = EnemyA1;
                     if (r == 1)
                     {
@@ -67,14 +67,11 @@ public class EnemyGenerator : MonoBehaviour
         }
 
     }
-
-
-    public void DropItem(Vector3 pos)
+    public void EnemyDead(GameObject enemy)
     {
-
+        deadEnemyNum++;
+        if (deadEnemyNum >= enemyNumMax)
+            StageManager.Instance?.StageClear();
     }
-    public void SetItem()
-    {
 
-    }
 }
