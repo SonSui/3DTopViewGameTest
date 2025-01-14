@@ -293,7 +293,7 @@ public class PlayerStatus : BaseCharacterStatus
 
 
     // 下記は例：Base用のGetter（初期化時の値を記憶して返す）
-    public int GetBaseHpMax() {  return 5; }
+    public int GetBaseHpMax() { return 5; }
     public int GetBaseAttackPower() { return 3; }
     public float GetBaseCriticalRate() { return 0.1f; }
     public float GetBaseCriticalDamage() { return 2.0f; }
@@ -387,7 +387,7 @@ public class PlayerStatus : BaseCharacterStatus
 
 
     // =====ステータスを表示=====
-    public  string ShowPlayerStatus()
+    public string ShowPlayerStatus()
     {
         string baseStatus = base.GetBaseStatus(); // 基本ステータスを取得
 
@@ -437,5 +437,9 @@ public class PlayerStatus : BaseCharacterStatus
     public void OnItemRemoved(ItemData item)
     {
         abilityManager.RemoveItem(item);
+    }
+    public Dictionary<AbilityTagDefinition, int> GetCollectedTagDefinitions()
+    {
+        return abilityManager.GetCollectedTagDefinitions();
     }
 }

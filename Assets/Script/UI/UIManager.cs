@@ -4,22 +4,49 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
+
+
+    [Header("UI Panels")]
+    public GameObject settingsPanel;
+    public GameObject failPanel;
+    public GameObject continuePanel;
+    public GameObject continuePanel2;
+    public GameObject tutorialPanel;
+    public GameObject tagIconsParent;
+    public GameObject playerStatusPanel;
+
+    [Header("Input Settings")]
+    public InputActionReference openSettingsAction;
+    public InputActionReference navigateTagsAction;
+    public PlayerInput playerInput; // プレイヤーの入力を管理するPlayerInputの参照
+
+    int selectedTagIndex = 0;
+
+
+
     public GameObject hpBarContainer; // HPバーコンテナ
     public GameObject hpSegmentPrefab; // HPセグメントプレハブ
     public GameObject ammoBarContainer; // 弾薬バーコンテナ
     public GameObject ammoSegmentPrefab; // 弾薬セグメントプレハブ
     public Canvas canvas; // UIキャンバス
-    public GameObject settingUI; // 設定UI
     public GameObject damageTextPrefab; // ダメージテキストのプレハブ
     public int poolSize = 30; // オブジェクトプールのサイズ
+
+    public GameObject tagIconPrefab;
+    public GameObject tooltip;
 
     private Queue<GameObject> damageTextPool; // ダメージテキストのオブジェクトプール
     private List<GameObject> hpSegments; // 現在のHPセグメントのリスト
     private List<GameObject> ammoSegments; // 現在の弾薬セグメントのリスト
+    private List<GameObject> tagIcons; // タグアイコンのリスト
+
+    private Dictionary<AbilityTagDefinition, int> currTags;
 
     private Camera mainCamera;
 
@@ -43,13 +70,67 @@ public class UIManager : MonoBehaviour
             InitializeDamageTextPool(); // オブジェクトプールを初期化
             hpSegments = new List<GameObject>();
             ammoSegments = new List<GameObject>();
+            tagIcons = new List<GameObject>();
             UpdateHPBar(); // 初期HPバーの設定
             UpdateAmmoBar(); // 初期弾薬バーの設定
             UnableButtons();
+            tooltip.SetActive(false);
         }
         else
         {
             Destroy(gameObject); // すでに存在する場合は削除する
+        }
+    }
+
+    private void Start()
+    {
+        // openSettingsAction によるイベントを登録
+        if (openSettingsAction != null)
+        {
+            openSettingsAction.action.Enable();
+            openSettingsAction.action.performed += ctx => ToggleSettingsPanel();
+        }
+
+        if (navigateTagsAction != null)
+        {
+            navigateTagsAction.action.Enable();
+            navigateTagsAction.action.performed += ctx => NavigateTagIcons();
+        }
+    }
+    private void NavigateTagIcons()
+    {
+        if (tagIconsParent.transform.childCount == 0)
+        {
+            // タグアイコンが存在しない場合は何もしない
+            return;
+        }
+
+        // 現在の選択オブジェクトを取得
+        GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
+
+        // すでにタグアイコンが選択されている場合、選択を解除
+        if (currentSelected != null && currentSelected.transform.IsChildOf(tagIconsParent.transform))
+        {
+            EventSystem.current.SetSelectedGameObject(null); // 選択を解除
+            return;
+        }
+
+        // 最初のタグアイコンを選択
+        GameObject firstIcon = tagIconsParent.transform.GetChild(0).gameObject;
+        EventSystem.current.SetSelectedGameObject(firstIcon);
+    }
+
+    // パネルをトグルする関数を追加
+    private void ToggleSettingsPanel()
+    {
+        Debug.Log("StartButton down");
+        if (settingsPanel.activeSelf)
+        {
+            UnableButtons(); // 設定パネルを非表示にする
+        }
+        else
+        {
+            AbleButtons(); // 設定パネルを表示する
         }
     }
 
@@ -110,6 +191,57 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("Missing DamageDisplay component on damage text prefab!");
         }
+    }
+
+    public void SetCurrentTags(Dictionary<AbilityTagDefinition, int> tags)
+    {
+        ClearAllTagIcons();
+        currTags = tags;
+
+        int index = 0;
+        foreach (var tag in currTags)
+        {
+            AbilityTagDefinition tagDefinition = tag.Key;
+            int tagLevel = tag.Value;
+
+            // アイコンを生成
+            GameObject tagIcon = Instantiate(tagIconPrefab, canvas.transform);
+            tagIcon.SetActive(true);
+            tagIcon.transform.SetParent(tagIconsParent.transform, false);
+            tagIcons.Add(tagIcon);
+
+            // アイコンの位置を設定
+            RectTransform rectTransform = tagIcon.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                float xPos = index * 100 + 50; // X座標
+                rectTransform.sizeDelta = new Vector2(100, 100); // サイズ
+                rectTransform.anchoredPosition = new Vector2(xPos, -350); // 左上に集中
+            }
+
+            // アイコンに内容を設定
+            UITooltipManager tooltipManager = tagIcon.GetComponent<UITooltipManager>();
+            if (tooltipManager != null)
+            {
+                tooltipManager.SetTag(tagDefinition, tagLevel, tooltip);
+
+            }
+
+            index++;
+        }
+    }
+
+    private void ClearAllTagIcons()
+    {
+        // 既存のタグアイコンを削除
+        foreach (var tagIcon in tagIcons)
+        {
+            if (tagIcon != null)
+            {
+                Destroy(tagIcon);
+            }
+        }
+        tagIcons.Clear();
     }
 
     // ===== プレイヤーステータス =====
@@ -256,21 +388,89 @@ public class UIManager : MonoBehaviour
             ammoSegments.Add(segment);
         }
     }
+    private GameObject SetFirstButton(GameObject panel)
+    {
+        Button firstButton = panel.GetComponentInChildren<Button>();
+        if (firstButton != null)
+        {
+            EventSystem.current.firstSelectedGameObject = firstButton.gameObject;
+            EventSystem.current.SetSelectedGameObject(firstButton.gameObject);
+            return firstButton.gameObject;
+        }
+        else return null;
+        
+    }
+    private void CloseAllPanel()
+    {
+        settingsPanel.SetActive(false);
+        continuePanel.SetActive(false);
+        continuePanel2.SetActive(false);
+        failPanel.SetActive(false);
+        playerStatusPanel.SetActive(false);
+        tutorialPanel.SetActive(false);
+
+    }
 
     // ===== UI管理 =====
     public void AbleButtons()
     {
-        settingUI.SetActive(true);
+        CloseAllPanel();
+        settingsPanel.SetActive(true);
+        playerInput.actions.FindActionMap("PlayerCharacter").Disable();
+
+        // EventSystemのFirstSelectedを設定UIの最初のButtonに設定
+        SetFirstButton(settingsPanel);
+
+        GameManager.Instance?.PauseGame();
     }
 
     public void UnableButtons()
     {
-        settingUI.SetActive(false);
+        settingsPanel.SetActive(false);
+        playerInput.actions.FindActionMap("PlayerCharacter").Enable();
+        GameManager.Instance?.UnpauseGame();
+        playerStatusPanel.SetActive(true);
+
+    }
+
+    public void ContinueUI1()
+    {
+        GameManager.Instance?.PauseGame();
+        playerInput.actions.FindActionMap("PlayerCharacter").Disable();
+        continuePanel.SetActive(true);
+        SetFirstButton(continuePanel);
+
+    }
+    public void ContinueUI2()
+    {
+        CloseAllPanel();
+        GameManager.Instance?.PauseGame();
+        playerInput.actions.FindActionMap("PlayerCharacter").Disable();
+        continuePanel2.SetActive(true);
+        SetFirstButton(continuePanel2);
+
+    }
+    public void FailUI()
+    {
+        CloseAllPanel();
+        playerStatusPanel.SetActive(true);
+        GameManager.Instance?.PauseGame();
+        playerInput.actions.FindActionMap("PlayerCharacter").Disable();
+        failPanel.SetActive(true);
+        SetFirstButton(failPanel);
+    }
+    public void TutorialUI()
+    {
+        CloseAllPanel();
+        GameManager.Instance?.PauseGame();
+        playerInput.actions.FindActionMap("PlayerCharacter").Disable();
+        tutorialPanel.SetActive(true);
+        SetFirstButton(tutorialPanel);
     }
 
     public void OnExitGameButtonDown()
     {
-        Application.Quit();
+        SceneManager.LoadScene("Title");
     }
 
     public void OnRetryButtonDown()
@@ -285,5 +485,42 @@ public class UIManager : MonoBehaviour
     public void SetMainCamera(Camera cam)
     {
         mainCamera = cam;
+    }
+    public void CloseUIReturnToGame()
+    {
+        settingsPanel.SetActive(false);
+        failPanel.SetActive(false);
+        continuePanel.SetActive(false);
+        continuePanel2.SetActive(false);
+        GameManager.Instance?.UnpauseGame();
+        playerStatusPanel.SetActive(true);
+        playerInput.actions.FindActionMap("PlayerCharacter").Enable();
+    }
+    public void LoadDifficultScene()
+    {
+        playerInput.actions.FindActionMap("PlayerCharacter").Enable();
+        SceneManager.LoadScene("Difficult");
+    }
+    public void LoadEasyScene()
+    {
+        playerInput.actions.FindActionMap("PlayerCharacter").Enable();
+        SceneManager.LoadScene("Easy");
+    }
+    public void LoadBossScene()
+    {
+        playerInput.actions.FindActionMap("PlayerCharacter").Enable();
+        SceneManager.LoadScene("Boss");
+    }
+    private void OnDestroy()
+    {
+        if (openSettingsAction != null)
+        {
+            openSettingsAction.action.performed -= ctx => ToggleSettingsPanel();
+        }
+
+        if (navigateTagsAction != null)
+        {
+            navigateTagsAction.action.performed -= ctx => NavigateTagIcons();
+        }
     }
 }

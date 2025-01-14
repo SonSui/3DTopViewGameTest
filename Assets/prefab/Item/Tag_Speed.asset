@@ -102,4 +102,5 @@ MonoBehaviour:
     oneHitKill: 0
     multiAttack: 0
     defensePenetration: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 69204b9d14be7a941b3cbfeed25373e0, type: 3}
+  description: "\u52A0\u901F\nLv1\u3000\u8FD1\u63A5\u653B\u6483\u901F\u5EA6\u304C30%\u52A0\u901F\u3059\u308B\r\nLv2\u3000\u8FD1\u63A5\u653B\u6483\u901F\u5EA6\u304C70%\u52A0\u901F\u3059\u308B\r\nLv3\u3000\u8FD1\u63A5\u653B\u6483\u901F\u5EA6\u304C100%\u52A0\u901F\u3059\u308B"

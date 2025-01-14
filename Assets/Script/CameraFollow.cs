@@ -162,7 +162,7 @@ public class CameraFollow : MonoBehaviour
             }
 
 
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 SwitchCameraUI();
             }

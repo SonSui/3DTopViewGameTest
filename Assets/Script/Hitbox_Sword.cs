@@ -73,12 +73,14 @@ public class Hitbox_Sword : MonoBehaviour
         {
             // 攻撃対象を記録する
             hitTargets.Add(other);
-            if (other.gameObject.GetComponent<IOnHit>() != null)
+            IOnHit io = other.gameObject.GetComponent<IOnHit>();
+            if (io != null)
             {
+                if (io.IsDying()) return;
                 // クリティカルヒット判定
                 bool crit = Random.Range(0f, 1f) < critical;
                 // ダメージを与える
-                int dmg = other.gameObject.GetComponent<IOnHit>().OnHit(damage, crit, isDefensePenetration, isBleed);
+                int dmg = io.OnHit(damage, crit, isDefensePenetration, isBleed);
 
                 if (dmg != 0)
                 {

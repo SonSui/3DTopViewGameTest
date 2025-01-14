@@ -8,4 +8,6 @@ public class AbilityTagDefinition : ScriptableObject
     public List<int> thresholds;        // 新しい能力をアンロックが必要なタグの数量
     public List<TagEffect> effects;     // タグ数について能力変化
     public Sprite icon;                 // タグのアイコン
+    [TextArea]
+    public string description;          // タグの説明
 }

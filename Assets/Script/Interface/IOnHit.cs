@@ -26,5 +26,6 @@ public interface IOnHit
 
         float moveSpeed = 1.0f,
         float attackSpeed = 1.0f);
+    
 }
 
