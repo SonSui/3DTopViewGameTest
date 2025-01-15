@@ -24,4 +24,4 @@ MonoBehaviour:
   evasionRate: 0
   ammoCapacity: 0
   tags:
-  - {fileID: 11400000, guid: 3d438f96bd5d10c4284bdea76a8527db, type: 2}
+  - {fileID: 11400000, guid: 5162c47e177b6554383fb4f83210d367, type: 2}
