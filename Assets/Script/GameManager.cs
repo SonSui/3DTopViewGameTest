@@ -140,13 +140,14 @@ public class GameManager : MonoBehaviour
         if (scene.name != "Title" && scene.name != "Test_BossScene")
         { 
             FindUIManager();
-
             SpawnPlayer();
             SpawnCamera();
+            StageManager.Instance?.SetStageNum(currentStage);
         }
         if(scene.name =="Title")
         {
             ResetPlayerStatus();
+            ResetDropInfo();
         }
     }
     public void GameStart_Initialize()

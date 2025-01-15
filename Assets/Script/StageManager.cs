@@ -14,9 +14,12 @@ public class StageManager : MonoBehaviour
     private bool isClear = false;
 
     public bool isStageDifficult = false;
-    GameObject dropPrefab;
-    GameObject drop = null;
-    bool isClearUI = false;
+    private GameObject dropPrefab;
+    private GameObject drop = null;
+    private bool isClearUI = false;
+
+    private static int stageNum = 0;
+    public int maxStage = 3;
     
 
     private void Awake()
@@ -85,8 +88,12 @@ public class StageManager : MonoBehaviour
     private IEnumerator EnableClearUIAfterDelay(float t = 3f)
     {
         yield return new WaitForSeconds(t);
-        uiManager.ContinueUI1();
+        if(stageNum<maxStage)uiManager.ContinueUI1();
+        else uiManager.ContinueToBoss();
     }
-
+    public void SetStageNum(int n)
+    {
+        stageNum = n;
+    }
 
 }

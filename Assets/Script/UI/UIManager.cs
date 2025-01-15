@@ -104,21 +104,12 @@ public class UIManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        Scene scene = SceneManager.GetActiveScene();
-        if (scene.name == "Title")
-        {
-            CloseAllPanel();
-        }
-        else if(scene.name =="Tutorial")
-        {
-            TutorialUI();
-        }
-        else
-        {
-            CloseAllPanel();
-            playerStatusPanel.SetActive(true);
-        }
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     private void Update()
     {
@@ -137,6 +128,29 @@ public class UIManager : MonoBehaviour
         // マウス位置を更新
         lastMousePosition = currentMousePosition;
     }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Title")
+        {
+            CloseAllPanel();
+        }
+        else if (scene.name == "Tutorial")
+        {
+            TutorialUI();
+        }
+        else
+        {
+            CloseAllPanel();
+            playerStatusPanel.SetActive(true);
+
+        }
+    }
+
+
+
+
+
     private void NavigateTagIcons()
     {
         if (tagIconsParent.transform.childCount == 0)
@@ -546,18 +560,21 @@ public class UIManager : MonoBehaviour
     {
         playerInput.actions.FindActionMap("PlayerCharacter").Enable();
         CloseAllPanel();
+        GameManager.Instance?.AdvanceStage();
         SceneManager.LoadScene("Difficult");
     }
     public void LoadEasyScene()
     {
         playerInput.actions.FindActionMap("PlayerCharacter").Enable();
         CloseAllPanel();
+        GameManager.Instance?.AdvanceStage();
         SceneManager.LoadScene("Easy");
     }
     public void LoadBossScene()
     {
         playerInput.actions.FindActionMap("PlayerCharacter").Enable();
         CloseAllPanel();
+        GameManager.Instance?.AdvanceStage();
         SceneManager.LoadScene("Boss");
     }
     private void OnDestroy()
