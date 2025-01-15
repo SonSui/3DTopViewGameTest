@@ -13,6 +13,12 @@ public class StageManager : MonoBehaviour
     private bool isDead= false;
     private bool isClear = false;
 
+    public bool isStageDifficult = false;
+    GameObject dropPrefab;
+    GameObject drop = null;
+    bool isClearUI = false;
+    
+
     private void Awake()
     {
         if (Instance == null)
@@ -29,6 +35,14 @@ public class StageManager : MonoBehaviour
     {
         
         uiManager = UIManager.Instance;
+        if(isStageDifficult)
+        {
+            dropPrefab = GameManager.Instance.GetRareDrop();
+        }
+        else
+        {
+            dropPrefab = GameManager.Instance.GetCommonDrop();
+        }
         
     }
 
@@ -42,7 +56,12 @@ public class StageManager : MonoBehaviour
                 isDead = true;
                 uiManager.FailUI();
             }
-        }   
+        }
+        if (drop==null&&isClear&&!isClearUI)
+        {
+            isClearUI = true;
+            StartCoroutine(EnableClearUIAfterDelay());
+        }
     }
 
     public void StageClear()
@@ -50,7 +69,10 @@ public class StageManager : MonoBehaviour
         if (!isClear)
         {
             isClear = true;
-            uiManager.ContinueUI1();
+            if (drop == null && dropPrefab != null)
+            {
+                drop = Instantiate(dropPrefab);
+            }
         }
     }
     private void OnDestroy()
@@ -60,4 +82,11 @@ public class StageManager : MonoBehaviour
             Instance = null;
         }
     }
+    private IEnumerator EnableClearUIAfterDelay(float t = 3f)
+    {
+        yield return new WaitForSeconds(t);
+        uiManager.ContinueUI1();
+    }
+
+
 }

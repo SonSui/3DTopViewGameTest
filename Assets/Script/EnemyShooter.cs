@@ -52,7 +52,7 @@ public class EnemyShooter : MonoBehaviour
 
         if (hp < 0)
         {
-            enemyGenerator.deadEnemyNum++;
+            //enemyGenerator.deadEnemyNum++;
             Destroy(gameObject);
         }
 
@@ -119,7 +119,7 @@ public class EnemyShooter : MonoBehaviour
 
         if (hp < 0)
         {
-            enemyGenerator.deadEnemyNum++;
+            //enemyGenerator.deadEnemyNum++;
             OnDead();
 
         }

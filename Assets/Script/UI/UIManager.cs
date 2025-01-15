@@ -20,13 +20,16 @@ public class UIManager : MonoBehaviour
     public GameObject tutorialPanel;
     public GameObject tagIconsParent;
     public GameObject playerStatusPanel;
+    public GameObject bossPanel;
+    public GameObject EndingPanel;
 
     [Header("Input Settings")]
     public InputActionReference openSettingsAction;
     public InputActionReference navigateTagsAction;
     public PlayerInput playerInput; // プレイヤーの入力を管理するPlayerInputの参照
 
-    int selectedTagIndex = 0;
+    private Vector2 lastMousePosition; // 前回のマウス位置
+    private const float mouseMoveThreshold = 10f; // 移動距離の閾値
 
 
 
@@ -67,6 +70,7 @@ public class UIManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
             InitializeDamageTextPool(); // オブジェクトプールを初期化
             hpSegments = new List<GameObject>();
             ammoSegments = new List<GameObject>();
@@ -96,6 +100,42 @@ public class UIManager : MonoBehaviour
             navigateTagsAction.action.Enable();
             navigateTagsAction.action.performed += ctx => NavigateTagIcons();
         }
+        
+    }
+    private void OnEnable()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name == "Title")
+        {
+            CloseAllPanel();
+        }
+        else if(scene.name =="Tutorial")
+        {
+            TutorialUI();
+        }
+        else
+        {
+            CloseAllPanel();
+            playerStatusPanel.SetActive(true);
+        }
+
+    }
+    private void Update()
+    {
+        // 現在のマウス位置を取得
+        Vector2 currentMousePosition = Mouse.current.position.ReadValue();
+
+        // マウスの移動距離を計算
+        float distance = Vector2.Distance(currentMousePosition, lastMousePosition);
+
+        // 移動距離が閾値を超えた場合、選択を解除
+        if (distance > mouseMoveThreshold)
+        {
+            EventSystem.current.SetSelectedGameObject(null); // 現在の選択を解除
+        }
+
+        // マウス位置を更新
+        lastMousePosition = currentMousePosition;
     }
     private void NavigateTagIcons()
     {
@@ -408,7 +448,8 @@ public class UIManager : MonoBehaviour
         failPanel.SetActive(false);
         playerStatusPanel.SetActive(false);
         tutorialPanel.SetActive(false);
-
+        bossPanel.SetActive(false);
+        EndingPanel.SetActive(false);
     }
 
     // ===== UI管理 =====
@@ -450,6 +491,14 @@ public class UIManager : MonoBehaviour
         SetFirstButton(continuePanel2);
 
     }
+    public void ContinueToBoss()
+    {
+        CloseAllPanel();
+        GameManager.Instance?.PauseGame();
+        playerInput.actions.FindActionMap("PlayerCharacter").Disable();
+        bossPanel.SetActive(true);
+        SetFirstButton(bossPanel);
+    }
     public void FailUI()
     {
         CloseAllPanel();
@@ -488,10 +537,7 @@ public class UIManager : MonoBehaviour
     }
     public void CloseUIReturnToGame()
     {
-        settingsPanel.SetActive(false);
-        failPanel.SetActive(false);
-        continuePanel.SetActive(false);
-        continuePanel2.SetActive(false);
+        CloseAllPanel();
         GameManager.Instance?.UnpauseGame();
         playerStatusPanel.SetActive(true);
         playerInput.actions.FindActionMap("PlayerCharacter").Enable();
@@ -499,16 +545,19 @@ public class UIManager : MonoBehaviour
     public void LoadDifficultScene()
     {
         playerInput.actions.FindActionMap("PlayerCharacter").Enable();
+        CloseAllPanel();
         SceneManager.LoadScene("Difficult");
     }
     public void LoadEasyScene()
     {
         playerInput.actions.FindActionMap("PlayerCharacter").Enable();
+        CloseAllPanel();
         SceneManager.LoadScene("Easy");
     }
     public void LoadBossScene()
     {
         playerInput.actions.FindActionMap("PlayerCharacter").Enable();
+        CloseAllPanel();
         SceneManager.LoadScene("Boss");
     }
     private void OnDestroy()
@@ -522,5 +571,10 @@ public class UIManager : MonoBehaviour
         {
             navigateTagsAction.action.performed -= ctx => NavigateTagIcons();
         }
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
+    
 }

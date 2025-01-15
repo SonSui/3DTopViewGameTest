@@ -478,16 +478,18 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     }
     public void OnHooked(int dmg)
     {
+        Color displayColor = Color.red;
         //フックショットに当たる行動（シールド破壊）
-        if(enemyStatus.HasShield())
+        if (enemyStatus.HasShield())
         {
             enemyStatus.SetShield(false ,0);
+            displayColor = Color.blue;
         }
         ChangeState(EnemyState.Stunned);
         int hitDmg=enemyStatus.TakeDamage(dmg);
         if (hitDmg != 0)
         {
-            Color displayColor = Color.red;
+            
             if (hitDmg < 0)
             {
                 displayColor = Color.white;
