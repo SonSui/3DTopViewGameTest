@@ -32,6 +32,22 @@ public class GameManager : MonoBehaviour
     private UIManager uiManager;
 
     private bool isPlayerDead = false;
+
+    public List<GameObject> commonItems = new List<GameObject>();
+
+    // 稀有なドロップ用のアイテムリスト
+    public List<GameObject> rareItems = new List<GameObject>();
+
+    // 現在のステージ番号（1から始まる）
+    private int currentStage = 1;
+
+    // ドロップされたアイテムを追跡するインデックス
+    private int commonDropIndex = 0;
+    private int rareDropIndex = 0;
+
+    // ステージを進める
+    
+
     private void Awake()
     {
         // シングルトンパターンの実装：GameManagerが1つしか存在しないようにする
@@ -97,6 +113,9 @@ public class GameManager : MonoBehaviour
             uiManager = obj.GetComponent<UIManager>();
         }
         uiManager.SetHP(playerStatus.GetHpNow(), playerStatus.GetHpMax());
+        Dictionary<AbilityTagDefinition, int> currTags = playerStatus.GetCollectedTagDefinitions();
+        uiManager.SetCurrentTags(currTags);
+        uiManager.SetAmmo(playerStatus.GetAmmoCapacity(), playerStatus.GetAmmoMax());
     }
 
     public GameObject GetPlayer()
@@ -119,12 +138,15 @@ public class GameManager : MonoBehaviour
     {
         UnpauseGame();
         if (scene.name != "Title" && scene.name != "Test_BossScene")
-        {
-            ResetPlayerStatus();
+        { 
             FindUIManager();
 
             SpawnPlayer();
             SpawnCamera();
+        }
+        if(scene.name =="Title")
+        {
+            ResetPlayerStatus();
         }
     }
     public void GameStart_Initialize()
@@ -141,7 +163,45 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    // ===== ItemPool =====
 
+
+    // 現在のステージに基づいて通常ドロップを取得する
+    public GameObject GetCommonDrop()
+    {
+        return GetItemFromPool(commonItems, ref commonDropIndex);
+    }
+
+    // 現在のステージに基づいてレアドロップを取得する
+    public GameObject GetRareDrop()
+    {
+        return GetItemFromPool(rareItems, ref rareDropIndex);
+    }
+
+    // 指定したプールからアイテムを取得する内部メソッド
+    private GameObject GetItemFromPool(List<GameObject> pool, ref int dropIndex)
+    {
+        if (dropIndex < pool.Count)
+        {
+            GameObject item = pool[dropIndex];
+            dropIndex++; // 次のアイテムに進む
+            return item;
+        }
+        else
+        {
+            // すべてのアイテムがドロップ済みの場合
+            Debug.LogWarning("すべてのアイテムがドロップ済みです。");
+            return null;
+        }
+    }
+
+    // ドロップ情報をリセットする
+    public void ResetDropInfo()
+    {
+        currentStage = 1; // ステージをリセット
+        commonDropIndex = 0; // 通常ドロップのインデックスをリセット
+        rareDropIndex = 0; // レアドロップのインデックスをリセット
+    }
 
 
     // ===== Player =====
@@ -194,5 +254,9 @@ public class GameManager : MonoBehaviour
     public void RecoverHP()
     {
         //
+    }
+    public void AdvanceStage()
+    {
+        currentStage++;
     }
 }

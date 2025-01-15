@@ -312,7 +312,7 @@ public class Enemy_Teki4_3 : MonoBehaviour
             yield return null;
         }
         //EnemyGeneratorに通知
-        if (enemyGenerator != null) enemyGenerator.deadEnemyNum++;
+        //if (enemyGenerator != null) enemyGenerator.deadEnemyNum++;
         //アニメーション完了したら削除
         Destroy(gameObject);
     }

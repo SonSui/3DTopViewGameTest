@@ -46,7 +46,7 @@ public class EnemyA1 : MonoBehaviour
 
         if (hp < 0) 
         {
-            enemyGenerator.deadEnemyNum++;
+            //enemyGenerator.deadEnemyNum++;
             Destroy(gameObject);
         }
 
@@ -87,7 +87,7 @@ public class EnemyA1 : MonoBehaviour
 
         if (hp < 0)
         {
-            enemyGenerator.deadEnemyNum += 1;
+            //enemyGenerator.deadEnemyNum += 1;
             OnDead();
         }
         DeleteHitbox();

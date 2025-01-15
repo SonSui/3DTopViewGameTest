@@ -1,77 +1,137 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
 using UnityEngine;
 
+// 敵の生成を管理するスクリプト
 public class EnemyGenerator : MonoBehaviour
 {
-    public GameObject EnemyA1;
-    public GameObject Enemy_Teki01;
-    public float span = 3.0f;
-    float delta = 0;
+    [System.Serializable]
+    public class EnemyConfig
+    {
+        public GameObject enemyPrefab; // 敵のプレハブ
+        public int count; // この種類の敵の生成数
+        public int hpMax = 3; // 最大HP
+        public int attackPower = 1; // 攻撃力
+        public int defense = 1; // 防御力
+        public string enemyType = "Normal"; // 敵のタイプ
+        public bool hasShield = false; // シールドの有無
+        public int shieldDurability = 0; // シールド耐久値
+        public float moveSpeed = 1.0f; // 移動速度
+        public float attackSpeed = 1.0f; // 攻撃速度
+    }
 
-    public List<SpawnPoint> spawnPoints = new List<SpawnPoint>();
-    private int spawnPointNum;
-    
-    
+    [System.Serializable]
+    public class Wave
+    {
+        public string waveName; // 波の名前
+        public List<EnemyConfig> enemies; // この波で生成する敵の設定リスト
+    }
 
-    //クリア判定変数
-    public  int enemyNumMax = 15;
+    public List<Wave> waves = new List<Wave>(); // 全ての波のリスト
+    public List<SpawnPoint> spawnPoints = new List<SpawnPoint>(); // スポーンポイントのリスト
 
-    int currEnemyNum = 0;
-    public int deadEnemyNum = 0;//テストのため、EnemyA1のUpdate関数が変更してくる
+    private int currentWaveIndex = 0; // 現在の波のインデックス
+    private int enemiesSpawnedInWave = 0; // 現在の波で生成された敵の数
+    private int totalEnemiesInWave = 0; // 現在の波の全敵数
+    private int enemiesAlive = 0; // 現在生存している敵の数
+    private float deltaTime = 0f; // 時間カウンター
 
-
-    //public GameObject clearUI;
+    public float spawnInterval = 1.0f; // 敵を生成する間隔
 
     void Start()
     {
-        spawnPointNum = spawnPoints.Count;
-
+        // 現在の波の敵数を初期化
+        if (waves.Count > 0)
+        {
+            CalculateTotalEnemiesInWave();
+        }
     }
 
     void Update()
     {
-        this.delta += Time.deltaTime;
-        if (this.delta > this.span && currEnemyNum < enemyNumMax)
+        // 全ての波が終了した場合
+        if (currentWaveIndex >= waves.Count)
         {
-            foreach (SpawnPoint p in spawnPoints)
+            // 最後の波の全ての敵が死亡した場合にクリアを呼び出す
+            if (enemiesAlive <= 0)
             {
-                if (p.GetSpawnedNum() < 1)
+                StageManager.Instance?.StageClear();
+            }
+            return;
+        }
+
+        deltaTime += Time.deltaTime;
+
+        // 一定時間ごとに敵を生成
+        if (deltaTime >= spawnInterval && enemiesSpawnedInWave < totalEnemiesInWave)
+        {
+            SpawnEnemyFromWave();
+            deltaTime = 0f;
+        }
+
+        // 現在の波の全ての敵が死亡した場合、次の波に移行
+        if (enemiesAlive <= 0 && enemiesSpawnedInWave >= totalEnemiesInWave)
+        {
+            currentWaveIndex++;
+            if (currentWaveIndex < waves.Count)
+            {
+                CalculateTotalEnemiesInWave();
+                enemiesSpawnedInWave = 0;
+            }
+        }
+    }
+
+    // 現在の波の総敵数を計算
+    private void CalculateTotalEnemiesInWave()
+    {
+        totalEnemiesInWave = 0;
+        foreach (var config in waves[currentWaveIndex].enemies)
+        {
+            totalEnemiesInWave += config.count;
+        }
+    }
+
+    // 現在の波から敵を1体生成
+    private void SpawnEnemyFromWave()
+    {
+        foreach (var spawnPoint in spawnPoints)
+        {
+            if (spawnPoint.GetSpawnedNum() < 1)
+            {
+                Wave currentWave = waves[currentWaveIndex];
+                foreach (var config in currentWave.enemies)
                 {
-                    this.delta = 0;
-                    Vector3 pos = new Vector3(0f, -10f, 0f);
-                    int r = 1;//UnityEngine.Random.Range(1, 2);
-                    GameObject enemy_ = EnemyA1;
-                    if (r == 1)
+                    if (config.count > 0)
                     {
-                        enemy_ = Enemy_Teki01;
+                        GameObject enemy = Instantiate(config.enemyPrefab, spawnPoint.transform.position, Quaternion.identity);
+                        enemy.GetComponent<IOnHit>().Initialize(
+                            config.enemyPrefab.name,
+                            config.hpMax,
+                            config.attackPower,
+                            config.defense,
+                            config.enemyType,
+                            config.hasShield,
+                            config.shieldDurability,
+                            config.moveSpeed,
+                            config.attackSpeed
+                        );
+                        spawnPoint.SpawnEnemy(enemy);
+                        config.count--;
+                        enemiesSpawnedInWave++;
+                        enemiesAlive++;
+                        return;
                     }
-
-                    GameObject go = Instantiate(enemy_, pos, Quaternion.identity);
-                    p.SpawnEnemy(go);
-
-                    float r2 = UnityEngine.Random.Range(0f, 1f);
-                    if(r2 <0.3f)
-                    {
-                        go.GetComponent<IOnHit>().Initialize(
-                            "Enemy_Teki01",4,1,1,"SuicideBomb",true,5,1.0f,1.0f
-                            );
-                    }
-                    currEnemyNum++;
-                    break;
                 }
             }
         }
-
     }
+
+    // 敵が死亡した場合の処理
     public void EnemyDead(GameObject enemy)
     {
-        deadEnemyNum++;
-        if (deadEnemyNum >= enemyNumMax)
+        enemiesAlive--;
+        if (currentWaveIndex >= waves.Count && enemiesAlive <= 0)
+        {
             StageManager.Instance?.StageClear();
+        }
     }
-
 }
