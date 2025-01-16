@@ -112,10 +112,13 @@ public class GameManager : MonoBehaviour
             GameObject obj = Instantiate(uiPrefab);
             uiManager = obj.GetComponent<UIManager>();
         }
-        uiManager.SetHP(playerStatus.GetHpNow(), playerStatus.GetHpMax());
-        Dictionary<AbilityTagDefinition, int> currTags = playerStatus.GetCollectedTagDefinitions();
-        uiManager.SetCurrentTags(currTags);
-        uiManager.SetAmmo(playerStatus.GetAmmoCapacity(), playerStatus.GetAmmoMax());
+        if (playerStatus != null)
+        {
+            uiManager.SetHP(playerStatus.GetHpNow(), playerStatus.GetHpMax());
+            Dictionary<AbilityTagDefinition, int> currTags = playerStatus.GetCollectedTagDefinitions();
+            uiManager.SetCurrentTags(currTags);
+            uiManager.SetAmmo(playerStatus.GetAmmoCapacity(), playerStatus.GetAmmoMax());
+        }
     }
 
     public GameObject GetPlayer()
@@ -148,6 +151,7 @@ public class GameManager : MonoBehaviour
         {
             ResetPlayerStatus();
             ResetDropInfo();
+            FindUIManager();
         }
     }
     public void GameStart_Initialize()

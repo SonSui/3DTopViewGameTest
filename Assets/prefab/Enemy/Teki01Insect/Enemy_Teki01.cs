@@ -150,7 +150,11 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 OnDead();
             }
         }
-        if (enemyStatus.IsBleeding()) fireParticle.SetActive(true);
+        if (enemyStatus.IsBleeding())
+        {
+            fireParticle.SetActive(true);
+            fireParticle.GetComponent<ParticleSystem>().Play();
+        }
         else fireParticle.SetActive(false);
         if(enemyStatus.HasShield())shiled.SetActive(true);
         else shiled.SetActive(false);
