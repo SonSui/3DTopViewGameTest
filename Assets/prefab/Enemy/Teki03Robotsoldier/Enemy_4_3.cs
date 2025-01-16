@@ -8,6 +8,7 @@ public class Enemy_Teki4_3 : MonoBehaviour
 {
     EnemyStatus enemyStatus; //敵のステータス
     EnemyGenerator enemyGenerator;
+    public Animator animator;
 
     //Inspector上設定できる基本のステータス
     public string name_ = "Enemy_RobotSoldier";
@@ -161,9 +162,29 @@ public class Enemy_Teki4_3 : MonoBehaviour
         }
     }
 
-    public void ChangeState(EnemyState nextState)
+    private void ChangeState(EnemyState nextState)
     {
-        _nextstate = nextState;
+        _state = nextState;
+        //状態変更したら、アニメーションも変更
+        switch (nextState)
+        {
+            case EnemyState.Chase:
+                animator.SetBool("Chase", true);
+                break;
+
+            case EnemyState.Attack:
+                animator.SetTrigger("Bite");
+                //atkTime = atkInterval;
+                break;
+            case EnemyState.Hit:
+               // biteHitbox.SetActive(false);
+                //isAttacking = false;
+                animator.SetTrigger("Hit");
+                break;
+            case EnemyState.Dead:
+                animator.SetTrigger("Dead");
+                break;
+        }
     }
 
     //ステート処理-----------------------------------------------------------------------------
