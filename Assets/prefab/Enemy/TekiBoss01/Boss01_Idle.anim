@@ -29,11 +29,11 @@ AnimationClip:
       - serializedVersion: 3
         time: 1
         value: {x: 0, y: 8, z: 0}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
+        inSlope: {x: 0, y: -0.68708056, z: 0}
+        outSlope: {x: 0, y: -0.68708056, z: 0}
         tangentMode: 0
         weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        inWeight: {x: 0.33333334, y: 0.5237584, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 2
@@ -154,11 +154,11 @@ AnimationClip:
       - serializedVersion: 3
         time: 1
         value: 8
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
+        inSlope: -0.68708056
+        outSlope: -0.68708056
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0.5237584
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 2
@@ -264,4 +264,11 @@ AnimationClip:
     flags: 0
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.51666665
+    functionName: OnIdleAnime
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

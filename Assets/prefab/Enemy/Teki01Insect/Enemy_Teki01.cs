@@ -34,14 +34,12 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     //攻撃のPrefab
     public GameObject biteHitbox;    //攻撃のHitboxと攻撃のエフェクトをprefabにする
     public GameObject bombPrefab;
-    private GameObject hitbox = null; //生成したHitboxを保存
+    private GameObject hitboFx = null; //生成したHitboxを保存
     public float attackRange = 1.5f;
     private bool isAttacking = false;
     float atkInterval = 1f;
     float atkTime = 0f;
 
-
-    private bool enemyDying;//Enemyは死んでいるか？OnHitに使用
 
     //ステータスマシン
     public enum EnemyState
@@ -128,13 +126,14 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         ChangeState(EnemyState.Idle); //待機状態設定
         if(fireParticle != null)fireParticle.SetActive(false);
         if(shiled!=null)shiled.SetActive(false);
+        playerT = GameObject.FindGameObjectWithTag("Player").transform;
     }
     void Start()
     {
         //敵生成するとAwake->OnEnable(prefabはEnableの状態の場合)->Start->Update->Update->Update(毎フレイム循環)
 
         if (enemyGenerator == null) enemyGenerator = FindObjectOfType<EnemyGenerator>();
-        playerT = GameObject.FindGameObjectWithTag("Player").transform;
+        
 
     }
 
@@ -153,7 +152,6 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         if (enemyStatus.IsBleeding())
         {
             fireParticle.SetActive(true);
-            fireParticle.GetComponent<ParticleSystem>().Play();
         }
         else fireParticle.SetActive(false);
         if(enemyStatus.HasShield())shiled.SetActive(true);
@@ -222,7 +220,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 break;
             case EnemyState.Stunned:
                 stunTime = 0;
-                animator.SetBool("Chase", false);
+                animator.enabled = false;
                 break;
         }
     }
@@ -288,8 +286,13 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     private void OnStuned()
     {
+        stunTime += Time.deltaTime;
         if (stunTime < stunTimeMax) return;
-        else ChangeState(EnemyState.Idle);
+        else
+        {
+            animator.enabled = true;
+            ChangeState(EnemyState.Idle);
+        }
     }
     private System.Collections.IEnumerator HitFlash(bool isBomb)
     {
@@ -337,6 +340,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     private void OnDead()
     {
 
+        if(IsDying())return;
         ChangeState(EnemyState.Dead);//死亡状態
         //死亡アニメーションとエフェクト
         StartCoroutine(DyingAnimation());
@@ -410,7 +414,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         GameObject bomb = Instantiate(bombPrefab, transform);　//爆発Hitbox生成
         bomb.GetComponent<Hitbox_Teki01_Bomb>().Initialized(enemyStatus.GetAttackNow());
         //爆発したら死ぬ
-        ChangeState(EnemyState.Dead);
+        
         OnDead();
     }
     public void OnIdleAnime()
