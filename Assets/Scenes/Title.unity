@@ -629,7 +629,7 @@ MonoBehaviour:
   - {fileID: 6965963389030569640, guid: d81b3064f1c4fef4fadd2846e4679734, type: 3}
   - {fileID: 6965963389030569640, guid: c8bf482960d686b49a319edccea81f91, type: 3}
   rareItems:
-  - {fileID: 6965963389030569640, guid: b545aa3aadcbfd944aaea3287c7ff127, type: 3}
+  - {fileID: 6965963389030569640, guid: 2fd19fe9b3bf12b458791d1bb9d0d099, type: 3}
   - {fileID: 6965963389030569640, guid: 45cedcb6684ee2746b1c02761af6f098, type: 3}
   - {fileID: 6965963389030569640, guid: 09377d544b8fe5445bb2f188e2cdec1b, type: 3}
 --- !u!4 &2023933468

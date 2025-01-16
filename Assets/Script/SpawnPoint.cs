@@ -8,6 +8,7 @@ public class SpawnPoint : MonoBehaviour
     public float litHight = 3f;
     public float litTime = 4f;
     public ParticleSystem spawnedParticle;
+    public Vector3 spawn0ffset = Vector3.zero;
 
     void OnEnable()
     {
@@ -18,7 +19,7 @@ public class SpawnPoint : MonoBehaviour
         spawnedEnemies.Add(enemy);
         Vector3 spawnPos = transform.position;
         spawnPos.y -= litHight;
-        enemy.transform.position = spawnPos;
+        enemy.transform.position = spawnPos+spawn0ffset;
         StartCoroutine(LitUpEnemy(enemy));
         spawnedParticle.Play();
     }
@@ -31,7 +32,7 @@ public class SpawnPoint : MonoBehaviour
         }
         float moveTime = 0f;
         Vector3 startPos = enemy.transform.position; 
-        Vector3 targetPos = transform.position;      
+        Vector3 targetPos = transform.position+spawn0ffset;      
 
         while (moveTime < litTime)
         {

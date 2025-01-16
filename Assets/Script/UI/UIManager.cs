@@ -66,6 +66,9 @@ public class UIManager : MonoBehaviour
     private const float ammoSegmentSpacing = 28f; // 弾薬セグメント間の距離
     private const float ammoBarHeight = 200f; // 弾薬バーの高さ
 
+    private float startTime = 0f;
+    private float titleTime = 0.2f;
+
     private void Awake()
     {
         if (Instance == null)
@@ -80,7 +83,6 @@ public class UIManager : MonoBehaviour
             UpdateAmmoBar(); // 初期弾薬バーの設定
             UnableButtons();
             tooltip.SetActive(false);
-            CloseAllPanel();
         }
         else
         {
@@ -102,10 +104,18 @@ public class UIManager : MonoBehaviour
             navigateTagsAction.action.Enable();
             navigateTagsAction.action.performed += ctx => NavigateTagIcons();
         }
-        if(SceneManager.GetActiveScene().name =="Title")
+        CloseAllPanel();
+    }
+    private void LateUpdate()
+    {
+        if (SceneManager.GetActiveScene().name == "Title")
         {
-            CloseAllPanel();
-            TitleUI();
+            startTime += Time.deltaTime;
+            if (startTime>titleTime&&!TitlePanel.activeSelf)
+            {
+                CloseAllPanel();
+                TitleUI();
+            }
         }
     }
     private void OnEnable()
@@ -137,6 +147,7 @@ public class UIManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("UI SceneLoaded");
         if (scene.name == "Title")
         {
             CloseAllPanel();
@@ -165,7 +176,7 @@ public class UIManager : MonoBehaviour
             // タグアイコンが存在しない場合は何もしない
             return;
         }
-
+        if (!playerStatusPanel.activeSelf) return;
         // 現在の選択オブジェクトを取得
         GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
 
@@ -458,7 +469,11 @@ public class UIManager : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(firstButton.gameObject);
             return firstButton.gameObject;
         }
-        else return null;
+        else
+        {
+            Debug.Log("Null button");
+            return null;
+        }
         
     }
     private void CloseAllPanel()
@@ -547,7 +562,14 @@ public class UIManager : MonoBehaviour
         tutorialPanel.SetActive(true);
         SetFirstButton(tutorialPanel);
     }
-
+    public void EndingUI()
+    {
+        CloseAllPanel();
+        GameManager.Instance?.PauseGame();
+        playerInput.actions.FindActionMap("PlayerCharacter").Disable();
+        EndingPanel.SetActive(true);
+        SetFirstButton(EndingPanel);
+    }
     public void OnExitGameButtonDown()
     {
         SceneManager.LoadScene("Title");
@@ -563,6 +585,7 @@ public class UIManager : MonoBehaviour
     }
     public void OnGameStart()
     {
+        CloseAllPanel();
         SceneManager.LoadScene("Tutorial");
     }
 

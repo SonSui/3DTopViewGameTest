@@ -15,9 +15,14 @@ public class Hitbox_Sword : MonoBehaviour
     private HashSet<Collider> hitTargets = new HashSet<Collider>(); // UŒ‚‚µ‚½“G‚ğ‹L˜^‚·‚éƒnƒbƒVƒ…ƒZƒbƒg
 
     private int damage;
-    private float critical;
-    private bool isDefensePenetration;
-    private bool isBleed;
+    private float critical=0f;
+    private bool isDefensePenetration = false;
+    private bool isBleed = false;
+    bool isPenetrate=false;//–hŒäŠÑ’Ê
+    bool isDefDown=false;  //–hŒä—ÍŒ¸
+    bool isAtkDown = false; //UŒ‚—ÍŒ¸
+    bool isRecover = false;
+    bool isExolo = false;
     private CameraFollow camera1;
 
     private PlayerControl player;
@@ -80,7 +85,7 @@ public class Hitbox_Sword : MonoBehaviour
                 // ƒNƒŠƒeƒBƒJƒ‹ƒqƒbƒg”»’è
                 bool crit = Random.Range(0f, 1f) < critical;
                 // ƒ_ƒ[ƒW‚ğ—^‚¦‚é
-                int dmg = io.OnHit(damage, crit, isDefensePenetration, isBleed);
+                int dmg = io.OnHit(damage, crit, isDefensePenetration, isBleed,isDefDown,isAtkDown,isRecover);
 
                 if (dmg != 0)
                 {
@@ -100,12 +105,26 @@ public class Hitbox_Sword : MonoBehaviour
         }
     }
 
-    public void Initialize(CameraFollow camera_, int dmg, int type = 0, float criRate = 0.01f, bool isDefPen = false)
+    public void Initialize(CameraFollow camera_, int dmg, 
+        int type, 
+        float criRate, 
+        bool isDefPen,
+        bool isBleed_,   //—¬ŒŒA”RÄ
+        bool isDefDown_,  //–hŒä—ÍŒ¸
+        bool isAtkDown_, //UŒ‚—ÍŒ¸
+        bool isRecover_ ,
+        bool isExplo_
+        )
     {
         camera1 = camera_;
         damage = dmg;
         critical = criRate;
         isDefensePenetration = isDefPen;
+        isBleed = isBleed_;
+        isDefDown = isDefDown_;
+        isAtkDown = isAtkDown_;
+        isRecover = isRecover_;
+        isExolo = isExplo_;
         switch (type)
         {
             case 0: SetDefaultTrail(); break;

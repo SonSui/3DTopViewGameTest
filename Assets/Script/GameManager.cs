@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
             SpawnCamera();
             StageManager.Instance?.SetStageNum(currentStage);
         }
-        if(scene.name =="Title")
+        else if(scene.name =="Title")
         {
             ResetPlayerStatus();
             ResetDropInfo();
@@ -212,7 +212,7 @@ public class GameManager : MonoBehaviour
     // ===== Player =====
     private void ResetPlayerStatus()
     {
-        playerStatus = new PlayerStatus(5, 3);
+        playerStatus = new PlayerStatus(5, 6);
         isPlayerDead = false;
     }
 
@@ -258,7 +258,8 @@ public class GameManager : MonoBehaviour
     }
     public void RecoverHP()
     {
-        //
+        playerStatus.OnHpRecover();
+        uiManager.SetHP(playerStatus.GetHpNow(), playerStatus.GetHpMax());
     }
     public void AdvanceStage()
     {

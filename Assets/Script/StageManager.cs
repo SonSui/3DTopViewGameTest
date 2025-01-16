@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.InputSystem.Processors;
 using UnityEngine.SceneManagement;
@@ -20,6 +21,8 @@ public class StageManager : MonoBehaviour
 
     private static int stageNum = 0;
     public int maxStage = 3;
+    public bool isTutorial = false;
+    public bool isBoss = false;
     
 
     private void Awake()
@@ -38,9 +41,18 @@ public class StageManager : MonoBehaviour
     {
         
         uiManager = UIManager.Instance;
+        
         if(isStageDifficult)
         {
             dropPrefab = GameManager.Instance.GetRareDrop();
+        }
+        else if(isTutorial)
+        {
+
+        }
+        else if(isBoss)
+        {
+
         }
         else
         {
@@ -60,7 +72,7 @@ public class StageManager : MonoBehaviour
                 uiManager.FailUI();
             }
         }
-        if (drop==null&&isClear&&!isClearUI)
+        if (drop==null&&isClear&&!isClearUI&&!isBoss)
         {
             isClearUI = true;
             StartCoroutine(EnableClearUIAfterDelay());
@@ -72,11 +84,17 @@ public class StageManager : MonoBehaviour
         if (!isClear)
         {
             isClear = true;
-            if (drop == null && dropPrefab != null)
+            if(isBoss)BossClear();
+            if (drop == null && dropPrefab != null && !isBoss)
             {
                 drop = Instantiate(dropPrefab);
             }
         }
+    }
+    public void BossClear()
+    {
+        StartCoroutine(EnableClearUIAfterDelay());
+        
     }
     private void OnDestroy()
     {
@@ -87,9 +105,18 @@ public class StageManager : MonoBehaviour
     }
     private IEnumerator EnableClearUIAfterDelay(float t = 3f)
     {
+        Debug.Log("EnableClearUI");
         yield return new WaitForSeconds(t);
-        if(stageNum<maxStage)uiManager.ContinueUI1();
-        else uiManager.ContinueToBoss();
+        if (isBoss)
+        {
+            uiManager.EndingUI();
+            Debug.Log("EndingUI");
+        }
+        else
+        {
+            if (stageNum < maxStage) uiManager.ContinueUI1();
+            else uiManager.ContinueToBoss();
+        }
     }
     public void SetStageNum(int n)
     {

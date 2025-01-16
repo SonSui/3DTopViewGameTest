@@ -37,6 +37,8 @@ public class EnemyGenerator : MonoBehaviour
 
     public float spawnInterval = 1.0f; // 敵を生成する間隔
 
+    public Vector3 spawnPointOffset = new Vector3(0, 0, 0);
+
     void Start()
     {
         // 現在の波の敵数を初期化
@@ -102,7 +104,7 @@ public class EnemyGenerator : MonoBehaviour
                 {
                     if (config.count > 0)
                     {
-                        GameObject enemy = Instantiate(config.enemyPrefab, spawnPoint.transform.position, Quaternion.identity);
+                        GameObject enemy = Instantiate(config.enemyPrefab, spawnPoint.transform.position+spawnPointOffset, Quaternion.identity);
                         enemy.GetComponent<IOnHit>().Initialize(
                             config.enemyPrefab.name,
                             config.hpMax,
@@ -129,9 +131,15 @@ public class EnemyGenerator : MonoBehaviour
     public void EnemyDead(GameObject enemy)
     {
         enemiesAlive--;
+        Debug.Log($"AliveEnemy {enemiesAlive}");
         if (currentWaveIndex >= waves.Count && enemiesAlive <= 0)
         {
-            StageManager.Instance?.StageClear();
+            if (!StageManager.Instance.isBoss) StageManager.Instance.StageClear();
+            else
+            {
+                StageManager.Instance.BossClear();
+                Debug.Log("BossDead Generator");
+            }
         }
     }
 }

@@ -402,7 +402,19 @@ public class PlayerControl : MonoBehaviour
         {
             type = 1;
         }
-        swordAttack01Hitbox.GetComponent<Hitbox_Sword>().Initialize(camera1,gameManager.GetPlayerAttackNow(),type);
+        swordAttack01Hitbox.GetComponent<Hitbox_Sword>().Initialize(
+            camera1,
+            gameManager.GetPlayerAttackNow(),
+            type,
+            gameManager.playerStatus.GetCriticalRate(),
+            gameManager.playerStatus.IsDefensePenetrationEnabled(),
+            gameManager.playerStatus.GetIsBleedingEffectFlag(),
+            gameManager.playerStatus.GetIsDefenseReductionFlag(),
+            gameManager.playerStatus.GetIsAttackReductionFlag(),
+            gameManager.playerStatus.GetHpAutoRecovery(),
+            gameManager.playerStatus.IsExplosionEnabled()
+
+            );
     }
     public void OnSwordAttack01Update2()
     {
@@ -427,7 +439,17 @@ public class PlayerControl : MonoBehaviour
         {
             type = 1;
         }
-        swordAttack02Hitbox1.GetComponent<Hitbox_Sword>().Initialize(camera1, gameManager.GetPlayerAttackNow(),type);
+        swordAttack02Hitbox1.GetComponent<Hitbox_Sword>().Initialize(
+            camera1,
+            gameManager.GetPlayerAttackNow(),
+            type,
+            gameManager.playerStatus.GetCriticalRate(),
+            gameManager.playerStatus.IsDefensePenetrationEnabled(),
+            gameManager.playerStatus.GetIsBleedingEffectFlag(),
+            gameManager.playerStatus.GetIsDefenseReductionFlag(),
+            gameManager.playerStatus.GetIsAttackReductionFlag(),
+            gameManager.playerStatus.GetHpAutoRecovery(),
+            gameManager.playerStatus.IsExplosionEnabled());
         comboResetTime = 0.81f / currActSpeed;
         comboTimer = 0f;
         //AdjustYRotationRelativeToParent(charaTrans, 4.967f);
@@ -449,7 +471,17 @@ public class PlayerControl : MonoBehaviour
         {
             type = 1;
         }
-        swordAttack02Hitbox2.GetComponent<Hitbox_Sword>().Initialize(camera1, gameManager.GetPlayerAttackNow(),type);
+        swordAttack02Hitbox2.GetComponent<Hitbox_Sword>().Initialize(
+            camera1,
+            gameManager.GetPlayerAttackNow(),
+            type,
+            gameManager.playerStatus.GetCriticalRate(),
+            gameManager.playerStatus.IsDefensePenetrationEnabled(),
+            gameManager.playerStatus.GetIsBleedingEffectFlag(),
+            gameManager.playerStatus.GetIsDefenseReductionFlag(),
+            gameManager.playerStatus.GetIsAttackReductionFlag(),
+            gameManager.playerStatus.GetHpAutoRecovery(),
+            gameManager.playerStatus.IsExplosionEnabled());
     }
     public void OnSwordArrack02Exit()
     {
@@ -468,7 +500,17 @@ public class PlayerControl : MonoBehaviour
         {
             type = 1;
         }
-        swordAttack03Hitbox.GetComponent<Hitbox_Sword>().Initialize(camera1, gameManager.GetPlayerAttackNow(),type);
+        swordAttack03Hitbox.GetComponent<Hitbox_Sword>().Initialize(
+            camera1,
+            gameManager.GetPlayerAttackNow(),
+            type,
+            gameManager.playerStatus.GetCriticalRate(),
+            gameManager.playerStatus.IsDefensePenetrationEnabled(),
+            gameManager.playerStatus.GetIsBleedingEffectFlag(),
+            gameManager.playerStatus.GetIsDefenseReductionFlag(),
+            gameManager.playerStatus.GetIsAttackReductionFlag(),
+            gameManager.playerStatus.GetHpAutoRecovery(),
+            gameManager.playerStatus.IsExplosionEnabled());
         comboResetTime = 0.83f / currActSpeed;
         comboTimer = 0f;
         comboStep = 0; //連続コンボのためにリセット

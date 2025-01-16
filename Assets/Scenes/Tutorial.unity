@@ -608,6 +608,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStageDifficult: 1
+  maxStage: 3
+  isTutorial: 0
+  isBoss: 0
 --- !u!4 &777464978
 Transform:
   m_ObjectHideFlags: 0
@@ -1078,35 +1081,57 @@ MonoBehaviour:
     enemies:
     - enemyPrefab: {fileID: 4470296684085650477, guid: 32ef5b6e99efe8f48988c0f52127670c, type: 3}
       count: 4
-      hpMax: 5
+      hpMax: 10
       attackPower: 1
       defense: 1
-      enemyType: Bomb
+      enemyType: 1
       hasShield: 0
       shieldDurability: 0
-      moveSpeed: 2
+      moveSpeed: 4
       attackSpeed: 1
   - waveName: wave2
     enemies:
     - enemyPrefab: {fileID: 4470296684085650477, guid: 32ef5b6e99efe8f48988c0f52127670c, type: 3}
       count: 1
-      hpMax: 5
+      hpMax: 6
       attackPower: 1
       defense: 1
-      enemyType: Bomb
-      hasShield: 0
-      shieldDurability: 0
-      moveSpeed: 2
-      attackSpeed: 1
-    - enemyPrefab: {fileID: 4470296684085650477, guid: 32ef5b6e99efe8f48988c0f52127670c, type: 3}
-      count: 1
-      hpMax: 3
-      attackPower: 1
-      defense: 1
-      enemyType: BombShiled
+      enemyType: 1
       hasShield: 1
-      shieldDurability: 5
-      moveSpeed: 2
+      shieldDurability: 10
+      moveSpeed: 4
+      attackSpeed: 1
+    - enemyPrefab: {fileID: 2267980272978758722, guid: c8c90189b6c05fb41b9c0bf7e463e749, type: 3}
+      count: 2
+      hpMax: 10
+      attackPower: 1
+      defense: 1
+      enemyType: 2
+      hasShield: 1
+      shieldDurability: 10
+      moveSpeed: 1
+      attackSpeed: 1
+  - waveName: wave3
+    enemies:
+    - enemyPrefab: {fileID: 4470296684085650477, guid: 32ef5b6e99efe8f48988c0f52127670c, type: 3}
+      count: 2
+      hpMax: 6
+      attackPower: 1
+      defense: 1
+      enemyType: 1
+      hasShield: 1
+      shieldDurability: 10
+      moveSpeed: 4
+      attackSpeed: 1
+    - enemyPrefab: {fileID: 2267980272978758722, guid: c8c90189b6c05fb41b9c0bf7e463e749, type: 3}
+      count: 1
+      hpMax: 10
+      attackPower: 1
+      defense: 1
+      enemyType: 2
+      hasShield: 1
+      shieldDurability: 10
+      moveSpeed: 1
       attackSpeed: 1
   spawnPoints:
   - {fileID: 279539990}
@@ -1114,6 +1139,7 @@ MonoBehaviour:
   - {fileID: 1501633836}
   - {fileID: 555307040}
   spawnInterval: 1
+  spawnPointOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &1501633836 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 836445334509158770, guid: 8515888256016f446a7bb89e6bec0513, type: 3}
@@ -1135,7 +1161,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5018152319541423033, guid: 8515888256016f446a7bb89e6bec0513, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5018152319541423033, guid: 8515888256016f446a7bb89e6bec0513, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6167,7 +6193,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1843074125 stripped
 GameObject:
