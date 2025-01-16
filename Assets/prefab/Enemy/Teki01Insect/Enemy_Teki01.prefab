@@ -177,6 +177,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198525775101834184, guid: ce4ae1080cf5f5d4b91791b132f3ee6f, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198663536934198432, guid: ce4ae1080cf5f5d4b91791b132f3ee6f, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 198663536934198432, guid: ce4ae1080cf5f5d4b91791b132f3ee6f, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 3

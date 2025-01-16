@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
     public GameObject playerStatusPanel;
     public GameObject bossPanel;
     public GameObject EndingPanel;
+    public GameObject TitlePanel;
 
     [Header("Input Settings")]
     public InputActionReference openSettingsAction;
@@ -79,6 +80,7 @@ public class UIManager : MonoBehaviour
             UpdateAmmoBar(); // èâä˙íeñÚÉoÅ[ÇÃê›íË
             UnableButtons();
             tooltip.SetActive(false);
+            CloseAllPanel();
         }
         else
         {
@@ -100,7 +102,11 @@ public class UIManager : MonoBehaviour
             navigateTagsAction.action.Enable();
             navigateTagsAction.action.performed += ctx => NavigateTagIcons();
         }
-        
+        if(SceneManager.GetActiveScene().name =="Title")
+        {
+            CloseAllPanel();
+            TitleUI();
+        }
     }
     private void OnEnable()
     {
@@ -134,6 +140,7 @@ public class UIManager : MonoBehaviour
         if (scene.name == "Title")
         {
             CloseAllPanel();
+            TitleUI();
         }
         else if (scene.name == "Tutorial")
         {
@@ -464,11 +471,13 @@ public class UIManager : MonoBehaviour
         tutorialPanel.SetActive(false);
         bossPanel.SetActive(false);
         EndingPanel.SetActive(false);
+        TitlePanel.SetActive(false);
     }
 
     // ===== UIä«óù =====
     public void AbleButtons()
     {
+        if (!CheckMenuAcceptable()) return;
         CloseAllPanel();
         settingsPanel.SetActive(true);
         playerInput.actions.FindActionMap("PlayerCharacter").Disable();
@@ -513,6 +522,14 @@ public class UIManager : MonoBehaviour
         bossPanel.SetActive(true);
         SetFirstButton(bossPanel);
     }
+    public void TitleUI()
+    {
+        CloseAllPanel();
+        GameManager.Instance?.PauseGame();
+        playerInput.actions.FindActionMap("PlayerCharacter").Disable();
+        TitlePanel.SetActive(true);
+        SetFirstButton(TitlePanel);
+    }
     public void FailUI()
     {
         CloseAllPanel();
@@ -539,6 +556,10 @@ public class UIManager : MonoBehaviour
     public void OnRetryButtonDown()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void OnTitleExitDown()
+    {
+        Application.Quit();
     }
     public void OnGameStart()
     {
@@ -576,6 +597,24 @@ public class UIManager : MonoBehaviour
         CloseAllPanel();
         GameManager.Instance?.AdvanceStage();
         SceneManager.LoadScene("Boss");
+    }
+    public bool CheckMenuAcceptable()
+    {
+        if (
+            failPanel.activeSelf ||
+            continuePanel.activeSelf ||
+            continuePanel2.activeSelf ||
+            bossPanel.activeSelf ||
+            EndingPanel.activeSelf ||
+            TitlePanel.activeSelf
+            )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
     private void OnDestroy()
     {
