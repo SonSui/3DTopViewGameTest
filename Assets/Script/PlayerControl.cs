@@ -39,6 +39,7 @@ public class PlayerControl : MonoBehaviour
     private bool isAttack2Acceptable = true;
 
     // Hitbox生成（エフェクト含み）
+    public GameObject swordCube;
     public GameObject onAttackSword;
     public GameObject unAttackSword;
     public GameObject swordAttack01Hitbox;
@@ -54,6 +55,7 @@ public class PlayerControl : MonoBehaviour
     //　エフェクト
     public GameObject dashEffect;
     public GameObject evasionEffect;
+    public GameObject hitEffect;
 
 
     // 入力バッファ
@@ -1010,6 +1012,8 @@ public class PlayerControl : MonoBehaviour
         if (applyDmg > 0)
         {
             animator.SetTrigger("Impact");
+            GameObject impact = Instantiate(hitEffect, dashEffect.transform.position, Quaternion.identity);
+            Destroy(impact,1f);
             
             isInvic = true;
             currInvinTime = 0;
@@ -1042,5 +1046,9 @@ public class PlayerControl : MonoBehaviour
         {
             gamepad.SetMotorSpeeds(0f, 0f); 
         }
+    }
+    public void SetSwordCube(float rage=1f)
+    {
+        swordCube.transform.localScale = new Vector3(rage, rage, rage);
     }
 }

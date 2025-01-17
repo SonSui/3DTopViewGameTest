@@ -7431,6 +7431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charaTrans: {fileID: 8659613270470441231}
   animator: {fileID: 5350361874120874179}
+  swordCube: {fileID: 3014304673053602576}
   onAttackSword: {fileID: 6250562569693534110}
   unAttackSword: {fileID: 5627152491730099195}
   swordAttack01Hitbox: {fileID: 7751870881595773659}
@@ -7443,6 +7444,7 @@ MonoBehaviour:
   leftLegHitbox: {fileID: 0}
   dashEffect: {fileID: 2593451632627334214}
   evasionEffect: {fileID: 8460667080445658512, guid: 9b0fe1805d0dd0640b38387de31cbf42, type: 3}
+  hitEffect: {fileID: 3077343761403282166, guid: f78aaaec3b393e24ca74cd6de8194347, type: 3}
   bufferTime: 0.25
   gravity: 100
   hookPrefab: {fileID: 52391932645613438, guid: a0f4b4244573bdb469378ff9295f2edb, type: 3}

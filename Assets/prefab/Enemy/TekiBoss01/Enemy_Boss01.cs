@@ -196,8 +196,19 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
 
             //以下の行動はAnimationEventや他のオブジェクトが呼んでくれる
             case EnemyState.Attack:
+                liveTime += (Time.deltaTime/5);
                 break;
             case EnemyState.Hit:
+                liveTime += Time.deltaTime;
+                if (liveTime > shiledTime)
+                {
+                    if (!enemyStatus.HasShield())
+                    {
+                        enemyStatus.SetShield(true);
+                        enemyStatus.SetShieldDurability(shiledDuration);
+                        liveTime = 0;
+                    }
+                }
                 break;
             case EnemyState.Dead:
                 break;
@@ -219,6 +230,11 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
                 OnAttaceState();
                 break;
             case EnemyState.Hit:
+                if (isAttacking)
+                {
+                    float rand = UnityEngine.Random.Range(0f, 1f);
+                    if (rand < 0.8f) break;
+                }
                 waveHitbox.SetActive(false);
                 isAttacking = false;
                 animator.SetTrigger("Hit");

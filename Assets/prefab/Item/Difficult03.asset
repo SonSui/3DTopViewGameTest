@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7c319fc3b03bd24882f355ba76358e1, type: 3}
+  m_Name: Difficult03
+  m_EditorClassIdentifier: 
+  itemName: FireChip
+  rare: 3
+  hpMax: 0
+  attackPower: 0
+  criticalRate: 0
+  criticalDamage: 0
+  moveSpeed: 0
+  attackSpeed: 0
+  attackRange: 0
+  evasionRate: 0
+  ammoCapacity: 0
+  tags:
+  - {fileID: 11400000, guid: 5162c47e177b6554383fb4f83210d367, type: 2}
+  - {fileID: 11400000, guid: 384bdd2abf36f634582c46c67192463f, type: 2}
+  - {fileID: 11400000, guid: e700e9ae90a23594abe13442fd66d48c, type: 2}
+  - {fileID: 11400000, guid: 3d438f96bd5d10c4284bdea76a8527db, type: 2}

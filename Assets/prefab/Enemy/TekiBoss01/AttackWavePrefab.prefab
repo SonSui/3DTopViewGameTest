@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preAtkTime: 0.1
-  lifeTime: 1
+  lifeTime: 0.6
   currTime: 0
   particleSystem: {fileID: 6462623897640036794}
 --- !u!1001 &1895515649669884859

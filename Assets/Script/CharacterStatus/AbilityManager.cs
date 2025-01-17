@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 
 // PlayerStatusに内包する能力管理クラス
 // 装備品(ItemData)を収集し、それに伴うタグを集計し、対応する能力(TagEffect)を有効化し、

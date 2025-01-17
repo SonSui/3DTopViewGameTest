@@ -129,7 +129,7 @@ MonoBehaviour:
   fallSpeed: 10
   groundYPosition: -3.3
   shiledTime: 10
-  shiledDuration: 15
+  shiledDuration: 20
 --- !u!1 &8139735937385761338
 GameObject:
   m_ObjectHideFlags: 0

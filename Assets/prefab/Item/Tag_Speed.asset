@@ -20,7 +20,7 @@ MonoBehaviour:
     criticalRate: 0
     criticalDamage: 0
     moveSpeed: 0
-    attackSpeed: 0.3
+    attackSpeed: 0.1
     attackRange: 0
     evasionRate: 0
     isDefenseReduction: 0
@@ -49,7 +49,7 @@ MonoBehaviour:
     criticalRate: 0
     criticalDamage: 0
     moveSpeed: 0
-    attackSpeed: 0.4
+    attackSpeed: 0.2
     attackRange: 0
     evasionRate: 0
     isDefenseReduction: 0
@@ -103,4 +103,4 @@ MonoBehaviour:
     multiAttack: 0
     defensePenetration: 0
   icon: {fileID: 21300000, guid: 69204b9d14be7a941b3cbfeed25373e0, type: 3}
-  description: "\u52A0\u901F\nLv1\u3000\u8FD1\u63A5\u653B\u6483\u901F\u5EA6\u304C30%\u52A0\u901F\u3059\u308B\r\nLv2\u3000\u8FD1\u63A5\u653B\u6483\u901F\u5EA6\u304C70%\u52A0\u901F\u3059\u308B\r\nLv3\u3000\u8FD1\u63A5\u653B\u6483\u901F\u5EA6\u304C100%\u52A0\u901F\u3059\u308B"
+  description: "\u52A0\u901F\nLv1\u3000\u8FD1\u63A5\u653B\u6483\u901F\u5EA6\u304C10%\u52A0\u901F\u3059\u308B\r\nLv2\u3000\u8FD1\u63A5\u653B\u6483\u901F\u5EA6\u304C30%\u52A0\u901F\u3059\u308B\r\nLv3\u3000\u8FD1\u63A5\u653B\u6483\u901F\u5EA6\u304C60%\u52A0\u901F\u3059\u308B"
