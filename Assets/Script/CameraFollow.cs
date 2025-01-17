@@ -74,7 +74,7 @@ public class CameraFollow : MonoBehaviour
         posUpDownY = defOffset.magnitude;
         defRotation = transform.eulerAngles;
         defFieldView = this.GetComponent<Camera>().fieldOfView;
-        rotUpDown = new Vector3 (rotUpDownX, defRotation.y, defRotation.z);
+        rotUpDown = new Vector3(rotUpDownX, defRotation.y, defRotation.z);
         currTargetOffset = defOffset;
         currTargetRot = defRotation;
         currTargetView = defFieldView;
@@ -108,7 +108,7 @@ public class CameraFollow : MonoBehaviour
 
             desiredPosition = target.position + currTargetOffset;
             Vector3 pos2 = new Vector3(target.position.x, target.position.y + posUpDownY, target.position.z); ;
-            
+
 
             Vector3 footOffset = new Vector3(0f, 0.8f, 0f);
             Vector3 directionToTarget = target.position - footOffset - desiredPosition;
@@ -152,7 +152,7 @@ public class CameraFollow : MonoBehaviour
                 //建物の後ろで攻撃処理未実装
                 //位置を円滑に更新
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotUpDown), Time.deltaTime / smoothTime);
-                transform.position = Vector3.Lerp(transform.position, pos2, Time.deltaTime / smoothTime );
+                transform.position = Vector3.Lerp(transform.position, pos2, Time.deltaTime / smoothTime);
             }
             else
             {
@@ -184,11 +184,12 @@ public class CameraFollow : MonoBehaviour
         // オブジェクトの位置を更新
         desiredPosition += rotatedOffset;
 
-        
+
     }
 
-    public void ZoomAndShakeCamera(float shakeIntensity = 0.1f, float returnSpeed = 0.5f, float minZoomRate = 0.3f)
+    public void ZoomAndShakeCamera(float shakeIntensity = 0.15f, float returnSpeed = 0.5f, float minZoomRate = 0.6f)
     {
+        if (previousOcclusionState) return;
         float zoomRate = 0.9f; // 距離を0.1倍縮小
         // コルーチンが実行中の場合、停止する
         if (zoomShakeCoroutine != null)
@@ -199,7 +200,7 @@ public class CameraFollow : MonoBehaviour
         // 現在のオフセットが最小距離を超えない場合、新しいコルーチンを開始
         if (currTargetOffset.magnitude > defOffset.magnitude * minZoomRate)
         {
-            Vector3 newTargetOffset = currTargetOffset * zoomRate; 
+            Vector3 newTargetOffset = currTargetOffset * zoomRate;
             zoomShakeCoroutine = StartCoroutine(ZoomAndShakeCoroutine(newTargetOffset, shakeIntensity, returnSpeed));
         }
     }
@@ -269,7 +270,7 @@ public class CameraFollow : MonoBehaviour
         else
         {
             cameraUI.SetActive(true);
-            UpdateSliders ();
+            UpdateSliders();
         }
     }
 
@@ -280,7 +281,7 @@ public class CameraFollow : MonoBehaviour
         {
             // CanvasのPrefabをインスタンス化
             cameraUI = Instantiate(uiCanvasPrefab);
-            
+
 
             // カメラ状態を表示するTextを取得
             cameraStatusText = cameraUI.GetComponentInChildren<Text>();
@@ -353,7 +354,7 @@ public class CameraFollow : MonoBehaviour
         if (rotYSlider != null) rotYSlider.value = transform.eulerAngles.y;
         if (rotZSlider != null) rotZSlider.value = transform.eulerAngles.z;
         if (fieldViewSlider != null) fieldViewSlider.value = defFieldView;
-        
+
         // 更新イベントを戻す 
         if (posXSlider != null) posXSlider.onValueChanged.AddListener(OnPositionSliderChanged);
         if (posYSlider != null) posYSlider.onValueChanged.AddListener(OnPositionSliderChanged);
@@ -394,7 +395,7 @@ public class CameraFollow : MonoBehaviour
     }
     private void OnFieldViewSliderChanged(float value)
     {
-        if(fieldViewSlider != null)
+        if (fieldViewSlider != null)
         {
             // 視野角を更新
             float fieldView = fieldViewSlider.value;

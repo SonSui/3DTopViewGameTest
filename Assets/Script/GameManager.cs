@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     public Vector3 defPlayerPos = new Vector3(0, 0, 0);
     public Vector3 defCameraPos = new Vector3(5, 5, -5);
     public Vector3 defCameraRot = new Vector3(45, -45, 0);
+    public Vector3 bossCameraPos = new Vector3(23, 7, -20);
+    public Vector3 bossCameraRot = new Vector3(15,0,0);
     public float defCameraFieldView = 70f;
 
     public GameObject uiPrefab;
@@ -88,6 +90,12 @@ public class GameManager : MonoBehaviour
         {
             Vector3 cameraPosition = defPlayerPos + defCameraPos; // プレイヤーの相対位置に配置
             Quaternion cameraRotation = Quaternion.Euler(defCameraRot); // カメラの角度を設定
+            if (SceneManager.GetActiveScene().name=="Boss")
+            {
+                cameraPosition = defPlayerPos + bossCameraPos;
+                cameraRotation = Quaternion.Euler(bossCameraRot);
+            }
+            
 
             // カメラのインスタンス化
             camera1 = Instantiate(cameraPrefab);

@@ -415,6 +415,7 @@ public class Enemy_Teki02 : MonoBehaviour,IOnHit
             if (isAtkDown) { enemyStatus.ApplyAttackReduction(5f); }
 
             int hitDmg = enemyStatus.TakeDamage(dmg, isPenetrate);//–hŒä—Í‚È‚Ç‚Ì‰e‹¿‚ğŠÜ‚ß‚Äƒ_ƒ[ƒWŒvZ‚Å‚«‚é
+            int trueDmg = hitDmg;
             if (hitDmg != 0)
             {
                 Color displayColor = Color.red;
@@ -447,7 +448,7 @@ public class Enemy_Teki02 : MonoBehaviour,IOnHit
 
             if (isFlashing) StopCoroutine("HitFlash");
             if (overlayMaterial != null) StartCoroutine(HitFlash());
-            return hitDmg;
+            return trueDmg;
         }
         return 0;
     }

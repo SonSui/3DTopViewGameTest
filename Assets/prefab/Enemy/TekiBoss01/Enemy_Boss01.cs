@@ -36,6 +36,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
     public GameObject bulletPrefab;
     private GameObject hitbox = null; //生成したHitboxを保存
     public GameObject eye;
+    public GameObject electricEffect;
     public float attackRange = 1.5f;
     private bool isAttacking = false;
     float atkInterval = 2f;
@@ -132,6 +133,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
         ChangeState(EnemyState.Idle); //待機状態設定
         if(fireParticle != null)fireParticle.SetActive(false);
         if(shiled!=null)shiled.SetActive(false);
+        if(electricEffect!=null)electricEffect.SetActive(false);
         liveTime = 0f;
         //playerT = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -341,6 +343,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
         if(IsDying())return;
         ChangeState(EnemyState.Dead);//死亡状態
         //死亡アニメーションとエフェクト
+        electricEffect.SetActive(true);
         StartCoroutine(DyingAnimation());
 
     }
@@ -362,7 +365,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
         enemyGenerator.EnemyDead(gameObject);
         Debug.Log("BossDead");
         //アニメーション完了したら削除
-        //Destroy(gameObject);
+        Destroy(gameObject,3);
     }
 
 
@@ -452,6 +455,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
             if (isAtkDown) { enemyStatus.ApplyAttackReduction(5f); }
 
             int hitDmg = enemyStatus.TakeDamage(dmg, isPenetrate);//防御力などの影響を含めてダメージ計算できる
+            int trueDmg = hitDmg;
             if (hitDmg != 0)
             {
                 Color displayColor = Color.red;
@@ -484,7 +488,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
             
             if (isFlashing) StopCoroutine("HitFlash");
             if (overlayMaterial != null) StartCoroutine(HitFlash());
-            return hitDmg;
+            return trueDmg;
         }
         return 0;
     }

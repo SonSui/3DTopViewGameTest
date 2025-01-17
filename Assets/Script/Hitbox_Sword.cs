@@ -9,8 +9,10 @@ public class Hitbox_Sword : MonoBehaviour
     public Material genMaterial;
 
     public GameObject hitParticleEffect;
+    public GameObject hitParticleShiled;
     public GameObject defaultTrail;
     public GameObject fireTrail;
+    
 
     private HashSet<Collider> hitTargets = new HashSet<Collider>(); // 攻撃した敵を記録するハッシュセット
 
@@ -18,7 +20,7 @@ public class Hitbox_Sword : MonoBehaviour
     private float critical=0f;
     private bool isDefensePenetration = false;
     private bool isBleed = false;
-    bool isPenetrate=false;//防御貫通
+    
     bool isDefDown=false;  //防御力減
     bool isAtkDown = false; //攻撃力減
     bool isRecover = false;
@@ -85,9 +87,9 @@ public class Hitbox_Sword : MonoBehaviour
                 // クリティカルヒット判定
                 bool crit = Random.Range(0f, 1f) < critical;
                 // ダメージを与える
-                int dmg = io.OnHit(damage, crit, isDefensePenetration, isBleed,isDefDown,isAtkDown,isRecover);
+                int dmg = io.OnHit(damage, crit, isDefensePenetration, isBleed, isDefDown, isAtkDown, isRecover);
 
-                if (dmg != 0)
+                if (dmg >= 0)
                 {
                     camera1.ZoomAndShakeCamera();
 
@@ -101,6 +103,21 @@ public class Hitbox_Sword : MonoBehaviour
                     // エフェクトを自動削除
                     Destroy(effect, 2f);
                 }
+                else
+                {
+                    camera1.ZoomAndShakeCamera();
+
+                    player.VibrateForDuration(0.2f,0.3f);
+                    // ヒットした位置を取得
+                    Vector3 contactPoint = other.ClosestPoint(transform.position);
+
+                    // エフェクトを生成
+                    GameObject effect = Instantiate(hitParticleShiled, contactPoint, Quaternion.identity);
+
+                    // エフェクトを自動削除
+                    Destroy(effect, 2f);
+                }
+
             }
         }
     }
