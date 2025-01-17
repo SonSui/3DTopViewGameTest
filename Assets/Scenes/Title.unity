@@ -625,13 +625,13 @@ MonoBehaviour:
   defCameraFieldView: 60
   uiPrefab: {fileID: 8282560406861267661, guid: e0311dbe46db12447a1280dec5d323ee, type: 3}
   commonItems:
-  - {fileID: 6965963389030569640, guid: 9eddbf8863cbff44882068e2a2138d9e, type: 3}
-  - {fileID: 6965963389030569640, guid: d81b3064f1c4fef4fadd2846e4679734, type: 3}
-  - {fileID: 6965963389030569640, guid: c8bf482960d686b49a319edccea81f91, type: 3}
+  - {fileID: 6965963389030569640, guid: c2a9e8241fde6084b8be0be33a12508e, type: 3}
+  - {fileID: 6965963389030569640, guid: 1a4c58ef2d51d214f99a40b2d7e40667, type: 3}
+  - {fileID: 6965963389030569640, guid: 25848c09b3aea8042931f27ff6f30a3a, type: 3}
   rareItems:
-  - {fileID: 6965963389030569640, guid: 2fd19fe9b3bf12b458791d1bb9d0d099, type: 3}
-  - {fileID: 6965963389030569640, guid: 45cedcb6684ee2746b1c02761af6f098, type: 3}
-  - {fileID: 6965963389030569640, guid: 09377d544b8fe5445bb2f188e2cdec1b, type: 3}
+  - {fileID: 6965963389030569640, guid: b182519051f36364cab37484a61ec334, type: 3}
+  - {fileID: 6965963389030569640, guid: cfa64bcc941377f4a85837ef4211c2e4, type: 3}
+  - {fileID: 6965963389030569640, guid: 75667536403497044a3baf48cfdfcae6, type: 3}
 --- !u!4 &2023933468
 Transform:
   m_ObjectHideFlags: 0

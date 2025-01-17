@@ -76,7 +76,8 @@ public class GameManager : MonoBehaviour
             player = Instantiate(playerPrefab, defPlayerPos, Quaternion.identity);
 
             playerControl = player.GetComponent<PlayerControl>();
-            //playerControl.SetActSpeed(1.5f);
+            playerControl.SetActSpeed(playerStatus.GetAttackSpeed());
+            playerControl.SetSwordCube(playerStatus.GetAttackRange());
 
         }
         return true;
@@ -255,6 +256,7 @@ public class GameManager : MonoBehaviour
         uiManager.SetCurrentTags(currTags);
         uiManager.SetHP(playerStatus.GetHpNow(), playerStatus.GetHpMax());
         uiManager.SetAmmo(playerStatus.GetAmmoCapacity(), playerStatus.GetAmmoMax());
+        playerControl.SetSwordCube(playerStatus.GetAttackRange());
     }
     public void RecoverHP()
     {

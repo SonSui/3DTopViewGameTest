@@ -70,6 +70,7 @@ public class Hitbox_Boss01_Bullet : MonoBehaviour
         {
             other.GetComponent<PlayerControl>().OnHit(dmg);
             isHitted = true;
+            Destroy(gameObject);
         }
     }
     private void OnTriggerStay(Collider other)
@@ -78,6 +79,7 @@ public class Hitbox_Boss01_Bullet : MonoBehaviour
         {
             other.GetComponent<PlayerControl>().OnHit(dmg);
             isHitted = true;
+            Destroy(gameObject);
         }
     }
 
