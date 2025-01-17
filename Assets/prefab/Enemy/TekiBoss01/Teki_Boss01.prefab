@@ -61,6 +61,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5838819778702675330}
   - {fileID: 1956196119648637543}
   - {fileID: 3808466406037849009}
   - {fileID: 5423252933062670154}
@@ -121,6 +122,7 @@ MonoBehaviour:
   waveHitbox: {fileID: 733272203447068406}
   bulletPrefab: {fileID: 6430409327586354377, guid: f7e5f7e2857b42347806cc03d234c257, type: 3}
   eye: {fileID: 14005821586171802}
+  electricEffect: {fileID: 797977181890933103}
   attackRange: 15
   _state: 0
   playerT: {fileID: 0}
@@ -965,4 +967,115 @@ GameObject:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1205021609740332654, guid: 6b3a41feefe9b3844ac374972782f425, type: 3}
   m_PrefabInstance: {fileID: 6627709900564093220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7470201345636573829
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7512171402171380617}
+    m_Modifications:
+    - target: {fileID: 3939764759394070279, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939764759394070279, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939764759394070279, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939764759394070279, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939764759394070279, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939764759394070279, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939764759394070279, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939764759394070279, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939764759394070279, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939764759394070279, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939764759394070279, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373644630128741146, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373644630128741146, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373644630128741146, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 230
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373644630128741146, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: TrailModule.colorOverTrail.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373644630128741146, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: TrailModule.colorOverTrail.maxColor.g
+      value: 0.772668
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373644630128741146, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: TrailModule.colorOverTrail.maxColor.r
+      value: 0.63584906
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373644630128741146, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373644630128741146, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.g
+      value: 0.2379129
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373644630128741146, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7834434380170384362, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_Name
+      value: vfx_Electricity_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7834434380170384362, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+--- !u!1 &797977181890933103 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7834434380170384362, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+  m_PrefabInstance: {fileID: 7470201345636573829}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5838819778702675330 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3939764759394070279, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
+  m_PrefabInstance: {fileID: 7470201345636573829}
   m_PrefabAsset: {fileID: 0}
