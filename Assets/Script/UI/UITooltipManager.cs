@@ -129,4 +129,8 @@ public class UITooltipManager : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         tooltip.SetActive(false);       // ツールチップを非表示
     }
+    private void OnDestroy()
+    {
+        tooltip.SetActive(false);
+    }
 }
