@@ -453,14 +453,19 @@ MonoBehaviour:
   sceneAudioList:
   - sceneName: Title
     audioClip: {fileID: 8300000, guid: b8d4d8d189429254e99c3bbba3373df1, type: 3}
+    volume: 0.5
   - sceneName: Tutorial
     audioClip: {fileID: 8300000, guid: da757abe693cf0141a46db4b15528855, type: 3}
+    volume: 1
   - sceneName: Easy
     audioClip: {fileID: 8300000, guid: da757abe693cf0141a46db4b15528855, type: 3}
+    volume: 1
   - sceneName: Difficult
     audioClip: {fileID: 8300000, guid: da757abe693cf0141a46db4b15528855, type: 3}
+    volume: 1
   - sceneName: Boss
     audioClip: {fileID: 8300000, guid: f7977c9ccf7ee2f43bd1b520442a5bc1, type: 3}
+    volume: 1
 --- !u!82 &1235843209
 AudioSource:
   m_ObjectHideFlags: 0
@@ -821,7 +826,7 @@ MonoBehaviour:
   bossCameraPos: {x: 0, y: 7, z: -10}
   bossCameraRot: {x: 15, y: 0, z: 0}
   defCameraFieldView: 60
-  uiPrefab: {fileID: 1088142664063300793, guid: e0311dbe46db12447a1280dec5d323ee, type: 3}
+  uiPrefab: {fileID: 4229266853433645625, guid: e0311dbe46db12447a1280dec5d323ee, type: 3}
   commonItems:
   - {fileID: 6965963389030569640, guid: c2a9e8241fde6084b8be0be33a12508e, type: 3}
   - {fileID: 6965963389030569640, guid: 1a4c58ef2d51d214f99a40b2d7e40667, type: 3}

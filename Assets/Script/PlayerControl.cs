@@ -1049,6 +1049,6 @@ public class PlayerControl : MonoBehaviour
     }
     public void SetSwordCube(float rage=1f)
     {
-        swordCube.transform.localScale = new Vector3(rage, rage, rage);
+        swordCube.transform.localScale = new Vector3(rage, rage, 1);
     }
 }

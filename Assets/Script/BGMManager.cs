@@ -7,7 +7,8 @@ using System.Collections.Generic;
 public struct SceneAudio
 {
     public string sceneName;      
-    public AudioClip audioClip;   
+    public AudioClip audioClip;
+    public float volume;
 }
 
 
@@ -16,11 +17,11 @@ public class BGMManager : MonoBehaviour
 {
     public static BGMManager Instance { get; private set; }
 
-    [Header("场景与对应的 BGM 配置列表")]
+    [Header("BGM")]
     public List<SceneAudio> sceneAudioList = new List<SceneAudio>();
 
     private AudioSource audioSource;
-    private Dictionary<string, AudioClip> sceneToClip = new Dictionary<string, AudioClip>();
+    private Dictionary<string, SceneAudio> sceneToClip = new Dictionary<string, SceneAudio>();
 
     private void Awake()
     {
@@ -35,13 +36,13 @@ public class BGMManager : MonoBehaviour
 
         
         audioSource = GetComponent<AudioSource>();
+        audioSource.loop = true;
 
-        
         foreach (var item in sceneAudioList)
         {
             if (!sceneToClip.ContainsKey(item.sceneName))
             {
-                sceneToClip.Add(item.sceneName, item.audioClip);
+                sceneToClip.Add(item.sceneName, item);
             }
         }
     }
@@ -61,23 +62,21 @@ public class BGMManager : MonoBehaviour
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (sceneToClip.TryGetValue(scene.name, out AudioClip targetClip))
+        if (sceneToClip.TryGetValue(scene.name, out SceneAudio targetAudio))
         {
             
-            if (audioSource.clip == targetClip && audioSource.isPlaying)
+            if (audioSource.clip == targetAudio.audioClip && audioSource.isPlaying)
             {
-                // Do nothing
                 return;
             }
 
             
             audioSource.Stop();
-            audioSource.clip = targetClip;
+            audioSource.clip = targetAudio.audioClip;
+            audioSource.volume = targetAudio.volume;
             audioSource.Play();
-        }
-        else
-        {
             
         }
+       
     }
 }
