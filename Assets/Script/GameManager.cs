@@ -266,9 +266,9 @@ public class GameManager : MonoBehaviour
         uiManager.SetAmmo(playerStatus.GetAmmoCapacity(), playerStatus.GetAmmoMax());
         playerControl.SetSwordCube(playerStatus.GetAttackRange());
     }
-    public void RecoverHP()
+    public void RecoverHP(int n = 1)
     {
-        playerStatus.OnHpRecover();
+        playerStatus.OnHpRecover(n);
         uiManager.SetHP(playerStatus.GetHpNow(), playerStatus.GetHpMax());
     }
     public void AdvanceStage()

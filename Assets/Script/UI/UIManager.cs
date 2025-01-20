@@ -181,7 +181,7 @@ public class UIManager : MonoBehaviour
         GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
 
         // すでにタグアイコンが選択されている場合、選択を解除
-        if (currentSelected != null && currentSelected.transform.IsChildOf(tagIconsParent.transform))
+        if (currentSelected != null && currentSelected.transform.IsChildOf(tagIconsParent.transform) && !continuePanel.activeSelf)
         {
             EventSystem.current.SetSelectedGameObject(null); // 選択を解除
             return;
