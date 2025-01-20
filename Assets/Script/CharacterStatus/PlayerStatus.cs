@@ -391,7 +391,7 @@ public class PlayerStatus : BaseCharacterStatus
     {
         string baseStatus = base.GetBaseStatus(); // 基本ステータスを取得
 
-        // プレイヤー専用のステータスを追加
+        // プレイヤー専用のステータスを追加 
         string playerStatus =
             $"Ammo Capacity: {ammoCapacity}\n" +
             "";
@@ -442,10 +442,10 @@ public class PlayerStatus : BaseCharacterStatus
     {
         return abilityManager.GetCollectedTagDefinitions();
     }
-    public int OnHpRecover()
+    public int OnHpRecover(int n)
     {
         int oriHp = hpNow;
-        hpNow = Mathf.Min(hpMax, hpNow+1);
+        hpNow = Mathf.Min(hpMax, hpNow+n);
         return oriHp - hpNow;
     }
 }

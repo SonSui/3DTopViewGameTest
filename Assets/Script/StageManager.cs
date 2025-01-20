@@ -23,6 +23,7 @@ public class StageManager : MonoBehaviour
     public int maxStage = 3;
     public bool isTutorial = false;
     public bool isBoss = false;
+    public int RecoverHP = 2;
     
 
     private void Awake()
@@ -85,9 +86,10 @@ public class StageManager : MonoBehaviour
         {
             isClear = true;
             if(isBoss)BossClear();
-            if (drop == null && dropPrefab != null && !isBoss)
+            else if (drop == null && dropPrefab != null)
             {
                 drop = Instantiate(dropPrefab);
+                GameManager.Instance.RecoverHP(RecoverHP);
             }
         }
     }
