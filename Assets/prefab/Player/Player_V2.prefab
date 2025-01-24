@@ -7738,8 +7738,9 @@ MonoBehaviour:
   dashEffect: {fileID: 2599619659743012881}
   evasionEffect: {fileID: 8460667080445658512, guid: 9b0fe1805d0dd0640b38387de31cbf42, type: 3}
   hitEffect: {fileID: 3077343761403282166, guid: f78aaaec3b393e24ca74cd6de8194347, type: 3}
+  healEffect: {fileID: 0}
   bufferTime: 0.25
-  gravity: 100
+  gravity: 1000
   hookPrefab: {fileID: 52391932645613438, guid: a0f4b4244573bdb469378ff9295f2edb, type: 3}
   hookShooter: {fileID: 1757976515889087647}
 --- !u!114 &7820425458720272097

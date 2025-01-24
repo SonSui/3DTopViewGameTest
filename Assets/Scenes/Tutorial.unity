@@ -611,6 +611,7 @@ MonoBehaviour:
   maxStage: 3
   isTutorial: 0
   isBoss: 0
+  RecoverHP: 1
 --- !u!4 &777464978
 Transform:
   m_ObjectHideFlags: 0
@@ -6378,6 +6379,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 1182dc3af6fa19b4c9a83321fd53df5b, type: 2}
+    - target: {fileID: -2507340566077506438, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: -2319036686804235641, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -6401,6 +6406,10 @@ PrefabInstance:
     - target: {fileID: 1356398939555569358, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.000000010052
+      objectReference: {fileID: 0}
+    - target: {fileID: 1866870050899957845, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_TagString
+      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 2330698434783764381, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_IsActive
@@ -6458,6 +6467,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4e8b16e4debd53b4aab87c2aa340d2a3, type: 2}
+    - target: {fileID: 5888851571550273495, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 8843515479200806370, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -6780,6 +6793,8 @@ MonoBehaviour:
   defPlayerPos: {x: 0, y: 0, z: 0}
   defCameraPos: {x: 8, y: 16, z: -8}
   defCameraRot: {x: 55, y: -45, z: 0}
+  bossCameraPos: {x: 23, y: 7, z: -20}
+  bossCameraRot: {x: 15, y: 0, z: 0}
   defCameraFieldView: 60
   uiPrefab: {fileID: 8282560406861267661, guid: e0311dbe46db12447a1280dec5d323ee, type: 3}
   commonItems:

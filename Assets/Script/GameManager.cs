@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
     {
 
         Application.targetFrameRate = 60;
-
+        
     }
 
     private bool SpawnPlayer()
@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
 
             playerControl = player.GetComponent<PlayerControl>();
             playerControl.SetActSpeed(playerStatus.GetAttackSpeed());
+            playerControl.RecordWeaponOriginalScales();
             playerControl.SetSwordCube(playerStatus.GetAttackRange());
 
         }

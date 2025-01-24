@@ -26,7 +26,7 @@ public class HookMove : MonoBehaviour
     private Rigidbody rb;
     private float adjustTime = 1f;
     private float time = 0f;
-    private float distoryCountdown = 999f;
+    private float distoryCountdown = 10f;
     private int atk = 0;
     
     private bool isPulling = false;
@@ -61,7 +61,9 @@ public class HookMove : MonoBehaviour
             distoryCountdown -= Time.deltaTime * adjustTime;
             if(distoryCountdown<=0) 
             {
+                player.HookDown();
                 Destroy(gameObject);
+                
             }
         }
 
