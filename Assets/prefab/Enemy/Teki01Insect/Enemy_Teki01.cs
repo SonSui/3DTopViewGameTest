@@ -359,38 +359,17 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         if(IsDying())return;
         ChangeState(EnemyState.Dead);//死亡状態
     }
-    
-    
 
 
-    // =====　外部インタラクション　=====
-    public void Initialize(
-        string name = "Enemy_Teki01",
-        int hpMax = 4,
-        int attackPower = 1,
-        int defense = 1,
-        string enemyType = "SuicideBomb",
-        bool hasShield = false,
-        int shieldDurability = 0,
-
-        float moveSpeed = 1.0f,
-        float attackSpeed = 1.0f
-        )
-    {
-        enemyStatus=new EnemyStatus(name ,hpMax,attackPower,defense,enemyType,hasShield,shieldDurability,moveSpeed,attackSpeed);
-    }
-    public void SetGenerator(EnemyGenerator generator)
-    {
-        enemyGenerator = generator;
-    }
+    // ===== AnimationEvent =====
     public void OnBiteAnime()
     {
         //攻撃AnimationEvent
         if (isAttacking) return;
         isAttacking = true;
         biteHitbox.SetActive(true);　//Hitbox有効化
-        biteHitbox.GetComponent<Hitbox_Teki01_Bite>().Initialized(enemyStatus.GetAttackNow());　//攻撃力設定
-        
+        biteHitbox.GetComponent<Hitbox_Teki01_Bite>().Initialized(enemyStatus.GetAttackNow()); //攻撃力設定
+
     }
     public void OnBiteAnimeEnd()
     {
@@ -406,7 +385,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         //爆発したら死ぬ
         OnDead();
     }
-    public void OnIdleAnime() 
+    public void OnIdleAnime()
     {
         ChangeState(EnemyState.Idle); //想定外の状態変更を対応するために、待機アニメになると、スクリプト内も待機にする
     }
@@ -416,13 +395,37 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     }
     public void OnDeadAnimeEnd()
     {
-        
+
         //アニメーション完了したら削除
         Destroy(gameObject);
     }
 
 
 
+    // =====　外部インタラクション　=====
+    
+    public void SetGenerator(EnemyGenerator generator)
+    {
+        enemyGenerator = generator;
+    }
+
+
+
+    public void Initialize(
+        string name = "Enemy_Teki01",
+        int hpMax = 4,
+        int attackPower = 1,
+        int defense = 1,
+        string enemyType = "SuicideBomb",
+        bool hasShield = false,
+        int shieldDurability = 0,
+
+        float moveSpeed = 1.0f,
+        float attackSpeed = 1.0f
+        )
+    {
+        enemyStatus = new EnemyStatus(name, hpMax, attackPower, defense, enemyType, hasShield, shieldDurability, moveSpeed, attackSpeed);
+    }
 
     public int OnHit(
     int dmg,                //ダメージ
