@@ -23,7 +23,7 @@ public class StageManager : MonoBehaviour
     public int maxStage = 3;
     public bool isTutorial = false;
     public bool isBoss = false;
-    public int RecoverHP = 2;
+    public int RecoverHP = 1;
     
 
     private void Awake()

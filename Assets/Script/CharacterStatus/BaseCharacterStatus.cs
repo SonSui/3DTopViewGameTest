@@ -175,7 +175,7 @@ public abstract class BaseCharacterStatus
         attackNow = attackPower;
         if (attackReduction > 0)
         {
-            attackNow = (int)(attackPower * (1 - attackReductionRate));
+            attackNow = Mathf.Max(1,(int)(attackPower * (1 - attackReductionRate)));
         }
 
         // ˆÚ“®‘¬“x‚ÌÄŒvZ

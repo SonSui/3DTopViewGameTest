@@ -8,9 +8,12 @@ using UnityEngine;
 public class Enemy_Teki01 : MonoBehaviour, IOnHit
 {
     EnemyStatus enemyStatus; //敵のステータス
+    [Header("敵のモデリング")]
     public Animator animator;
+    public Transform targetTransform;//エネミーのモデリング、エフェクトなどが不要
 
     //Inspector上設定できる基本のステータス
+    [Header("敵のステータス")]
     public string name_ = "Enemy_Teki01";
     public int hp_ = 4;
     public int attack_ = 1;
@@ -24,21 +27,25 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     //被弾の色変化
     private Renderer[] renderers;        // 敵のRendererリスト
+    [Header("被弾フラッシュのマテリアル")]
     [SerializeField] private Material overlayMaterial;   // 被弾のマテリアル
     private bool isFlashing = false;    // フラッシュ中かどうか
     private float flashDuration = 0.1f; // フラッシュ持続時間
 
-    //光調節シェーダー
+    //光調節シェーダー、敵を明るくする。他の敵が暗くないなら、なしでもいい
+    [Header("明るさ調整のマテリアル")]
     [SerializeField] private Material brightMaterial;
 
     //攻撃のPrefab
+    [Header("攻撃のPrefab")]
     public GameObject biteHitbox;    //攻撃のHitboxと攻撃のエフェクトをprefabにする
     public GameObject bombPrefab;
-    private GameObject hitboFx = null; //生成したHitboxを保存
-    public float attackRange = 1.5f;
-    private bool isAttacking = false;
-    float atkInterval = 1f;
-    float atkTime = 0f;
+
+    [Header("攻撃範囲と間隔の設定")]
+    public float attackRange = 1.5f;　//プレイヤーがどのぐらい近くなると近接攻撃する
+    private bool isAttacking = false;　//攻撃しているかどうか
+    public float atkInterval = 1f;　//攻撃間隔
+    float atkTime = 0f;　//次の攻撃可能までの時間
 
 
     //ステータスマシン
@@ -63,17 +70,27 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
 
     //プレイヤーの座標
+    [Header("Player(ドラッグしない)")]
     public Transform playerT;
     EnemyGenerator enemyGenerator;
 
     private float stunTime=0f;
     private float stunTimeMax = 1f;
 
+    [Header("Debuffのエフェクト")]
     public GameObject fireParticle;
     public GameObject shiled;
+    public GameObject debuff_Atk;
+    public GameObject debuff_Def;
 
     private void Awake()
     {
+
+        //UnityのMonoBehaviourによる：
+        //GameObject生成するとAwake->OnEnable(prefabはEnableの状態の場合)->Start->Update->Update->Update(毎フレイム循環)
+
+
+        renderers = targetTransform.GetComponentsInChildren<Renderer>();
 
         // overlayMaterialが設定されているか確認
         if (overlayMaterial == null)
@@ -82,17 +99,14 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             return;
         }
 
-        // "teki01_test"という名前の子オブジェクトを探す
-        Transform targetTransform = transform.Find("teki01_test");
-        if (targetTransform == null)
+        if(brightMaterial==null)
         {
-            Debug.LogError("指定されたオブジェクト 'teki01_test' が見つかりません！");
+            Debug.LogError("Bright Material が設定されていません！");
             return;
         }
 
-        renderers = targetTransform.GetComponentsInChildren<Renderer>();
 
-        //明るさ調整
+        //明るさ調整、敵が暗くないなら、削除でもいい
         foreach (Renderer renderer in renderers)
         {
             // 現在のオブジェクトの全てのマテリアルを取得
@@ -130,11 +144,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     }
     void Start()
     {
-        //敵生成するとAwake->OnEnable(prefabはEnableの状態の場合)->Start->Update->Update->Update(毎フレイム循環)
-
         if (enemyGenerator == null) enemyGenerator = FindObjectOfType<EnemyGenerator>();
-        
-
     }
 
     private void Update()
@@ -149,18 +159,27 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 OnDead();
             }
         }
-        if (enemyStatus.IsBleeding())
-        {
-            fireParticle.SetActive(true);
-        }
+
+        //Debuffのエフェクト表示
+        if (enemyStatus.IsBleeding())fireParticle.SetActive(true);
         else fireParticle.SetActive(false);
         if(enemyStatus.HasShield())shiled.SetActive(true);
         else shiled.SetActive(false);
+        if(enemyStatus.IsAttackReduced())debuff_Atk.SetActive(true);
+        else debuff_Atk.SetActive(false);
+        if (enemyStatus.IsDefenseReduced())debuff_Def.SetActive(true);
+        else debuff_Def.SetActive(false);
+        
 
         //状態更新
         StateUpdate();
     }
-
+    void OnDestroy()　//UnityがGameObjectを削除するたびに自動的に呼ぶ関数
+    {
+        Debug.Log($"{this.name_}削除処理");
+        //EnemyGeneratorに通知
+        if (enemyGenerator != null) enemyGenerator.EnemyDead(gameObject);
+    }
 
 
     // ===== ステート処理 =====
@@ -175,7 +194,8 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 OnChase();// 追跡の処理
                 break;
 
-            //以下の行動はAnimationEventや他のオブジェクトが呼んでくれる
+            //以下の行動はAnimationEventや他のオブジェクトが呼んでくれるので、何もしない
+            
             case EnemyState.Attack:
                 break;
             case EnemyState.Bomb:
@@ -184,6 +204,8 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 break;
             case EnemyState.Dead:
                 break;
+
+            //気絶状態
             case EnemyState.Stunned:
                 OnStuned();
                 break;
@@ -208,7 +230,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 break;
             case EnemyState.Hit:
                 biteHitbox.SetActive(false);
-                isAttacking = false;
+                isAttacking = false;　//被弾するとすぐ被弾アニメーションを流す、攻撃判断のリセットが必要
                 animator.SetTrigger("Hit");
                 break;
             case EnemyState.Bomb:
@@ -219,7 +241,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 break;
             case EnemyState.Stunned:
                 stunTime = 0;
-                animator.enabled = false;
+                animator.enabled = false;　//アニメーションを止める
                 break;
         }
     }
@@ -250,8 +272,6 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     {
         if (playerT != null)
         {
-
-
             //移動
             transform.position = Vector3.MoveTowards(transform.position, playerT.position, enemyStatus.GetMoveSpeed() * Time.deltaTime);
             float distance = Vector3.Distance(transform.position, playerT.position);
@@ -286,14 +306,14 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     private void OnStuned()
     {
         stunTime += Time.deltaTime;
-        if (stunTime < stunTimeMax) return;
+        if (stunTime < stunTimeMax) return;　//気絶時間が終わるまで状態変更しない
         else
         {
-            animator.enabled = true;
+            animator.enabled = true;　//アニメーション再開
             ChangeState(EnemyState.Idle);
         }
     }
-    private System.Collections.IEnumerator HitFlash(bool isBomb)
+    private System.Collections.IEnumerator HitFlash()
     {
         isFlashing = true;
 
@@ -329,53 +349,17 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         //被弾のアニメーションが終了したかを確認し
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0.95) yield return null;
 
-        isFlashing = false;　//被弾の行動終了
-
-        if(isBomb)ChangeState(EnemyState.Bomb);// 一般の敵は待機状態に戻す。虫は爆発
-
+        isFlashing = false;　//被弾のフラッシュ終了
     }
 
 
     private void OnDead()
     {
-
         if(IsDying())return;
         ChangeState(EnemyState.Dead);//死亡状態
-        //死亡アニメーションとエフェクト
-        StartCoroutine(DyingAnimation());
-
     }
-    private IEnumerator DyingAnimation()
-    {
-        float dyingTime = 0f;
-        float dyingTimeMax = 2f;//2秒後削除
-        //死亡エフェクトを生成
-
-        while (dyingTime < dyingTimeMax)
-        {
-            //削除前のアニメーション（例：小さくなるなど）
-
-            dyingTime += Time.deltaTime;
-            yield return null;
-        }
-        //EnemyGeneratorに通知
-        if (enemyGenerator != null) enemyGenerator.EnemyDead(gameObject);
-        //アニメーション完了したら削除
-        Destroy(gameObject);
-    }
-
-
-    private System.Collections.IEnumerator Attack()
-    {
-        //被弾のアニメーションが終了したかを確認し
-        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0.95) yield return null;
-        biteHitbox.SetActive(false);
-        isAttacking = false;
-        
-        //待機状態に戻す
-        ChangeState(EnemyState.Idle);
-    }
-
+    
+    
 
 
     // =====　外部インタラクション　=====
@@ -405,7 +389,13 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         isAttacking = true;
         biteHitbox.SetActive(true);　//Hitbox有効化
         biteHitbox.GetComponent<Hitbox_Teki01_Bite>().Initialized(enemyStatus.GetAttackNow());　//攻撃力設定
-        StartCoroutine(Attack());　//状態処理
+        
+    }
+    public void OnBiteAnimeEnd()
+    {
+        isAttacking = false;
+        biteHitbox.SetActive(false);
+        ChangeState(EnemyState.Idle);
     }
     public void OnBombAnime()
     {
@@ -413,12 +403,21 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         GameObject bomb = Instantiate(bombPrefab, transform);　//爆発Hitbox生成
         bomb.GetComponent<Hitbox_Teki01_Bomb>().Initialized(enemyStatus.GetAttackNow());
         //爆発したら死ぬ
-        
         OnDead();
     }
-    public void OnIdleAnime()
+    public void OnIdleAnime() 
     {
-        ChangeState(EnemyState.Idle);
+        ChangeState(EnemyState.Idle); //想定外の状態変更を対応するために、待機アニメになると、スクリプト内も待機にする
+    }
+    public void OnHitAnimeEnd()
+    {
+        ChangeState(EnemyState.Bomb);　//虫は被弾したら、爆発、他の敵は待機に戻る
+    }
+    public void OnDeadAnimeEnd()
+    {
+        
+        //アニメーション完了したら削除
+        Destroy(gameObject);
     }
 
 
@@ -479,7 +478,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             }
             
             if (isFlashing) StopCoroutine("HitFlash");
-            if (overlayMaterial != null) StartCoroutine(HitFlash(isBomb));
+            if (overlayMaterial != null) StartCoroutine(HitFlash());
             return trueDmg;
         }
         return 0;
@@ -523,5 +522,6 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     {
         return _state == EnemyState.Dead;
     }
+    
 }
 

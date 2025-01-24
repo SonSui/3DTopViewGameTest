@@ -52,11 +52,15 @@ public class PlayerControl : MonoBehaviour
     public GameObject leftLeg;
     public GameObject leftLegHitbox;
 
+    // 武器
+    private Dictionary<Transform, Vector3> originalWeaponScales = new Dictionary<Transform, Vector3>();
+    
+
     //　エフェクト
     public GameObject dashEffect;
     public GameObject evasionEffect;
     public GameObject hitEffect;
-
+    public GameObject healEffect;
 
     // 入力バッファ
     enum Action
@@ -188,6 +192,9 @@ public class PlayerControl : MonoBehaviour
         {
             animator = GetComponent<Animator>();
         }
+
+        
+
         SetActSpeed(currActSpeed);
         charaRotationOri = transform.eulerAngles;
         isAnimeOver = true;
@@ -207,7 +214,7 @@ public class PlayerControl : MonoBehaviour
         
 
         //アニメ状態
-        string animeName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+        //string animeName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
         if (isInvic) //被弾の無敵時間
         {
@@ -504,7 +511,7 @@ public class PlayerControl : MonoBehaviour
         }
         swordAttack03Hitbox.GetComponent<Hitbox_Sword>().Initialize(
             camera1,
-            gameManager.GetPlayerAttackNow(),
+            gameManager.GetPlayerAttackNow()*2,
             type,
             gameManager.playerStatus.GetCriticalRate(),
             gameManager.playerStatus.IsDefensePenetrationEnabled(),
@@ -939,15 +946,17 @@ public class PlayerControl : MonoBehaviour
     //  ===== インタラクション =====
     public void PullPlayer(GameObject target)
     {
+        //フックショットに動かされる
         pullTarget = target;
         animator.SetBool("isHooked", true);
-        animator.SetFloat("HookSpeed", 1f);
+        animator.SetFloat("HookSpeed", 1.2f);
 
 
         StartCoroutine(PullToHook());
     }
     private IEnumerator PullToHook()
     {
+        
         if (pullTarget != null)
         {
             isPulling = true;
@@ -959,7 +968,7 @@ public class PlayerControl : MonoBehaviour
             CharacterController characterController = GetComponent<CharacterController>();
 
             float distance = (pullTarget.transform.position - transform.position).magnitude;
-            if (distance < 2) elapsedTime += 0.6f; //距離が近いなら早く終わらせる
+            if (distance < 5) elapsedTime += (0.5f+ 0.08f * distance); //距離が近いなら早く終わらせる
 
             while (elapsedTime < pullDuration)
             {
@@ -993,7 +1002,7 @@ public class PlayerControl : MonoBehaviour
     public void HookDown()
     {
         animator.SetBool("isHooked", false);
-        animator.SetFloat("HookSpeed", 1f);
+        animator.SetFloat("HookSpeed", 1.2f);
     }
     public void OnHit(int dmg)
     {
@@ -1012,6 +1021,7 @@ public class PlayerControl : MonoBehaviour
         if (applyDmg > 0)
         {
             animator.SetTrigger("Impact");
+            VibrateForDuration(0.3f, 0.8f);
             GameObject impact = Instantiate(hitEffect, dashEffect.transform.position, Quaternion.identity);
             Destroy(impact,1f);
             
@@ -1025,7 +1035,7 @@ public class PlayerControl : MonoBehaviour
         UnableAllHitBox();
         animator.SetTrigger("Dead");
     }
-    public void VibrateForDuration(float duration=0.2f,float speed_ = 0.5f)
+    public void VibrateForDuration(float duration=0.2f,float speed_ = 0.5f)　//ゲームパッド振動
     {
         var gamepad = Gamepad.current; 
         if (gamepad != null)
@@ -1047,8 +1057,69 @@ public class PlayerControl : MonoBehaviour
             gamepad.SetMotorSpeeds(0f, 0f); 
         }
     }
-    public void SetSwordCube(float rage=1f)
+    public void RecordWeaponOriginalScales()
     {
-        swordCube.transform.localScale = new Vector3(rage, rage, 1);
+        if (originalWeaponScales == null)
+        {
+            originalWeaponScales = new Dictionary<Transform, Vector3>();
+        }
+
+        Transform[] objectsToRecord = new Transform[]
+        {
+        onAttackSword?.transform,
+        unAttackSword?.transform,
+        swordAttack01Hitbox?.transform,
+        swordAttack02Hitbox1?.transform,
+        swordAttack02Hitbox2?.transform,
+        swordAttack03Hitbox?.transform
+        };
+
+        foreach (Transform obj in objectsToRecord)
+        {
+            if (obj != null)
+            {
+                originalWeaponScales[obj] = obj.localScale;
+                Debug.Log($"記録成功：{obj.name}, スケール：{obj.localScale}");
+            }
+            else
+            {
+                Debug.LogError("記録対象のオブジェクトがnullです。");
+            }
+        }
+    }
+
+    public void SetSwordCube(float rage = 1f) //攻撃範囲
+    {
+        Vector3 a = Vector3.zero;
+        if (originalWeaponScales.ContainsKey(onAttackSword.transform))
+        {
+            a = originalWeaponScales[onAttackSword.transform];
+            onAttackSword.transform.localScale = new Vector3(rage * a.x, rage * a.y, a.z);
+        }
+        if (originalWeaponScales.ContainsKey(unAttackSword.transform))
+        {
+            a = originalWeaponScales[unAttackSword.transform];
+            unAttackSword.transform.localScale = new Vector3(rage * a.x, rage * a.y, a.z);
+        }
+        if (originalWeaponScales.ContainsKey(swordAttack01Hitbox.transform))
+        {
+            a = originalWeaponScales[swordAttack01Hitbox.transform];
+            swordAttack01Hitbox.transform.localScale = new Vector3(rage * a.x, a.y, rage * a.z);
+        }
+        if (originalWeaponScales.ContainsKey(swordAttack02Hitbox1.transform))
+        {
+            a = originalWeaponScales[swordAttack02Hitbox1.transform];
+            swordAttack02Hitbox1.transform.localScale = new Vector3(rage * a.x, a.y, rage * a.z);
+        }
+        if (originalWeaponScales.ContainsKey(swordAttack02Hitbox2.transform))
+        {
+            a = originalWeaponScales[swordAttack02Hitbox2.transform];
+            swordAttack02Hitbox2.transform.localScale = new Vector3(rage * a.x, a.y, rage * a.z);
+        }
+        if (originalWeaponScales.ContainsKey(swordAttack03Hitbox.transform))
+        {
+            a = originalWeaponScales[swordAttack03Hitbox.transform];
+            swordAttack03Hitbox.transform.localScale = new Vector3(rage * a.x, a.y, rage * a.z);
+        }
     }
 }

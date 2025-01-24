@@ -31,7 +31,8 @@ public class Hitbox_Teki01_Bite : MonoBehaviour
         currTime += Time.deltaTime;
         if (currTime > preAtkTime)
             collider1.enabled = true;
-
+        if (currTime > lifeTime)
+            gameObject.SetActive(false);
         
     }
 
