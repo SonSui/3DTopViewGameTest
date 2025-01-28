@@ -315,6 +315,7 @@ public class AbilityManager
         playerStatus.SetAttackRange(playerStatus.GetBaseAttackRange() + effect.attackRange);
 
         playerStatus.SetAmmoCapacity(playerStatus.GetBaseAmmoCapacity() + effect.ammoCapacity);
+        playerStatus.SetAmmoMax(playerStatus.GetBaseAmmoCapacity() + effect.ammoCapacity);
         playerStatus.SetAmmoRecovery(playerStatus.GetBaseAmmoRecovery() + effect.ammoRecovery);
         playerStatus.SetAmmoEcho(Mathf.Max(playerStatus.GetBaseAmmoEcho(), effect.ammoEcho));
         playerStatus.SetAmmoPenetration(playerStatus.GetBaseAmmoPenetration() + effect.ammoPenetration);
