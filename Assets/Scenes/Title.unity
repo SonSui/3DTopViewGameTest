@@ -827,14 +827,19 @@ MonoBehaviour:
   bossCameraRot: {x: 15, y: 0, z: 0}
   defCameraFieldView: 60
   uiPrefab: {fileID: 4229266853433645625, guid: e0311dbe46db12447a1280dec5d323ee, type: 3}
-  commonItems:
-  - {fileID: 6965963389030569640, guid: c2a9e8241fde6084b8be0be33a12508e, type: 3}
-  - {fileID: 6965963389030569640, guid: 1a4c58ef2d51d214f99a40b2d7e40667, type: 3}
-  - {fileID: 6965963389030569640, guid: 25848c09b3aea8042931f27ff6f30a3a, type: 3}
-  rareItems:
-  - {fileID: 6965963389030569640, guid: 2fd19fe9b3bf12b458791d1bb9d0d099, type: 3}
-  - {fileID: 6965963389030569640, guid: cfa64bcc941377f4a85837ef4211c2e4, type: 3}
-  - {fileID: 6965963389030569640, guid: 75667536403497044a3baf48cfdfcae6, type: 3}
+  ItemsPrefab: {fileID: 6965963389030569640, guid: c2a9e8241fde6084b8be0be33a12508e, type: 3}
+  tagsPoolList:
+  - tag: {fileID: 11400000, guid: 5d0b290ed452a374dae28c22f6bd4aba, type: 2}
+    limit: 3
+  - tag: {fileID: 11400000, guid: 3d438f96bd5d10c4284bdea76a8527db, type: 2}
+    limit: 3
+  - tag: {fileID: 11400000, guid: 5162c47e177b6554383fb4f83210d367, type: 2}
+    limit: 3
+  - tag: {fileID: 11400000, guid: 384bdd2abf36f634582c46c67192463f, type: 2}
+    limit: 3
+  - tag: {fileID: 11400000, guid: e700e9ae90a23594abe13442fd66d48c, type: 2}
+    limit: 3
+  superRarePrefab: {fileID: 6965963389030569640, guid: 2fd19fe9b3bf12b458791d1bb9d0d099, type: 3}
 --- !u!4 &2023933468
 Transform:
   m_ObjectHideFlags: 0

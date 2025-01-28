@@ -3473,7 +3473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3192195264630074606
 Transform:
   m_ObjectHideFlags: 0
@@ -7738,7 +7738,8 @@ MonoBehaviour:
   dashEffect: {fileID: 2599619659743012881}
   evasionEffect: {fileID: 8460667080445658512, guid: 9b0fe1805d0dd0640b38387de31cbf42, type: 3}
   hitEffect: {fileID: 3077343761403282166, guid: f78aaaec3b393e24ca74cd6de8194347, type: 3}
-  healEffect: {fileID: 0}
+  healEffect: {fileID: 8593464584776411535, guid: b21d155ec7ea5a349a0e36106f913148, type: 3}
+  equipEffect: {fileID: 8593464584776411535, guid: b55bb73019a47d0409e394bc6412af13, type: 3}
   bufferTime: 0.25
   gravity: 1000
   hookPrefab: {fileID: 52391932645613438, guid: a0f4b4244573bdb469378ff9295f2edb, type: 3}

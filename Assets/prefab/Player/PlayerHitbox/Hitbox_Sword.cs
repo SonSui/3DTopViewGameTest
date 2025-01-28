@@ -12,7 +12,7 @@ public class Hitbox_Sword : MonoBehaviour
     public GameObject hitParticleShiled;
     public GameObject defaultTrail;
     public GameObject fireTrail;
-    
+    public GameObject exolpPrefab;
 
     private HashSet<Collider> hitTargets = new HashSet<Collider>(); // 攻撃した敵を記録するハッシュセット
 
@@ -117,7 +117,14 @@ public class Hitbox_Sword : MonoBehaviour
                     // エフェクトを自動削除
                     Destroy(effect, 2f);
                 }
+                if(isExolo)
+                {
+                    Vector3 contactPoint = other.ClosestPoint(transform.position);
 
+                    // エフェクトを生成
+                    GameObject effect = Instantiate(exolpPrefab, contactPoint, Quaternion.identity);
+                    effect.GetComponent<Hitbox_PlayerExplosion>().Initialized(player, camera1, damage);
+                }
             }
         }
     }
