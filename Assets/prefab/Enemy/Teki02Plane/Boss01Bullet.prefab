@@ -74,7 +74,7 @@ MonoBehaviour:
   preAtkTime: 0.1
   lifeTime: 1
   currTime: 0
-  particleSystem: {fileID: 8726259751510396572}
+  particle_System: {fileID: 8726259751510396572}
 --- !u!82 &2782158277287080858
 AudioSource:
   m_ObjectHideFlags: 0

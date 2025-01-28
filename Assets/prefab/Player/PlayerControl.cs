@@ -61,6 +61,7 @@ public class PlayerControl : MonoBehaviour
     public GameObject evasionEffect;
     public GameObject hitEffect;
     public GameObject healEffect;
+    public GameObject equipEffect;
 
     // 入力バッファ
     enum Action
@@ -121,8 +122,10 @@ public class PlayerControl : MonoBehaviour
     private float currInvinTime = 0f;
 
     //自動照準
-    private float detectionAngle = 60f; 
-    private float detectionDistance = 20f;
+    private float detectionAngle_Ranged = 60f; 
+    private float detectionDistance_Ranged = 20f;
+    private float detectionAngle_Melee = 150f;
+    private float detectionDistance_Melee = 8f;
     private float deltaDistance = 1f; // 最近距離と比較する許容範囲
     private Coroutine rotationCoroutine;
 
@@ -396,8 +399,8 @@ public class PlayerControl : MonoBehaviour
         comboResetTime = 0.81f / currActSpeed;
         comboTimer = 0f;
         //AdjustYRotationRelativeToParent(charaTrans, 128.154f);
-        
-        AdjustRotationToNearestEnemy(120f);
+
+        AdjustRotationForMeleeAttack(detectionAngle_Melee);
 
 
 
@@ -421,7 +424,7 @@ public class PlayerControl : MonoBehaviour
             gameManager.playerStatus.GetIsDefenseReductionFlag(),
             gameManager.playerStatus.GetIsAttackReductionFlag(),
             gameManager.playerStatus.GetHpAutoRecovery(),
-            gameManager.playerStatus.IsExplosionEnabled()
+            false
 
             );
     }
@@ -458,11 +461,11 @@ public class PlayerControl : MonoBehaviour
             gameManager.playerStatus.GetIsDefenseReductionFlag(),
             gameManager.playerStatus.GetIsAttackReductionFlag(),
             gameManager.playerStatus.GetHpAutoRecovery(),
-            gameManager.playerStatus.IsExplosionEnabled());
+            false);
         comboResetTime = 0.81f / currActSpeed;
         comboTimer = 0f;
         //AdjustYRotationRelativeToParent(charaTrans, 4.967f);
-        AdjustRotationToNearestEnemy(120f);
+        AdjustRotationForMeleeAttack(detectionAngle_Melee);
     }
     public void OnSwordAttack02Update1()
     {
@@ -490,7 +493,7 @@ public class PlayerControl : MonoBehaviour
             gameManager.playerStatus.GetIsDefenseReductionFlag(),
             gameManager.playerStatus.GetIsAttackReductionFlag(),
             gameManager.playerStatus.GetHpAutoRecovery(),
-            gameManager.playerStatus.IsExplosionEnabled());
+            false);
     }
     public void OnSwordArrack02Exit()
     {
@@ -502,6 +505,7 @@ public class PlayerControl : MonoBehaviour
     public void OnSwordAttack03Enter()
     {
         // 武器の攻撃の表示位置とHitboxとコンボ入力
+        float ATKRate = 1.2f;
         OnAttackWeaponDisplay();
         swordAttack03Hitbox.SetActive(true);
         int type = 0;
@@ -511,7 +515,7 @@ public class PlayerControl : MonoBehaviour
         }
         swordAttack03Hitbox.GetComponent<Hitbox_Sword>().Initialize(
             camera1,
-            gameManager.GetPlayerAttackNow()*2,
+            (int)(gameManager.GetPlayerAttackNow()*ATKRate),
             type,
             gameManager.playerStatus.GetCriticalRate(),
             gameManager.playerStatus.IsDefensePenetrationEnabled(),
@@ -525,7 +529,7 @@ public class PlayerControl : MonoBehaviour
         comboStep = 0; //連続コンボのためにリセット
         animator.SetInteger("ComboStep", comboStep);
         //AdjustYRotationRelativeToParent(charaTrans, -75.012f);
-        AdjustRotationToNearestEnemy(120f);
+        AdjustRotationForMeleeAttack(detectionAngle_Melee);
     }
     public void OnSwordAttack03Update()
     {
@@ -547,7 +551,8 @@ public class PlayerControl : MonoBehaviour
     public void OnShoot()
     {
         //AdjustYRotationRelativeToParent(charaTrans, -39.203f);
-        AdjustRotationToNearestEnemy();
+        //AdjustRotationToNearestEnemy();
+        AdjustRotationForRangedAttack();
         Vector3 gunRot = gun.transform.eulerAngles;
         gunRot.x = 90f;
         
@@ -565,7 +570,7 @@ public class PlayerControl : MonoBehaviour
     public void OnHookShoot()
     {
         //AdjustYRotationRelativeToParent(charaTrans, -41.015f);
-        AdjustRotationToNearestEnemy();
+        AdjustRotationForRangedAttack();
         GameObject hook = Instantiate(hookPrefab, hookShooter.transform.position, hookShooter.transform.rotation);
         hookMove = hook.GetComponent<HookMove>();
         hookMove.InitHook(this, hookShooter, gameManager.GetPlayerAttackNow());
@@ -688,38 +693,70 @@ public class PlayerControl : MonoBehaviour
         //Gun
         //HookShoot
     }
-    private void AdjustRotationToNearestEnemy(float plusAngle = 0f)
+   
+    private void AdjustRotationForRangedAttack()
     {
-        Vector3 forward = transform.forward; // 現在の前方向ベクトル
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionDistance); // 検出範囲内のコライダーを取得
-        Transform targetEnemy = null; // ターゲットとなる敵
-        float effectiveAngle = detectionAngle + plusAngle; // 有効な検出角度
-        
-        float nearestValue = float.MaxValue; // 優先順位値（角度または距離）
+        // 遠距離攻撃の自動照準
+        Vector3 forward = transform.forward; 
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionDistance_Ranged); // 検出範囲内のコライダーを取得
+        Transform targetEnemy = null; // 照準対象の敵
 
-        if (plusAngle == 0f)
+        float nearestAngle = float.MaxValue; // 最小角度を保存する変数
+
+        foreach (Collider hit in hitColliders)
         {
-            // plusAngleが0の場合：回転角度が最小の敵を探す
-            foreach (Collider hit in hitColliders)
+            if (hit.CompareTag("Enemy") && !hit.GetComponent<IOnHit>().IsDying()) // "Enemy"タグかつ非死亡状態を確認
             {
-                if (hit.CompareTag("Enemy") && !hit.GetComponent<IOnHit>().IsDying()) // "Enemy"タグかつ非死亡状態を確認
-                {
-                    Vector3 directionToEnemy = (hit.transform.position - transform.position).normalized; // 敵への方向ベクトルを計算
-                    float angle = Vector3.Angle(forward, directionToEnemy); // 敵と前方向との角度を計算
+                Vector3 directionToEnemy = (hit.transform.position - transform.position).normalized; // 敵への方向ベクトルを計算
+                float angle = Vector3.Angle(forward, directionToEnemy); // 敵と前方向との角度を計算
 
-                    if (angle <= detectionAngle && angle < nearestValue)
+                if (angle <= detectionAngle_Ranged && angle < nearestAngle) // 検出可能な角度内で最小の角度を確認
+                {
+                    targetEnemy = hit.transform; // ターゲットを更新
+                    nearestAngle = angle; // 最小角度を更新
+                }
+            }
+        }
+
+        RotateToTarget(targetEnemy); // ターゲットに向けて回転を行う
+    }
+    
+    private void AdjustRotationForMeleeAttack(float detectAngle)
+    {
+        // 近距離攻撃の自動照準を調整する
+        Vector3 forward = transform.forward;
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionDistance_Melee); // 検出範囲内のコライダーを取得
+        Transform targetEnemy = null; // 照準対象の敵
+
+        float effectiveAngle = detectAngle; // 有効な検出角度
+        Transform nearestEnemy = null; // 最も近い敵
+        float nearestDistance = float.MaxValue; // 最小距離
+
+        // 最も近い敵を探索
+        foreach (Collider hit in hitColliders)
+        {
+            if (hit.CompareTag("Enemy") && !hit.GetComponent<IOnHit>().IsDying()) // "Enemy"タグかつ非死亡状態を確認
+            {
+                Vector3 directionToEnemy = (hit.transform.position - transform.position).normalized; // 敵への方向ベクトルを計算
+                float angle = Vector3.Angle(forward, directionToEnemy); // 敵と前方向との角度を計算
+
+                if (angle <= effectiveAngle) // 検出可能な角度内の場合
+                {
+                    float distanceToEnemy = Vector3.Distance(transform.position, hit.transform.position); // 敵との距離を計算
+                    if (distanceToEnemy < nearestDistance) // 最短距離を確認
                     {
-                        targetEnemy = hit.transform;
-                        nearestValue = angle; // 最小角度を更新
+                        nearestEnemy = hit.transform;
+                        nearestDistance = distanceToEnemy; // 最短距離を更新
                     }
                 }
             }
         }
-        else
+
+        // 最小角度の敵をさらに絞り込む
+        if (nearestEnemy != null)
         {
-            // plusAngleが0以外の場合：最も近い敵を探す
-            Transform nearestEnemy = null;
-            float nearestDistance = float.MaxValue;
+            targetEnemy = nearestEnemy; // 初期値として最も近い敵を設定
+            float smallestAngle = Vector3.Angle(forward, (nearestEnemy.position - transform.position).normalized); // 初期角度
 
             foreach (Collider hit in hitColliders)
             {
@@ -731,38 +768,12 @@ public class PlayerControl : MonoBehaviour
                     if (angle <= effectiveAngle) // 検出可能な角度内
                     {
                         float distanceToEnemy = Vector3.Distance(transform.position, hit.transform.position); // 敵との距離を計算
-                        if (distanceToEnemy < nearestDistance)
+                        if (Mathf.Abs(distanceToEnemy - nearestDistance) < deltaDistance) // 距離差が閾値未満の場合
                         {
-                            nearestEnemy = hit.transform;
-                            nearestDistance = distanceToEnemy; // 最短距離を更新
-                        }
-                    }
-                }
-            }
-
-            // 距離差が1未満の敵の中で角度が最小の敵を探す
-            if (nearestEnemy != null)
-            {
-                targetEnemy = nearestEnemy; // 初期値として最も近い敵を設定
-                float smallestAngle = Vector3.Angle(forward, (nearestEnemy.position - transform.position).normalized); // 初期角度
-
-                foreach (Collider hit in hitColliders)
-                {
-                    if (hit.CompareTag("Enemy") && !hit.GetComponent<IOnHit>().IsDying()) // "Enemy"タグかつ非死亡状態を確認
-                    {
-                        Vector3 directionToEnemy = (hit.transform.position - transform.position).normalized; // 敵への方向ベクトルを計算
-                        float angle = Vector3.Angle(forward, directionToEnemy); // 敵と前方向との角度を計算
-
-                        if (angle <= effectiveAngle) // 検出可能な角度内
-                        {
-                            float distanceToEnemy = Vector3.Distance(transform.position, hit.transform.position); // 敵との距離を計算
-                            if (Mathf.Abs(distanceToEnemy - nearestDistance) < deltaDistance) // 距離差がdeltaDistance未満
+                            if (angle < smallestAngle) // 最小角度を確認
                             {
-                                if (angle < smallestAngle)
-                                {
-                                    targetEnemy = hit.transform; // 角度が最小の敵を更新
-                                    smallestAngle = angle;
-                                }
+                                targetEnemy = hit.transform; // ターゲットを更新
+                                smallestAngle = angle;
                             }
                         }
                     }
@@ -770,27 +781,25 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        // 最終的なターゲットに回転
+        RotateToTarget(targetEnemy, true); // ターゲットに向けて回転を行う
+    }
+    private void RotateToTarget(Transform targetEnemy, bool resetLocalRotation = false)
+    {
         if (targetEnemy != null)
         {
-            Debug.Log("ターゲットに回転中: " + targetEnemy.name);
+            Vector3 targetDirection = (targetEnemy.position - transform.position).normalized; // ターゲット方向を計算
+            targetDirection.y = 0; // Y軸の影響を無視
 
-            // ターゲット方向を計算
-            Vector3 targetDirection = (targetEnemy.position - transform.position).normalized;
-            targetDirection.y = 0; // Y軸の高さの影響を無視
+            transform.rotation = Quaternion.LookRotation(targetDirection, Vector3.up); // 回転を設定
 
-            // 回転を設定
-            transform.rotation = Quaternion.LookRotation(targetDirection, Vector3.up);
-
-            // キャラクターのローカル回転をリセット
-            if (plusAngle != 0f)
+            if (resetLocalRotation) // ローカル回転をリセットする場合
             {
                 charaTrans.localRotation = Quaternion.identity;
             }
         }
         else
         {
-            Debug.Log("回転対象の敵が見つかりませんでした。");
+            Debug.Log("回転対象の敵が見つかりませんでした");
         }
     }
 
@@ -800,7 +809,7 @@ public class PlayerControl : MonoBehaviour
         // 親オブジェクトが存在するか確認
         if (target.parent == null)
         {
-            Debug.LogError("指定されたオブジェクトに親オブジェクトがありません！");
+            Debug.Log("指定されたオブジェクトに親オブジェクトがありません！");
             return;
         }
 
@@ -1083,7 +1092,7 @@ public class PlayerControl : MonoBehaviour
             }
             else
             {
-                Debug.LogError("記録対象のオブジェクトがnullです。");
+                Debug.Log("記録対象のオブジェクトはnull。");
             }
         }
     }
@@ -1120,6 +1129,23 @@ public class PlayerControl : MonoBehaviour
         {
             a = originalWeaponScales[swordAttack03Hitbox.transform];
             swordAttack03Hitbox.transform.localScale = new Vector3(rage * a.x, a.y, rage * a.z);
+        }
+    }
+    public void HealEffect()
+    {
+        if(healEffect!=null)
+        {
+            GameObject impact = Instantiate(healEffect, dashEffect.transform.position, Quaternion.identity);
+            impact.transform.SetParent(transform, true);
+            Destroy(impact, 1.5f);
+        }
+    }
+    public void EquipEffect()
+    {
+        if (equipEffect != null)
+        {
+            GameObject impact = Instantiate(equipEffect, dashEffect.transform.position, Quaternion.identity);
+            Destroy(impact, 1.5f);
         }
     }
 }

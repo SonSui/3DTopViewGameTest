@@ -12,7 +12,7 @@ public class Hitbox_Boss01_Bullet : MonoBehaviour
     public float preAtkTime = 0.1f;
     public float lifeTime = 1f;
     public float currTime = 0f;
-    public ParticleSystem particleSystem;
+    public ParticleSystem particle_System;
 
     private bool isHitted = false;
 
@@ -25,8 +25,8 @@ public class Hitbox_Boss01_Bullet : MonoBehaviour
         currTime = 0f;
 
         
-        particleSystem.Clear(); //エフェクトをリセット
-        particleSystem.Play();
+        particle_System.Clear(); //エフェクトをリセット
+        particle_System.Play();
 
     }
 

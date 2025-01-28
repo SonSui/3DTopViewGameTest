@@ -42,6 +42,11 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
     float atkInterval = 2f;
     float atkTime = 0f;
 
+    public int SuperArmor=10;
+    private int hitCount = 0;
+
+    public Boss01Feet leftFeet;
+    public Boss01Feet rightFeet;
 
    
 
@@ -73,6 +78,8 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
 
     public GameObject fireParticle;
     public GameObject shiled;
+    public GameObject debuff_Atk;
+    public GameObject debuff_Def;
 
 
     public float fallSpeed = 10f; // 落下速度
@@ -178,6 +185,10 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
         else fireParticle.SetActive(false);
         if(enemyStatus.HasShield())shiled.SetActive(true);
         else shiled.SetActive(false);
+        if (enemyStatus.IsAttackReduced()) debuff_Atk.SetActive(true);
+        else debuff_Atk.SetActive(false);
+        if (enemyStatus.IsDefenseReduced()) debuff_Def.SetActive(true);
+        else debuff_Def.SetActive(false);
 
         //状態更新
         StateUpdate();
@@ -198,7 +209,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
 
             //以下の行動はAnimationEventや他のオブジェクトが呼んでくれる
             case EnemyState.Attack:
-                liveTime += (Time.deltaTime/5);
+                liveTime += (Time.deltaTime/5); // 攻撃期間シールド溜まるのが遅い
                 break;
             case EnemyState.Hit:
                 liveTime += Time.deltaTime;
@@ -221,7 +232,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
     }
     private void ChangeState(EnemyState nextState)
     {
-        _state = nextState;
+        
         //状態変更したら、アニメーションも変更
         switch (nextState)
         {
@@ -232,11 +243,14 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
                 OnAttaceState();
                 break;
             case EnemyState.Hit:
-                if (isAttacking)
+                
+                hitCount++;
+                if (hitCount < SuperArmor) //SuperArmorなくなるまで被弾モーションしない
                 {
-                    float rand = UnityEngine.Random.Range(0f, 1f);
-                    if (rand < 0.8f) break;
+                    return;
                 }
+                else { hitCount = 0; }
+                
                 waveHitbox.SetActive(false);
                 isAttacking = false;
                 animator.SetTrigger("Hit");
@@ -250,6 +264,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
                 animator.enabled = false;
                 break;
         }
+        _state = nextState;
     }
     private void OnAttaceState()
     {
@@ -264,6 +279,8 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
         else
         {
             animator.SetTrigger("Attack1");
+            leftFeet.ActivateColliderSequence();
+            rightFeet.ActivateColliderSequence();
         }
     }
     private void OnIdle()
@@ -399,7 +416,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
         if (isAttacking) return;
         isAttacking = true;
         waveHitbox.SetActive(true);　//Hitbox有効化
-        waveHitbox.GetComponent<Hitbox_Boss01_wave>().Initialized(enemyStatus.GetAttackNow()*2);　//攻撃力設定
+        waveHitbox.GetComponent<Hitbox_Boss01_wave>().Initialized(enemyStatus.GetAttackNow());　//攻撃力設定
        
     }
     public void OnAttack1Over()
@@ -413,7 +430,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
         GameObject bullet = Instantiate(bulletPrefab, eye.transform.position, Quaternion.identity);
         Vector3 eyeEulerAngles = eye.transform.eulerAngles;
         bullet.transform.rotation = Quaternion.Euler(0, eyeEulerAngles.y, 0);
-        bullet.GetComponent<Hitbox_Boss01_Bullet>().Initialize(playerT,enemyStatus.GetAttackNow());
+        bullet.GetComponent<Hitbox_Boss01_Bullet>().Initialize(playerT,Mathf.Max(enemyStatus.GetAttackNow()/2,1));
     }
     public void OnAttack2Over()
     {

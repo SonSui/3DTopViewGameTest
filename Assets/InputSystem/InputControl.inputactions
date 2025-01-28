@@ -437,6 +437,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "EndButton",
+                    "type": "Button",
+                    "id": "5a07ad47-2fcf-49c9-ae7d-a563473cc142",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CheatButton",
+                    "type": "Button",
+                    "id": "65bfb243-cbf4-4e29-9ce7-51fa53e0d64e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -663,7 +681,7 @@
                 {
                     "name": "",
                     "id": "482b86e0-3bd6-4efc-b1f3-3daef519f2cb",
-                    "path": "<Keyboard>/escape",
+                    "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -679,6 +697,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "TagCheck",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d3da675-3c1e-441e-b285-0c25fe303650",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EndButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf36136c-2b1a-46c3-8c4a-ec30a4e50923",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CheatButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

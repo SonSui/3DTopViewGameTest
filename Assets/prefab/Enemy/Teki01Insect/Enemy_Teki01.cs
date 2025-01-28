@@ -85,11 +85,8 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
     private void Awake()
     {
-
         //UnityのMonoBehaviourによる：
         //GameObject生成するとAwake->OnEnable(prefabはEnableの状態の場合)->Start->Update->Update->Update(毎フレイム循環)
-
-
         renderers = targetTransform.GetComponentsInChildren<Renderer>();
 
         // overlayMaterialが設定されているか確認
@@ -159,7 +156,6 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 OnDead();
             }
         }
-
         //Debuffのエフェクト表示
         if (enemyStatus.IsBleeding())fireParticle.SetActive(true);
         else fireParticle.SetActive(false);
@@ -303,7 +299,6 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             }
         }
     }
-
     private void OnStuned()
     {
         stunTime += Time.deltaTime;
@@ -409,8 +404,6 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
         enemyGenerator = generator;
     }
 
-
-
     public void Initialize(
         string name = "Enemy_Teki01",
         int hpMax = 4,
@@ -440,7 +433,7 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
 
         if (_state != EnemyState.Dead && !enemyStatus.IsDead())//今の状態を判断、死んでいるのはダメージ受けない
         {
-            bool isBomb = false;
+            
             if (crit)
             {
                 //クリティカルエフェクト（あれば）
@@ -462,7 +455,6 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
                 else
                 {
                     //被弾アニメーションとエフェクト
-                    isBomb = true;
                     if (enemyStatus.IsDead())
                     {
                         OnDead();

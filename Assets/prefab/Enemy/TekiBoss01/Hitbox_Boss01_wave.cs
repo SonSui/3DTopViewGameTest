@@ -9,7 +9,7 @@ public class Hitbox_Boss01_wave : MonoBehaviour
     public float preAtkTime = 0.1f;
     public float lifeTime = 1f;
     public float currTime = 0f;
-    public ParticleSystem particleSystem;
+    public ParticleSystem particle_System;
 
     private int dmg = 1;
     private bool isHitted = false;
@@ -22,10 +22,10 @@ public class Hitbox_Boss01_wave : MonoBehaviour
     {
         isHitted = false;
         currTime = 0f;
+        collider1.enabled = false;
 
-         
-        particleSystem.Clear(); //エフェクトをリセット
-        particleSystem.Play();
+        particle_System.Clear(); //エフェクトをリセット
+        particle_System.Play();
     }
     void Update()
     {

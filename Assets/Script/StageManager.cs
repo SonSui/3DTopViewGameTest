@@ -124,5 +124,8 @@ public class StageManager : MonoBehaviour
     {
         stageNum = n;
     }
-
+    public void SpawnSuperRareDrop()
+    {
+        Instantiate(GameManager.Instance?.GetSuperRareItem());
+    }
 }

@@ -27,10 +27,15 @@ public class UIManager : MonoBehaviour
     [Header("Input Settings")]
     public InputActionReference openSettingsAction;
     public InputActionReference navigateTagsAction;
+    public InputActionReference endGameAction;
+    public InputActionReference cheatAction;
     public PlayerInput playerInput; // プレイヤーの入力を管理するPlayerInputの参照
 
     private Vector2 lastMousePosition; // 前回のマウス位置
-    private const float mouseMoveThreshold = 10f; // 移動距離の閾値
+    private const float mouseMoveThreshold = 20f; // 移動距離の閾値
+    private GameObject lastSelectedGameObject; // 直前に選択されていたゲームオブジェクトを保存
+    private float idleTime = 0f; // マウスが静止している時間
+    public float restoreDelay = 0.1f; // マウスが停止してから選択を復元するまでの遅延時間
 
 
 
@@ -104,6 +109,16 @@ public class UIManager : MonoBehaviour
             navigateTagsAction.action.Enable();
             navigateTagsAction.action.performed += ctx => NavigateTagIcons();
         }
+        if(endGameAction!=null)
+        {
+            endGameAction.action.Enable();
+            endGameAction.action.performed += ctx => OnTitleExitDown();
+        }
+        if(cheatAction!=null)
+        {
+            cheatAction.action.Enable();
+            cheatAction.action.performed += ctx => OnCheatButtonDown();
+        }
         CloseAllPanel();
     }
     private void LateUpdate()
@@ -135,14 +150,36 @@ public class UIManager : MonoBehaviour
         // マウスの移動距離を計算
         float distance = Vector2.Distance(currentMousePosition, lastMousePosition);
 
-        // 移動距離が閾値を超えた場合、選択を解除
         if (distance > mouseMoveThreshold)
         {
-            EventSystem.current.SetSelectedGameObject(null); // 現在の選択を解除
+            // マウス移動距離が閾値を超えた場合、現在の選択を解除
+            if (EventSystem.current.currentSelectedGameObject != null)
+            {
+                // 現在選択されているオブジェクトを保存
+                lastSelectedGameObject = EventSystem.current.currentSelectedGameObject;
+                EventSystem.current.SetSelectedGameObject(null); // 選択を解除
+            }
+
+            // マウスが動いているので、静止時間をリセット
+            idleTime = 0f;
+        }
+        else
+        {
+            // マウスが動いていない場合、静止時間を加算
+            idleTime += Time.deltaTime;
+
+            // 静止時間が指定した遅延時間を超え、前回の選択が保存されている場合
+            if (idleTime >= restoreDelay && lastSelectedGameObject != null)
+            {
+                // 前回選択されていたオブジェクトを再選択
+                EventSystem.current.SetSelectedGameObject(lastSelectedGameObject);
+                lastSelectedGameObject = null; // 選択復元後、保存データをリセット
+            }
         }
 
         // マウス位置を更新
         lastMousePosition = currentMousePosition;
+    
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -489,6 +526,12 @@ public class UIManager : MonoBehaviour
         TitlePanel.SetActive(false);
     }
 
+    private void OnCheatButtonDown()
+    {
+        Debug.Log("Cheat!");
+        StageManager.Instance?.SpawnSuperRareDrop();
+    }
+
     // ===== UI管理 =====
     public void AbleButtons()
     {
@@ -581,7 +624,11 @@ public class UIManager : MonoBehaviour
     }
     public void OnTitleExitDown()
     {
-        Application.Quit();
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();//ゲームプレイ終了
+        #endif
     }
     public void OnGameStart()
     {

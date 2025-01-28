@@ -116,6 +116,7 @@ MonoBehaviour:
   biteHitbox: {fileID: 3209785562985766734}
   bombPrefab: {fileID: 2658281740619783984, guid: f49c5d486a92a2a42a80e8bd72602fd9, type: 3}
   attackRange: 1.5
+  atkInterval: 1
   _state: 0
   playerT: {fileID: 0}
   fireParticle: {fileID: 2563120632764881409}

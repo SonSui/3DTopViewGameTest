@@ -70,6 +70,8 @@ public class Enemy_Teki02 : MonoBehaviour,IOnHit
 
     public GameObject fireParticle;
     public GameObject shiled;
+    public GameObject debuff_Atk;
+    public GameObject debuff_Def;
 
 
     public float fallSpeed = 10f; // 落下速度
@@ -169,13 +171,15 @@ public class Enemy_Teki02 : MonoBehaviour,IOnHit
                 OnDead();
             }
         }
-        if (enemyStatus.IsBleeding())
-        {
-            fireParticle.SetActive(true);
-        }
+        //Debuffのエフェクト表示
+        if (enemyStatus.IsBleeding()) fireParticle.SetActive(true);
         else fireParticle.SetActive(false);
         if (enemyStatus.HasShield()) shiled.SetActive(true);
         else shiled.SetActive(false);
+        if (enemyStatus.IsAttackReduced()) debuff_Atk.SetActive(true);
+        else debuff_Atk.SetActive(false);
+        if (enemyStatus.IsDefenseReduced()) debuff_Def.SetActive(true);
+        else debuff_Def.SetActive(false);
 
         //状態更新
         StateUpdate();

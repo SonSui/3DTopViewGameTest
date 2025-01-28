@@ -73,7 +73,7 @@ MonoBehaviour:
   preAtkTime: 0.1
   lifeTime: 1
   currTime: 0
-  particleSystem: {fileID: 8726259751510396572}
+  particle_System: {fileID: 8726259751510396572}
 --- !u!1001 &7522345333333792297
 PrefabInstance:
   m_ObjectHideFlags: 0

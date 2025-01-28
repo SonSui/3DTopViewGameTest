@@ -223,7 +223,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5790757, g: 1, b: 0.4470588, a: 1}
+      maxColor: {r: 1, g: 0.9616983, b: 0.4470588, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5109,7 +5109,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5790757, g: 1, b: 0.4470588, a: 1}
+      maxColor: {r: 0.4470588, g: 0.99484354, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -9995,7 +9995,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5790757, g: 1, b: 0.4470588, a: 1}
+      maxColor: {r: 0.4470588, g: 0.98958766, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -14881,7 +14881,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5790757, g: 1, b: 0.4470588, a: 1}
+      maxColor: {r: 1, g: 0.9703015, b: 0.4470588, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -19767,7 +19767,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5790757, g: 1, b: 0.4470588, a: 1}
+      maxColor: {r: 0.4470588, g: 0.98390657, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -24442,7 +24442,7 @@ GameObject:
   - component: {fileID: 532282029385329117}
   - component: {fileID: 8700035473269227422}
   m_Layer: 0
-  m_Name: vfx_Heal_02
+  m_Name: vfx_GetItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24466,7 +24466,7 @@ Transform:
   - {fileID: 1015527435804310640}
   - {fileID: 5085124276954272379}
   m_Father: {fileID: 0}
-  m_RootOrder: -2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!199 &532282029385329117
 ParticleSystemRenderer:
