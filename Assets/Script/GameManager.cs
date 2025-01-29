@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -58,10 +59,16 @@ public class GameManager : MonoBehaviour
 
     private Dictionary<AbilityTagDefinition,int> tagsPool = new Dictionary<AbilityTagDefinition, int>();
 
-    
+
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
+
 
     private void Awake()
     {
+
         // シングルトンパターンの実装：GameManagerが1つしか存在しないようにする
         if (Instance == null)
         {
@@ -81,12 +88,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    /*private void Start()
     {
 
         Application.targetFrameRate = 60;
         
-    }
+    }*/
 
     private bool SpawnPlayer()
     {
@@ -113,8 +120,6 @@ public class GameManager : MonoBehaviour
                 cameraPosition = defPlayerPos + bossCameraPos;
                 cameraRotation = Quaternion.Euler(bossCameraRot);
             }
-            
-
             // カメラのインスタンス化
             camera1 = Instantiate(cameraPrefab);
             cameraFollow = camera1.GetComponent<CameraFollow>(); // CameraFollowスクリプトを取得

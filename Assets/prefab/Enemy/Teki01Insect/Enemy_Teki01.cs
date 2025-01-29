@@ -102,7 +102,6 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             return;
         }
 
-
         //明るさ調整、敵が暗くないなら、削除でもいい
         foreach (Renderer renderer in renderers)
         {
@@ -312,7 +311,6 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
     private System.Collections.IEnumerator HitFlash()
     {
         isFlashing = true;
-
         // 全てのRendererにマテリアルを追加
         foreach (Renderer renderer in renderers)
         {
