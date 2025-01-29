@@ -251,9 +251,6 @@ public class PlayerControl : MonoBehaviour
         moveDirection = horizontalMove;
         float speed_ = inputMove.magnitude * currMoveSpeed;
 
-
-
-
         if (horizontalMove.magnitude > 0.1f && IsRotatable())
         {
             //‰ñ“]
@@ -401,8 +398,6 @@ public class PlayerControl : MonoBehaviour
         //AdjustYRotationRelativeToParent(charaTrans, 128.154f);
 
         AdjustRotationForMeleeAttack(detectionAngle_Melee);
-
-
 
     }
     public void OnSwordAttack01Update1()

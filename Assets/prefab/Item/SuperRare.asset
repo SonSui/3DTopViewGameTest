@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7c319fc3b03bd24882f355ba76358e1, type: 3}
   m_Name: SuperRare
   m_EditorClassIdentifier: 
-  itemName: FireChip
-  rare: 3
+  itemName: SuperRareChip
+  rare: 1
   hpMax: 0
   attackPower: 0
   criticalRate: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
   attackSpeed: 0
   attackRange: 0
   evasionRate: 0
-  ammoCapacity: 0
+  ammoCapacity: 5
   tags:
   - {fileID: 11400000, guid: 5d0b290ed452a374dae28c22f6bd4aba, type: 2}
   - {fileID: 11400000, guid: 5d0b290ed452a374dae28c22f6bd4aba, type: 2}
