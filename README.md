@@ -74,11 +74,11 @@
 
 >**サウンド：**
 
->https://itch.io/
+>>https://itch.io/
 
 >**UI:**
 
->https://itch.io/
+>>https://assetstore.unity.com/
 
 >**テクスチャ：**
 
