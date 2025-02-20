@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
     private int currentStage = 1;
     public const int MAX_STAGE = 3;
 
+    public float gameTime = 0f;
+
 
     //ÉhÉçÉbÉv
     
@@ -63,6 +65,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Application.targetFrameRate = 60;
+        FadeManager.Instance.FadeIn(2f);
     }
 
 
@@ -94,6 +97,10 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 60;
         
     }*/
+    private void Update()
+    {
+        gameTime += Time.deltaTime;
+    }
 
     private bool SpawnPlayer()
     {
@@ -184,6 +191,12 @@ public class GameManager : MonoBehaviour
             ResetPlayerStatus();
             ResetStageInfo();
             FindUIManager();
+            
+        }
+        StartCoroutine(ResumeAfterFade());
+        if(scene.name == "Tutorial")
+        {
+            gameTime = 0f;
         }
     }
     public void GameStart_Initialize()
@@ -199,6 +212,13 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
     }
+    private IEnumerator ResumeAfterFade()
+    {
+        FadeManager.Instance.FadeOut(0.01f);
+        yield return new WaitForSecondsRealtime(0.5f); 
+        FadeManager.Instance.FadeIn(2f); 
+    }
+
 
     // ===== ItemPool =====
 

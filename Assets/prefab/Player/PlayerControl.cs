@@ -126,7 +126,7 @@ public class PlayerControl : MonoBehaviour
     private float detectionDistance_Ranged = 20f;
     private float detectionAngle_Melee = 150f;
     private float detectionDistance_Melee = 8f;
-    private float deltaDistance = 1f; // Å‹ß‹——£‚Æ”äŠr‚·‚é‹–—e”ÍˆÍ
+    private float deltaDistance = 3f; // Å‹ß‹——£‚Æ”äŠr‚·‚é‹–—e”ÍˆÍ
     private Coroutine rotationCoroutine;
 
     void Start()

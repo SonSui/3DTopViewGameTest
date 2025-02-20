@@ -52,6 +52,7 @@ public class DamageDisplay : MonoBehaviour
 
         // 移動速度を設定
         floatSpeed = randomDirection * floatUpOffset / displayDuration;
+        //floatSpeed = Vector2.up * floatUpOffset / displayDuration;
 
         // マテリアルを取得
         textMaterial = damageText.fontMaterial;
