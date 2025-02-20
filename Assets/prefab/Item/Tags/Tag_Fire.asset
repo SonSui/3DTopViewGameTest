@@ -63,7 +63,7 @@ MonoBehaviour:
     ammoPenetration: 0
     resurrectionTime: 0
     hpRecovery: 0
-    explosion: 0
+    explosion: 1
     timeStop: 0
     teleport: 0
     timedPowerUpMode: 0
@@ -72,7 +72,7 @@ MonoBehaviour:
     barrier: 0
     oneHitKill: 0
     multiAttack: 0
-    defensePenetration: 1
+    defensePenetration: 0
   - hpMax: 0
     attackPower: 0
     criticalRate: 0
@@ -92,7 +92,7 @@ MonoBehaviour:
     ammoPenetration: 0
     resurrectionTime: 0
     hpRecovery: 0
-    explosion: 1
+    explosion: 0
     timeStop: 0
     teleport: 0
     timedPowerUpMode: 0
@@ -101,6 +101,6 @@ MonoBehaviour:
     barrier: 0
     oneHitKill: 0
     multiAttack: 0
-    defensePenetration: 0
+    defensePenetration: 1
   icon: {fileID: 21300000, guid: 1eaae3bb74c378d439f8c398e88d066f, type: 3}
-  description: "\u706B\u708E\nLv1\u3000\u8FD1\u63A5\u653B\u6483\u304C\u706B\u50B7\u306E\u30C0\u30E1\u30FC\u30B8\u3092\u8FFD\u52A0\nLv2\u3000\u8FD1\u63A5\u653B\u6483\u304C\u9632\u5FA1\u8CAB\u901A\u3092\u8FFD\u52A0\t\t\t\r\nLv3\u3000\u8FD1\u63A5\u653B\u6483\u6700\u7D42\u6BB5\u304C\u7206\u767A\u306B\u306A\u308B"
+  description: "\u706B\u708E\nLv1\u3000\u8FD1\u63A5\u653B\u6483\u304C\u706B\u50B7\u306E\u30C0\u30E1\u30FC\u30B8\u3092\u8FFD\u52A0\nLv2\u3000\u8FD1\u63A5\u653B\u6483\u6700\u7D42\u6BB5\u304C\u7206\u767A\u306B\u306A\u308B\t\t\t\r\nLv3\u3000\u8FD1\u63A5\u653B\u6483\u304C\u9632\u5FA1\u8CAB\u901A\u3092\u8FFD\u52A0"

@@ -23,7 +23,7 @@ MonoBehaviour:
     attackSpeed: 0
     attackRange: 0
     evasionRate: 0
-    isDefenseReduction: 0
+    isDefenseReduction: 1
     isAttackReduction: 0
     isSlowEffect: 0
     isBleedingEffect: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
     barrier: 0
     oneHitKill: 0
     multiAttack: 0
-    defensePenetration: 1
+    defensePenetration: 0
   - hpMax: 0
     attackPower: 0
     criticalRate: 0
