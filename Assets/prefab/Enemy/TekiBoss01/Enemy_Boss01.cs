@@ -48,7 +48,18 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
     public Boss01Feet leftFeet;
     public Boss01Feet rightFeet;
 
-   
+    public Vector3 dmgUIOffset = new Vector3( -3.8f, 6.5f, -3.2f );
+
+    public GameObject HPBarPrefab;
+    private GameObject hpBarInstance; // HPバーのインスタンス
+    private RectTransform hpBarTransform; // HPバーの RectTransform
+    private RectTransform hpBarFillTransform; // HPの現在値を示すバー
+    private float originalBarWidth = 1920f;
+    private Canvas uiCanvas; // UIのCanvas
+    private float currentHpPercent = 1f; // 現在のHPの割合
+    private float targetHpPercent = 1f; // 目標のHPの割合
+    private Coroutine hpLerpCoroutine;
+
 
     //ステータスマシン
     public enum EnemyState
@@ -149,8 +160,17 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
         //敵生成するとAwake->OnEnable(prefabはEnableの状態の場合)->Start->Update->Update->Update(毎フレイム循環)
 
         if (enemyGenerator == null) enemyGenerator = FindObjectOfType<EnemyGenerator>();
+
+        uiCanvas = FindObjectOfType<Canvas>();
+        if (uiCanvas == null)
+        {
+            Debug.LogError("Canvas が見つかりません！HPバーを作成できません。");
+            return;
+        }
+        CreateHPBar();
         
     }
+        
 
     private void Update()
     {
@@ -172,7 +192,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
 
         if (bleedDmg > 0 && _state != EnemyState.Dead) //流血（燃焼）ダメージが出たら数字で表示
         {
-            UIManager.Instance.ShowDamage(bleedDmg, transform.position, new Color(0.5f, 0f, 0.5f, 1f));
+            UIManager.Instance.ShowDamage(bleedDmg, transform.position+dmgUIOffset, new Color(0.5f, 0f, 0.5f, 1f));
             if (enemyStatus.IsDead())
             {
                 OnDead();
@@ -192,9 +212,92 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
 
         //状態更新
         StateUpdate();
+        if (hpBarInstance)
+        {
+            UpdateHPBarSmooth(); // 毎フレームHPバーの位置と大きさを更新
+        }
+    }
+    private void CreateHPBar()
+    {
+        if (HPBarPrefab == null || uiCanvas == null) return;
+
+        // HP バーを生成
+        hpBarInstance = Instantiate(HPBarPrefab, uiCanvas.transform);
+        hpBarTransform = hpBarInstance.GetComponent<RectTransform>();
+
+        hpBarFillTransform = hpBarInstance.transform.GetChild(0).GetComponent<RectTransform>();
+
+        if (hpBarFillTransform != null)
+        {
+            originalBarWidth = hpBarFillTransform.sizeDelta.x; // 初期幅を保存
+        }
+
+        hpBarFillTransform.anchorMin = new Vector2(0, 0.5f); // 左端固定
+        hpBarFillTransform.anchorMax = new Vector2(0, 0.5f);
+        hpBarFillTransform.pivot = new Vector2(0, 0.5f); // 左端を回転軸に
+
+        // **HP バーを即座に正しい長さにする**
+        UpdateHPBarInstant();
+    }
+    private void UpdateHPBarInstant()
+    {
+        if (hpBarInstance == null || hpBarFillTransform == null) return;
+
+        // HP の割合を取得
+        currentHpPercent = targetHpPercent = Mathf.Clamp((float)enemyStatus.GetHpNow() / enemyStatus.GetHpMax(), 0f, 1f);
+
+        // HPバーの長さを即時更新
+        hpBarFillTransform.sizeDelta = new Vector2(originalBarWidth * currentHpPercent, hpBarFillTransform.sizeDelta.y);
+    }
+
+    private void UpdateHPBarSmooth()
+    {
+        // 新しい HP 割合を計算
+        float newTargetPercent = Mathf.Clamp((float)enemyStatus.GetHpNow() / enemyStatus.GetHpMax(), 0f, 1f);
+
+        // 変化がない場合は処理しない
+        if (Mathf.Approximately(targetHpPercent, newTargetPercent))
+        {
+            return;
+        }
+
+        // 目標値を更新
+        targetHpPercent = newTargetPercent;
+
+        if (hpLerpCoroutine != null)
+        {
+            StopCoroutine(hpLerpCoroutine);
+        }
+        hpLerpCoroutine = StartCoroutine(LerpHPBar());
+    }
+
+    private IEnumerator LerpHPBar()
+    {
+        float elapsedTime = 0f;
+        float duration = 0.3f;
+        float startPercent = currentHpPercent; // 現在の HP 割合
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
+            currentHpPercent = Mathf.Lerp(startPercent, targetHpPercent, t);
+
+            if (hpBarFillTransform)
+            {
+                hpBarFillTransform.sizeDelta = new Vector2(originalBarWidth * currentHpPercent, hpBarFillTransform.sizeDelta.y);
+            }
+
+            yield return null;
+        }
+
+        currentHpPercent = targetHpPercent;
+        if (hpBarFillTransform)
+        {
+            hpBarFillTransform.sizeDelta = new Vector2(originalBarWidth * currentHpPercent, hpBarFillTransform.sizeDelta.y);
+        }
     }
     
-
 
 
     // ===== ステート処理 =====
@@ -362,6 +465,10 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
         //死亡アニメーションとエフェクト
         electricEffect.SetActive(true);
         StartCoroutine(DyingAnimation());
+        if (hpBarInstance)
+        {
+            Destroy(hpBarInstance);
+        }
 
     }
     private IEnumerator DyingAnimation()
@@ -499,7 +606,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
                 }
                 //Vector3 worldPosition = transform.position + Vector3.up * 1; // テキスト表示位置
 
-                UIManager.Instance.ShowDamage(hitDmg, transform.position, displayColor);
+                UIManager.Instance.ShowDamage(hitDmg, transform.position+dmgUIOffset, displayColor);
                 Debug.Log($"Enemyは{hitDmg}ダメージ受けた");
             }
             

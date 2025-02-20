@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -49,6 +50,9 @@ public class UIManager : MonoBehaviour
 
     public GameObject tagIconPrefab;
     public GameObject tooltip;
+    public GameObject tagIconTextPrefab;
+    public GameObject endingTagParent;
+    public TextMeshProUGUI timeText;
 
     private Queue<GameObject> damageTextPool; // ダメージテキストのオブジェクトプール
     private List<GameObject> hpSegments; // 現在のHPセグメントのリスト
@@ -65,11 +69,25 @@ public class UIManager : MonoBehaviour
     int maxAmmo = 10;
     int currAmmo = 10;
 
-    private const float hpSegmentSpacing = 60f; // HPセグメント間の距離
-    private const float hpBarHeight = 200f; // HPバーの高さ
+    private const float hpSegmentSpacing = 80f; // HPセグメント間の距離
+    private const float hpSegmentHeight = 50f;
+    private const float hpBarHeight = 30f; // HPバーの高さ
+    private const float hpBarWidth = 80f;
+    private const float hpBarOffsetX = 10f;
+    private const float hpBarOffsetY = -40f;
 
-    private const float ammoSegmentSpacing = 28f; // 弾薬セグメント間の距離
-    private const float ammoBarHeight = 200f; // 弾薬バーの高さ
+
+    private const float ammoSegmentSpacing = 20f; // 弾薬セグメント間の距離
+    private const float ammoSegmentHeight = 50f;
+    private const float ammoBarHeight = 30f; // 弾薬バーの高さ
+    private const float ammoBarWidth = 24f;
+    private const float ammoBarOffsetX = 0f;
+    private const float ammoBarOffsetY = -135f;
+
+    private const float tagPosXDefault = 50f;
+    private const float tagPosYDefault = -300f;
+    private const float tagWidth = 100f;
+    private const float tagHeight = 100f;
 
     private float startTime = 0f;
     private float titleTime = 0.2f;
@@ -301,7 +319,40 @@ public class UIManager : MonoBehaviour
             Debug.LogError("Missing DamageDisplay component on damage text prefab!");
         }
     }
+    private void ShowAllTagsInCenter()
+    {
+        foreach (Transform child in endingTagParent.transform)
+        {
+            Destroy(child.gameObject);
+        }
 
+        Dictionary<AbilityTagDefinition, int> tags = GameManager.Instance.playerStatus.GetCollectedTagDefinitions();
+        int count = tags.Count;
+        int index = 0;
+        foreach (var tag in tags)
+        {
+            AbilityTagDefinition tagDefinition = tag.Key;
+            int tagLevel = tag.Value;
+
+            // アイコンを生成
+            GameObject tagIcon = Instantiate(tagIconTextPrefab, canvas.transform);
+            tagIcon.SetActive(true);
+            tagIcon.transform.SetParent(endingTagParent.transform, false);
+
+            // アイコンの位置を設定
+            RectTransform rectTransform = tagIcon.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                float xPos = 75 + ((float)index - (float)count / 2) * 150; // X座標
+                rectTransform.sizeDelta = new Vector2(tagWidth, tagHeight); // サイズ
+                rectTransform.anchoredPosition = new Vector2(xPos, 0);
+                tagIcon.GetComponent<Image>().sprite = tagDefinition.icon;
+                tagIcon.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = tag.Value.ToString();
+            }
+            index++;
+        }
+
+    }
     public void SetCurrentTags(Dictionary<AbilityTagDefinition, int> tags)
     {
         ClearAllTagIcons();
@@ -323,9 +374,9 @@ public class UIManager : MonoBehaviour
             RectTransform rectTransform = tagIcon.GetComponent<RectTransform>();
             if (rectTransform != null)
             {
-                float xPos = index * 100 + 50; // X座標
-                rectTransform.sizeDelta = new Vector2(100, 100); // サイズ
-                rectTransform.anchoredPosition = new Vector2(xPos, -350); // 左上に集中
+                float xPos = index * tagWidth + tagPosXDefault; // X座標
+                rectTransform.sizeDelta = new Vector2(tagWidth, tagHeight); // サイズ
+                rectTransform.anchoredPosition = new Vector2(xPos, tagPosYDefault); // 左上に集中
             }
 
             // アイコンに内容を設定
@@ -381,12 +432,12 @@ public class UIManager : MonoBehaviour
         if (barRect != null)
         {
             // 幅を計算
-            float newWidth = 90 + hpSegmentSpacing * (maxHP - 1);
+            float newWidth = hpBarWidth + hpSegmentSpacing * (maxHP - 1);
             barRect.sizeDelta = new Vector2(newWidth, hpBarHeight);
 
             // 位置を計算
-            float newXPos = 60 + (hpSegmentSpacing / 2f) * (maxHP - 1);
-            barRect.anchoredPosition = new Vector2(newXPos, -100);
+            float newXPos = hpBarWidth/2 + (hpSegmentSpacing / 2f) * (maxHP - 1)+ hpBarOffsetX;
+            barRect.anchoredPosition = new Vector2(newXPos, -hpBarHeight / 2 + hpBarOffsetY);
         }
 
         // 既存のセグメントをクリア
@@ -410,8 +461,8 @@ public class UIManager : MonoBehaviour
             if (rectTransform != null)
             {
                 float xPos = -hpSegmentSpacing * (maxHP - 1) / 2f + i * hpSegmentSpacing;
-                rectTransform.anchoredPosition = new Vector2(xPos, -3); // Y軸を-3に設定
-                rectTransform.sizeDelta = new Vector2(110, 110); // セグメントのサイズを設定
+                rectTransform.anchoredPosition = new Vector2(xPos, 0); 
+                rectTransform.sizeDelta = new Vector2(hpSegmentSpacing, hpSegmentHeight); // セグメントのサイズを設定
             }
 
             // セグメントの状態を設定
@@ -454,12 +505,12 @@ public class UIManager : MonoBehaviour
         if (barRect != null)
         {
             // 幅を計算
-            float newWidth = 48 + ammoSegmentSpacing * (maxAmmo - 1);
+            float newWidth = ammoBarWidth + ammoSegmentSpacing * (maxAmmo - 1);
             barRect.sizeDelta = new Vector2(newWidth, ammoBarHeight);
 
             // 位置を計算
-            float newXPos = 37 + (ammoSegmentSpacing / 2f) * (maxAmmo - 1);
-            barRect.anchoredPosition = new Vector2(newXPos, -220);
+            float newXPos = ammoBarWidth + (ammoSegmentSpacing / 2f) * (maxAmmo - 1) + ammoBarOffsetX ;
+            barRect.anchoredPosition = new Vector2(newXPos, -ammoBarHeight / 2 + ammoBarOffsetY);
         }
 
         // 既存のセグメントをクリア
@@ -483,8 +534,8 @@ public class UIManager : MonoBehaviour
             if (rectTransform != null)
             {
                 float xPos = -ammoSegmentSpacing * (maxAmmo - 1) / 2f + i * ammoSegmentSpacing;
-                rectTransform.anchoredPosition = new Vector2(xPos, -3); // Y軸を-3に設定
-                rectTransform.sizeDelta = new Vector2(80, 110); // セグメントのサイズを設定
+                rectTransform.anchoredPosition = new Vector2(xPos, 0); // 
+                rectTransform.sizeDelta = new Vector2(ammoSegmentSpacing, ammoSegmentHeight); // セグメントのサイズを設定
             }
 
             // セグメントの状態を設定
@@ -611,6 +662,9 @@ public class UIManager : MonoBehaviour
         GameManager.Instance?.PauseGame();
         playerInput.actions.FindActionMap("PlayerCharacter").Disable();
         EndingPanel.SetActive(true);
+        ShowAllTagsInCenter();
+        TimeSpan timeSpan = TimeSpan.FromSeconds(GameManager.Instance.gameTime);
+        timeText.text = "Time " + $"{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
         SetFirstButton(EndingPanel);
     }
     public void OnExitGameButtonDown()
