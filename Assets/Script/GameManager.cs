@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
 
     private void FindUIManager()
     {
-        uiManager = FindAnyObjectByType<UIManager>();
+        if (uiManager == null) uiManager = FindAnyObjectByType<UIManager>();
         if (uiManager == null)
         {
             GameObject obj = Instantiate(uiPrefab);
@@ -182,6 +182,7 @@ public class GameManager : MonoBehaviour
         if (scene.name != "Title" && scene.name != "Test_BossScene")
         { 
             FindUIManager();
+            uiManager.DisableAllDamageText();
             SpawnPlayer();
             SpawnCamera();
             StageManager.Instance?.SetStageNum(currentStage);
@@ -191,7 +192,8 @@ public class GameManager : MonoBehaviour
             ResetPlayerStatus();
             ResetStageInfo();
             FindUIManager();
-            
+            uiManager.DisableAllDamageText();
+
         }
         StartCoroutine(ResumeAfterFade());
         if(scene.name == "Tutorial")

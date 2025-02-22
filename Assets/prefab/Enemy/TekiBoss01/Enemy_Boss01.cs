@@ -42,13 +42,13 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
     float atkInterval = 2f;
     float atkTime = 0f;
 
-    public int SuperArmor=10;
+    public int SuperArmor = 10;
     private int hitCount = 0;
 
     public Boss01Feet leftFeet;
     public Boss01Feet rightFeet;
 
-    public Vector3 dmgUIOffset = new Vector3( -3.8f, 6.5f, -3.2f );
+    public Vector3 dmgUIOffset = new Vector3(-3.8f, 6.5f, -3.2f);
 
     public GameObject HPBarPrefab;
     private GameObject hpBarInstance; // HPバーのインスタンス
@@ -84,7 +84,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
     public Transform playerT = null;
     EnemyGenerator enemyGenerator;
 
-    private float stunTime=0f;
+    private float stunTime = 0f;
     private float stunTimeMax = 1f;
 
     public GameObject fireParticle;
@@ -104,7 +104,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
     {
 
         // overlayMaterialが設定されているか確認
-        
+
 
         // "low_poly_robot_3d_model_by_niko"という名前の子オブジェクトを探す
         Transform targetTransform = transform.Find("low_poly_robot_3d_model_by_niko");
@@ -149,9 +149,9 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
             moveSpeed_,
             attackSpeed_);
         ChangeState(EnemyState.Idle); //待機状態設定
-        if(fireParticle != null)fireParticle.SetActive(false);
-        if(shiled!=null)shiled.SetActive(false);
-        if(electricEffect!=null)electricEffect.SetActive(false);
+        if (fireParticle != null) fireParticle.SetActive(false);
+        if (shiled != null) shiled.SetActive(false);
+        if (electricEffect != null) electricEffect.SetActive(false);
         liveTime = 0f;
         //playerT = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -168,9 +168,9 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
             return;
         }
         CreateHPBar();
-        
+
     }
-        
+
 
     private void Update()
     {
@@ -183,16 +183,16 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
             // Y軸方向に移動（落下）
             transform.Translate(Vector3.down * fallSpeed * Time.deltaTime);
         }
-        if (playerT==null)
+        if (playerT == null)
         {
             playerT = GameObject.FindGameObjectWithTag("Player").transform;
-            if(playerT==null) {return; }
+            if (playerT == null) { return; }
         }
         int bleedDmg = enemyStatus.UpdateStatus(Time.deltaTime);//流血、スタン、デバフなど毎フレイム自動的に処理
 
         if (bleedDmg > 0 && _state != EnemyState.Dead) //流血（燃焼）ダメージが出たら数字で表示
         {
-            UIManager.Instance.ShowDamage(bleedDmg, transform.position+dmgUIOffset, new Color(0.5f, 0f, 0.5f, 1f));
+            UIManager.Instance.ShowDamage(bleedDmg, transform.position + dmgUIOffset, new Color(0.5f, 0f, 0.5f, 1f));
             if (enemyStatus.IsDead())
             {
                 OnDead();
@@ -203,7 +203,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
             fireParticle.SetActive(true);
         }
         else fireParticle.SetActive(false);
-        if(enemyStatus.HasShield())shiled.SetActive(true);
+        if (enemyStatus.HasShield()) shiled.SetActive(true);
         else shiled.SetActive(false);
         if (enemyStatus.IsAttackReduced()) debuff_Atk.SetActive(true);
         else debuff_Atk.SetActive(false);
@@ -297,7 +297,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
             hpBarFillTransform.sizeDelta = new Vector2(originalBarWidth * currentHpPercent, hpBarFillTransform.sizeDelta.y);
         }
     }
-    
+
 
 
     // ===== ステート処理 =====
@@ -308,11 +308,11 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
             case EnemyState.Idle:
                 OnIdle();// 待機中の処理
                 break;
-            
+
 
             //以下の行動はAnimationEventや他のオブジェクトが呼んでくれる
             case EnemyState.Attack:
-                liveTime += (Time.deltaTime/5); // 攻撃期間シールド溜まるのが遅い
+                liveTime += (Time.deltaTime / 5); // 攻撃期間シールド溜まるのが遅い
                 break;
             case EnemyState.Hit:
                 liveTime += Time.deltaTime;
@@ -335,31 +335,31 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
     }
     private void ChangeState(EnemyState nextState)
     {
-        
+
         //状態変更したら、アニメーションも変更
         switch (nextState)
         {
             case EnemyState.Idle:
-                
+
                 break;
             case EnemyState.Attack:
                 OnAttaceState();
                 break;
             case EnemyState.Hit:
-                
+
                 hitCount++;
                 if (hitCount < SuperArmor) //SuperArmorなくなるまで被弾モーションしない
                 {
                     return;
                 }
                 else { hitCount = 0; }
-                
+
                 waveHitbox.SetActive(false);
                 isAttacking = false;
                 animator.SetTrigger("Hit");
                 break;
             case EnemyState.Dead:
-                animator.SetBool("Dead",true);
+                animator.SetBool("Dead", true);
                 animator.SetTrigger("Dead 0");
                 break;
             case EnemyState.Stunned:
@@ -399,9 +399,9 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
             atkTime = 0;
             ChangeState(EnemyState.Attack);
         }
-        if(liveTime>shiledTime)
+        if (liveTime > shiledTime)
         {
-            if(!enemyStatus.HasShield())
+            if (!enemyStatus.HasShield())
             {
                 enemyStatus.SetShield(true);
                 enemyStatus.SetShieldDurability(shiledDuration);
@@ -460,7 +460,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
 
     private void OnDead()
     {
-        if(IsDying())return;
+        if (IsDying()) return;
         ChangeState(EnemyState.Dead);//死亡状態
         //死亡アニメーションとエフェクト
         electricEffect.SetActive(true);
@@ -485,15 +485,21 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
             yield return null;
         }
         //EnemyGeneratorに通知
-        if (enemyGenerator == null) enemyGenerator=FindObjectOfType<EnemyGenerator>();
+        if (enemyGenerator == null) enemyGenerator = FindObjectOfType<EnemyGenerator>();
         enemyGenerator.EnemyDead(gameObject);
         Debug.Log("BossDead");
         //アニメーション完了したら削除
-        Destroy(gameObject,3);
+        Destroy(gameObject, 3);
     }
 
+    private void OnDestroy()
+    {
+        if (hpBarInstance)
+        {
+            Destroy(hpBarInstance);
+        }
+    }
 
-    
 
 
 
