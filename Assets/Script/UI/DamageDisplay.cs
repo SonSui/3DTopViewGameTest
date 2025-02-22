@@ -81,10 +81,14 @@ public class DamageDisplay : MonoBehaviour
 
             if (timer <= 0)
             {
-                // 表示が終わったらオブジェクトを非アクティブ化
-                gameObject.SetActive(false);
-                UIManager.Instance.ReturnDamageTextObject(gameObject);
+                ResetDmgText();
             }
         }
+    }
+    public void ResetDmgText()
+    {
+        // 表示が終わったらオブジェクトを非アクティブ化
+        gameObject.SetActive(false);
+        UIManager.Instance.ReturnDamageTextObject(gameObject);
     }
 }

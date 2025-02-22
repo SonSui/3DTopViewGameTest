@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     public GameObject bossPanel;
     public GameObject EndingPanel;
     public GameObject TitlePanel;
+    public GameObject DmgPoolPanel;
 
     [Header("Input Settings")]
     public InputActionReference openSettingsAction;
@@ -270,7 +271,7 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             GameObject obj = Instantiate(damageTextPrefab);
-            obj.transform.SetParent(canvas.transform, false); // キャンバスに追加
+            obj.transform.SetParent(DmgPoolPanel.transform, false); // キャンバスに追加
             obj.SetActive(false); // 非アクティブ化
             damageTextPool.Enqueue(obj); // キューに追加
         }
@@ -288,7 +289,7 @@ public class UIManager : MonoBehaviour
         {
             // プールに余裕がない場合、新しいオブジェクトを作成
             GameObject obj = Instantiate(damageTextPrefab);
-            obj.transform.SetParent(canvas.transform, false);
+            obj.transform.SetParent(DmgPoolPanel.transform, false);
             return obj;
         }
     }
@@ -318,6 +319,19 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("Missing DamageDisplay component on damage text prefab!");
         }
+    }
+    public void DisableAllDamageText()
+    {
+        int childCnt = DmgPoolPanel.transform.childCount;
+        for (int i = 0; i < childCnt; i++)
+        {
+            Transform child = DmgPoolPanel.transform.GetChild(i);
+            if (child.gameObject.activeSelf)
+            {
+                child.gameObject.GetComponent<DamageDisplay>().ResetDmgText();
+            }
+        }
+
     }
     private void ShowAllTagsInCenter()
     {
