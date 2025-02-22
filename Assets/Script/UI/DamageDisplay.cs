@@ -52,6 +52,7 @@ public class DamageDisplay : MonoBehaviour
 
         // 移動速度を設定
         floatSpeed = randomDirection * floatUpOffset / displayDuration;
+        //floatSpeed = Vector2.up * floatUpOffset / displayDuration;
 
         // マテリアルを取得
         textMaterial = damageText.fontMaterial;
@@ -80,10 +81,14 @@ public class DamageDisplay : MonoBehaviour
 
             if (timer <= 0)
             {
-                // 表示が終わったらオブジェクトを非アクティブ化
-                gameObject.SetActive(false);
-                UIManager.Instance.ReturnDamageTextObject(gameObject);
+                ResetDmgText();
             }
         }
+    }
+    public void ResetDmgText()
+    {
+        // 表示が終わったらオブジェクトを非アクティブ化
+        gameObject.SetActive(false);
+        UIManager.Instance.ReturnDamageTextObject(gameObject);
     }
 }

@@ -434,7 +434,7 @@ TerrainCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_TerrainData: {fileID: 15600000, guid: 488711b48b9d50347ba596d13a435502, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 9f7024a05de113c4580c59251f65ebe9, type: 2}
   m_EnableTreeColliders: 1
 --- !u!218 &579981963
 Terrain:
@@ -445,7 +445,7 @@ Terrain:
   m_GameObject: {fileID: 579981961}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: 488711b48b9d50347ba596d13a435502, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 9f7024a05de113c4580c59251f65ebe9, type: 2}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
@@ -608,6 +608,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStageDifficult: 0
+  maxStage: 3
+  isTutorial: 0
+  isBoss: 0
+  RecoverHP: 1
 --- !u!4 &777464978
 Transform:
   m_ObjectHideFlags: 0
@@ -1150,35 +1154,57 @@ MonoBehaviour:
     enemies:
     - enemyPrefab: {fileID: 4470296684085650477, guid: 32ef5b6e99efe8f48988c0f52127670c, type: 3}
       count: 5
-      hpMax: 5
+      hpMax: 7
       attackPower: 1
       defense: 1
       enemyType: Bomb
       hasShield: 0
       shieldDurability: 0
-      moveSpeed: 2
+      moveSpeed: 4
       attackSpeed: 1
   - waveName: wave2
     enemies:
     - enemyPrefab: {fileID: 4470296684085650477, guid: 32ef5b6e99efe8f48988c0f52127670c, type: 3}
       count: 3
-      hpMax: 5
+      hpMax: 7
       attackPower: 1
       defense: 1
       enemyType: Bomb
       hasShield: 0
       shieldDurability: 0
-      moveSpeed: 2
+      moveSpeed: 4
       attackSpeed: 1
     - enemyPrefab: {fileID: 4470296684085650477, guid: 32ef5b6e99efe8f48988c0f52127670c, type: 3}
       count: 2
-      hpMax: 3
+      hpMax: 5
       attackPower: 1
       defense: 1
       enemyType: BombShiled
       hasShield: 1
-      shieldDurability: 5
-      moveSpeed: 2
+      shieldDurability: 6
+      moveSpeed: 4
+      attackSpeed: 1
+  - waveName: wave3
+    enemies:
+    - enemyPrefab: {fileID: 2267980272978758722, guid: c8c90189b6c05fb41b9c0bf7e463e749, type: 3}
+      count: 4
+      hpMax: 7
+      attackPower: 1
+      defense: 1
+      enemyType: Plane
+      hasShield: 0
+      shieldDurability: 0
+      moveSpeed: 4
+      attackSpeed: 1
+    - enemyPrefab: {fileID: 4470296684085650477, guid: 32ef5b6e99efe8f48988c0f52127670c, type: 3}
+      count: 2
+      hpMax: 5
+      attackPower: 1
+      defense: 1
+      enemyType: BombShiled
+      hasShield: 1
+      shieldDurability: 6
+      moveSpeed: 4
       attackSpeed: 1
   spawnPoints:
   - {fileID: 279539990}
@@ -1187,6 +1213,7 @@ MonoBehaviour:
   - {fileID: 555307040}
   - {fileID: 1347258000}
   spawnInterval: 1
+  spawnPointOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &1501633836 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 836445334509158770, guid: 8515888256016f446a7bb89e6bec0513, type: 3}
@@ -6425,6 +6452,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 1182dc3af6fa19b4c9a83321fd53df5b, type: 2}
+    - target: {fileID: -2507340566077506438, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -2507340566077506438, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: -2319036686804235641, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -6448,6 +6483,14 @@ PrefabInstance:
     - target: {fileID: 1356398939555569358, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.000000010052
+      objectReference: {fileID: 0}
+    - target: {fileID: 1866870050899957845, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1866870050899957845, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_TagString
+      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 2330698434783764381, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_IsActive
@@ -6505,6 +6548,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4e8b16e4debd53b4aab87c2aa340d2a3, type: 2}
+    - target: {fileID: 5888851571550273495, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5888851571550273495, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 8843515479200806370, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

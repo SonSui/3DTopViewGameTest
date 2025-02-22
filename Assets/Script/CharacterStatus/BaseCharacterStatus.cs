@@ -46,7 +46,7 @@ public abstract class BaseCharacterStatus
 
     // 流血
     protected float bleedingEffect;                     // 流血の残り時間
-    protected const float bleedingEffectRate = 0.05f;   // 流血ダメージ率
+    protected const float bleedingEffectRate = 0.005f;   // 流血ダメージ率
     protected float bleedingInterval;                   // 流血ダメージの間隔
     protected float bleedingTimer;                      // 流血ダメージのタイマー
 
@@ -175,7 +175,7 @@ public abstract class BaseCharacterStatus
         attackNow = attackPower;
         if (attackReduction > 0)
         {
-            attackNow = (int)(attackPower * (1 - attackReductionRate));
+            attackNow = Mathf.Max(1,(int)(attackPower * (1 - attackReductionRate)));
         }
 
         // 移動速度の再計算

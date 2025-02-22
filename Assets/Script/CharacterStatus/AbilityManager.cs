@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 
 // PlayerStatusに内包する能力管理クラス
 // 装備品(ItemData)を収集し、それに伴うタグを集計し、対応する能力(TagEffect)を有効化し、
@@ -315,6 +315,7 @@ public class AbilityManager
         playerStatus.SetAttackRange(playerStatus.GetBaseAttackRange() + effect.attackRange);
 
         playerStatus.SetAmmoCapacity(playerStatus.GetBaseAmmoCapacity() + effect.ammoCapacity);
+        playerStatus.SetAmmoMax(playerStatus.GetBaseAmmoCapacity() + effect.ammoCapacity);
         playerStatus.SetAmmoRecovery(playerStatus.GetBaseAmmoRecovery() + effect.ammoRecovery);
         playerStatus.SetAmmoEcho(Mathf.Max(playerStatus.GetBaseAmmoEcho(), effect.ammoEcho));
         playerStatus.SetAmmoPenetration(playerStatus.GetBaseAmmoPenetration() + effect.ammoPenetration);

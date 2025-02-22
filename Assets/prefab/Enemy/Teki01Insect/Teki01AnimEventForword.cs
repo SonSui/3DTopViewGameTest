@@ -17,6 +17,13 @@ public class Teki01AnimEventForword : MonoBehaviour
             parentObject.SendMessage("OnBiteAnime", SendMessageOptions.DontRequireReceiver);
         }
     }
+    public void OnBiteAnimeEnd()
+    {
+        if (parentObject != null)
+        {
+            parentObject.SendMessage("OnBiteAnimeEnd", SendMessageOptions.DontRequireReceiver);
+        }
+    }
     public void OnBombAnime()
     {
         if (parentObject != null)
@@ -29,6 +36,20 @@ public class Teki01AnimEventForword : MonoBehaviour
         if (parentObject != null)
         {
             parentObject.SendMessage("OnIdleAnime", SendMessageOptions.DontRequireReceiver);
+        }
+    }
+    public void OnDeadAnimeEnd()
+    {
+        if (parentObject != null)
+        {
+            parentObject.SendMessage("OnDeadAnimeEnd", SendMessageOptions.DontRequireReceiver);
+        }
+    }
+    public void OnHitAnimeEnd()
+    {
+        if (parentObject != null)
+        {
+            parentObject.SendMessage("OnHitAnimeEnd", SendMessageOptions.DontRequireReceiver);
         }
     }
 }

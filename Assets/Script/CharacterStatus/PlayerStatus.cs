@@ -53,7 +53,7 @@ public class PlayerStatus : BaseCharacterStatus
     // 初期化（基底クラスのコンストラクタを呼び出す）
     public PlayerStatus(
         int hpMax = 5,
-        int attackPower = 3,
+        int attackPower = 6,
         float criticalRate = 0.1f,
         float criticalDamage = 2.0f,
         float moveSpeed = 1.0f,
@@ -294,7 +294,7 @@ public class PlayerStatus : BaseCharacterStatus
 
     // 下記は例：Base用のGetter（初期化時の値を記憶して返す）
     public int GetBaseHpMax() { return 5; }
-    public int GetBaseAttackPower() { return 3; }
+    public int GetBaseAttackPower() { return 6; }
     public float GetBaseCriticalRate() { return 0.1f; }
     public float GetBaseCriticalDamage() { return 2.0f; }
     public float GetBaseMoveSpeed() { return 1.0f; }
@@ -391,7 +391,7 @@ public class PlayerStatus : BaseCharacterStatus
     {
         string baseStatus = base.GetBaseStatus(); // 基本ステータスを取得
 
-        // プレイヤー専用のステータスを追加
+        // プレイヤー専用のステータスを追加 
         string playerStatus =
             $"Ammo Capacity: {ammoCapacity}\n" +
             "";
@@ -441,5 +441,11 @@ public class PlayerStatus : BaseCharacterStatus
     public Dictionary<AbilityTagDefinition, int> GetCollectedTagDefinitions()
     {
         return abilityManager.GetCollectedTagDefinitions();
+    }
+    public int OnHpRecover(int n)
+    {
+        int oriHp = hpNow;
+        hpNow = Mathf.Min(hpMax, hpNow+n);
+        return oriHp - hpNow;
     }
 }

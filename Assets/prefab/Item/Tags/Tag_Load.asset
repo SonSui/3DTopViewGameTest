@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4439d899221502d4591e50e52e5369d7, type: 3}
+  m_Name: Tag_Load
+  m_EditorClassIdentifier: 
+  tagName: "\u88C5\u586B"
+  thresholds: 010000000200000003000000
+  effects:
+  - hpMax: 0
+    attackPower: 0
+    criticalRate: 0
+    criticalDamage: 0
+    moveSpeed: 0
+    attackSpeed: 0
+    attackRange: 0
+    evasionRate: 0
+    isDefenseReduction: 0
+    isAttackReduction: 0
+    isSlowEffect: 0
+    isBleedingEffect: 0
+    isStun: 0
+    ammoCapacity: 0
+    ammoRecovery: 0
+    ammoEcho: 0.3
+    ammoPenetration: 0
+    resurrectionTime: 0
+    hpRecovery: 0
+    explosion: 0
+    timeStop: 0
+    teleport: 0
+    timedPowerUpMode: 0
+    swordBeam: 0
+    resurrection: 0
+    barrier: 0
+    oneHitKill: 0
+    multiAttack: 0
+    defensePenetration: 0
+  - hpMax: 0
+    attackPower: 0
+    criticalRate: 0
+    criticalDamage: 0
+    moveSpeed: 0
+    attackSpeed: 0
+    attackRange: 0
+    evasionRate: 0
+    isDefenseReduction: 0
+    isAttackReduction: 0
+    isSlowEffect: 0
+    isBleedingEffect: 0
+    isStun: 0
+    ammoCapacity: 0
+    ammoRecovery: 1
+    ammoEcho: 0
+    ammoPenetration: 0
+    resurrectionTime: 0
+    hpRecovery: 0
+    explosion: 0
+    timeStop: 0
+    teleport: 0
+    timedPowerUpMode: 0
+    swordBeam: 0
+    resurrection: 0
+    barrier: 0
+    oneHitKill: 0
+    multiAttack: 0
+    defensePenetration: 0
+  - hpMax: 0
+    attackPower: 0
+    criticalRate: 0
+    criticalDamage: 0
+    moveSpeed: 0
+    attackSpeed: 0
+    attackRange: 0
+    evasionRate: 0
+    isDefenseReduction: 0
+    isAttackReduction: 0
+    isSlowEffect: 0
+    isBleedingEffect: 0
+    isStun: 0
+    ammoCapacity: 0
+    ammoRecovery: 0
+    ammoEcho: 0
+    ammoPenetration: 1
+    resurrectionTime: 0
+    hpRecovery: 0
+    explosion: 0
+    timeStop: 0
+    teleport: 0
+    timedPowerUpMode: 0
+    swordBeam: 0
+    resurrection: 0
+    barrier: 0
+    oneHitKill: 0
+    multiAttack: 0
+    defensePenetration: 0
+  icon: {fileID: 21300000, guid: f454e1fecb92b2f48875db9d11f03253, type: 3}
+  description: "\u88C5\u586B\nLv1\u3000\u6575\u3092\u5012\u3059\u306830\uFF05\u78BA\u7387\u3067\u5F3E\u56DE\u5FA9\nLv2\u3000\u6575\u3092\u5012\u3059\u3068100\uFF05\u78BA\u7387\u3067\u5F3E\u56DE\u5FA9\nLv3\u3000\u5F3E\u304C\u6575\u30921\u4F53\u8CAB\u901A\u3059\u308B"

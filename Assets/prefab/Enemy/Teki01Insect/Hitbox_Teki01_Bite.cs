@@ -21,7 +21,7 @@ public class Hitbox_Teki01_Bite : MonoBehaviour
     {
         isHitted = false;
         currTime = 0f;
-        
+        collider1.enabled = false;
         ParticleSystem particleSystem = GetComponent<ParticleSystem>();
         particleSystem.Clear(); //エフェクトをリセット
         particleSystem.Play();
@@ -31,11 +31,20 @@ public class Hitbox_Teki01_Bite : MonoBehaviour
         currTime += Time.deltaTime;
         if (currTime > preAtkTime)
             collider1.enabled = true;
-
+        if (currTime > lifeTime)
+            gameObject.SetActive(false);
         
     }
 
     private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player") && !isHitted)
+        {
+            other.GetComponent<PlayerControl>().OnHit(dmg);
+            isHitted = true;
+        }
+    }
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Player") && !isHitted)
         {
