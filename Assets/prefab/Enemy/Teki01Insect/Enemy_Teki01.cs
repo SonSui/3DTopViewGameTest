@@ -219,7 +219,6 @@ public class Enemy_Teki01 : MonoBehaviour, IOnHit
             case EnemyState.Chase:
                 animator.SetBool("Chase", true);
                 break;
-
             case EnemyState.Attack:
                 animator.SetTrigger("Bite");
                 atkTime = atkInterval;
