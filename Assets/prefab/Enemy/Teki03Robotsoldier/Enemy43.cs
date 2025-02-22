@@ -15,7 +15,7 @@ public class Enemy_Teki03 : MonoBehaviour
     public string type_ = "Solder";
     public bool hasShiled_ = false;
     public int shieldDurability_ = 0;
-    public float moveSpeed_ = 1.0f;
+    public float moveSpeed_ = 2.0f;
     public float attackSpeed_ = 1.0f;
 
 
@@ -133,6 +133,8 @@ public class Enemy_Teki03 : MonoBehaviour
         if (enemyGenerator == null) enemyGenerator = FindObjectOfType<EnemyGenerator>();
         playerT = GameObject.FindGameObjectWithTag("Player").transform;
 
+        ChangeState(EnemyState.Chase);
+
     }
 
     private void Update()
@@ -239,7 +241,11 @@ public class Enemy_Teki03 : MonoBehaviour
     {
         if (playerT != null)
         {
-
+            if (Vector3.Distance(transform.position, playerT.position) < 2.1f)
+            {
+                ChangeState(EnemyState.Attack);
+                return;
+            }
 
             //ˆÚ“®
             transform.position = Vector3.MoveTowards(transform.position, playerT.position, enemyStatus.GetMoveSpeed() * Time.deltaTime);
@@ -260,7 +266,7 @@ public class Enemy_Teki03 : MonoBehaviour
                 //UŒ‚ŠÔŠu‚Ì”»’f
                 if (atkTime > 0)
                 {
-                    atkTime -= Time.deltaTime;
+                    atkTime -= Time.deltaTime;  
                     ChangeState(EnemyState.Idle);
                 }
                 else
@@ -275,7 +281,7 @@ public class Enemy_Teki03 : MonoBehaviour
     private void OnStuned()
     {
         if (stunTime < stunTimeMax) return;
-        else ChangeState(EnemyState.Idle);
+        else ChangeState(EnemyState.Chase);
     }
     private System.Collections.IEnumerator HitFlash(bool isBomb)
     {
@@ -351,7 +357,8 @@ public class Enemy_Teki03 : MonoBehaviour
     private System.Collections.IEnumerator Attack()
     {
         //”í’e‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ªI—¹‚µ‚½‚©‚ðŠm”F‚µ
-        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0.95) yield return null;
+        //while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0.95) yield return null;
+        yield return new WaitForSeconds(2);
         biteHitbox.SetActive(false);
         isAttacking = false;
 
@@ -403,8 +410,6 @@ public class Enemy_Teki03 : MonoBehaviour
     {
         ChangeState(EnemyState.Idle);
     }
-
-
 
 
     public int OnHit(
