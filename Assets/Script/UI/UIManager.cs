@@ -213,6 +213,10 @@ public class UIManager : MonoBehaviour
         {
             TutorialUI();
         }
+        else if(scene.name == "Ending")
+        {
+            EndingUI();
+        }
         else
         {
             CloseAllPanel();

@@ -195,6 +195,11 @@ public class GameManager : MonoBehaviour
             uiManager.DisableAllDamageText();
 
         }
+        else if(scene.name=="Ending")
+        {
+            FindUIManager();
+            uiManager.DisableAllDamageText();
+        }
         StartCoroutine(ResumeAfterFade());
         if(scene.name == "Tutorial")
         {
