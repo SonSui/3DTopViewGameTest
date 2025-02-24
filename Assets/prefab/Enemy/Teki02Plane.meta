@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/TextMesh Pro/Documentation.meta
+guid: 90d2b321cd69ffc48b602c9cf8e8a20e
+========
 guid: 30e5318197b77cd4ea84bb8c6d0c84fc
+>>>>>>>> main:Assets/prefab/Enemy/Teki02Plane.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
