@@ -842,6 +842,9 @@ MonoBehaviour:
   - sceneName: Boss
     audioClip: {fileID: 8300000, guid: f7977c9ccf7ee2f43bd1b520442a5bc1, type: 3}
     volume: 1
+  - sceneName: Ending
+    audioClip: {fileID: 8300000, guid: 8fcb9b61700aab34f86508a3441da3ac, type: 3}
+    volume: 1
 --- !u!82 &1235843209
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1147,7 +1150,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 950c4b5d25f6c2e4686118318c6ea9af, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e2db2e2fba99c7c40b0c549d150a9baf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

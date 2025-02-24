@@ -111,8 +111,9 @@ public class StageManager : MonoBehaviour
         yield return new WaitForSeconds(t);
         if (isBoss)
         {
-            uiManager.EndingUI();
-            Debug.Log("EndingUI");
+            //uiManager.EndingUI();
+            SceneManager.LoadScene("Ending");
+            Debug.Log("Ending");
         }
         else
         {
