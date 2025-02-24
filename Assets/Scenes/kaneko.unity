@@ -1816,6 +1816,16 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6879113195761340697, guid: 2c96c88d64762ec409f6c85aeb3b4478, type: 3}
   m_PrefabInstance: {fileID: 1471138285}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &900598594 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9119505200161086360, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+  m_PrefabInstance: {fileID: 1701889202}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &900598599 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+  m_PrefabInstance: {fileID: 1701889202}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1018250521
 GameObject:
   m_ObjectHideFlags: 0
@@ -3121,7 +3131,10 @@ PrefabInstance:
     - {fileID: 1842758268050561594, guid: 2c96c88d64762ec409f6c85aeb3b4478, type: 3}
     - {fileID: 8470998510527458931, guid: 2c96c88d64762ec409f6c85aeb3b4478, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8451559175499723945, guid: 2c96c88d64762ec409f6c85aeb3b4478, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 900598599}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 629439142315128262, guid: 2c96c88d64762ec409f6c85aeb3b4478, type: 3}
       insertIndex: -1
@@ -3398,6 +3411,71 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1701889202
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1730926096}
+    m_Modifications:
+    - target: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538237091932587824, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119505200161086360, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_Name
+      value: SwordHitbox_Attack01
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119505200161086360, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c3a6fd9091234d647a82301aa24feb43, type: 3}
 --- !u!1 &1730926092 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 629439142315128262, guid: 2c96c88d64762ec409f6c85aeb3b4478, type: 3}
@@ -3428,7 +3506,7 @@ MonoBehaviour:
   attackSpeed_: 1
   overlayMaterial: {fileID: 0}
   brightMaterial: {fileID: 0}
-  biteHitbox: {fileID: 2146558317}
+  biteHitbox: {fileID: 900598594}
   bombPrefab: {fileID: 0}
   attackRange: 1.5
   atkInterval: 1
@@ -3438,6 +3516,11 @@ MonoBehaviour:
   shiled: {fileID: 2018555032}
   debuff_Atk: {fileID: 852086408}
   debuff_Def: {fileID: 865041321}
+--- !u!4 &1730926096 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8451559175499723945, guid: 2c96c88d64762ec409f6c85aeb3b4478, type: 3}
+  m_PrefabInstance: {fileID: 1471138285}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1734382242
 GameObject:
   m_ObjectHideFlags: 0
@@ -4468,11 +4551,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1744667453936875017, guid: 1b2ca49cac21e484da98afc15148c8a9, type: 3}
---- !u!1 &2146558317 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5075402092930025349, guid: 2c96c88d64762ec409f6c85aeb3b4478, type: 3}
-  m_PrefabInstance: {fileID: 1471138285}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1879367720467519579
 PrefabInstance:
   m_ObjectHideFlags: 0

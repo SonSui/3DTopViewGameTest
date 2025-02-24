@@ -370,7 +370,6 @@ public class Enemy_Teki03 : MonoBehaviour, IOnHit
     }
     public void OnDeadAnimeEnd()
     {
-
         //アニメーション完了したら削除
         Destroy(gameObject);
     }
