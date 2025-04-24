@@ -535,6 +535,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
     public void OnAttack1Over()
     {
         isAttacking=false;
+        
         ChangeState(EnemyState.Idle);
     }
     public void OnAttack2Anime()
@@ -557,6 +558,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
     public void OnHitAnimeOver()
     {
         ChangeState(EnemyState.Idle);
+        waveHitbox.SetActive(false);
     }
 
 
