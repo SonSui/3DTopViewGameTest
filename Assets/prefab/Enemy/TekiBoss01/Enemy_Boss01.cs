@@ -37,6 +37,7 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
     private GameObject hitbox = null; //生成したHitboxを保存
     public GameObject eye;
     public GameObject electricEffect;
+    public GameObject exploEffect;
     public float attackRange = 1.5f;
     private bool isAttacking = false;
     float atkInterval = 2f;
@@ -476,10 +477,16 @@ public class Enemy_Boss01 : MonoBehaviour, IOnHit
         float dyingTime = 0f;
         float dyingTimeMax = 5.5f;//5秒後削除
         //死亡エフェクトを生成
+        float exploTime = 3f;
 
         while (dyingTime < dyingTimeMax)
         {
-            //削除前のアニメーション（例：小さくなるなど）
+            //削除前のアニメーション
+            if (exploTime < dyingTime && exploEffect.activeSelf == false)
+            {
+                exploEffect.SetActive(true);
+            }
+            
 
             dyingTime += Time.deltaTime;
             yield return null;

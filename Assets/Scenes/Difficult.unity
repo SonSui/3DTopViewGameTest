@@ -1254,7 +1254,7 @@ MonoBehaviour:
       enemyType: Bomb
       hasShield: 0
       shieldDurability: 0
-      moveSpeed: 4
+      moveSpeed: 3
       attackSpeed: 1
     - enemyPrefab: {fileID: 4470296684085650477, guid: 32ef5b6e99efe8f48988c0f52127670c, type: 3}
       count: 5
@@ -1264,7 +1264,7 @@ MonoBehaviour:
       enemyType: BombShiled
       hasShield: 1
       shieldDurability: 10
-      moveSpeed: 4
+      moveSpeed: 3
       attackSpeed: 1
   - waveName: wave2
     enemies:
@@ -1276,7 +1276,7 @@ MonoBehaviour:
       enemyType: Bomb
       hasShield: 0
       shieldDurability: 0
-      moveSpeed: 4
+      moveSpeed: 3
       attackSpeed: 1
     - enemyPrefab: {fileID: 2267980272978758722, guid: c8c90189b6c05fb41b9c0bf7e463e749, type: 3}
       count: 5
@@ -1286,7 +1286,7 @@ MonoBehaviour:
       enemyType: BombShiled
       hasShield: 1
       shieldDurability: 10
-      moveSpeed: 5
+      moveSpeed: 3
       attackSpeed: 1
   spawnPoints:
   - {fileID: 279539990}

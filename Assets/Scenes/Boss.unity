@@ -2479,7 +2479,7 @@ MonoBehaviour:
     enemies:
     - enemyPrefab: {fileID: 6912859282413803791, guid: 91a49e68fb69200498df53ba301d6062, type: 3}
       count: 1
-      hpMax: 400
+      hpMax: 300
       attackPower: 2
       defense: 3
       enemyType: Boss01
