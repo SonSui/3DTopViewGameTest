@@ -124,7 +124,7 @@ public class PlayerControl : MonoBehaviour
     //自動照準
     private float detectionAngle_Ranged = 60f; 
     private float detectionDistance_Ranged = 20f;
-    private float detectionAngle_Melee = 150f;
+    private float detectionAngle_Melee = 180f;
     private float detectionDistance_Melee = 8f;
     private float deltaDistance = 3f; // 最近距離と比較する許容範囲
     private Coroutine rotationCoroutine;
@@ -397,7 +397,7 @@ public class PlayerControl : MonoBehaviour
         comboTimer = 0f;
         //AdjustYRotationRelativeToParent(charaTrans, 128.154f);
 
-        AdjustRotationForMeleeAttack(detectionAngle_Melee);
+        //AdjustRotationForMeleeAttack(detectionAngle_Melee);
 
     }
     public void OnSwordAttack01Update1()
@@ -422,6 +422,7 @@ public class PlayerControl : MonoBehaviour
             false
 
             );
+        
     }
     public void OnSwordAttack01Update2()
     {
@@ -775,8 +776,16 @@ public class PlayerControl : MonoBehaviour
                 }
             }
         }
-
-        RotateToTarget(targetEnemy, true); // ターゲットに向けて回転を行う
+        if (targetEnemy != null) 
+        {
+            Debug.Log("Turn to Enemy");
+            RotateToTarget(targetEnemy, true); // ターゲットに向けて回転を行う
+        }
+        else
+        {
+            Debug.Log("Cant find Enemy");
+        }
+        
     }
     private void RotateToTarget(Transform targetEnemy, bool resetLocalRotation = false)
     {
@@ -972,7 +981,7 @@ public class PlayerControl : MonoBehaviour
             CharacterController characterController = GetComponent<CharacterController>();
 
             float distance = (pullTarget.transform.position - transform.position).magnitude;
-            if (distance < 5) elapsedTime += (0.5f+ 0.08f * distance); //距離が近いなら早く終わらせる
+            if (distance < 5) elapsedTime += (0.5f+ 0.09f *(5f- distance)); //距離が近いなら早く終わらせる
 
             while (elapsedTime < pullDuration)
             {
@@ -1041,6 +1050,7 @@ public class PlayerControl : MonoBehaviour
     }
     public void VibrateForDuration(float duration=0.2f,float speed_ = 0.5f)　//ゲームパッド振動
     {
+        if(Time.deltaTime<0.5f)return;
         var gamepad = Gamepad.current; 
         if (gamepad != null)
         {

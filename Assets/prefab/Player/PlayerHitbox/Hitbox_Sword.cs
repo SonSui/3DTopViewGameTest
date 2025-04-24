@@ -64,12 +64,12 @@ public class Hitbox_Sword : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"SwordHitbox Enter {other}");
+        //Debug.Log($"SwordHitbox Enter {other}");
         CheckTrigger(other);
     }
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log($"SwordHitbox Stay {other}");
+       // Debug.Log($"SwordHitbox Stay {other}");
         CheckTrigger(other);
     }
 

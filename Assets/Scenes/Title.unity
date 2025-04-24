@@ -1404,7 +1404,7 @@ MonoBehaviour:
   bossCameraPos: {x: 0, y: 7, z: -10}
   bossCameraRot: {x: 15, y: 0, z: 0}
   defCameraFieldView: 60
-  uiPrefab: {fileID: 7410608511702718364, guid: e0311dbe46db12447a1280dec5d323ee, type: 3}
+  uiPrefab: {fileID: 2506600031688455112, guid: e0311dbe46db12447a1280dec5d323ee, type: 3}
   ItemsPrefab: {fileID: 6965963389030569640, guid: c2a9e8241fde6084b8be0be33a12508e, type: 3}
   gameTime: 0
   tagsPoolList:
