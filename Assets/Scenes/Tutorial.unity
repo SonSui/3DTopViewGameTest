@@ -1088,7 +1088,7 @@ MonoBehaviour:
       enemyType: 1
       hasShield: 0
       shieldDurability: 0
-      moveSpeed: 4
+      moveSpeed: 3
       attackSpeed: 1
   - waveName: wave2
     enemies:
@@ -1100,7 +1100,7 @@ MonoBehaviour:
       enemyType: 1
       hasShield: 1
       shieldDurability: 10
-      moveSpeed: 4
+      moveSpeed: 3
       attackSpeed: 1
     - enemyPrefab: {fileID: 2267980272978758722, guid: c8c90189b6c05fb41b9c0bf7e463e749, type: 3}
       count: 1
@@ -1122,7 +1122,7 @@ MonoBehaviour:
       enemyType: 1
       hasShield: 1
       shieldDurability: 10
-      moveSpeed: 4
+      moveSpeed: 3
       attackSpeed: 1
     - enemyPrefab: {fileID: 2267980272978758722, guid: c8c90189b6c05fb41b9c0bf7e463e749, type: 3}
       count: 1
@@ -6810,6 +6810,7 @@ MonoBehaviour:
   defCameraFieldView: 60
   uiPrefab: {fileID: 8282560406861267661, guid: e0311dbe46db12447a1280dec5d323ee, type: 3}
   ItemsPrefab: {fileID: 0}
+  gameTime: 0
   tagsPoolList: []
   superRarePrefab: {fileID: 0}
 --- !u!4 &2047231620
