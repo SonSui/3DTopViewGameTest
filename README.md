@@ -1,3 +1,5 @@
+プレイ動画：https://youtu.be/-N9H-4T2QbE
+
 ツール：Unity 2022.2.9f1
 
 シーン：Assets/Scenes/SonTestScene.unity
